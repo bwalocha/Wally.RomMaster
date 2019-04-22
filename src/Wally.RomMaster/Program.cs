@@ -22,7 +22,10 @@ namespace Wally.RomMaster
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.UseConfiguration(new ConfigurationBuilder()
+                        .AddCommandLine(args)
+                        .Build())
+                    .UseStartup<Startup>();
                 });
     }
 }

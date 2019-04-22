@@ -3,7 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28809.33
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster", "Wally.RomMaster\Wally.RomMaster.csproj", "{F1503E54-78BC-4BAC-9A01-B2FFB9F9DA82}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wally.RomMaster", "Wally.RomMaster\Wally.RomMaster.csproj", "{F1503E54-78BC-4BAC-9A01-B2FFB9F9DA82}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.Domain", "Wally.RomMaster.Domain\Wally.RomMaster.Domain.csproj", "{5F7A4866-AFAD-401F-B8DA-CBB091251423}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.BusinessLogic", "Wally.RomMaster.BusinessLogic\Wally.RomMaster.BusinessLogic.csproj", "{A23E7A37-E88B-4B79-926A-5E57BB102AB0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.DatFileParser", "Wally.RomMaster.DatFileParser\Wally.RomMaster.DatFileParser.csproj", "{39E4E0FC-CCCD-4089-B4FB-5C46204A372C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.Database", "Wally.Database\Wally.Database.csproj", "{E41E6580-74F9-4C93-9997-C8A8F7A9EC78}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.Database", "Wally.RomMaster.Database\Wally.RomMaster.Database.csproj", "{CB21AE4B-5F59-4BAD-B556-3906D24EB6C3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +25,26 @@ Global
 		{F1503E54-78BC-4BAC-9A01-B2FFB9F9DA82}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1503E54-78BC-4BAC-9A01-B2FFB9F9DA82}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1503E54-78BC-4BAC-9A01-B2FFB9F9DA82}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5F7A4866-AFAD-401F-B8DA-CBB091251423}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5F7A4866-AFAD-401F-B8DA-CBB091251423}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5F7A4866-AFAD-401F-B8DA-CBB091251423}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5F7A4866-AFAD-401F-B8DA-CBB091251423}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A23E7A37-E88B-4B79-926A-5E57BB102AB0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A23E7A37-E88B-4B79-926A-5E57BB102AB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A23E7A37-E88B-4B79-926A-5E57BB102AB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A23E7A37-E88B-4B79-926A-5E57BB102AB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{39E4E0FC-CCCD-4089-B4FB-5C46204A372C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{39E4E0FC-CCCD-4089-B4FB-5C46204A372C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{39E4E0FC-CCCD-4089-B4FB-5C46204A372C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{39E4E0FC-CCCD-4089-B4FB-5C46204A372C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E41E6580-74F9-4C93-9997-C8A8F7A9EC78}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E41E6580-74F9-4C93-9997-C8A8F7A9EC78}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E41E6580-74F9-4C93-9997-C8A8F7A9EC78}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E41E6580-74F9-4C93-9997-C8A8F7A9EC78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB21AE4B-5F59-4BAD-B556-3906D24EB6C3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB21AE4B-5F59-4BAD-B556-3906D24EB6C3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB21AE4B-5F59-4BAD-B556-3906D24EB6C3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB21AE4B-5F59-4BAD-B556-3906D24EB6C3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
