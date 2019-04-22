@@ -7,6 +7,6 @@ namespace Wally.RomMaster.BusinessLogic.Services
     {
         ILoggerProvider LoggerProvider { get; }
 
-        event EventHandler MessageReceived;
+        event EventHandler<string> MessageReceived;
     }
 }

@@ -7,14 +7,14 @@ namespace Wally.RomMaster.BusinessLogic.Services
     {
         public ILoggerProvider LoggerProvider { get; private set; }
 
-        public event EventHandler MessageReceived;
+        public event EventHandler<string> MessageReceived;
 
         public DebuggerService()
         {
             LoggerProvider = new DebuggerLoggerProvider(this);
         }
 
-        protected void OnMessageReceived(object sender, EventArgs e)
+        protected void OnMessageReceived(object sender, string e)
         {
             MessageReceived?.Invoke(sender, e);
         }
@@ -41,7 +41,7 @@ namespace Wally.RomMaster.BusinessLogic.Services
 
         class DebuggerLogger : ILogger
         {
-            public Action<object, EventArgs> OnMessageReceived { get; set; }
+            public Action<object, string> OnMessageReceived { get; set; }
 
             public IDisposable BeginScope<TState>(TState state)
             {
@@ -55,7 +55,7 @@ namespace Wally.RomMaster.BusinessLogic.Services
 
             public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
             {
-                OnMessageReceived?.Invoke(this, new EventArgs());
+                OnMessageReceived?.Invoke(this, formatter.Invoke(state, exception));
             }
         }
     }

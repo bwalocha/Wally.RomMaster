@@ -1,8 +1,6 @@
-﻿namespace Wally.RomMaster.DatFileParser
+﻿namespace Wally.RomMaster.DatFileParser.LogiqxXMLParser
 {
-    using System;
     using System.IO;
-    using System.Threading.Tasks;
     using System.Xml;
     // using System.Xml.Schema;
     using System.Xml.Serialization;
@@ -14,37 +12,34 @@
 
         public Parser()
         {
+            settings = new XmlReaderSettings
+            {
+                // settings.DtdProcessing = DtdProcessing.Ignore;
+                DtdProcessing = DtdProcessing.Parse,
+                ValidationType = ValidationType.None,
+                // settings.ValidationType = ValidationType.DTD;
+                // settings.ValidationEventHandler += new ValidationEventHandler(ValidationCallBack);
+
+                MaxCharactersFromEntities = 1024
+            };
+
+            serializer = new XmlSerializer(typeof(Models.DataFile));
         }
         
-        public Task<Models.DataFile> ParseAsync(string filePathName)
+        public Models.DataFile Parse(string filePathName)
         {
             using (var stream = new FileStream(filePathName, FileMode.Open))
             {
-                return ParseAsync(stream);
+                return Parse(stream);
             }
         }
 
-        public Task<Models.DataFile> ParseAsync(Stream stream)
+        public Models.DataFile Parse(Stream stream)
         {
-            try
+            using (XmlReader reader = XmlReader.Create(stream, settings))
             {
-                return new ClrMameProParser.Parser().ParseAsync(stream);
+                return (Models.DataFile)serializer.Deserialize(reader);
             }
-            catch
-            {
-                stream.Seek(0, SeekOrigin.Begin);
-            }
-
-            try
-            {
-                return Task.FromResult(new LogiqxXMLParser.Parser().Parse(stream));
-            }
-            catch
-            {
-                stream.Seek(0, SeekOrigin.Begin);
-            }
-
-            throw new ArgumentException();
         }
 
         public void Validate(Stream stream)

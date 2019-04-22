@@ -20,6 +20,8 @@ namespace Wally.RomMaster.Pages
 
         public int Counter { get; private set; }
 
+        public List<string> Messages { get; } = new List<string>();
+
         protected override Task OnInitAsync()
         {
             Logger.LogDebug("Init...");
@@ -31,9 +33,10 @@ namespace Wally.RomMaster.Pages
             return Task.CompletedTask;
         }
 
-        protected void OnMessageReceived(object sender, EventArgs e)
+        protected void OnMessageReceived(object sender, string e)
         {
             Counter++;
+            Messages.Add(e);
 
             Invoke(() => {
                 StateHasChanged();

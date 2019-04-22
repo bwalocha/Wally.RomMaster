@@ -1,6 +1,7 @@
 ﻿namespace Wally.RomMaster.DatFileParser.Models
 {
     using System;
+    using System.Collections.Generic;
     using System.Xml.Serialization;
 
     [Serializable()]
@@ -10,6 +11,6 @@
         [XmlElement("header")]
         public Header Header { get; set; }
         [XmlElement("game")]
-        public Game[] Games { get; set; }
+        public List<Game> Games { get; set; } = new List<Game>();
     }
 }

@@ -1,6 +1,7 @@
 ﻿namespace Wally.RomMaster.DatFileParser.Models
 {
     using System;
+    using System.Collections.Generic;
     using System.Xml.Serialization;
 
     /*
@@ -39,6 +40,6 @@
         public Disk Disk { get; set; }
 
         [XmlElement("rom")]
-        public Rom[] Roms { get; set; }
+        public List<Rom> Roms { get; set; } = new List<Rom>();
     }
 }

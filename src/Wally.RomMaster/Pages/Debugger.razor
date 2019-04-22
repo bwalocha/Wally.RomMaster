@@ -8,6 +8,13 @@
 @if (IsLoading)
 {
     <p><em>Loading... @Counter</em></p>
+
+    <ul>
+        @foreach (var message in Messages)
+        {
+            <li>@message</li>
+        }
+    </ul>
 }
 else
 {

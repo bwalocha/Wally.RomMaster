@@ -49,7 +49,7 @@
 
                 try
                 {
-                    datFile = this.datFileParser.Parse(file.Path);
+                    datFile = await this.datFileParser.ParseAsync(file.Path);
                 }
                 catch (Exception ex)
                 {

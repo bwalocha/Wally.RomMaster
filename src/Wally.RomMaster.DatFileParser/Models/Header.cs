@@ -18,5 +18,8 @@
         public string Date { get; set; } // 03.17.2018
         [XmlElement("author")]
         public string Author { get; set; } // RomVault
+
+        [XmlIgnore]
+        public string Comment { get; set; }
     }
 }
