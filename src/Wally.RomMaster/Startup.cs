@@ -55,14 +55,19 @@ namespace Wally.RomMaster
                 .AddSingleton<ToSortFileService>()
                 .AddSingleton<FixService>()
                 .AddSingleton<HashAlgorithm, Force.Crc32.Crc32Algorithm>()
+                .AddSingleton<IDebuggerService, DebuggerService>()
                 .AddSingleton<IHostedService, ClientService>()
                 .Replace(ServiceDescriptor.Singleton(typeof(ILogger<>), typeof(TimedLogger<>)))
                 ;
+
+            // ILoggerFactory AddProvider
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
+            loggerFactory.AddProvider(app.ApplicationServices.GetService<IDebuggerService>().LoggerProvider);
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

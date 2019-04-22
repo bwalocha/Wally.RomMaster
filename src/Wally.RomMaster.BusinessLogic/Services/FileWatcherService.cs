@@ -81,7 +81,7 @@
 
                 var watcher = new FileSystemWatcher(folder.Path, "*.*")
                 {
-                    IncludeSubdirectories = folder.WatcherEnabled,
+                    IncludeSubdirectories = folder.SearchOptions == SearchOption.AllDirectories,
                     NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite
                                        | NotifyFilters.FileName | NotifyFilters.DirectoryName
                 };
@@ -114,6 +114,9 @@
 
         private void OnChanged(FileSystemEventHandler onChanged, object sender, WatcherChangeTypes changeType, string filePathName, string fileName, Folder folder)
         {
+            // if directory: return or notify;
+            // ...
+
             if (IsExcluded(filePathName, folder.Excludes))
             {
                 logger.LogDebug($"File '{filePathName}' excluded from watching.");

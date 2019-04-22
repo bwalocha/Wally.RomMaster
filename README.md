@@ -63,6 +63,10 @@ https://docs.microsoft.com/en-us/aspnet/core/client-side/spa/angular?view=aspnet
 
 ## ToDo
 
+- [ ] To add DatFile page
+- [ ] To add Debug page with realtime Logging messages
+- [ ] To add parsing `clrmamepro` DAT file support
+- [ ] To process new files when new folder with files created (copied folder with files to i.e. DatRoot)
 - [ ] To extend Dat model (name, description, category?, version, date?, author, email?, homepage?, url?, comment?, clrmamepro?, romcenter?
 - [ ] Add Index on File.Crc, Rom.Crc
 - [ ] Docker container

@@ -138,16 +138,16 @@
 
         public void Enqueue(string file)
         {
-            var item = new FileQueueItem
-            {
-                File = file
-            };
-
             if (IsExcluded(file))
             {
                 logger.LogInformation($"File processing '{file}' excluded. Skipped.");
                 return;
             }
+
+            var item = new FileQueueItem
+            {
+                File = file
+            };
 
             queue.Add(item);
             queueIsEmpty.Reset();
@@ -171,9 +171,11 @@
             using (var uow = unitOfWorkFactory.Create())
             {
                 var repoFile = uow.GetRepository<File>();
-                if (await repoFile.AnyAsync(a => a.Path == item.File).ConfigureAwait(false))
+                file = await repoFile.FindAsync(a => a.Path == item.File).ConfigureAwait(false);
+                if (file != null)
                 {
                     logger.LogDebug($"File '{item.File}' already processed. Skipped.");
+                    files.Add(file);
                     return files;
                 }
 
@@ -271,6 +273,7 @@
                 var fileInfo = new System.IO.FileInfo(file);
                 if (!fileInfo.Exists)
                 {
+                    // file does not exist or is a directory
                     return true;
                 }
 

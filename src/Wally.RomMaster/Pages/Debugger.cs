@@ -1,0 +1,43 @@
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Logging;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Wally.RomMaster.BusinessLogic.Services;
+
+namespace Wally.RomMaster.Pages
+{
+    public class DebuggerModel : Microsoft.AspNetCore.Components.ComponentBase
+    {
+        [Inject]
+        protected ILogger<DebuggerModel> Logger { get; set; }
+
+        [Inject]
+        protected IDebuggerService DebuggerService { get; set; }
+
+        public bool IsLoading { get; private set; }
+
+        public int Counter { get; private set; }
+
+        protected override Task OnInitAsync()
+        {
+            Logger.LogDebug("Init...");
+
+            DebuggerService.MessageReceived += OnMessageReceived;
+
+            IsLoading = true;
+
+            return Task.CompletedTask;
+        }
+
+        protected void OnMessageReceived(object sender, EventArgs e)
+        {
+            Counter++;
+
+            Invoke(() => {
+                StateHasChanged();
+            });
+        }
+    }
+}
