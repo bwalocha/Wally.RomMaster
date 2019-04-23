@@ -94,7 +94,24 @@
                     };
                     watcher.Created += (sender, args) =>
                     {
-                        // OnChanged(onFileChanged, sender, args.ChangeType, args.FullPath, args.Name, folder);
+                        if (Directory.Exists(args.FullPath))
+                        {
+                            Action<string> notify = null;
+                            notify = (dir) =>
+                            {
+                                foreach (var f in Directory.GetFiles(dir))
+                                {
+                                    OnChanged(onFileChanged, sender, args.ChangeType, f, args.Name, folder);
+                                }
+
+                                foreach (var d in Directory.GetDirectories(dir))
+                                {
+                                    notify(d);
+                                }
+                            };
+
+                            notify(args.FullPath);
+                        }
                     };
                     watcher.Changed += (sender, args) =>
                     {

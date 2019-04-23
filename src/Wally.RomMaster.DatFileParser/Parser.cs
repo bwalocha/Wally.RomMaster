@@ -16,19 +16,19 @@
         {
         }
         
-        public Task<Models.DataFile> ParseAsync(string filePathName)
+        public async Task<Models.DataFile> ParseAsync(string filePathName)
         {
             using (var stream = new FileStream(filePathName, FileMode.Open))
             {
-                return ParseAsync(stream);
+                return await ParseAsync(stream);
             }
         }
 
-        public Task<Models.DataFile> ParseAsync(Stream stream)
+        public async Task<Models.DataFile> ParseAsync(Stream stream)
         {
             try
             {
-                return new ClrMameProParser.Parser().ParseAsync(stream);
+                return new LogiqxXMLParser.Parser().Parse(stream);
             }
             catch
             {
@@ -37,11 +37,11 @@
 
             try
             {
-                return Task.FromResult(new LogiqxXMLParser.Parser().Parse(stream));
+                return await new ClrMameProParser.Parser().ParseAsync(stream);
             }
             catch
             {
-                stream.Seek(0, SeekOrigin.Begin);
+                // stream.Seek(0, SeekOrigin.Begin);
             }
 
             throw new ArgumentException();
@@ -76,10 +76,5 @@
                 while (reader.Read());
             }
         }
-
-        //private static void ValidationCallBack(object sender, ValidationEventArgs e)
-        //{
-        //    System.Console.WriteLine("Validation Error: {0}", e.Message);
-        //}
     }
 }
