@@ -10,7 +10,7 @@
     public class Parser
     {
         private readonly XmlReaderSettings settings;
-        private readonly XmlSerializer serializer;
+        // private readonly XmlSerializer serializer;
 
         public Parser()
         {

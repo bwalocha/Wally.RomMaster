@@ -146,6 +146,12 @@
                 return result;
             }
 
+            //21/04/2019
+            if (DateTime.TryParseExact(date, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out result))
+            {
+                return result;
+            }
+
             System.Diagnostics.Debugger.Break();
 
             return null;
