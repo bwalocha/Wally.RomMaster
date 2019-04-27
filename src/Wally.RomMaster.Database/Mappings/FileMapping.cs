@@ -15,6 +15,7 @@
             builder.Property(a => a.Sha1).IsRequired(false);
 
             builder.HasIndex(a => a.Path).IsUnique(true);
+            builder.HasIndex(a => new { a.Crc, a.Size }).IsUnique(true); // TODO test it
         }
     }
 }

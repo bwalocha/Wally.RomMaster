@@ -152,6 +152,37 @@
                 return result;
             }
 
+            //Sep 1 2010
+            if (DateTime.TryParseExact(date, "MMM d yyyy", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out result))
+            {
+                return result;
+            }
+
+
+            //Sep 01 2010
+            if (DateTime.TryParseExact(date, "MMM dd yyyy", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out result))
+            {
+                return result;
+            }
+
+            //29/01/2010 15:33:00
+            if (DateTime.TryParseExact(date, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out result))
+            {
+                return result;
+            }
+
+            //2008.08.16
+            if (DateTime.TryParseExact(date, "yyyy.MM.dd", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out result))
+            {
+                return result;
+            }
+
+            //03 December 2008
+            if (DateTime.TryParseExact(date, "dd MMMM yyyy", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out result))
+            {
+                return result;
+            }
+
             System.Diagnostics.Debugger.Break();
 
             return null;

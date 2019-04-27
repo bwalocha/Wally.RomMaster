@@ -11,14 +11,13 @@
     {
         public Parser()
         {
-
         }
 
         public async Task<Models.DataFile> ParseAsync(string filePathName)
         {
             using (var stream = new FileStream(filePathName, FileMode.Open))
             {
-                return await ParseAsync(stream);
+                return await ParseAsync(stream).ConfigureAwait(false);
             }
         }
 
@@ -28,8 +27,8 @@
             {
                 var enumerator = new AsyncLineEnumerator(reader);
 
-                var header = await ReadHeaderAsync(enumerator);
-                var games = await ReadGamesAsync(enumerator);
+                var header = await ReadHeaderAsync(enumerator).ConfigureAwait(false);
+                var games = await this.ReadGamesAsync(enumerator).ConfigureAwait(false);
 
                 return new Models.DataFile
                 {
@@ -126,9 +125,18 @@
 
             while (await lines.MoveNextAsync())
             {
-                var game = await ReadGameAsync(lines);
+                var game = await this.ReadGameAsync(lines).ConfigureAwait(false);
 
-                games.Add(game);
+                if (game != null)
+                {
+                    games.Add(game);
+                }
+                else
+                {
+                    // resource?
+                    System.Diagnostics.Debugger.Break();
+                    continue;
+                }
             }
 
             return games;
@@ -137,6 +145,25 @@
         private async Task<Models.Game> ReadGameAsync(IAsyncEnumerator<string> lines)
         {
             var line = lines.Current;
+
+            if (line.StartsWith("resource", StringComparison.InvariantCulture))
+            {
+                while (await lines.MoveNextAsync())
+                {
+                    line = lines.Current;
+
+                    var tags = line.Split(' ', 2);
+
+                    var key = tags[0];
+
+                    if (key == ")")
+                    {
+                        break;
+                    }
+                }
+
+                return null;
+            }
 
             if (line != "game (")
             {
@@ -184,7 +211,7 @@
                         game.Manufacturer = value;
                         break;
                     case "rom":
-                        game.Roms.Add(await ReadRomAsync(lines)); // = value;
+                        game.Roms.Add(await ReadRomAsync(lines).ConfigureAwait(false)); // = value;
                         break;
                     default:
                         throw new ArgumentOutOfRangeException(nameof(key), key, "Unexpected token");
@@ -221,7 +248,7 @@
                         rom.Name = value;
                         break;
                     case "size":
-                        rom.Size = uint.Parse(value);
+                        rom.Size = uint.Parse(value, System.Globalization.NumberStyles.None);
                         break;
                     case "crc":
                         rom.Crc = value;
@@ -253,7 +280,7 @@
             return Task.FromResult(rom);
         }
 
-        class AsyncLineEnumerator : IAsyncEnumerator<string>
+        private class AsyncLineEnumerator : IAsyncEnumerator<string>
         {
             private readonly StreamReader reader;
 
@@ -271,18 +298,19 @@
 
             public async ValueTask<bool> MoveNextAsync()
             {
-                do
+                if (this.reader.EndOfStream)
                 {
-                    Current = (await reader.ReadLineAsync()).Trim();
-                    if (!reader.EndOfStream && string.IsNullOrWhiteSpace(Current))
-                    {
-                        continue;
-                    }
-
-                    return !reader.EndOfStream;
+                    return false;
                 }
-                while (true);
-            }            
+
+                this.Current = (await this.reader.ReadLineAsync().ConfigureAwait(false)).Trim();
+                if (string.IsNullOrWhiteSpace(this.Current))
+                {
+                    return await this.MoveNextAsync();
+                }
+
+                return true;
+            }
         }
     }
 }

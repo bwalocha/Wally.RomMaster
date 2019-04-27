@@ -21,6 +21,18 @@ Go to the [https://localhost:5001](https://localhost:5001)
 
 ## Queries
 
+### Show Files of the Dats
+
+```sql
+SELECT *
+FROM File f LEFT JOIN Dat d ON d.FileId = f.Id
+WHERE 
+f.Path NOT LIKE '%.bak'
+AND f.Path NOT LIKE '%.txt'
+--AND d.Id IS NULL
+ORDER BY f.Path
+```
+
 ### Show ROM Files in {PATH} location:`
 
 ```sql
