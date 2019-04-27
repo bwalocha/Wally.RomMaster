@@ -1,12 +1,12 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Wally.RomMaster.DatFileParser.ClrMameProParser
+﻿namespace Wally.RomMaster.DatFileParser.ClrMameProParser
 {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Text;
+    using System.Threading.Tasks;
+
     internal class Parser
     {
         public Parser()
@@ -39,7 +39,7 @@ namespace Wally.RomMaster.DatFileParser.ClrMameProParser
             }
         }
 
-        private async Task<Models.Header> ReadHeaderAsync(IAsyncEnumerator<string> lines)
+        private static async Task<Models.Header> ReadHeaderAsync(IAsyncEnumerator<string> lines)
         {
             var header = new Models.Header();
 
@@ -98,10 +98,19 @@ namespace Wally.RomMaster.DatFileParser.ClrMameProParser
                         header.Date = value;
                         break;
                     case "email":
-                        // header.Email = value;
+                        header.Email = value;
                         break;
                     case "homepage":
-                        // header.HomePage = value;
+                        header.HomePage = value;
+                        break;
+                    case "url":
+                        header.Url = value;
+                        break;
+                    case "forcemerging":
+                        header.ForceMerging = value;
+                        break;
+                    case "forcezipping":
+                        header.ForceZipping = value;
                         break;
                     default:
                         throw new ArgumentOutOfRangeException(nameof(key), key, "Unexpected token");
@@ -160,13 +169,16 @@ namespace Wally.RomMaster.DatFileParser.ClrMameProParser
                         game.Description = value;
                         break;
                     case "serial":
-                        // game.Serial = value;
+                        game.Serial = value;
                         break;
                     case "cloneof":
-                        // game.Serial = value;
+                        game.CloneOf = value;
+                        break;
+                    case "romof":
+                        game.RomOf = value;
                         break;
                     case "year":
-                        game.Year = int.Parse(value);
+                        game.Year = value; // int.Parse(value);
                         break;
                     case "manufacturer":
                         game.Manufacturer = value;
@@ -182,7 +194,7 @@ namespace Wally.RomMaster.DatFileParser.ClrMameProParser
             return game;
         }
 
-        private Task<Models.Rom> ReadRomAsync(IAsyncEnumerator<string> lines)
+        private static Task<Models.Rom> ReadRomAsync(IAsyncEnumerator<string> lines)
         {
             var line = lines.Current;
             var tags = line.Split(' ', 2);
@@ -221,7 +233,10 @@ namespace Wally.RomMaster.DatFileParser.ClrMameProParser
                         rom.Sha1 = value;
                         break;
                     case "flags":
-                        // rom.Flags = value;
+                        rom.Flags = value;
+                        break;
+                    case "merge":
+                        rom.Merge = value;
                         break;
                     default:
                         throw new ArgumentOutOfRangeException(nameof(key), key, "Unexpected token");

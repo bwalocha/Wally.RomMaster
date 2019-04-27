@@ -31,7 +31,7 @@
         public string Description { get; set; } // Air Conflicts - Aces of World War II (USA)
 
         [XmlElement("year")]
-        public int Year { get; set; } // 1998
+        public string Year { get; set; } // 1998, 200?
 
         [XmlElement("manufacturer")]
         public string Manufacturer { get; set; } // Atari Games
@@ -41,5 +41,8 @@
 
         [XmlElement("rom")]
         public List<Rom> Roms { get; set; } = new List<Rom>();
+
+        [XmlAttribute("serial")]
+        public string Serial { get; set; }
     }
 }

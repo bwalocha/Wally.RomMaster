@@ -57,7 +57,7 @@ namespace Wally.RomMaster.Database.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     Name = table.Column<string>(nullable: false),
                     Description = table.Column<string>(nullable: true),
-                    Year = table.Column<int>(nullable: true),
+                    Year = table.Column<string>(nullable: true),
                     DatId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>

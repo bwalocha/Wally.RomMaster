@@ -20,7 +20,7 @@
             builder.Property(a => a.Category).IsRequired(false);
 
             // builder.Property(a => a.File).IsRequired();
-            builder.HasOne(a => a.File);
+            // builder.HasOne(a => a.File);
 
             builder.HasIndex(a => new {a.Name, a.Version}).IsUnique(true);
 

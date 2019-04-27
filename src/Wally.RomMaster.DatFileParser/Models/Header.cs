@@ -18,8 +18,18 @@
         public string Date { get; set; } // 03.17.2018
         [XmlElement("author")]
         public string Author { get; set; } // RomVault
+        [XmlElement("comment")]
+        public string Comment { get; set; }
+        [XmlElement("email")]
+        public string Email { get; set; }
+        [XmlElement("homepage")]
+        public string HomePage { get; set; }
+        [XmlElement("url")]
+        public string Url { get; set; }
 
         [XmlIgnore]
-        public string Comment { get; set; }
+        public string ForceMerging { get; set; }
+        [XmlIgnore]
+        public string ForceZipping { get; set; }
     }
 }

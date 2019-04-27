@@ -11,7 +11,7 @@ namespace Wally.RomMaster.Domain.Models
 
         public string Description { get; set; }
 
-        public int? Year { get; set; }
+        public string Year { get; set; }
 
         public virtual ISet<Rom> Roms { get; set; }
 

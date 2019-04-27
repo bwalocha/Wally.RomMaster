@@ -84,7 +84,7 @@ namespace Wally.RomMaster.Database.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<int?>("Year");
+                    b.Property<string>("Year");
 
                     b.HasKey("Id");
 

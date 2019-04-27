@@ -30,6 +30,9 @@
         {
             using (var stream = new FileStream(filePathName, FileMode.Open))
             {
+                Validate(stream);
+
+                stream.Seek(0, SeekOrigin.Begin);
                 return Parse(stream);
             }
         }

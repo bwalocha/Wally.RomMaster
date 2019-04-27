@@ -20,31 +20,29 @@
         {
             using (var stream = new FileStream(filePathName, FileMode.Open))
             {
-                return await ParseAsync(stream);
+                return await this.ParseAsync(stream).ConfigureAwait(false);
             }
         }
 
         public async Task<Models.DataFile> ParseAsync(Stream stream)
         {
-            try
+            using (StreamReader reader = new StreamReader(stream))
             {
-                return new LogiqxXMLParser.Parser().Parse(stream);
-            }
-            catch
-            {
+                var line = await reader.ReadLineAsync().ConfigureAwait(false);
                 stream.Seek(0, SeekOrigin.Begin);
-            }
 
-            try
-            {
-                return await new ClrMameProParser.Parser().ParseAsync(stream);
-            }
-            catch
-            {
-                // stream.Seek(0, SeekOrigin.Begin);
-            }
+                if (line.StartsWith("<", StringComparison.InvariantCulture))
+                {
+                    return new LogiqxXMLParser.Parser().Parse(stream);
+                }
 
-            throw new ArgumentException();
+                if (line.StartsWith("clrmamepro", StringComparison.InvariantCulture))
+                {
+                    return await new ClrMameProParser.Parser().ParseAsync(stream).ConfigureAwait(false);
+                }
+
+                throw new ArgumentException($"Unknown DAT file header: '{line}'.");
+            }
         }
 
         public void Validate(Stream stream)

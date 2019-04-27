@@ -8,8 +8,6 @@
     using Models;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
-    //using Common;
-    //using Common.Database;
     using System.Security.Cryptography;
     using System;
     using System.Collections.Generic;
@@ -18,12 +16,20 @@
 
     public abstract class FileService : BackgroundService
     {
-        protected readonly ILogger<FileService> logger;
+        private readonly ILogger<FileService> logger;
         private readonly IOptions<AppSettings> appSettings;
         protected readonly IUnitOfWorkFactory unitOfWorkFactory;
         private readonly HashAlgorithm crc32;
         private readonly BlockingCollection<FileQueueItem> queue = new BlockingCollection<FileQueueItem>();
         private readonly ManualResetEvent queueIsEmpty = new ManualResetEvent(false);
+
+        public ILogger<FileService> Logger
+        {
+            get
+            {
+                return logger;
+            }
+        }
 
         List<Exclude> excludes;
         protected List<Exclude> Excludes
@@ -48,6 +54,15 @@
             this.unitOfWorkFactory = unitOfWorkFactory;
             this.crc32 = crc32;
         }
+
+        public override void Dispose()
+        {
+            this.queue.Dispose();
+            this.queueIsEmpty.Dispose();
+
+            base.Dispose();
+        }
+
 
         protected abstract IEnumerable<Folder> GetFolders(IOptions<AppSettings> appSettings);
 
@@ -90,9 +105,9 @@
             await base.StartAsync(cancellationToken).ConfigureAwait(false);
         }
 
-        private bool IsExcluded(string file) => IsExcluded(file, Excludes);
-        
-        private bool IsExcluded(string file, List<Exclude> excludes)
+        private bool IsExcluded(string file) => IsExcluded(file, this.Excludes);
+
+        private static bool IsExcluded(string file, List<Exclude> excludes)
         {
             if (!excludes.Any())
             {
@@ -101,7 +116,7 @@
 
             foreach (var exclude in excludes)
             {
-                if (IsExcluded(file, exclude))
+                if (FileService.IsExcluded(file, exclude))
                 {
                     return true;
                 }
@@ -110,7 +125,7 @@
             return false;
         }
 
-        private bool IsExcluded(string file, Exclude exclude) => exclude.Match(file);
+        private static bool IsExcluded(string file, Exclude exclude) => exclude.Match(file);
 
         protected override async Task ExecuteAsync(CancellationToken stoppingToken)
         {

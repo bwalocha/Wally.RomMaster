@@ -9,7 +9,7 @@ using Wally.RomMaster.Database;
 namespace Wally.RomMaster.Database.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20190422125817_Initial")]
+    [Migration("20190427104844_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -86,7 +86,7 @@ namespace Wally.RomMaster.Database.Migrations
                     b.Property<string>("Name")
                         .IsRequired();
 
-                    b.Property<int?>("Year");
+                    b.Property<string>("Year");
 
                     b.HasKey("Id");
 

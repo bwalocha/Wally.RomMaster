@@ -32,7 +32,7 @@
         {
             if (!IsDatFile(file.Path))
             {
-                logger.LogDebug($"DatFile '{file.Path}' can't be processed. Skipping.");
+                Logger.LogDebug($"DatFile '{file.Path}' can't be processed. Skipping.");
                 return;
             }
 
@@ -43,7 +43,7 @@
 
                 if (await repoDat.AnyAsync(a => a.File.Path == file.Path).ConfigureAwait(false))
                 {
-                    logger.LogDebug($"DatFile '{file.Path}' already processed. Skipping.");
+                    Logger.LogDebug($"DatFile '{file.Path}' already processed. Skipping.");
                     return;
                 }
 
@@ -53,14 +53,14 @@
                 }
                 catch (Exception ex)
                 {
-                    logger.LogError(ex, ex.Message);
+                    Logger.LogError(ex, ex.Message);
                     return;
                 }
 
                 Dat dat = await repoDat.FindAsync(a => a.Name == datFile.Header.Name && a.Version == datFile.Header.Version).ConfigureAwait(false);
                 if (dat != null)
                 {
-                    logger.LogDebug($"DatFile '{file.Path}' has been processed already. Skipping.");
+                    Logger.LogDebug($"DatFile '{file.Path}' has been processed already. Skipping.");
                     return;
                 }
 
@@ -109,7 +109,7 @@
                 }
                 catch (Exception ex)
                 {
-                    logger.LogError(ex, ex.Message);
+                    Logger.LogError(ex, ex.Message);
                 }
             }
         }
