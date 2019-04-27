@@ -118,8 +118,7 @@ namespace Wally.RomMaster.Database.Migrations
 
                     b.HasIndex("GameId");
 
-                    b.HasIndex("Crc", "Size")
-                        .IsUnique();
+                    b.HasIndex("Crc", "Size");
 
                     b.ToTable("Rom");
                 });

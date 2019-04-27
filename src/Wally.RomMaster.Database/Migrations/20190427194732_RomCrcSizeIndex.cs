@@ -9,8 +9,7 @@ namespace Wally.RomMaster.Database.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Rom_Crc_Size",
                 table: "Rom",
-                columns: new[] { "Crc", "Size" },
-                unique: true);
+                columns: new[] { "Crc", "Size" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

@@ -9,7 +9,7 @@ using Wally.RomMaster.Database;
 namespace Wally.RomMaster.Database.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20190427193358_RomCrcSizeIndex")]
+    [Migration("20190427194732_RomCrcSizeIndex")]
     partial class RomCrcSizeIndex
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -120,8 +120,7 @@ namespace Wally.RomMaster.Database.Migrations
 
                     b.HasIndex("GameId");
 
-                    b.HasIndex("Crc", "Size")
-                        .IsUnique();
+                    b.HasIndex("Crc", "Size");
 
                     b.ToTable("Rom");
                 });
