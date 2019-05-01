@@ -21,6 +21,32 @@ Go to the [https://localhost:5001](https://localhost:5001)
 
 ## Queries
 
+### Find fixable Files
+
+```sql
+SELECT 
+	*
+FROM
+(
+SELECT
+	f.*, r.*, g.*, d.*, RANK() OVER(PARTITION BY f.Id ORDER BY d.Version DESC) priority
+FROM 
+	File f LEFT JOIN Rom r ON f.crc = r.crc AND f.size = r.size
+	LEFT JOIN Game g ON g.Id = r.GameId
+	LEFT JOIN Dat d ON g.DatId = d.Id
+WHERE
+	f.Path LIKE '\\nas\WD8A\emu\ToSort\%' -- only ToSort, without DatRoor and RomRoot
+AND
+	f.size <> 0 -- without ZIP Archive
+AND 
+	d.Id IS NOT NULL -- only known
+ORDER BY 
+	f.path
+)
+WHERE 
+	priority = 1
+```	
+
 ### Show Files of the Dats
 
 ```sql
