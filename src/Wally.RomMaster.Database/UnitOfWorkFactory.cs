@@ -1,7 +1,7 @@
-﻿namespace Wally.RomMaster.Database
-{
-    using Wally.Database;
+﻿using Wally.Database;
 
+namespace Wally.RomMaster.Database
+{
     public class UnitOfWorkFactory : IUnitOfWorkFactory
     {
         private readonly DatabaseContext databaseContext;

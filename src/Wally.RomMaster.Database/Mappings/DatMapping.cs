@@ -1,9 +1,9 @@
-﻿namespace Wally.RomMaster.Database.Mappings
-{
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.Metadata.Builders;
-    using Wally.RomMaster.Domain.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Wally.RomMaster.Domain.Models;
 
+namespace Wally.RomMaster.Database.Mappings
+{
     internal class DatMapping : IEntityTypeConfiguration<Dat>
     {
         public void Configure(EntityTypeBuilder<Dat> builder)
@@ -22,7 +22,7 @@
             // builder.Property(a => a.File).IsRequired();
             // builder.HasOne(a => a.File);
 
-            builder.HasIndex(a => new {a.Name, a.Version}).IsUnique(true);
+            builder.HasIndex(a => new { a.Name, a.Version }).IsUnique(true);
 
             // builder.Property(a => a.CurrentPrice).IsRequired().HasColumnType("DECIMAL(18, 2)");
             // builder.HasMany(a => a.ImageSlots);

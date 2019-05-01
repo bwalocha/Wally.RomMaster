@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.Extensions.Logging;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Logging;
 using Wally.RomMaster.BusinessLogic.Services;
 
 namespace Wally.RomMaster.Pages
@@ -38,7 +38,8 @@ namespace Wally.RomMaster.Pages
             Counter++;
             Messages.Add(e);
 
-            Invoke(() => {
+            Invoke(() =>
+            {
                 StateHasChanged();
             });
         }

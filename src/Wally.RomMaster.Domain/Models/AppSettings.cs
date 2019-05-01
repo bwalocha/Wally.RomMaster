@@ -1,7 +1,7 @@
-﻿namespace Wally.RomMaster.Domain.Models
-{
-    using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
+namespace Wally.RomMaster.Domain.Models
+{
     public class AppSettings
     {
         public List<Folder> DatRoots { get; } = new List<Folder>();

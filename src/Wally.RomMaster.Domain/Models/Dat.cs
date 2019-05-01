@@ -6,11 +6,11 @@ namespace Wally.RomMaster.Domain.Models
 {
     /*
         <name>fix_Sony - PlayStation Portable</name>
-		<description>fix_</description>
-		<category>FIXDATFILE</category>
-		<version>06.20.2018 16:42:58</version>
-		<date>06.20.2018</date>
-		<author>RomVault</author>
+        <description>fix_</description>
+        <category>FIXDATFILE</category>
+        <version>06.20.2018 16:42:58</version>
+        <date>06.20.2018</date>
+        <author>RomVault</author>
     */
 
     public class Dat// : IEntity

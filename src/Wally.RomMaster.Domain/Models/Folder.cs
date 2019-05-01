@@ -1,8 +1,8 @@
-﻿namespace Wally.RomMaster.Domain.Models
-{
-    using System.Collections.Generic;
-    using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 
+namespace Wally.RomMaster.Domain.Models
+{
     public class Folder
     {
         public bool Enabled { get; set; } = true;
@@ -13,6 +13,6 @@
 
         public bool WatcherEnabled { get; set; }
 
-        public List<Exclude> Excludes { get; set; } = new List<Exclude>();
+        public List<Exclude> Excludes { get; } = new List<Exclude>();
     }
 }

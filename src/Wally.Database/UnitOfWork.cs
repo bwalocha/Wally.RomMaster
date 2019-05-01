@@ -1,10 +1,10 @@
-﻿namespace Wally.Database
-{
-    using Microsoft.EntityFrameworkCore;
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
+namespace Wally.Database
+{
     public class UnitOfWork : IUnitOfWork
     {
         private bool disposed = false;

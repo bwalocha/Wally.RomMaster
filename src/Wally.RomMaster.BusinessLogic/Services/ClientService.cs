@@ -1,14 +1,14 @@
-﻿namespace Wally.RomMaster.BusinessLogic.Services
-{
-    using System.IO;
-    using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Options;
+﻿using System.IO;
 // using Common;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Microsoft.Extensions.Hosting;
-    using Wally.RomMaster.Domain.Models;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Wally.RomMaster.Domain.Models;
 
+namespace Wally.RomMaster.BusinessLogic.Services
+{
     public class ClientService : BackgroundService
     {
         private readonly ILogger<ClientService> logger;

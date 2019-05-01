@@ -1,7 +1,7 @@
-﻿namespace Wally.RomMaster.Domain.Models
-{
-    using System.Text.RegularExpressions;
+﻿using System.Text.RegularExpressions;
 
+namespace Wally.RomMaster.Domain.Models
+{
     public class Exclude
     {
         private static Regex regex;

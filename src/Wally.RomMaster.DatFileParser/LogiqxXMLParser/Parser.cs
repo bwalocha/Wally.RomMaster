@@ -1,10 +1,10 @@
-﻿namespace Wally.RomMaster.DatFileParser.LogiqxXMLParser
-{
-    using System.IO;
-    using System.Xml;
-    // using System.Xml.Schema;
-    using System.Xml.Serialization;
+﻿using System.IO;
+using System.Xml;
+// using System.Xml.Schema;
+using System.Xml.Serialization;
 
+namespace Wally.RomMaster.DatFileParser.LogiqxXMLParser
+{
     public class Parser
     {
         private readonly XmlReaderSettings settings;
@@ -25,7 +25,7 @@
 
             serializer = new XmlSerializer(typeof(Models.DataFile));
         }
-        
+
         public Models.DataFile Parse(string filePathName)
         {
             using (var stream = new FileStream(filePathName, FileMode.Open))
@@ -71,7 +71,7 @@
 
                 // doc.Validate(ValidationCallBack);
 
-                while (reader.Read());
+                while (reader.Read()) { }
             }
         }
 

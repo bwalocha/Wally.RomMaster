@@ -1,18 +1,18 @@
-﻿namespace Wally.RomMaster.BusinessLogic.Services
-{
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Microsoft.Extensions.Hosting;
-    using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Options;
-    // using Common;
-    // using Common.Database;
-    using System.Collections.Concurrent;
-    using RomMaster.BusinessLogic.Models;
-    using RomMaster.Domain.Models;
-    using Wally.Database;
+﻿// using Common;
+// using Common.Database;
+using System.Collections.Concurrent;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Wally.Database;
+using Wally.RomMaster.BusinessLogic.Models;
+using Wally.RomMaster.Domain.Models;
 
+namespace Wally.RomMaster.BusinessLogic.Services
+{
     public class FixService : BackgroundService
     {
         private readonly ILogger<FixService> logger;

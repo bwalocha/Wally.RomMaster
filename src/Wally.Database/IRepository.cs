@@ -1,11 +1,11 @@
-﻿namespace Wally.Database
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Linq.Expressions;
-    using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using System.Threading.Tasks;
 
+namespace Wally.Database
+{
     public interface IRepository<TEntity>
         where TEntity : class// , IEntity
     {

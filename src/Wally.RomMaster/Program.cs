@@ -11,7 +11,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Wally.RomMaster
 {
-    public class Program
+    public static class Program
     {
         public static void Main(string[] args)
         {

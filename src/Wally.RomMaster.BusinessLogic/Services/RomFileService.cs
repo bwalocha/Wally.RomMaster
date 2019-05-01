@@ -1,14 +1,14 @@
-﻿namespace Wally.RomMaster.BusinessLogic.Services
-{
-    using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Options;
-    // using Common;
-    // using Common.Database;
-    using System.Security.Cryptography;
-    using System.Collections.Generic;
-    using Wally.RomMaster.Domain.Models;
-    using Wally.Database;
+﻿using System.Collections.Generic;
+// using Common;
+// using Common.Database;
+using System.Security.Cryptography;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Wally.Database;
+using Wally.RomMaster.Domain.Models;
 
+namespace Wally.RomMaster.BusinessLogic.Services
+{
     public class RomFileService : FileService
     {
         public RomFileService(ILogger<RomFileService> logger, IOptions<AppSettings> appSettings, IUnitOfWorkFactory unitOfWorkFactory, HashAlgorithm crc32)

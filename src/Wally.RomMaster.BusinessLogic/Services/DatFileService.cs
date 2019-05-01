@@ -1,18 +1,18 @@
-﻿namespace Wally.RomMaster.BusinessLogic.Services
-{
-    using System;
-    using System.Threading.Tasks;
-    using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Options;
-    // using Common;
-    // using Common.Database;
-    // using RomMaster.DatFileParser;
-    using System.Collections.Generic;
-    using System.Security.Cryptography;
-    using RomMaster.Domain.Models;
-    using Wally.RomMaster.DatFileParser;
-    using Wally.Database;
+﻿using System;
+// using Common;
+// using Common.Database;
+// using RomMaster.DatFileParser;
+using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Wally.Database;
+using Wally.RomMaster.DatFileParser;
+using Wally.RomMaster.Domain.Models;
 
+namespace Wally.RomMaster.BusinessLogic.Services
+{
     public class DatFileService : FileService
     {
         private readonly Parser datFileParser;
@@ -102,7 +102,7 @@
                 }
 
                 await repoDat.AddAsync(dat).ConfigureAwait(false);
-                
+
                 try
                 {
                     await uow.CommitAsync().ConfigureAwait(false);
@@ -157,7 +157,6 @@
             {
                 return result;
             }
-
 
             // Sep 01 2010
             if (DateTime.TryParseExact(date, "MMM dd yyyy", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out result))

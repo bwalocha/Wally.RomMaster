@@ -1,9 +1,9 @@
-﻿namespace Wally.RomMaster.Database.Mappings
-{
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.Metadata.Builders;
-    using Wally.RomMaster.Domain.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Wally.RomMaster.Domain.Models;
 
+namespace Wally.RomMaster.Database.Mappings
+{
     internal class GameMapping : IEntityTypeConfiguration<Game>
     {
         public void Configure(EntityTypeBuilder<Game> builder)

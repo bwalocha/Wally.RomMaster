@@ -1,9 +1,9 @@
-﻿namespace Wally.RomMaster.Database
-{
-    using System;
-    using System.Linq;
-    using Microsoft.EntityFrameworkCore;
+﻿using System;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
+namespace Wally.RomMaster.Database
+{
     public class DatabaseContext : DbContext
     {
         public DatabaseContext(DbContextOptions<DatabaseContext> options)

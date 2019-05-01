@@ -1,17 +1,17 @@
-﻿namespace Wally.RomMaster.BusinessLogic.Services
-{
-    using Microsoft.Extensions.Hosting;
-    using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Options;
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    // using Common;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Wally.RomMaster.Domain.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+// using Common;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Wally.RomMaster.Domain.Models;
 
+namespace Wally.RomMaster.BusinessLogic.Services
+{
     public class FileWatcherService : IHostedService, IDisposable
     {
         private readonly ILogger<FileWatcherService> logger;

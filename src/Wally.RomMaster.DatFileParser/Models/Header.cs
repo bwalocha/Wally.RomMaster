@@ -1,9 +1,9 @@
-﻿namespace Wally.RomMaster.DatFileParser.Models
-{
-    using System;
-    using System.Xml.Serialization;
+﻿using System;
+using System.Xml.Serialization;
 
-    [Serializable()]
+namespace Wally.RomMaster.DatFileParser.Models
+{
+    [Serializable]
     public class Header
     {
         [XmlElement("name")]

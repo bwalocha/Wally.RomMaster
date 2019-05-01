@@ -19,7 +19,7 @@ namespace Wally.RomMaster.BusinessLogic.Services
             MessageReceived?.Invoke(sender, e);
         }
 
-        class DebuggerLoggerProvider : ILoggerProvider
+        private class DebuggerLoggerProvider : ILoggerProvider
         {
             private readonly DebuggerLogger logger;
 
@@ -35,11 +35,11 @@ namespace Wally.RomMaster.BusinessLogic.Services
             }
 
             public void Dispose()
-            {                
+            {
             }
         }
 
-        class DebuggerLogger : ILogger
+        private class DebuggerLogger : ILogger
         {
             public Action<object, string> OnMessageReceived { get; set; }
 

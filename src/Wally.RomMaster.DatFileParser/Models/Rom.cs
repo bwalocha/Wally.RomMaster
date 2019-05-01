@@ -1,8 +1,8 @@
-﻿namespace Wally.RomMaster.DatFileParser.Models
-{
-    using System;
-    using System.Xml.Serialization;
+﻿using System;
+using System.Xml.Serialization;
 
+namespace Wally.RomMaster.DatFileParser.Models
+{
     [Serializable]
     public class Rom
     {

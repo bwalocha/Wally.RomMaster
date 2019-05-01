@@ -1,19 +1,19 @@
-﻿namespace Wally.RomMaster.BusinessLogic.Services
-{
-    using Microsoft.Extensions.Hosting;
-    using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Options;
-    using Models;
-    using RomMaster.Domain.Models;
-    using System;
-    using System.Collections.Concurrent;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Security.Cryptography;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Wally.Database;
+﻿using System;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.Linq;
+using System.Security.Cryptography;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
+using Wally.Database;
+using Wally.RomMaster.BusinessLogic.Models;
+using Wally.RomMaster.Domain.Models;
 
+namespace Wally.RomMaster.BusinessLogic.Services
+{
     public abstract class FileService : BackgroundService
     {
         private readonly ILogger<FileService> logger;
@@ -64,7 +64,6 @@
 
             base.Dispose();
         }
-
 
         protected abstract IEnumerable<Folder> GetFolders(IOptions<AppSettings> appSettings);
 
@@ -308,7 +307,9 @@
             finally
             {
                 if (stream != null)
+                {
                     stream.Close();
+                }
             }
 
             // file is not locked

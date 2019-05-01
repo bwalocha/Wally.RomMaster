@@ -1,15 +1,15 @@
-﻿namespace Wally.RomMaster.BusinessLogic.Services
-{
-    using System;
-    using Microsoft.Extensions.Logging;
+﻿using System;
+using Microsoft.Extensions.Logging;
 
+namespace Wally.RomMaster.BusinessLogic.Services
+{
     public class TimedLogger<T> : ILogger<T>
     {
         private readonly ILogger logger;
 
         public TimedLogger(ILogger logger) => this.logger = logger;
 
-        public TimedLogger(ILoggerFactory loggerFactory) 
+        public TimedLogger(ILoggerFactory loggerFactory)
             : this(new Logger<T>(loggerFactory))
         {
         }

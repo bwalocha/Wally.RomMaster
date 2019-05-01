@@ -1,8 +1,8 @@
-﻿namespace Wally.Database
-{
-    using System;
-    using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 
+namespace Wally.Database
+{
     public interface IUnitOfWork : IDisposable
     {
         Task CommitAsync();

@@ -1,10 +1,10 @@
-﻿namespace Wally.RomMaster.DatFileParser.Models
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Xml.Serialization;
+﻿using System;
+using System.Collections.Generic;
+using System.Xml.Serialization;
 
-    [Serializable()]
+namespace Wally.RomMaster.DatFileParser.Models
+{
+    [Serializable]
     [XmlRoot(ElementName = "datafile")]
     public class DataFile
     {

@@ -1,21 +1,20 @@
-﻿namespace Wally.RomMaster.DatFileParser
-{
-    using System;
-    using System.IO;
-    using System.Threading.Tasks;
-    using System.Xml;
-    // using System.Xml.Schema;
-    using System.Xml.Serialization;
+﻿using System;
+using System.IO;
+using System.Threading.Tasks;
+using System.Xml;
+// using System.Xml.Schema;
+using System.Xml.Serialization;
 
+namespace Wally.RomMaster.DatFileParser
+{
     public class Parser
     {
         private readonly XmlReaderSettings settings;
-        // private readonly XmlSerializer serializer;
 
         public Parser()
         {
         }
-        
+
         public async Task<Models.DataFile> ParseAsync(string filePathName)
         {
             using (var stream = new FileStream(filePathName, FileMode.Open))
@@ -71,7 +70,7 @@
 
                 // doc.Validate(ValidationCallBack);
 
-                while (reader.Read());
+                while (reader.Read()) { }
             }
         }
     }
