@@ -62,10 +62,10 @@
             {
                 // XmlSchema schema = XmlSchema.Read(dtdStream, ValidationCallBack);
 
-                //XmlDocument doc = new XmlDocument();
+                // XmlDocument doc = new XmlDocument();
 
-                //doc.Schemas.Add(schema);
-                //doc.Schemas.Compile();
+                // doc.Schemas.Add(schema);
+                // doc.Schemas.Compile();
 
                 // doc.Load(reader);
 

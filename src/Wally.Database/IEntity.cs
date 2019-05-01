@@ -1,8 +1,8 @@
 ﻿namespace Wally.Database
 {
-    public interface IEntity //<TKey>
+    public interface IEntity // <TKey>
     {
-        //TKey Id { get; }
+        // TKey Id { get; }
         int Id { get; }
     }
 }

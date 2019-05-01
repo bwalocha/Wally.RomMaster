@@ -17,8 +17,8 @@
     [Serializable()]
     public class Disk
     {
-        //[XmlAttribute("name")]
-        //public string Name { get; set; } // area51mx
+        // [XmlAttribute("name")]
+        // public string Name { get; set; } // area51mx
 
         [XmlAttribute("merge")]
         public string Merge { get; set; } // area51mx

@@ -1,0 +1,11 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+	<!-- StyleCop Analyzers configuration -->
+  <PropertyGroup>
+    <CodeAnalysisRuleSet>$(SolutionDir)StyleCop.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  
+	<ItemGroup>
+		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="all" />
+		<AdditionalFiles Include="$(SolutionDir)stylecop.json" Link="Properties\stylecop.json" />
+	</ItemGroup>
+</Project>

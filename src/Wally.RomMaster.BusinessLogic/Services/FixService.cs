@@ -6,8 +6,8 @@
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
-    //using Common;
-    //using Common.Database;
+    // using Common;
+    // using Common.Database;
     using System.Collections.Concurrent;
     using RomMaster.BusinessLogic.Models;
     using RomMaster.Domain.Models;
@@ -93,13 +93,13 @@
 
             logger.LogInformation($"[{proggress}] Finding fix for '{item.File}'...");
 
-            //using (var uow = this.unitOfWorkFactory.Create())
-            //{
+            // using (var uow = this.unitOfWorkFactory.Create())
+            // {
             //    //TODO: Extend FileQueueItem and store the File entity instead querying again
             //    var repoFile = uow.GetRepository<File>();
             //    var file = await repoFile.FindAsync(a => a.Path == item.File).ConfigureAwait(false);
 
-            //    var romRepo = uow.GetRepository<Rom>();
+            // var romRepo = uow.GetRepository<Rom>();
             //    var rom = await romRepo.FindAsync(a => file.Crc == a.Crc).ConfigureAwait(false);
             //    if (rom != null)
             //    {
@@ -110,7 +110,7 @@
             //    {
             //        logger.LogInformation($"[{proggress}] Unknown file '{item.File}'.");
             //    }
-            //}
+            // }
 
             return Task.FromResult<object>(null);
         }

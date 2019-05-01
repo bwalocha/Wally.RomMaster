@@ -15,9 +15,9 @@
             builder.Property(a => a.Sha1).IsRequired(false);
 
             builder.HasIndex(a => new { a.Crc, a.Size }).IsUnique(false); // TODO test it
-            //builder.Property(a => a.Merge).IsRequired(false);
-            //builder.Property(a => a.Status).IsRequired(false);
-            //builder.Property(a => a.Date).IsRequired(false);
+            // builder.Property(a => a.Merge).IsRequired(false);
+            // builder.Property(a => a.Status).IsRequired(false);
+            // builder.Property(a => a.Date).IsRequired(false);
         }
     }
 }

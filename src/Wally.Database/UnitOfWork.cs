@@ -21,7 +21,7 @@
             return context.SaveChangesAsync();
         }
 
-        public IRepository<TEntity> GetRepository<TEntity>() where TEntity : class//, IEntity
+        public IRepository<TEntity> GetRepository<TEntity>() where TEntity : class// , IEntity
         {
             var type = typeof(TEntity);
 

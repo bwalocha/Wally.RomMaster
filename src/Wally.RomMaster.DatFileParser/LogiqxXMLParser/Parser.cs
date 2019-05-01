@@ -62,10 +62,10 @@
             {
                 // XmlSchema schema = XmlSchema.Read(dtdStream, ValidationCallBack);
 
-                //XmlDocument doc = new XmlDocument();
+                // XmlDocument doc = new XmlDocument();
 
-                //doc.Schemas.Add(schema);
-                //doc.Schemas.Compile();
+                // doc.Schemas.Add(schema);
+                // doc.Schemas.Compile();
 
                 // doc.Load(reader);
 
@@ -75,9 +75,9 @@
             }
         }
 
-        //private static void ValidationCallBack(object sender, ValidationEventArgs e)
-        //{
+        // private static void ValidationCallBack(object sender, ValidationEventArgs e)
+        // {
         //    System.Console.WriteLine("Validation Error: {0}", e.Message);
-        //}
+        // }
     }
 }

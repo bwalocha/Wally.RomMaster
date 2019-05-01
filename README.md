@@ -24,13 +24,13 @@ Go to the [https://localhost:5001](https://localhost:5001)
 ### Find fixable Files
 
 ```sql
-SELECT 
+SELECT
 	*
 FROM
 (
 SELECT
 	f.*, r.*, g.*, d.*, RANK() OVER(PARTITION BY f.Id ORDER BY d.Version DESC) priority
-FROM 
+FROM
 	File f LEFT JOIN Rom r ON f.crc = r.crc AND f.size = r.size
 	LEFT JOIN Game g ON g.Id = r.GameId
 	LEFT JOIN Dat d ON g.DatId = d.Id
@@ -38,21 +38,21 @@ WHERE
 	f.Path LIKE '\\nas\WD8A\emu\ToSort\%' -- only ToSort, without DatRoor and RomRoot
 AND
 	f.size <> 0 -- without ZIP Archive
-AND 
+AND
 	d.Id IS NOT NULL -- only known
-ORDER BY 
+ORDER BY
 	f.path
 )
-WHERE 
+WHERE
 	priority = 1
-```	
+```
 
 ### Show Files of the Dats
 
 ```sql
 SELECT *
 FROM File f LEFT JOIN Dat d ON d.FileId = f.Id
-WHERE 
+WHERE
 f.Path NOT LIKE '%.bak'
 AND f.Path NOT LIKE '%.txt'
 --AND d.Id IS NULL
@@ -102,10 +102,10 @@ https://docs.microsoft.com/en-us/aspnet/core/client-side/spa/angular?view=aspnet
 ## ToDo
 
 - [ ] To add DatFile page
-- [ ] To add Debug page with realtime Logging messages
-- [ ] To add parsing `clrmamepro` DAT file support
-- [ ] To process new files when new folder with files created (copied folder with files to i.e. DatRoot)
-- [ ] To extend Dat model (name, description, category?, version, date?, author, email?, homepage?, url?, comment?, clrmamepro?, romcenter?
-- [ ] Add Index on File.Crc, Rom.Crc
+- [x] To add Debug page with realtime Logging messages
+- [x] To add parsing `clrmamepro` DAT file support
+- [x] To process new files when new folder with files created (copied folder with files to i.e. DatRoot)
+- [x] To extend Dat model (name, description, category?, version, date?, author, email?, homepage?, url?, comment?, clrmamepro?, romcenter?
+- [x] Add Index on File.Crc, Rom.Crc
 - [ ] Docker container
 - [ ] GitLab CI YAML script

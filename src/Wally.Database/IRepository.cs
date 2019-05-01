@@ -6,14 +6,14 @@
     using System.Linq.Expressions;
     using System.Threading.Tasks;
 
-    public interface IRepository<TEntity> where TEntity : class//, IEntity
+    public interface IRepository<TEntity>
+        where TEntity : class// , IEntity
     {
         IQueryable<TEntity> GetAll();
 
         IQueryable<TEntity> GetAll(params Expression<Func<TEntity, object>>[] navigationPropertyPaths);
 
-        //Task<TEntity> FindAsync(int id);
-
+        // Task<TEntity> FindAsync(int id);
         Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> predicate);
 
         Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate);

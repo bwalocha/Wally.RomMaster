@@ -4,9 +4,9 @@
     using System.Threading.Tasks;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
-    //using Common;
-    //using Common.Database;
-    //using RomMaster.DatFileParser;
+    // using Common;
+    // using Common.Database;
+    // using RomMaster.DatFileParser;
     using System.Collections.Generic;
     using System.Security.Cryptography;
     using RomMaster.Domain.Models;
@@ -36,7 +36,7 @@
                 return;
             }
 
-            using (var uow = unitOfWorkFactory.Create())
+            using (var uow = UnitOfWorkFactory.Create())
             {
                 var repoDat = uow.GetRepository<Dat>();
                 DatFileParser.Models.DataFile datFile;
@@ -128,56 +128,56 @@
                 return result;
             }
 
-            //20140807 16-00-31
+            // 20140807 16-00-31
             if (DateTime.TryParseExact(date, "yyyyMMdd HH-mm-ss", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out result))
             {
                 return result;
             }
 
-            //2018-06-24
+            // 2018-06-24
             if (DateTime.TryParseExact(date, "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out result))
             {
                 return result;
             }
 
-            //24.03.2018 20:02:12
+            // 24.03.2018 20:02:12
             if (DateTime.TryParseExact(date, "dd.MM.yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out result))
             {
                 return result;
             }
 
-            //21/04/2019
+            // 21/04/2019
             if (DateTime.TryParseExact(date, "dd/MM/yyyy", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out result))
             {
                 return result;
             }
 
-            //Sep 1 2010
+            // Sep 1 2010
             if (DateTime.TryParseExact(date, "MMM d yyyy", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out result))
             {
                 return result;
             }
 
 
-            //Sep 01 2010
+            // Sep 01 2010
             if (DateTime.TryParseExact(date, "MMM dd yyyy", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out result))
             {
                 return result;
             }
 
-            //29/01/2010 15:33:00
+            // 29/01/2010 15:33:00
             if (DateTime.TryParseExact(date, "dd/MM/yyyy HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out result))
             {
                 return result;
             }
 
-            //2008.08.16
+            // 2008.08.16
             if (DateTime.TryParseExact(date, "yyyy.MM.dd", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out result))
             {
                 return result;
             }
 
-            //03 December 2008
+            // 03 December 2008
             if (DateTime.TryParseExact(date, "dd MMMM yyyy", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out result))
             {
                 return result;
@@ -192,13 +192,13 @@
         {
             if (file.Contains('#'))
             {
-                //TODO: Archived dat files are not supported yet
+                // TODO: Archived dat files are not supported yet
                 return false;
             }
 
             switch (System.IO.Path.GetExtension(file).ToLower())
             {
-                //Dat
+                // Dat
                 case ".dat":
                     return true;
                 default:

@@ -5,15 +5,23 @@ VisualStudioVersion = 16.0.28809.33
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wally.RomMaster", "Wally.RomMaster\Wally.RomMaster.csproj", "{F1503E54-78BC-4BAC-9A01-B2FFB9F9DA82}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.Domain", "Wally.RomMaster.Domain\Wally.RomMaster.Domain.csproj", "{5F7A4866-AFAD-401F-B8DA-CBB091251423}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wally.RomMaster.Domain", "Wally.RomMaster.Domain\Wally.RomMaster.Domain.csproj", "{5F7A4866-AFAD-401F-B8DA-CBB091251423}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.BusinessLogic", "Wally.RomMaster.BusinessLogic\Wally.RomMaster.BusinessLogic.csproj", "{A23E7A37-E88B-4B79-926A-5E57BB102AB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wally.RomMaster.BusinessLogic", "Wally.RomMaster.BusinessLogic\Wally.RomMaster.BusinessLogic.csproj", "{A23E7A37-E88B-4B79-926A-5E57BB102AB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.DatFileParser", "Wally.RomMaster.DatFileParser\Wally.RomMaster.DatFileParser.csproj", "{39E4E0FC-CCCD-4089-B4FB-5C46204A372C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wally.RomMaster.DatFileParser", "Wally.RomMaster.DatFileParser\Wally.RomMaster.DatFileParser.csproj", "{39E4E0FC-CCCD-4089-B4FB-5C46204A372C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.Database", "Wally.Database\Wally.Database.csproj", "{E41E6580-74F9-4C93-9997-C8A8F7A9EC78}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wally.Database", "Wally.Database\Wally.Database.csproj", "{E41E6580-74F9-4C93-9997-C8A8F7A9EC78}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.Database", "Wally.RomMaster.Database\Wally.RomMaster.Database.csproj", "{CB21AE4B-5F59-4BAD-B556-3906D24EB6C3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wally.RomMaster.Database", "Wally.RomMaster.Database\Wally.RomMaster.Database.csproj", "{CB21AE4B-5F59-4BAD-B556-3906D24EB6C3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{9AA42208-FFEC-4330-A702-6BCB325BCE0A}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+		global.json = global.json
+		stylecop.json = stylecop.json
+		StyleCop.ruleset = StyleCop.ruleset
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

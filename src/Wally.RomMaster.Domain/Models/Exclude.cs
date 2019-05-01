@@ -15,7 +15,7 @@
                 var pattern = Pattern
                     .Replace(".", "\\.")
                     .Replace("?", ".")
-                    //.Replace("**", ".*?") //TODO reorder
+                    // .Replace("**", ".*?") //TODO reorder
                     .Replace("*", ".*");
 
                 regex = new Regex(pattern, RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);

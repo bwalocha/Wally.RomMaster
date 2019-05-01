@@ -8,8 +8,8 @@
     {
         public void Configure(EntityTypeBuilder<Dat> builder)
         {
-            //builder.HasKey(a => a.Id);
-            //builder.HasAlternateKey(a => a.V1Id);
+            // builder.HasKey(a => a.Id);
+            // builder.HasAlternateKey(a => a.V1Id);
 
             builder.HasMany(a => a.Games);
             builder.Property(a => a.Version).IsRequired();
@@ -24,9 +24,9 @@
 
             builder.HasIndex(a => new {a.Name, a.Version}).IsUnique(true);
 
-            //builder.Property(a => a.CurrentPrice).IsRequired().HasColumnType("DECIMAL(18, 2)");
-            //builder.HasMany(a => a.ImageSlots);
-            //builder.Property(a => a.CurrentCurrency).HasMaxLength(50).IsRequired();
+            // builder.Property(a => a.CurrentPrice).IsRequired().HasColumnType("DECIMAL(18, 2)");
+            // builder.HasMany(a => a.ImageSlots);
+            // builder.Property(a => a.CurrentCurrency).HasMaxLength(50).IsRequired();
         }
     }
 }

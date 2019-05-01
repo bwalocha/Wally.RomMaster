@@ -1,4 +1,4 @@
-﻿//using RomMaster.Common.Database;
+﻿// using RomMaster.Common.Database;
 
 namespace Wally.RomMaster.Domain.Models
 {

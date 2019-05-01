@@ -7,6 +7,7 @@
     {
         Task CommitAsync();
 
-        IRepository<TEntity> GetRepository<TEntity>() where TEntity : class;//, IEntity;
+        IRepository<TEntity> GetRepository<TEntity>()
+            where TEntity : class; // , IEntity;
     }
 }

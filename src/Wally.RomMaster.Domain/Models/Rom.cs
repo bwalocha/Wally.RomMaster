@@ -1,4 +1,4 @@
-﻿//using RomMaster.Common.Database;
+﻿// using RomMaster.Common.Database;
 
 namespace Wally.RomMaster.Domain.Models
 {
@@ -16,10 +16,10 @@ namespace Wally.RomMaster.Domain.Models
 
         public string Md5 { get; set; }
 
-        //public string Merge { get; set; }
+        // public string Merge { get; set; }
 
-        //public string Status { get; set; }
+        // public string Status { get; set; }
 
-        //public string Date { get; set; }
+        // public string Date { get; set; }
     }
 }

@@ -1,24 +1,26 @@
 ﻿namespace Wally.RomMaster.BusinessLogic.Services
 {
-    using System.Collections.Concurrent;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
     using Microsoft.Extensions.Hosting;
-    using Models;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Options;
-    using System.Security.Cryptography;
-    using System;
-    using System.Collections.Generic;
+    using Models;
     using RomMaster.Domain.Models;
+    using System;
+    using System.Collections.Concurrent;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Security.Cryptography;
+    using System.Threading;
+    using System.Threading.Tasks;
     using Wally.Database;
 
     public abstract class FileService : BackgroundService
     {
         private readonly ILogger<FileService> logger;
         private readonly IOptions<AppSettings> appSettings;
-        protected readonly IUnitOfWorkFactory unitOfWorkFactory;
+
+        protected IUnitOfWorkFactory UnitOfWorkFactory { get; }
+
         private readonly HashAlgorithm crc32;
         private readonly BlockingCollection<FileQueueItem> queue = new BlockingCollection<FileQueueItem>();
         private readonly ManualResetEvent queueIsEmpty = new ManualResetEvent(false);
@@ -31,19 +33,19 @@
             }
         }
 
-        List<Exclude> excludes;
+        private List<Exclude> excludes;
         protected List<Exclude> Excludes
         {
             get
             {
                 if (excludes == null)
                 {
-                    excludes = GetFolders(this.appSettings)
+                    excludes = GetFolders(appSettings)
                         .Where(a => a.Enabled)
                         .SelectMany(a => a.Excludes).ToList();
                 }
 
-                return excludes;
+                return this.excludes;
             }
         }
 
@@ -51,14 +53,14 @@
         {
             this.logger = logger;
             this.appSettings = appSettings;
-            this.unitOfWorkFactory = unitOfWorkFactory;
+            this.UnitOfWorkFactory = unitOfWorkFactory;
             this.crc32 = crc32;
         }
 
         public override void Dispose()
         {
-            this.queue.Dispose();
-            this.queueIsEmpty.Dispose();
+            queue.Dispose();
+            queueIsEmpty.Dispose();
 
             base.Dispose();
         }
@@ -68,7 +70,7 @@
 
         public override async Task StartAsync(CancellationToken cancellationToken)
         {
-            foreach (var folder in GetFolders(this.appSettings))
+            foreach (var folder in GetFolders(appSettings))
             {
                 if (!folder.Enabled)
                 {
@@ -105,7 +107,7 @@
             await base.StartAsync(cancellationToken).ConfigureAwait(false);
         }
 
-        private bool IsExcluded(string file) => IsExcluded(file, this.Excludes);
+        private bool IsExcluded(string file) => IsExcluded(file, Excludes);
 
         private static bool IsExcluded(string file, List<Exclude> excludes)
         {
@@ -183,7 +185,7 @@
             }
 
             File file = null;
-            using (var uow = unitOfWorkFactory.Create())
+            using (var uow = UnitOfWorkFactory.Create())
             {
                 var repoFile = uow.GetRepository<File>();
                 file = await repoFile.FindAsync(a => a.Path == item.File).ConfigureAwait(false);
@@ -198,7 +200,7 @@
                 string computedCrc32 = null;
                 long size = 0;
 
-                //archive
+                // archive
                 if (IsArchive(item.File))
                 {
                     try
@@ -249,20 +251,20 @@
                     using (var stream = System.IO.File.Open(item.File, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.Read))
                     {
                         size = stream.Length;
-                        //if (await repoFile.AnyAsync(a => a.Size == size).ConfigureAwait(false))
-                        //{
-                            var hash = crc32.ComputeHash(stream);
-                            computedCrc32 = BitConverter.ToString(hash).Replace("-", "");
-                        //}
+                        // if (await repoFile.AnyAsync(a => a.Size == size).ConfigureAwait(false))
+                        // {
+                        var hash = crc32.ComputeHash(stream);
+                        computedCrc32 = BitConverter.ToString(hash).Replace("-", "");
+                        // }
                     }
                 }
 
                 // store file info
                 file = new File
                 {
-                    Crc = computedCrc32, //null if file is archive package
+                    Crc = computedCrc32, // null if file is archive package
                     Path = item.File,
-                    Size = size //0 if file is archive package
+                    Size = size // 0 if file is archive package
                 };
 
                 await repoFile.AddAsync(file).ConfigureAwait(false);
@@ -292,15 +294,15 @@
                     return true;
                 }
 
-                //stream = fileInfo.Open(System.IO.FileMode.Open, System.IO.FileAccess.ReadWrite, System.IO.FileShare.None);
+                // stream = fileInfo.Open(System.IO.FileMode.Open, System.IO.FileAccess.ReadWrite, System.IO.FileShare.None);
                 stream = fileInfo.Open(System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.None);
             }
             catch (System.IO.IOException)
             {
-                //the file is unavailable because it is:
-                //still being written to
-                //or being processed by another thread
-                //or does not exist
+                // the file is unavailable because it is:
+                // still being written to
+                // or being processed by another thread
+                // or does not exist
                 return true;
             }
             finally
@@ -309,7 +311,7 @@
                     stream.Close();
             }
 
-            //file is not locked
+            // file is not locked
             return false;
         }
 
@@ -317,7 +319,7 @@
         {
             switch (System.IO.Path.GetExtension(file).ToLower())
             {
-                //Zip, GZip, BZip2, Tar, Rar, LZip, XZ'
+                // Zip, GZip, BZip2, Tar, Rar, LZip, XZ'
                 case ".rar":
                 case ".zip":
                     return true;
