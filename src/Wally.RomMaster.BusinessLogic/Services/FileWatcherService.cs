@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-// using Common;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -82,8 +81,10 @@ namespace Wally.RomMaster.BusinessLogic.Services
                 var watcher = new FileSystemWatcher(folder.Path, "*.*")
                 {
                     IncludeSubdirectories = folder.SearchOptions == SearchOption.AllDirectories,
-                    NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite
-                                       | NotifyFilters.FileName | NotifyFilters.DirectoryName
+                    NotifyFilter = NotifyFilters.LastAccess
+                    | NotifyFilters.LastWrite
+                    | NotifyFilters.FileName
+                    | NotifyFilters.DirectoryName
                 };
 
                 if (onFileChanged != null)
@@ -94,24 +95,7 @@ namespace Wally.RomMaster.BusinessLogic.Services
                     };
                     watcher.Created += (sender, args) =>
                     {
-                        if (Directory.Exists(args.FullPath))
-                        {
-                            Action<string> notify = null;
-                            notify = (dir) =>
-                            {
-                                foreach (var f in Directory.GetFiles(dir))
-                                {
-                                    OnChanged(onFileChanged, sender, args.ChangeType, f, args.Name, folder);
-                                }
-
-                                foreach (var d in Directory.GetDirectories(dir))
-                                {
-                                    notify(d);
-                                }
-                            };
-
-                            notify(args.FullPath);
-                        }
+                        OnCreated(onFileChanged, sender, args, folder);
                     };
                     watcher.Changed += (sender, args) =>
                     {
@@ -123,10 +107,40 @@ namespace Wally.RomMaster.BusinessLogic.Services
                     };
                 }
 
+                watcher.Error += Watcher_Error;
                 watcher.EnableRaisingEvents = folder.WatcherEnabled;
 
                 yield return watcher;
             }
+        }
+
+        private void OnCreated(FileSystemEventHandler onFileChanged, object sender, FileSystemEventArgs args, Folder folder)
+        {
+            if (Directory.Exists(args.FullPath))
+            {
+                Action<string> notify = null;
+                notify = (dir) =>
+                {
+                    foreach (var f in Directory.GetFiles(dir))
+                    {
+                        OnChanged(onFileChanged, sender, args.ChangeType, f, args.Name, folder);
+                    }
+
+                    foreach (var d in Directory.GetDirectories(dir))
+                    {
+                        notify(d);
+                    }
+                };
+
+                notify(args.FullPath);
+            }
+        }
+
+        private void Watcher_Error(object sender, ErrorEventArgs e)
+        {
+            logger.LogError("Watch file error: {0}", e.GetException());
+
+            System.Diagnostics.Debugger.Break();
         }
 
         private void OnChanged(FileSystemEventHandler onChanged, object sender, WatcherChangeTypes changeType, string filePathName, string fileName, Folder folder)
@@ -147,20 +161,7 @@ namespace Wally.RomMaster.BusinessLogic.Services
 
         private bool IsExcluded(string file, List<Exclude> excludes)
         {
-            if (!excludes.Any())
-            {
-                return false;
-            }
-
-            foreach (var exclude in excludes)
-            {
-                if (IsExcluded(file, exclude))
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return excludes.Any(a => IsExcluded(file, a));
         }
 
         private bool IsExcluded(string file, Exclude exclude)
@@ -170,9 +171,10 @@ namespace Wally.RomMaster.BusinessLogic.Services
 
         public void Dispose()
         {
-            foreach (var toDispose in watchers.ToArray())
+            foreach (var watcher in watchers.ToArray())
             {
-                toDispose?.Dispose();
+                watcher.EnableRaisingEvents = false;
+                watcher.Dispose();
             }
         }
     }

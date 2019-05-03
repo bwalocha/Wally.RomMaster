@@ -177,27 +177,30 @@ namespace Wally.RomMaster.BusinessLogic.Services
         protected virtual async Task<List<File>> Process(FileQueueItem item)
         {
             List<File> files = new List<File>();
-            if (IsFileLocked(item.File))
-            {
-                logger.LogDebug($"File '{item.File}' access is denied. Skipped.");
-                return files;
-            }
-
             File file = null;
             using (var uow = UnitOfWorkFactory.Create())
             {
-                var repoFile = uow.GetRepository<File>();
-                file = await repoFile.FindAsync(a => a.Path == item.File).ConfigureAwait(false);
-                if (file != null)
+                var repoFile = uow.GetReadRepository<File>();
+                if (await repoFile.AnyAsync(a => a.Path == item.File).ConfigureAwait(false))
                 {
                     logger.LogDebug($"File '{item.File}' already processed. Skipped.");
-                    files.Add(file);
+                    //
+                    // Return already processed file
+                    //
+                    // files.Add(file);
+                    return files;
+                }
+
+                if (IsFileLocked(item.File))
+                {
+                    logger.LogDebug($"File '{item.File}' access is denied. Skipped.");
                     return files;
                 }
 
                 // add file regardless it is archive
                 string computedCrc32 = null;
                 long size = 0;
+                var writeRepoFile = uow.GetRepository<File>();
 
                 // archive
                 if (IsArchive(item.File))
@@ -224,7 +227,7 @@ namespace Wally.RomMaster.BusinessLogic.Services
                                     Size = entry.Size
                                 };
 
-                                await repoFile.AddAsync(file).ConfigureAwait(false);
+                                await writeRepoFile.AddAsync(file).ConfigureAwait(false);
                                 files.Add(file);
                             }
                         }
@@ -250,11 +253,8 @@ namespace Wally.RomMaster.BusinessLogic.Services
                     using (var stream = System.IO.File.Open(item.File, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.Read))
                     {
                         size = stream.Length;
-                        // if (await repoFile.AnyAsync(a => a.Size == size).ConfigureAwait(false))
-                        // {
                         var hash = crc32.ComputeHash(stream);
                         computedCrc32 = BitConverter.ToString(hash).Replace("-", "");
-                        // }
                     }
                 }
 
@@ -266,7 +266,7 @@ namespace Wally.RomMaster.BusinessLogic.Services
                     Size = size // 0 if file is archive package
                 };
 
-                await repoFile.AddAsync(file).ConfigureAwait(false);
+                await writeRepoFile.AddAsync(file).ConfigureAwait(false);
                 files.Add(file);
 
                 await uow.CommitAsync().ConfigureAwait(false);

@@ -1,6 +1,4 @@
-﻿// using Common;
-// using Common.Database;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -81,38 +79,21 @@ namespace Wally.RomMaster.BusinessLogic.Services
             return Task.CompletedTask;
         }
 
-        private /*async*/ Task Process(FileQueueItem item)
+        private Task Process(FileQueueItem item)
         {
             var proggress = queue.Count;
 
             if (!System.IO.File.Exists(item.File))
             {
-                logger.LogWarning($"[{proggress}] File '{item.File}' does not exist. Skipping.");
-                return Task.FromResult<object>(null);
+                // IsArchive?
+                // ...
+                // logger.LogWarning($"[{proggress}] File '{item.File}' does not exist. Skipping.");
+                return Task.CompletedTask;
             }
 
             logger.LogInformation($"[{proggress}] Finding fix for '{item.File}'...");
 
-            // using (var uow = this.unitOfWorkFactory.Create())
-            // {
-            //    //TODO: Extend FileQueueItem and store the File entity instead querying again
-            //    var repoFile = uow.GetRepository<File>();
-            //    var file = await repoFile.FindAsync(a => a.Path == item.File).ConfigureAwait(false);
-
-            // var romRepo = uow.GetRepository<Rom>();
-            //    var rom = await romRepo.FindAsync(a => file.Crc == a.Crc).ConfigureAwait(false);
-            //    if (rom != null)
-            //    {
-            //        System.Diagnostics.Debug.Assert(file.Size == rom.Size);
-            //        logger.LogInformation($"[{proggress}] Found file '{item.File}' as '{rom.Name}' rom.");
-            //    }
-            //    else
-            //    {
-            //        logger.LogInformation($"[{proggress}] Unknown file '{item.File}'.");
-            //    }
-            // }
-
-            return Task.FromResult<object>(null);
+            return Task.CompletedTask;
         }
     }
 }

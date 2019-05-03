@@ -21,6 +21,20 @@ namespace Wally.Database
             return context.SaveChangesAsync();
         }
 
+        public IReadRepository<TEntity> GetReadRepository<TEntity>() where TEntity : class// , IEntity
+        {
+            var type = typeof(TEntity);
+
+            if (repositories.ContainsKey(type))
+            {
+                return repositories[type] as IReadRepository<TEntity>;
+            }
+
+            var repository = new ReadRepository<TEntity>(context);
+            repositories.Add(type, repository);
+            return repository;
+        }
+
         public IRepository<TEntity> GetRepository<TEntity>() where TEntity : class// , IEntity
         {
             var type = typeof(TEntity);
