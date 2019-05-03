@@ -19,11 +19,11 @@ namespace Wally.RomMaster.DatFileParser
         {
             using (var stream = new FileStream(filePathName, FileMode.Open))
             {
-                return await this.ParseAsync(stream).ConfigureAwait(false);
+                return await ParseAsync(stream).ConfigureAwait(false);
             }
         }
 
-        public async Task<Models.DataFile> ParseAsync(Stream stream)
+        public static async Task<Models.DataFile> ParseAsync(Stream stream)
         {
             using (StreamReader reader = new StreamReader(stream))
             {

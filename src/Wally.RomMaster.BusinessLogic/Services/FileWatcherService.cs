@@ -164,7 +164,7 @@ namespace Wally.RomMaster.BusinessLogic.Services
             return excludes.Any(a => IsExcluded(file, a));
         }
 
-        private bool IsExcluded(string file, Exclude exclude)
+        private static bool IsExcluded(string file, Exclude exclude)
         {
             return exclude.Match(file);
         }

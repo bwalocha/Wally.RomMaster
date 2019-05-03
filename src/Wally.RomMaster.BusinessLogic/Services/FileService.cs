@@ -184,7 +184,6 @@ namespace Wally.RomMaster.BusinessLogic.Services
                 if (await repoFile.AnyAsync(a => a.Path == item.File).ConfigureAwait(false))
                 {
                     logger.LogDebug($"File '{item.File}' already processed. Skipped.");
-                    //
                     // Return already processed file
                     //
                     // files.Add(file);
@@ -316,7 +315,7 @@ namespace Wally.RomMaster.BusinessLogic.Services
             return false;
         }
 
-        protected bool IsArchive(string file)
+        protected static bool IsArchive(string file)
         {
             switch (System.IO.Path.GetExtension(file).ToLower())
             {

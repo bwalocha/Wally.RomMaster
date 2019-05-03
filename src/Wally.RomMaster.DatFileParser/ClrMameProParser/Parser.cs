@@ -125,7 +125,7 @@ namespace Wally.RomMaster.DatFileParser.ClrMameProParser
 
             while (await lines.MoveNextAsync())
             {
-                var game = await this.ReadGameAsync(lines).ConfigureAwait(false);
+                var game = await ReadGameAsync(lines).ConfigureAwait(false);
 
                 if (game != null)
                 {
@@ -142,7 +142,7 @@ namespace Wally.RomMaster.DatFileParser.ClrMameProParser
             return games;
         }
 
-        private async Task<Models.Game> ReadGameAsync(IAsyncEnumerator<string> lines)
+        private static async Task<Models.Game> ReadGameAsync(IAsyncEnumerator<string> lines)
         {
             var line = lines.Current;
 

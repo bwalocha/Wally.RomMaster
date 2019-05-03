@@ -49,7 +49,7 @@ namespace Wally.RomMaster.BusinessLogic.Services
 
                 try
                 {
-                    datFile = await this.datFileParser.ParseAsync(file.Path);
+                    datFile = await this.datFileParser.ParseAsync(file.Path).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
