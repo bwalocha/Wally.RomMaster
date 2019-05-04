@@ -19,6 +19,7 @@
   
   <ItemGroup>
     <ProjectReference Include="..\Wally.Database\Wally.Database.csproj" />
+    <ProjectReference Include="..\Wally.RazorComponent.Grid\Wally.RazorComponent.Grid.csproj" />
 	<ProjectReference Include="..\Wally.RomMaster.Database\Wally.RomMaster.Database.csproj" />
     <ProjectReference Include="..\Wally.RomMaster.Domain\Wally.RomMaster.Domain.csproj" />
 	<ProjectReference Include="..\Wally.RomMaster.BusinessLogic\Wally.RomMaster.BusinessLogic.csproj" />

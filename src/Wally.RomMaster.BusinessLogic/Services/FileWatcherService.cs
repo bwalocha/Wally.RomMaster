@@ -81,10 +81,11 @@ namespace Wally.RomMaster.BusinessLogic.Services
                 var watcher = new FileSystemWatcher(folder.Path, "*.*")
                 {
                     IncludeSubdirectories = folder.SearchOptions == SearchOption.AllDirectories,
-                    NotifyFilter = NotifyFilters.LastAccess
-                    | NotifyFilters.LastWrite
-                    | NotifyFilters.FileName
-                    | NotifyFilters.DirectoryName
+                    NotifyFilter =
+                        // NotifyFilters.LastAccess |
+                        NotifyFilters.LastWrite |
+                        NotifyFilters.FileName //|
+                        // NotifyFilters.DirectoryName
                 };
 
                 if (onFileChanged != null)

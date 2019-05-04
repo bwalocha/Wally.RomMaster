@@ -1,0 +1,22 @@
+﻿@inherits Wally.RazorComponent.Grid.GridModel
+
+<a>GRID!!!</a>
+<a>@Options.PageSize</a>
+
+<table>
+    <thead>
+        @foreach (var column in Options.Columns)
+        {
+            <tr>@column.Caption</tr>
+        }
+    </thead>
+    @foreach (var item in Source.Skip(Page * Options.PageSize).Take(Options.PageSize))
+    {
+        <tr>
+            @foreach (var column in Options.Columns)
+            {
+                <td>@column.Bind(item)</td>
+            }
+        </tr>
+    }
+</table>

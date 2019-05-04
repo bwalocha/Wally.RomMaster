@@ -23,7 +23,7 @@ namespace Wally.Database
 
         public IReadRepository<TEntity> GetReadRepository<TEntity>() where TEntity : class// , IEntity
         {
-            var type = typeof(TEntity);
+            var type = typeof(IReadRepository<TEntity>);
 
             if (repositories.ContainsKey(type))
             {
@@ -37,7 +37,7 @@ namespace Wally.Database
 
         public IRepository<TEntity> GetRepository<TEntity>() where TEntity : class// , IEntity
         {
-            var type = typeof(TEntity);
+            var type = typeof(IRepository<TEntity>);
 
             if (repositories.ContainsKey(type))
             {

@@ -1,0 +1,15 @@
+@page "/datList"
+@inherits Wally.RomMaster.Pages.DatListModel
+
+<h1>Dat List</h1>
+
+<p>The DAT file list:</p>
+
+@if (IsLoading)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <Grid Options="@gridOptions" Source="@source" />
+}

@@ -36,7 +36,7 @@ namespace Wally.RomMaster.BusinessLogic.Services
             while (!stoppingToken.IsCancellationRequested)
             {
                 var item = await Task.Run(() => queue.Take(stoppingToken), stoppingToken).ConfigureAwait(false);
-                logger.LogInformation($"Background task is procesing [{queue.Count}] item '{item}'.");
+                // logger.LogInformation($"Background task is procesing [{queue.Count}] item '{item}'.");
                 await Process(item).ConfigureAwait(false);
             }
 
