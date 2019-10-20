@@ -24,22 +24,22 @@ namespace Wally.RomMaster.Pages
 
         public IEnumerable<Dat> source;
 
-        public GridOptions gridOptions;
+        public GridOptions<Dat> gridOptions;
 
         public DatListModel()
         {
-            this.gridOptions = new GridOptions
+            this.gridOptions = new GridOptions<Dat>
             {
                 PageSize = 100,
-                Columns = new GridColumn[]
+                Columns = new GridColumn<Dat>[]
                 {
-                    new GridColumn { Caption = "Id", Bind = (a) => a.ToString() }, //new Func<Dat, string>(a => a.Id.ToString()) },
-                    new GridColumn { Caption = "Name", Bind = (a) => a.ToString() }
+                    new GridColumn<Dat> { Caption = "Id", Bind = (a) => a.Id.ToString() },
+                    new GridColumn<Dat> { Caption = "Name", Bind = (a) => a.Name }
                 }
             };
         }
 
-        protected override Task OnInitAsync()
+        protected override Task OnParametersSetAsync()
         {
             Logger.LogDebug("Init...");
 

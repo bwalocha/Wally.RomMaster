@@ -1,18 +1,15 @@
-﻿using Microsoft.AspNetCore.Components;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using Microsoft.AspNetCore.Components;
 
 namespace Wally.RazorComponent.Grid
 {
-    public class GridModel : ComponentBase
+    public class GridModel<TModel> : ComponentBase// where TModel : class
     {
         [Parameter]
-        public GridOptions Options { get; set; } = new GridOptions();
+        public GridOptions<TModel> Options { get; set; } = new GridOptions<TModel>();
 
         [Parameter]
-        public IEnumerable<object> Source { get; set; }
+        public IEnumerable<TModel> Source { get; set; }
 
         public int Page { get; private set; } = 0;
 

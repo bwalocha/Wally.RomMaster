@@ -36,7 +36,7 @@ namespace Wally.RomMaster.BusinessLogic.Services
                 return;
             }
 
-            using (var uow = UnitOfWorkFactory.Create())
+            using (IUnitOfWork uow = UnitOfWorkFactory.Create())
             {
                 var repoDat = uow.GetRepository<Dat>();
                 DatFileParser.Models.DataFile datFile;
@@ -195,14 +195,12 @@ namespace Wally.RomMaster.BusinessLogic.Services
                 return false;
             }
 
-            switch (System.IO.Path.GetExtension(file).ToLower())
+            return System.IO.Path.GetExtension(file).ToUpperInvariant() switch
             {
                 // Dat
-                case ".dat":
-                    return true;
-                default:
-                    return false;
-            }
+                ".DAT" => true,
+                _ => false,
+            };
         }
     }
 }
