@@ -8,10 +8,17 @@ namespace Wally.Database
 {
     public class ReadRepository<TEntity> : IReadRepository<TEntity> where TEntity : class// , IEntity
     {
+        private readonly DbContext _context;
         private readonly IQueryable<TEntity> dbSet;
 
         public ReadRepository(DbContext context)
         {
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
+            _context = context;
             dbSet = context.Set<TEntity>().AsNoTracking();
         }
 
@@ -43,7 +50,7 @@ namespace Wally.Database
 
         public IQueryable<TEntity> SqlQuery(FormattableString sql)
         {
-            return dbSet.FromSqlInterpolated(sql);
+            return _context.Set<TEntity>().FromSqlInterpolated(sql);
         }
     }
 }

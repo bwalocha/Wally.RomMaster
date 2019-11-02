@@ -24,19 +24,20 @@ namespace Wally.RomMaster.Pages
 
         public bool IsLoading { get; private set; }
 
-        public ObservableCollection<DatViewModel> source;
+        public ObservableCollection<DatViewModel> Source { get; private set; }
 
-        public GridOptions<DatViewModel> gridOptions;
+        public GridOptions<DatViewModel> GridOptions { get; }
 
         public DatListModel()
         {
-            this.gridOptions = new GridOptions<DatViewModel>
+            this.GridOptions = new GridOptions<DatViewModel>
             {
                 PageSize = 100,
                 Columns = new GridColumn<DatViewModel>[]
                 {
-                    new GridColumn<DatViewModel> { Caption = "Id", Bind = (a) => a.Id.ToString() },
-                    new GridColumn<DatViewModel> { Caption = "Name", Bind = (a) => a.Name }
+                    new GridColumn<DatViewModel> { Caption = "Id", Bind = (a) => new MarkupString($"<a href='/DatList/{a.Id}'>{a.Id}</a>") },
+                    new GridColumn<DatViewModel> { Caption = "Name", Bind = (a) => new MarkupString(a.Name) },
+                    new GridColumn<DatViewModel> { Caption = "xxx", Bind = (a) => new MarkupString(a.ToString()) }
                 }
             };
         }
@@ -50,23 +51,23 @@ namespace Wally.RomMaster.Pages
             using (var uow = UnitOfWorkFactory.Create())
             {
                 var repoDat = uow.GetReadRepository<Dat>();
-                this.source = new ObservableCollection<DatViewModel>(repoDat.GetAll().Select(a => new DatViewModel { Id = a.Id, Name = a.Name }));
+                Source = new ObservableCollection<DatViewModel>(repoDat.GetAll().Select(a => new DatViewModel { Id = a.Id, Name = a.Name }));
             }
 
             IsLoading = false;
 
             var t = new System.Timers.Timer(10000);
-            t.Elapsed += tick;
+            t.Elapsed += Tick;
             t.Start();
 
             return Task.CompletedTask;
         }
 
-        private void tick(object sender, System.Timers.ElapsedEventArgs e)
+        private void Tick(object sender, System.Timers.ElapsedEventArgs e)
         {
             this.InvokeAsync(() =>
             {
-                this.source.Last().Name = e.SignalTime.ToString();
+                this.Source.Last().Name = e.SignalTime.ToString();
                 this.StateHasChanged();
             });
         }

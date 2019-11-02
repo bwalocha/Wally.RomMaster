@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.AspNetCore.Components;
 
 namespace Wally.RazorComponent.Grid
 {
@@ -6,6 +7,6 @@ namespace Wally.RazorComponent.Grid
     {
         public string Caption { get; set; }
 
-        public Func<TModel, string> Bind { get; set; }
+        public Func<TModel, MarkupString> Bind { get; set; }
     }
 }

@@ -11,6 +11,6 @@ namespace Wally.RomMaster.DatFileParser.Models
         [XmlElement("header")]
         public Header Header { get; set; }
         [XmlElement("game")]
-        public List<Game> Games { get; set; } = new List<Game>();
+        public List<Game> Games { get; } = new List<Game>();
     }
 }

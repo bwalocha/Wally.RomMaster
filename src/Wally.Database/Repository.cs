@@ -13,6 +13,11 @@ namespace Wally.Database
 
         public Repository(DbContext context)
         {
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
             dbSet = context.Set<TEntity>();
         }
 

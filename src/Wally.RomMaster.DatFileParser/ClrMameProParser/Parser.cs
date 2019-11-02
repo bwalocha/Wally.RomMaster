@@ -28,13 +28,15 @@ namespace Wally.RomMaster.DatFileParser.ClrMameProParser
                 var enumerator = new AsyncLineEnumerator(reader);
 
                 var header = await ReadHeaderAsync(enumerator).ConfigureAwait(false);
-                var games = await this.ReadGamesAsync(enumerator).ConfigureAwait(false);
+                var games = await ReadGamesAsync(enumerator).ConfigureAwait(false);
 
-                return new Models.DataFile
+                var response = new Models.DataFile
                 {
-                    Header = header,
-                    Games = games
+                    Header = header
                 };
+
+                response.Games.AddRange(games);
+                return response;
             }
         }
 
@@ -44,14 +46,14 @@ namespace Wally.RomMaster.DatFileParser.ClrMameProParser
 
             if (!await lines.MoveNextAsync())
             {
-                throw new ArgumentException("Unknown input data format");
+                throw new ArgumentException(message: "Unknown input data format");
             }
 
             var line = lines.Current;
 
             if (line != "clrmamepro (")
             {
-                throw new ArgumentOutOfRangeException(nameof(lines), line, $"Unexpected value");
+                throw new ArgumentOutOfRangeException(nameof(lines), line, $"Unexpected value: '{line}'");
             }
 
             while (await lines.MoveNextAsync())
@@ -119,7 +121,7 @@ namespace Wally.RomMaster.DatFileParser.ClrMameProParser
             return header;
         }
 
-        private async Task<List<Models.Game>> ReadGamesAsync(IAsyncEnumerator<string> lines)
+        private static async Task<List<Models.Game>> ReadGamesAsync(IAsyncEnumerator<string> lines)
         {
             var games = new List<Models.Game>();
 
@@ -167,7 +169,7 @@ namespace Wally.RomMaster.DatFileParser.ClrMameProParser
 
             if (line != "game (")
             {
-                throw new ArgumentOutOfRangeException(nameof(lines), line, $"Unexpected value");
+                throw new ArgumentOutOfRangeException(nameof(lines), line, $"Unexpected value: '{line}'");
             }
 
             var game = new Models.Game();
@@ -229,7 +231,7 @@ namespace Wally.RomMaster.DatFileParser.ClrMameProParser
 
             if (key != "rom")
             {
-                throw new ArgumentOutOfRangeException(nameof(lines), line, $"Unexpected value");
+                throw new ArgumentOutOfRangeException(nameof(lines), line, $"Unexpected value: '{key}'");
             }
 
             var value = tags[1].TrimStart('(').TrimEnd(')').Trim();
@@ -248,7 +250,7 @@ namespace Wally.RomMaster.DatFileParser.ClrMameProParser
                         rom.Name = value;
                         break;
                     case "size":
-                        rom.Size = uint.Parse(value, System.Globalization.NumberStyles.None);
+                        rom.Size = uint.Parse(value, System.Globalization.NumberStyles.None, System.Globalization.CultureInfo.InvariantCulture);
                         break;
                     case "crc":
                         rom.Crc = value;
@@ -266,7 +268,7 @@ namespace Wally.RomMaster.DatFileParser.ClrMameProParser
                         rom.Merge = value;
                         break;
                     default:
-                        throw new ArgumentOutOfRangeException(nameof(key), key, "Unexpected token");
+                        throw new ArgumentOutOfRangeException(nameof(key), key, $"Unexpected token: '{key}'");
                 }
 
                 if (value.Length + (tags[1].StartsWith('"') ? 3 : 1) >= tags[1].Length)

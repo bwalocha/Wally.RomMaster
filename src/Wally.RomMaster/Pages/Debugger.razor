@@ -8,15 +8,15 @@
 @if (IsLoading)
 {
     <p><em>Loading... @Counter</em></p>
-
-    <ul>
-        @foreach (var message in Messages.ToArray())
-        {
-            <li>@message</li>
-        }
-    </ul>
 }
 else
 {
     <p><em>Loaded.</em></p>
 }
+
+<ul>
+    @foreach (var message in Messages.ToArray())
+    {
+        <li>@message</li>
+    }
+</ul>

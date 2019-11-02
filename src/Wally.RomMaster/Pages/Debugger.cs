@@ -16,7 +16,7 @@ namespace Wally.RomMaster.Pages
         [Inject]
         protected IDebuggerService DebuggerService { get; set; }
 
-        public bool IsLoading { get; private set; }
+        public bool IsLoading { get; private set; } = true;
 
         public int Counter { get; private set; }
 
@@ -28,7 +28,7 @@ namespace Wally.RomMaster.Pages
 
             DebuggerService.MessageReceived += OnMessageReceived;
 
-            IsLoading = true;
+            IsLoading = false;
 
             return Task.CompletedTask;
         }
@@ -36,10 +36,10 @@ namespace Wally.RomMaster.Pages
         protected void OnMessageReceived(object sender, string e)
         {
             Counter++;
-            Messages.Add(e);
 
             InvokeAsync(() =>
             {
+                Messages.Add(e);
                 StateHasChanged();
             });
         }
