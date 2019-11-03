@@ -57,7 +57,7 @@ namespace Wally.RomMaster.Pages
             using (var uow = UnitOfWorkFactory.Create())
             {
                 var repoDat = uow.GetReadRepository<Dat>();
-                var models = repoDat.GetAll(a => a.Games);
+                var models = repoDat.GetAll(a => a.Include(m => m.Games));
                 Source = new ObservableCollection<DatViewModel>(Mapper.Map<IEnumerable<DatViewModel>>(models));
             }
 

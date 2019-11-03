@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 namespace Wally.Database
 {
     public interface IRepository<TEntity> : IReadRepository<TEntity>
-        where TEntity : class// , IEntity
+        where TEntity : class
     {
         Task<TEntity> AddAsync(TEntity entity);
 

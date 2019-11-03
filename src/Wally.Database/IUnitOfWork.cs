@@ -8,9 +8,9 @@ namespace Wally.Database
         Task CommitAsync();
 
         IReadRepository<TEntity> GetReadRepository<TEntity>()
-            where TEntity : class; // , IEntity;
+            where TEntity : class;
 
         IRepository<TEntity> GetRepository<TEntity>()
-            where TEntity : class; // , IEntity;
+            where TEntity : class;
     }
 }

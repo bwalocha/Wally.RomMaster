@@ -18,15 +18,13 @@ namespace Wally.Database
         public ThenIncluder(IIncludableQueryable<TEntity, TPreviousProperty> querable)
             : base(querable)
         {
-            //_querable = querable;
         }
 
-        // IIncludableQueryable<TEntity, TProperty> ThenInclude<TEntity, TPreviousProperty, TProperty>([NotNullAttribute] this IIncludableQueryable<TEntity, TPreviousProperty> source, [NotNullAttribute] Expression<Func<TPreviousProperty, TProperty>> navigationPropertyPath) where TEntity : class;
         public ThenIncluder<TEntity, TProperty> ThenInclude<TProperty>(Expression<Func<TPreviousProperty, TProperty>> navigationPropertyPath)
         {
             IIncludableQueryable<TEntity, IEnumerable<TPreviousProperty>> source = _querable;
             IIncludableQueryable<TEntity, TProperty> q = Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ThenInclude(source, navigationPropertyPath);
-            // return null;
+
             return new ThenIncluder<TEntity, TProperty>(q);
         }
     }

@@ -3,7 +3,6 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
 
 namespace Wally.Database
 {
@@ -34,15 +33,14 @@ namespace Wally.Database
             return DbSet;
         }
 
-        public IQueryable<TEntity> GetAll(params Expression<Func<TEntity, object>>[] navigationPropertyPaths)
+        public IQueryable<TEntity> GetAll<TProperty>(Func<IIncluder<TEntity>, IThenIncluder<TEntity, TProperty>> include)
         {
-            IQueryable<TEntity> result = DbSet;
-            foreach (var navigationPropertyPath in navigationPropertyPaths)
+            if (include == null)
             {
-                result = result.Include(navigationPropertyPath);
+                throw new ArgumentNullException(nameof(include));
             }
 
-            return result;
+            return Include(include);
         }
 
         public Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> predicate)
@@ -53,15 +51,12 @@ namespace Wally.Database
 
         public Task<TEntity> FindAsync<TProperty>(Expression<Func<TEntity, bool>> predicate, Func<IIncluder<TEntity>, IThenIncluder<TEntity, TProperty>> include)
         {
-            IQueryable<TEntity> result = DbSet;
-            if (include != null)
+            if (include == null)
             {
-                var includer = new Includer<TEntity>(result);
-                var thenIncluder = include.Invoke(includer);
-                result = thenIncluder.Result;
+                throw new ArgumentNullException(nameof(include));
             }
 
-            return result.FirstOrDefaultAsync(predicate);
+            return Include(include).FirstOrDefaultAsync(predicate);
         }
 
         public Task<bool> AnyAsync(Expression<Func<TEntity, bool>> predicate)
@@ -72,6 +67,14 @@ namespace Wally.Database
         public IQueryable<TEntity> SqlQuery(FormattableString sql)
         {
             return _context.Set<TEntity>().FromSqlInterpolated(sql);
+        }
+
+        private IQueryable<TEntity> Include<TProperty>(Func<IIncluder<TEntity>, IThenIncluder<TEntity, TProperty>> include)
+        {
+            IQueryable<TEntity> result = DbSet;
+            var includer = new Includer<TEntity>(result);
+            var thenIncluder = include.Invoke(includer);
+            return thenIncluder.Result;
         }
     }
 }

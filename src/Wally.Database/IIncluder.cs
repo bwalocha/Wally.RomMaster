@@ -12,14 +12,6 @@ namespace Wally.Database
             get;
         }
 
-        //ThenIncluder<TEntity, TProperty> Include<TProperty>(Expression<Func<TEntity, TProperty>> navigationPropertyPath);
-
-        //ThenIncluder<TEntity, TProperty> Include<TProperty>(Expression<Func<TEntity, IEnumerable<TProperty>>> navigationPropertyPath);
-
-        //ThenIncluder<TEntity, IEnumerable<TProperty>> Include<TProperty>(Expression<Func<TEntity, IEnumerable<TProperty>>> navigationPropertyPath);
-
-        //ThenIncluder<TEntity, IEnumerable<TProperty>> Include<TPreviousProperty, TProperty>(Expression<Func<TPreviousProperty, TProperty>> navigationPropertyPath)
-
         ThenIncluder<TEntity, TProperty> Include<TProperty>(Expression<Func<TEntity, IEnumerable<TProperty>>> navigationPropertyPath);
     }
 }
