@@ -4,6 +4,8 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <LangVersion>7.3</LangVersion>
     <AddRazorSupportForMvc>true</AddRazorSupportForMvc>
+    <UserSecretsId>90e7d3f9-205c-4891-a285-f5122d53bc4b</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,12 +16,13 @@
 	</PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="3.1.0-preview2.19525.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="3.1.0-preview2.19525.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.0.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.0.0">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.0-preview2.19525.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="3.1.0-preview2.19525.5">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.0-preview2.19525.4" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.9.5" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0-preview1-19509-03" />
     <PackageReference Include="StyleCop.Analyzers" Version="1.2.0-beta.66">
       <PrivateAssets>all</PrivateAssets>
@@ -30,9 +33,9 @@
   <ItemGroup>
     <ProjectReference Include="..\Wally.Database\Wally.Database.csproj" />
     <ProjectReference Include="..\Wally.RazorComponent.Grid\Wally.RazorComponent.Grid.csproj" />
-	<ProjectReference Include="..\Wally.RomMaster.Database\Wally.RomMaster.Database.csproj" />
+	  <ProjectReference Include="..\Wally.RomMaster.Database\Wally.RomMaster.Database.csproj" />
     <ProjectReference Include="..\Wally.RomMaster.Domain\Wally.RomMaster.Domain.csproj" />
-	<ProjectReference Include="..\Wally.RomMaster.BusinessLogic\Wally.RomMaster.BusinessLogic.csproj" />
+	  <ProjectReference Include="..\Wally.RomMaster.BusinessLogic\Wally.RomMaster.BusinessLogic.csproj" />
   </ItemGroup>
   
 </Project>

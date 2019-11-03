@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.Logging;
 
-namespace Wally.RomMaster.BusinessLogic.Services
+namespace Wally.RomMaster.Domain.Interfaces
 {
     public interface IDebuggerService
     {

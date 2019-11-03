@@ -1,9 +1,7 @@
 ﻿using System;
-// using Common;
-// using Common.Database;
-// using RomMaster.DatFileParser;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -28,7 +26,7 @@ namespace Wally.RomMaster.BusinessLogic.Services
             return appSettings.Value.DatRoots;
         }
 
-        protected override async Task PostProcess(File file)
+        protected override async Task PostProcessAsync(File file, CancellationToken cancellationToken)
         {
             if (!IsDatFile(file.Path))
             {
@@ -49,7 +47,7 @@ namespace Wally.RomMaster.BusinessLogic.Services
 
                 try
                 {
-                    datFile = await this.datFileParser.ParseAsync(file.Path).ConfigureAwait(false);
+                    datFile = await this.datFileParser.ParseAsync(file.Path, cancellationToken).ConfigureAwait(false);
                 }
                 catch (Exception ex)
                 {
@@ -189,7 +187,7 @@ namespace Wally.RomMaster.BusinessLogic.Services
 
         private bool IsDatFile(string file)
         {
-            if (file.Contains('#'))
+            if (file.Contains('#', StringComparison.InvariantCultureIgnoreCase))
             {
                 // TODO: Archived dat files are not supported yet
                 return false;

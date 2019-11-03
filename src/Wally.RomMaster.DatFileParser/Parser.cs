@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 // using System.Xml.Schema;
@@ -15,15 +16,15 @@ namespace Wally.RomMaster.DatFileParser
         {
         }
 
-        public async Task<Models.DataFile> ParseAsync(string filePathName)
+        public async Task<Models.DataFile> ParseAsync(string filePathName, CancellationToken cancellationToken)
         {
             using (var stream = new FileStream(filePathName, FileMode.Open))
             {
-                return await ParseAsync(stream).ConfigureAwait(false);
+                return await ParseAsync(stream, cancellationToken).ConfigureAwait(false);
             }
         }
 
-        public static async Task<Models.DataFile> ParseAsync(Stream stream)
+        public static async Task<Models.DataFile> ParseAsync(Stream stream, CancellationToken cancellationToken)
         {
             using (StreamReader reader = new StreamReader(stream))
             {
@@ -37,7 +38,7 @@ namespace Wally.RomMaster.DatFileParser
 
                 if (line.StartsWith("clrmamepro", StringComparison.InvariantCulture))
                 {
-                    return await new ClrMameProParser.Parser().ParseAsync(stream).ConfigureAwait(false);
+                    return await new ClrMameProParser.Parser().ParseAsync(stream, cancellationToken).ConfigureAwait(false);
                 }
 
                 throw new ArgumentException($"Unknown DAT file header: '{line}'.");

@@ -1,5 +1,6 @@
 ﻿using System;
 using Microsoft.Extensions.Logging;
+using Wally.RomMaster.Domain.Interfaces;
 
 namespace Wally.RomMaster.BusinessLogic.Services
 {

@@ -1,4 +1,4 @@
-﻿namespace Wally.RomMaster.BusinessLogic.Models
+﻿namespace Wally.RomMaster.Domain.Models
 {
     public class FileQueueItem
     {

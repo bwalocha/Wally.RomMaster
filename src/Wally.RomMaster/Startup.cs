@@ -1,12 +1,7 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Cryptography;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,6 +12,7 @@ using Wally.Database;
 using Wally.RomMaster.BusinessLogic.Services;
 using Wally.RomMaster.Database;
 using Wally.RomMaster.DatFileParser;
+using Wally.RomMaster.Domain.Interfaces;
 using Wally.RomMaster.Domain.Models;
 
 namespace Wally.RomMaster
@@ -66,6 +62,16 @@ namespace Wally.RomMaster
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public static void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
+            if (app == null)
+            {
+                throw new ArgumentNullException(nameof(app));
+            }
+
+            if (loggerFactory == null)
+            {
+                throw new ArgumentNullException(nameof(loggerFactory));
+            }
+
             loggerFactory.AddProvider(app.ApplicationServices.GetService<IDebuggerService>().LoggerProvider);
 
             if (env.IsDevelopment())

@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Wally.RomMaster.DatFileParser.ClrMameProParser
@@ -13,34 +14,40 @@ namespace Wally.RomMaster.DatFileParser.ClrMameProParser
         {
         }
 
-        public async Task<Models.DataFile> ParseAsync(string filePathName)
+        public async Task<Models.DataFile> ParseAsync(string filePathName, CancellationToken cancellationToken)
         {
             using (var stream = new FileStream(filePathName, FileMode.Open))
             {
-                return await ParseAsync(stream).ConfigureAwait(false);
+                return await ParseAsync(stream, cancellationToken).ConfigureAwait(false);
             }
         }
 
-        public async Task<Models.DataFile> ParseAsync(Stream stream)
+        public async Task<Models.DataFile> ParseAsync(Stream stream, CancellationToken cancellationToken)
         {
             using (StreamReader reader = new StreamReader(stream))
             {
                 var enumerator = new AsyncLineEnumerator(reader);
 
-                var header = await ReadHeaderAsync(enumerator).ConfigureAwait(false);
-                var games = await ReadGamesAsync(enumerator).ConfigureAwait(false);
+                var header = await ReadHeaderAsync(enumerator, cancellationToken).ConfigureAwait(false);
+                var games = ReadGamesAsync(enumerator, cancellationToken);
 
                 var response = new Models.DataFile
                 {
                     Header = header
                 };
 
-                response.Games.AddRange(games);
+                while (await games.MoveNextAsync().ConfigureAwait(false))
+                {
+                    cancellationToken.ThrowIfCancellationRequested();
+
+                    response.Games.Add(games.Current);
+                }
+
                 return response;
             }
         }
 
-        private static async Task<Models.Header> ReadHeaderAsync(IAsyncEnumerator<string> lines)
+        private static async Task<Models.Header> ReadHeaderAsync(IAsyncEnumerator<string> lines, CancellationToken cancellationToken)
         {
             var header = new Models.Header();
 
@@ -58,6 +65,8 @@ namespace Wally.RomMaster.DatFileParser.ClrMameProParser
 
             while (await lines.MoveNextAsync())
             {
+                cancellationToken.ThrowIfCancellationRequested();
+
                 line = lines.Current.Trim();
 
                 var tags = line.Split(' ', 2);
@@ -121,17 +130,17 @@ namespace Wally.RomMaster.DatFileParser.ClrMameProParser
             return header;
         }
 
-        private static async Task<List<Models.Game>> ReadGamesAsync(IAsyncEnumerator<string> lines)
+        private static async IAsyncEnumerator<Models.Game> ReadGamesAsync(IAsyncEnumerator<string> lines, CancellationToken cancellationToken)
         {
-            var games = new List<Models.Game>();
-
             while (await lines.MoveNextAsync())
             {
-                var game = await ReadGameAsync(lines).ConfigureAwait(false);
+                cancellationToken.ThrowIfCancellationRequested();
+
+                var game = await ReadGameAsync(lines, cancellationToken).ConfigureAwait(false);
 
                 if (game != null)
                 {
-                    games.Add(game);
+                    yield return game;
                 }
                 else
                 {
@@ -140,11 +149,9 @@ namespace Wally.RomMaster.DatFileParser.ClrMameProParser
                     continue;
                 }
             }
-
-            return games;
         }
 
-        private static async Task<Models.Game> ReadGameAsync(IAsyncEnumerator<string> lines)
+        private static async Task<Models.Game> ReadGameAsync(IAsyncEnumerator<string> lines, CancellationToken cancellationToken)
         {
             var line = lines.Current;
 
@@ -152,6 +159,8 @@ namespace Wally.RomMaster.DatFileParser.ClrMameProParser
             {
                 while (await lines.MoveNextAsync())
                 {
+                    cancellationToken.ThrowIfCancellationRequested();
+
                     line = lines.Current;
 
                     var tags = line.Split(' ', 2);
@@ -176,6 +185,8 @@ namespace Wally.RomMaster.DatFileParser.ClrMameProParser
 
             while (await lines.MoveNextAsync())
             {
+                cancellationToken.ThrowIfCancellationRequested();
+
                 line = lines.Current;
 
                 var tags = line.Split(' ', 2);
@@ -213,7 +224,7 @@ namespace Wally.RomMaster.DatFileParser.ClrMameProParser
                         game.Manufacturer = value;
                         break;
                     case "rom":
-                        game.Roms.Add(await ReadRomAsync(lines).ConfigureAwait(false)); // = value;
+                        game.Roms.Add(await ReadRomAsync(lines, cancellationToken).ConfigureAwait(false)); // = value;
                         break;
                     default:
                         throw new ArgumentOutOfRangeException(nameof(key), key, "Unexpected token");
@@ -223,7 +234,7 @@ namespace Wally.RomMaster.DatFileParser.ClrMameProParser
             return game;
         }
 
-        private static Task<Models.Rom> ReadRomAsync(IAsyncEnumerator<string> lines)
+        private static Task<Models.Rom> ReadRomAsync(IAsyncEnumerator<string> lines, CancellationToken cancellationToken)
         {
             var line = lines.Current;
             var tags = line.Split(' ', 2);
@@ -241,6 +252,8 @@ namespace Wally.RomMaster.DatFileParser.ClrMameProParser
 
             while (key != ")")
             {
+                cancellationToken.ThrowIfCancellationRequested();
+
                 key = tags[0];
                 value = tags[1].StartsWith('"') ? tags[1].Substring(1, tags[1].IndexOf('"', 1)).Trim('"') : tags[1].Split(' ', 2)[0];
 

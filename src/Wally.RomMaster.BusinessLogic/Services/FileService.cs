@@ -9,7 +9,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Wally.Database;
-using Wally.RomMaster.BusinessLogic.Models;
 using Wally.RomMaster.Domain.Models;
 
 namespace Wally.RomMaster.BusinessLogic.Services
@@ -128,24 +127,24 @@ namespace Wally.RomMaster.BusinessLogic.Services
 
         private static bool IsExcluded(string file, Exclude exclude) => exclude.Match(file);
 
-        protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+        protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {
             logger.LogDebug("Starting...");
-            stoppingToken.Register(() => logger.LogDebug("Background task is stopping."));
+            cancellationToken.Register(() => logger.LogDebug("Background task is stopping."));
 
-            while (!stoppingToken.IsCancellationRequested)
+            while (!cancellationToken.IsCancellationRequested)
             {
                 if (!queue.Any())
                 {
                     queueIsEmpty.Set();
                 }
 
-                var item = await Task.Run(() => queue.Take(stoppingToken), stoppingToken).ConfigureAwait(false);
+                var item = await Task.Run(() => queue.Take(cancellationToken), cancellationToken).ConfigureAwait(false);
                 logger.LogInformation($"Background task is procesing [{queue.Count}] item '{item}'.");
                 var files = await Process(item).ConfigureAwait(false);
                 foreach (var file in files)
                 {
-                    await PostProcess(file).ConfigureAwait(false);
+                    await PostProcessAsync(file, cancellationToken).ConfigureAwait(false);
                 }
             }
 
@@ -221,7 +220,7 @@ namespace Wally.RomMaster.BusinessLogic.Services
                                 // store file info
                                 file = new File
                                 {
-                                    Crc = entry.Crc.ToString("X2"),
+                                    Crc = entry.Crc.ToString("X2", System.Globalization.CultureInfo.InvariantCulture),
                                     Path = fileName,
                                     Size = entry.Size
                                 };
@@ -253,7 +252,7 @@ namespace Wally.RomMaster.BusinessLogic.Services
                     {
                         size = stream.Length;
                         var hash = crc32.ComputeHash(stream);
-                        computedCrc32 = BitConverter.ToString(hash).Replace("-", "");
+                        computedCrc32 = BitConverter.ToString(hash).Replace("-", newValue: null, true, System.Globalization.CultureInfo.InvariantCulture);
                     }
                 }
 
@@ -274,7 +273,7 @@ namespace Wally.RomMaster.BusinessLogic.Services
             return files;
         }
 
-        protected virtual Task PostProcess(File file)
+        protected virtual Task PostProcessAsync(File file, CancellationToken cancellationToken)
         {
             return Task.CompletedTask;
         }
@@ -317,13 +316,13 @@ namespace Wally.RomMaster.BusinessLogic.Services
 
         protected static bool IsArchive(string file)
         {
-            switch (System.IO.Path.GetExtension(file).ToLower())
+            switch (System.IO.Path.GetExtension(file).ToUpperInvariant())
             {
                 // Zip, GZip, BZip2, Tar, Rar, LZip, XZ'
-                case ".rar":
-                case ".zip":
+                case ".RAR":
+                case ".ZIP":
                     return true;
-                case ".7z":
+                case ".7Z":
                     return true;
                 default:
                     return false;
