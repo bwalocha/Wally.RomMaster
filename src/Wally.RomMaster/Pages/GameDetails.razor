@@ -1,0 +1,21 @@
+﻿@page "/games/{Id:int}"
+@inherits Wally.RomMaster.Pages.GameDetailsModel
+
+<h1>Game Details: <strong>'@Id'</strong></h1>
+
+@if (IsLoading)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    @ViewModel.Id
+    @ViewModel.Name
+    @*@ViewModel.Author
+    @ViewModel.Category
+    @ViewModel.Date
+    @ViewModel.Description
+    @ViewModel.Version*@
+
+    <Grid TModel="Wally.RomMaster.Models.RomViewModel" Options="@GridOptions" Source="@ViewModel.Roms" />
+}

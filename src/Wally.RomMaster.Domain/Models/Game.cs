@@ -1,9 +1,8 @@
-﻿// using RomMaster.Common.Database;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Wally.RomMaster.Domain.Models
 {
-    public class Game// : IEntity
+    public class Game
     {
         public int Id { get; private set; }
 

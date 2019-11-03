@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace Wally.RomMaster.Models
 {
-    public class DatViewModel : BaseViewModel
+    public class RomViewModel : BaseViewModel
     {
         private int id;
         public int Id
@@ -32,13 +30,12 @@ namespace Wally.RomMaster.Models
             }
         }
 
-        public string Author { get; internal set; }
-        public string Category { get; internal set; }
-        public DateTime? Date { get; internal set; }
-        public string Description { get; internal set; }
-        public string Version { get; internal set; }
-        public IEnumerable<GameViewModel> Games { get; internal set; }
+        public long Size { get; internal set; }
 
-        public int GameCount { get { return Games.Count(); } }
+        public string Crc { get; internal set; }
+
+        public string Sha1 { get; internal set; }
+
+        public string Md5 { get; internal set; }
     }
 }

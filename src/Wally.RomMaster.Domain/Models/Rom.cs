@@ -1,8 +1,6 @@
-﻿// using RomMaster.Common.Database;
-
-namespace Wally.RomMaster.Domain.Models
+﻿namespace Wally.RomMaster.Domain.Models
 {
-    public class Rom// : IEntity
+    public class Rom
     {
         public int Id { get; private set; }
 

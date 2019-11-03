@@ -1,5 +1,6 @@
 using System;
 using System.Security.Cryptography;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -41,6 +42,8 @@ namespace Wally.RomMaster
                             .GetConnectionString("sqlite"))
                         .EnableSensitiveDataLogging(false);
                 }, ServiceLifetime.Singleton)
+
+                .AddAutoMapper(GetType())
 
                 .AddTransient<IUnitOfWorkFactory, UnitOfWorkFactory>()
 

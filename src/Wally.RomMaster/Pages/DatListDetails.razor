@@ -1,9 +1,7 @@
 ﻿@page "/datList/{Id:int}"
 @inherits Wally.RomMaster.Pages.DatListDetailsModel
 
-<h1>Dat List @Id</h1>
-
-<p>The DAT file list:</p>
+<h1>Dat Details: <strong>'@Id'</strong></h1>
 
 @if (IsLoading)
 {
@@ -11,8 +9,13 @@
 }
 else
 {
-    @*<Grid TModel="Wally.RomMaster.Models.DatViewModel" Options="@GridOptions" Source="@Source" />*@
-    <p>data...</p>
     @ViewModel.Id
     @ViewModel.Name
+    @ViewModel.Author
+    @ViewModel.Category
+    @ViewModel.Date
+    @ViewModel.Description
+    @ViewModel.Version
+
+    <Grid TModel="Wally.RomMaster.Models.GameViewModel" Options="@GridOptions" Source="@ViewModel.Games" />
 }
