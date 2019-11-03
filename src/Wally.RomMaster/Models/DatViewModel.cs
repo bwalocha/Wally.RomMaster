@@ -1,4 +1,6 @@
-﻿namespace Wally.RomMaster.Models
+﻿using System;
+
+namespace Wally.RomMaster.Models
 {
     public class DatViewModel : BaseViewModel
     {
@@ -27,5 +29,11 @@
                 NotifyPropertyChanged();
             }
         }
+
+        public string Author { get; internal set; }
+        public string Category { get; internal set; }
+        public DateTime? Date { get; internal set; }
+        public string Description { get; internal set; }
+        public string Version { get; internal set; }
     }
 }

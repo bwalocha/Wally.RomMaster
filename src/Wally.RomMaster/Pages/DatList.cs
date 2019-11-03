@@ -33,7 +33,19 @@ namespace Wally.RomMaster.Pages
                 {
                     new GridColumn<DatViewModel> { Caption = "Id", Bind = (a) => new MarkupString($"<a href='/DatList/{a.Id}'>{a.Id}</a>") },
                     new GridColumn<DatViewModel> { Caption = "Name", Bind = (a) => new MarkupString(a.Name) },
-                    new GridColumn<DatViewModel> { Caption = "xxx", Bind = (a) => new MarkupString(a.ToString()) }
+                    new GridColumn<DatViewModel> { Caption = "Category", Bind = (a) => new MarkupString(a.Category) },
+
+                    new GridColumn<DatViewModel> { Caption = "Author", Bind = (a) => new MarkupString(a.Author) },
+
+                    new GridColumn<DatViewModel> { Caption = "Version", Bind = (a) => new MarkupString(a.Version) },
+
+                    new GridColumn<DatViewModel> { Caption = "Date", Bind = (a) => new MarkupString(a.Date?.ToString("yyyy-MM-dd HH:mm:ss", System.Globalization.CultureInfo.InvariantCulture)) },
+
+                    new GridColumn<DatViewModel> { Caption = "Description", Bind = (a) => new MarkupString(a.Description) },
+
+                    //new GridColumn<DatViewModel> { Caption = "Version", Bind = (a) => new MarkupString(a.) },
+
+                    //new GridColumn<DatViewModel> { Caption = "Version", Bind = (a) => new MarkupString(a.Version) },
                 }
             };
         }
@@ -47,7 +59,15 @@ namespace Wally.RomMaster.Pages
             using (var uow = UnitOfWorkFactory.Create())
             {
                 var repoDat = uow.GetReadRepository<Dat>();
-                Source = new ObservableCollection<DatViewModel>(repoDat.GetAll().Select(a => new DatViewModel { Id = a.Id, Name = a.Name }));
+                Source = new ObservableCollection<DatViewModel>(repoDat.GetAll().Select(a => new DatViewModel { 
+                    Id = a.Id,
+                    Name = a.Name,
+                    Author = a.Author,
+                    Category = a.Category,
+                    Date = a.Date,
+                    Description = a.Description,
+                    Version = a.Version,
+                }));
             }
 
             IsLoading = false;

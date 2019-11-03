@@ -39,7 +39,16 @@ namespace Wally.RomMaster.Pages
                     .FindAsync(a => a.Id == Id)
                     .ConfigureAwait(false);
 
-                ViewModel = new DatViewModel { Id = result.Id, Name = result.Name };
+                ViewModel = new DatViewModel {
+                    Id = result.Id,
+                    Name = result.Name,
+                    Author = result.Author,
+                    Category = result.Category,
+                    Date = result.Date,
+                    Description = result.Description,
+                    Version = result.Version,
+                    // result.File.Path
+                };
             }
 
             IsLoading = false;
