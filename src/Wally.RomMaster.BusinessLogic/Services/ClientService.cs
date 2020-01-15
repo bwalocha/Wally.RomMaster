@@ -1,5 +1,5 @@
-﻿using System.IO;
-// using Common;
+﻿using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Hosting;
@@ -12,22 +12,20 @@ namespace Wally.RomMaster.BusinessLogic.Services
     public class ClientService : BackgroundService
     {
         private readonly ILogger<ClientService> logger;
-        private readonly IOptions<AppSettings> appSettings;
         private readonly FileWatcherService fileWatcherService;
         private readonly DatFileService datFileService;
         private readonly RomFileService romFileService;
         private readonly ToSortFileService toSortFileService;
         private readonly FixService fixService;
 
-        public ClientService(ILogger<ClientService> logger, IOptions<AppSettings> appSettings, FileWatcherService fileWatcherService, DatFileService datFileService, RomFileService romFileService, ToSortFileService toSortFileService, FixService fixService)
+        public ClientService(ILogger<ClientService> logger, FileWatcherService fileWatcherService, DatFileService datFileService, RomFileService romFileService, ToSortFileService toSortFileService, FixService fixService)
         {
-            this.logger = logger;
-            this.appSettings = appSettings;
-            this.fileWatcherService = fileWatcherService;
-            this.datFileService = datFileService;
-            this.romFileService = romFileService;
-            this.toSortFileService = toSortFileService;
-            this.fixService = fixService;
+            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            this.fileWatcherService = fileWatcherService ?? throw new ArgumentNullException(nameof(fileWatcherService));
+            this.datFileService = datFileService ?? throw new ArgumentNullException(nameof(datFileService));
+            this.romFileService = romFileService ?? throw new ArgumentNullException(nameof(romFileService));
+            this.toSortFileService = toSortFileService ?? throw new ArgumentNullException(nameof(toSortFileService));
+            this.fixService = fixService ?? throw new ArgumentNullException(nameof(fixService));
 
             this.fileWatcherService.DatFileChanged += DatFileChanged;
             this.fileWatcherService.ToSortFileChanged += ToSortFileChanged;

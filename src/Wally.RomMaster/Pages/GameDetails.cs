@@ -57,8 +57,7 @@ namespace Wally.RomMaster.Pages
                 var repoDat = uow.GetReadRepository<Game>();
                 var model = await repoDat
                     .FindAsync(a => a.Id == Id, c => c
-                        .Include(m => m.Roms)
-                    )
+                        .Include(m => m.Roms))
                     .ConfigureAwait(false);
 
                 ViewModel = Mapper.Map<GameViewModel>(model);

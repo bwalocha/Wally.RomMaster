@@ -14,12 +14,7 @@ namespace Wally.Database
 
         public ReadRepository(DbContext context)
         {
-            if (context == null)
-            {
-                throw new ArgumentNullException(nameof(context));
-            }
-
-            _context = context;
+            _context = context ?? throw new ArgumentNullException(nameof(context));
             DbSet = CreateSet(context);
         }
 

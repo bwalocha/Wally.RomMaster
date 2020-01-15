@@ -57,8 +57,7 @@ namespace Wally.RomMaster.Pages
                 var model = await repoDat
                     .FindAsync(a => a.Id == Id, c => c
                         .Include(m => m.Games)
-                        .ThenInclude(m => m.Roms)
-                    )
+                        .ThenInclude(m => m.Roms))
                     .ConfigureAwait(false);
 
                 ViewModel = Mapper.Map<DatViewModel>(model);

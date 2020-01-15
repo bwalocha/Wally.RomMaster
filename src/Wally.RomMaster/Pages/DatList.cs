@@ -74,7 +74,7 @@ namespace Wally.RomMaster.Pages
         {
             this.InvokeAsync(() =>
             {
-                this.Source.Last().Name = e.SignalTime.ToString();
+                this.Source.Last().Name = e.SignalTime.ToString("yyyy-MM-dd HH:mm:ss");
                 this.StateHasChanged();
             });
         }

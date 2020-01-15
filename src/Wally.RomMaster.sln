@@ -26,6 +26,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Wally.RazorComponent.Grid", "Wally.RazorComponent.Grid\Wally.RazorComponent.Grid.csproj", "{700AB196-6BEA-4796-847C-77DD78ECB6E2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.Tests", "Wally.RomMaster.Tests\Wally.RomMaster.Tests.csproj", "{9EC324F3-A5F6-4BB7-8A00-B778A34D7C99}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -60,6 +62,10 @@ Global
 		{700AB196-6BEA-4796-847C-77DD78ECB6E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{700AB196-6BEA-4796-847C-77DD78ECB6E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{700AB196-6BEA-4796-847C-77DD78ECB6E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9EC324F3-A5F6-4BB7-8A00-B778A34D7C99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EC324F3-A5F6-4BB7-8A00-B778A34D7C99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EC324F3-A5F6-4BB7-8A00-B778A34D7C99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EC324F3-A5F6-4BB7-8A00-B778A34D7C99}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

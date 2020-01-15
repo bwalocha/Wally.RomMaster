@@ -15,7 +15,6 @@ namespace Wally.RazorComponent.Grid
 
         public GridModel()
         {
-
         }
     }
 }

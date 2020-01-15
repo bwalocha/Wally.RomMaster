@@ -4,7 +4,7 @@ namespace Wally.RomMaster.Domain.Models
 {
     public class Exclude
     {
-        private static Regex regex;
+        private Regex regex;
 
         public string Pattern { get; set; }
 
@@ -18,7 +18,11 @@ namespace Wally.RomMaster.Domain.Models
                     // .Replace("**", ".*?") //TODO reorder
                     .Replace("*", ".*");
 
-                regex = new Regex(pattern, RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
+                regex = new Regex($"^{pattern}$", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
+            }
+            else
+            {
+                throw new System.Exception();
             }
 
             return regex.IsMatch(file);

@@ -28,21 +28,17 @@ namespace Wally.RomMaster.DatFileParser.LogiqxXMLParser
 
         public Models.DataFile Parse(string filePathName)
         {
-            using (var stream = new FileStream(filePathName, FileMode.Open))
-            {
-                Validate(stream);
+            using var stream = new FileStream(filePathName, FileMode.Open);
+            Validate(stream);
 
-                stream.Seek(0, SeekOrigin.Begin);
-                return Parse(stream);
-            }
+            stream.Seek(0, SeekOrigin.Begin);
+            return Parse(stream);
         }
 
         public Models.DataFile Parse(Stream stream)
         {
-            using (XmlReader reader = XmlReader.Create(stream, settings))
-            {
-                return (Models.DataFile)serializer.Deserialize(reader);
-            }
+            using XmlReader reader = XmlReader.Create(stream, settings);
+            return (Models.DataFile)serializer.Deserialize(reader);
         }
 
         public void Validate(Stream stream)
@@ -57,22 +53,20 @@ namespace Wally.RomMaster.DatFileParser.LogiqxXMLParser
 
             settings.Schemas.Add(null, XmlReader.Create("datafile.dtd", dtdSettings));
 
-            using (var dtdStream = new FileStream("datafile.dtd", FileMode.Open, FileAccess.Read))
-            using (XmlReader reader = XmlReader.Create(stream, settings))
-            {
-                // XmlSchema schema = XmlSchema.Read(dtdStream, ValidationCallBack);
+            using var dtdStream = new FileStream("datafile.dtd", FileMode.Open, FileAccess.Read);
+            using XmlReader reader = XmlReader.Create(stream, settings);
+            // XmlSchema schema = XmlSchema.Read(dtdStream, ValidationCallBack);
 
-                // XmlDocument doc = new XmlDocument();
+            // XmlDocument doc = new XmlDocument();
 
-                // doc.Schemas.Add(schema);
-                // doc.Schemas.Compile();
+            // doc.Schemas.Add(schema);
+            // doc.Schemas.Compile();
 
-                // doc.Load(reader);
+            // doc.Load(reader);
 
-                // doc.Validate(ValidationCallBack);
+            // doc.Validate(ValidationCallBack);
 
-                while (reader.Read()) { }
-            }
+            while (reader.Read()) { }
         }
 
         // private static void ValidationCallBack(object sender, ValidationEventArgs e)

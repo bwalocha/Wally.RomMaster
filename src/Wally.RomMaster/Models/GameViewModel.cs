@@ -32,11 +32,11 @@ namespace Wally.RomMaster.Models
             }
         }
 
-        //public string Author { get; internal set; }
-        //public string Category { get; internal set; }
+        // public string Author { get; internal set; }
+        // public string Category { get; internal set; }
         public string Year { get; internal set; }
         public string Description { get; internal set; }
-        //public string Version { get; internal set; }
+        // public string Version { get; internal set; }
         public IEnumerable<RomViewModel> Roms { get; internal set; }
 
         public int RomCount { get { return Roms.Count(); } }

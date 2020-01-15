@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-// using Common;
-// using Common.Database;
+﻿using System;
+using System.Collections.Generic;
 using System.Security.Cryptography;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -18,6 +17,11 @@ namespace Wally.RomMaster.BusinessLogic.Services
 
         protected override IEnumerable<Folder> GetFolders(IOptions<AppSettings> appSettings)
         {
+            if (appSettings == null)
+            {
+                throw new ArgumentNullException(nameof(appSettings));
+            }
+
             return appSettings.Value.RomRoots;
         }
     }

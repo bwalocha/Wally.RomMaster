@@ -175,6 +175,11 @@ namespace Wally.RomMaster.BusinessLogic.Services
 
         protected virtual async Task<List<File>> Process(FileQueueItem item)
         {
+            if (item == null)
+            {
+                throw new ArgumentNullException(nameof(item));
+            }
+
             List<File> files = new List<File>();
             File file = null;
             using (var uow = UnitOfWorkFactory.Create())
@@ -205,29 +210,27 @@ namespace Wally.RomMaster.BusinessLogic.Services
                 {
                     try
                     {
-                        using (System.IO.Stream stream = System.IO.File.OpenRead(item.File))
-                        using (var archive = SharpCompress.Archives.ArchiveFactory.Open(stream))
+                        using System.IO.Stream stream = System.IO.File.OpenRead(item.File);
+                        using var archive = SharpCompress.Archives.ArchiveFactory.Open(stream);
+                        foreach (var entry in archive.Entries.Where(a => !a.IsDirectory))
                         {
-                            foreach (var entry in archive.Entries.Where(a => !a.IsDirectory))
+                            var fileName = $"{item.File}#{entry.Key}";
+
+                            if (await repoFile.AnyAsync(a => a.Path == fileName).ConfigureAwait(false))
                             {
-                                var fileName = $"{item.File}#{entry.Key}";
-
-                                if (await repoFile.AnyAsync(a => a.Path == fileName).ConfigureAwait(false))
-                                {
-                                    continue;
-                                }
-
-                                // store file info
-                                file = new File
-                                {
-                                    Crc = entry.Crc.ToString("X2", System.Globalization.CultureInfo.InvariantCulture),
-                                    Path = fileName,
-                                    Size = entry.Size
-                                };
-
-                                await writeRepoFile.AddAsync(file).ConfigureAwait(false);
-                                files.Add(file);
+                                continue;
                             }
+
+                            // store file info
+                            file = new File
+                            {
+                                Crc = entry.Crc.ToString("X2", System.Globalization.CultureInfo.InvariantCulture),
+                                Path = fileName,
+                                Size = entry.Size
+                            };
+
+                            await writeRepoFile.AddAsync(file).ConfigureAwait(false);
+                            files.Add(file);
                         }
                     }
                     catch (SharpCompress.Common.ArchiveException ex)
@@ -248,12 +251,10 @@ namespace Wally.RomMaster.BusinessLogic.Services
                 }
                 else
                 {
-                    using (var stream = System.IO.File.Open(item.File, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.Read))
-                    {
-                        size = stream.Length;
-                        var hash = crc32.ComputeHash(stream);
-                        computedCrc32 = BitConverter.ToString(hash).Replace("-", newValue: null, true, System.Globalization.CultureInfo.InvariantCulture);
-                    }
+                    using var stream = System.IO.File.Open(item.File, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.Read);
+                    size = stream.Length;
+                    var hash = crc32.ComputeHash(stream);
+                    computedCrc32 = BitConverter.ToString(hash).Replace("-", newValue: null, true, System.Globalization.CultureInfo.InvariantCulture);
                 }
 
                 // store file info

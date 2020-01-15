@@ -16,35 +16,31 @@ namespace Wally.RomMaster.DatFileParser.ClrMameProParser
 
         public async Task<Models.DataFile> ParseAsync(string filePathName, CancellationToken cancellationToken)
         {
-            using (var stream = new FileStream(filePathName, FileMode.Open))
-            {
-                return await ParseAsync(stream, cancellationToken).ConfigureAwait(false);
-            }
+            using var stream = new FileStream(filePathName, FileMode.Open);
+            return await ParseAsync(stream, cancellationToken).ConfigureAwait(false);
         }
 
         public async Task<Models.DataFile> ParseAsync(Stream stream, CancellationToken cancellationToken)
         {
-            using (StreamReader reader = new StreamReader(stream))
+            using StreamReader reader = new StreamReader(stream);
+            var enumerator = new AsyncLineEnumerator(reader);
+
+            var header = await ReadHeaderAsync(enumerator, cancellationToken).ConfigureAwait(false);
+            var games = ReadGamesAsync(enumerator, cancellationToken);
+
+            var response = new Models.DataFile
             {
-                var enumerator = new AsyncLineEnumerator(reader);
+                Header = header
+            };
 
-                var header = await ReadHeaderAsync(enumerator, cancellationToken).ConfigureAwait(false);
-                var games = ReadGamesAsync(enumerator, cancellationToken);
+            while (await games.MoveNextAsync().ConfigureAwait(false))
+            {
+                cancellationToken.ThrowIfCancellationRequested();
 
-                var response = new Models.DataFile
-                {
-                    Header = header
-                };
-
-                while (await games.MoveNextAsync().ConfigureAwait(false))
-                {
-                    cancellationToken.ThrowIfCancellationRequested();
-
-                    response.Games.Add(games.Current);
-                }
-
-                return response;
+                response.Games.Add(games.Current);
             }
+
+            return response;
         }
 
         private static async Task<Models.Header> ReadHeaderAsync(IAsyncEnumerator<string> lines, CancellationToken cancellationToken)

@@ -14,14 +14,12 @@ namespace Wally.RomMaster.BusinessLogic.Services
     public class FixService : BackgroundService
     {
         private readonly ILogger<FixService> logger;
-        private readonly IOptions<AppSettings> appSettings;
         private readonly IUnitOfWorkFactory unitOfWorkFactory;
         private readonly BlockingCollection<FileQueueItem> queue = new BlockingCollection<FileQueueItem>();
 
-        public FixService(ILogger<FixService> logger, IOptions<AppSettings> appSettings, IUnitOfWorkFactory unitOfWorkFactory)
+        public FixService(ILogger<FixService> logger, IUnitOfWorkFactory unitOfWorkFactory)
         {
             this.logger = logger;
-            this.appSettings = appSettings;
             this.unitOfWorkFactory = unitOfWorkFactory;
         }
 
@@ -77,6 +75,8 @@ namespace Wally.RomMaster.BusinessLogic.Services
 
                 foreach (var file in files)
                 {
+                    stoppingToken.ThrowIfCancellationRequested();
+
                     Enqueue(file);
                 }
             }

@@ -84,7 +84,7 @@ namespace Wally.RomMaster.BusinessLogic.Services
                     NotifyFilter =
                         // NotifyFilters.LastAccess |
                         NotifyFilters.LastWrite |
-                        NotifyFilters.FileName //|
+                        NotifyFilters.FileName // |
                         // NotifyFilters.DirectoryName
                 };
 
@@ -92,7 +92,7 @@ namespace Wally.RomMaster.BusinessLogic.Services
                 {
                     watcher.Renamed += (sender, args) =>
                     {
-                        OnChanged(onFileChanged, sender, args.ChangeType, args.FullPath, args.Name, folder);
+                        OnChanged(onFileChanged, sender, args.ChangeType, args.FullPath, folder);
                     };
                     watcher.Created += (sender, args) =>
                     {
@@ -100,11 +100,11 @@ namespace Wally.RomMaster.BusinessLogic.Services
                     };
                     watcher.Changed += (sender, args) =>
                     {
-                        OnChanged(onFileChanged, sender, args.ChangeType, args.FullPath, args.Name, folder);
+                        OnChanged(onFileChanged, sender, args.ChangeType, args.FullPath, folder);
                     };
                     watcher.Deleted += (sender, args) =>
                     {
-                        OnChanged(onFileChanged, sender, args.ChangeType, args.FullPath, args.Name, folder);
+                        OnChanged(onFileChanged, sender, args.ChangeType, args.FullPath, folder);
                     };
                 }
 
@@ -124,7 +124,7 @@ namespace Wally.RomMaster.BusinessLogic.Services
                 {
                     foreach (var f in Directory.GetFiles(dir))
                     {
-                        OnChanged(onFileChanged, sender, args.ChangeType, f, args.Name, folder);
+                        OnChanged(onFileChanged, sender, args.ChangeType, f, folder);
                     }
 
                     foreach (var d in Directory.GetDirectories(dir))
@@ -144,7 +144,7 @@ namespace Wally.RomMaster.BusinessLogic.Services
             System.Diagnostics.Debugger.Break();
         }
 
-        private void OnChanged(FileSystemEventHandler onChanged, object sender, WatcherChangeTypes changeType, string filePathName, string fileName, Folder folder)
+        private void OnChanged(FileSystemEventHandler onChanged, object sender, WatcherChangeTypes changeType, string filePathName, Folder folder)
         {
             // if directory: return or notify;
             // ...

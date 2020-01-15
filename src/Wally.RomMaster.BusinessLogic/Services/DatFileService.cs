@@ -28,87 +28,90 @@ namespace Wally.RomMaster.BusinessLogic.Services
 
         protected override async Task PostProcessAsync(File file, CancellationToken cancellationToken)
         {
+            if (file == null)
+            {
+                throw new ArgumentNullException(nameof(file));
+            }
+
             if (!IsDatFile(file.Path))
             {
                 Logger.LogDebug($"DatFile '{file.Path}' can't be processed. Skipping.");
                 return;
             }
 
-            using (IUnitOfWork uow = UnitOfWorkFactory.Create())
+            using IUnitOfWork uow = UnitOfWorkFactory.Create();
+            var repoDat = uow.GetRepository<Dat>();
+            DatFileParser.Models.DataFile datFile;
+
+            if (await repoDat.AnyAsync(a => a.File.Path == file.Path).ConfigureAwait(false))
             {
-                var repoDat = uow.GetRepository<Dat>();
-                DatFileParser.Models.DataFile datFile;
+                Logger.LogDebug($"DatFile '{file.Path}' already processed. Skipping.");
+                return;
+            }
 
-                if (await repoDat.AnyAsync(a => a.File.Path == file.Path).ConfigureAwait(false))
-                {
-                    Logger.LogDebug($"DatFile '{file.Path}' already processed. Skipping.");
-                    return;
-                }
+            try
+            {
+                datFile = await this.datFileParser.ParseAsync(file.Path, cancellationToken).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
+                return;
+            }
 
-                try
-                {
-                    datFile = await this.datFileParser.ParseAsync(file.Path, cancellationToken).ConfigureAwait(false);
-                }
-                catch (Exception ex)
-                {
-                    Logger.LogError(ex, ex.Message);
-                    return;
-                }
+            Dat dat = await repoDat.FindAsync(a => a.Name == datFile.Header.Name && a.Version == datFile.Header.Version).ConfigureAwait(false);
+            if (dat != null)
+            {
+                Logger.LogDebug($"DatFile '{file.Path}' has been processed already. Skipping.");
+                return;
+            }
 
-                Dat dat = await repoDat.FindAsync(a => a.Name == datFile.Header.Name && a.Version == datFile.Header.Version).ConfigureAwait(false);
-                if (dat != null)
-                {
-                    Logger.LogDebug($"DatFile '{file.Path}' has been processed already. Skipping.");
-                    return;
-                }
+            dat = new Dat
+            {
+                Name = datFile.Header.Name,
+                Description = datFile.Header.Description,
+                Version = datFile.Header.Version,
+                Category = datFile.Header.Category,
+                Author = datFile.Header.Author,
+                Date = ParseDateTime(datFile.Header.Date),
+                File = file
+            };
 
-                dat = new Dat
+            foreach (var game in datFile.Games)
+            {
+                var g = new Game
                 {
-                    Name = datFile.Header.Name,
-                    Description = datFile.Header.Description,
-                    Version = datFile.Header.Version,
-                    Category = datFile.Header.Category,
-                    Author = datFile.Header.Author,
-                    Date = ParseDateTime(datFile.Header.Date),
-                    File = file
+                    Name = game.Name,
+                    Description = game.Description,
+                    Year = game.Year
                 };
 
-                foreach (var game in datFile.Games)
+                foreach (var rom in game.Roms)
                 {
-                    var g = new Game
+                    var r = new Rom
                     {
-                        Name = game.Name,
-                        Description = game.Description,
-                        Year = game.Year
+                        Name = rom.Name,
+                        Size = rom.Size,
+                        Crc = rom.Crc,
+                        Md5 = rom.Md5,
+                        Sha1 = rom.Sha1
                     };
 
-                    foreach (var rom in game.Roms)
-                    {
-                        var r = new Rom
-                        {
-                            Name = rom.Name,
-                            Size = rom.Size,
-                            Crc = rom.Crc,
-                            Md5 = rom.Md5,
-                            Sha1 = rom.Sha1
-                        };
-
-                        g.Roms.Add(r);
-                    }
-
-                    dat.Games.Add(g);
+                    g.Roms.Add(r);
                 }
 
-                await repoDat.AddAsync(dat).ConfigureAwait(false);
+                dat.Games.Add(g);
+            }
 
-                try
-                {
-                    await uow.CommitAsync().ConfigureAwait(false);
-                }
-                catch (Exception ex)
-                {
-                    Logger.LogError(ex, ex.Message);
-                }
+            await repoDat.AddAsync(dat).ConfigureAwait(false);
+
+            try
+            {
+                await uow.CommitAsync().ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex, ex.Message);
             }
         }
 
