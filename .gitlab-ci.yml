@@ -49,10 +49,10 @@ build:
     artifacts:
         when: always
         paths:
-            - ./testresults/**/*
+            - ./testresults/*
         reports:
             junit: 
-                - ./testresults/**/*-test-result.xml
+                - ./testresults/*-test-result.xml
         
     after_script:
         - docker logout $CI_REGISTRY
