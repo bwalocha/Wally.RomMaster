@@ -46,10 +46,13 @@ build:
         - docker rm testcontainer
         - docker push $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$CI_PIPELINE_ID
     artifacts:
-        reports:
-            junit: ./testresults/
+        when: always
         paths:
-            - ./testresults/test_results.xml
+            - ./testresults/**/*
+        reports:
+            junit: 
+                - ./testresults/**/*
+        
     after_script:
         - docker logout $CI_REGISTRY
 
