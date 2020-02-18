@@ -59,7 +59,7 @@ build:
         - docker logout $CI_REGISTRY
         
 pages:
-    stage: build
+    stage: release
     dependencies:
         - build
     script:
