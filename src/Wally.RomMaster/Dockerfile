@@ -14,6 +14,7 @@ COPY ["Wally.RomMaster.DatFileParser/Wally.RomMaster.DatFileParser.csproj", "Wal
 COPY ["Wally.RazorComponent.Grid/Wally.RazorComponent.Grid.csproj", "Wally.RazorComponent.Grid/"]
 RUN dotnet restore "Wally.RomMaster/Wally.RomMaster.csproj"
 COPY . .
+RUN dotnet test
 WORKDIR "/src/Wally.RomMaster"
 RUN dotnet build "Wally.RomMaster.csproj" -c Release -o /app/build
 
