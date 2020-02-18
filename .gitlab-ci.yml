@@ -1,0 +1,112 @@
+image: docker:19.03.1
+
+variables:
+    ID: wallyrommaster
+    DOMAIN: wally.best
+    PROJECT_PATH: ./src/Wally.RomMaster
+    # TRAEFIK
+    TRAEFIK_NETWORK: traefik
+    # CI
+    CI_REGISTRY: wally.best:1050
+    CI_REGISTRY_USER: wally
+    CI_REGISTRY_PASSWORD: wally666
+    # Use TLS https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#tls-enabled
+    # DOCKER_HOST: tcp://docker:2376
+    DOCKER_DRIVER: overlay2
+    # DOCKER_TLS_CERTDIR: "/certs"
+    # See https://github.com/docker-library/docker/pull/166
+    DOCKER_TLS_CERTDIR: ""
+
+services:
+    - name: docker:19.03.0-dind
+      entrypoint: ["env", "-u", "DOCKER_HOST"]
+      command: ["dockerd-entrypoint.sh"]
+ 
+stages:
+    - build
+    - test
+    - release
+    - deploy
+
+before_script:
+    - export
+
+build:
+    stage: build
+    tags: 
+        - docker
+    before_script:
+        - docker -v
+        - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
+        - docker info
+    script:
+        - docker build --pull $PROJECT_PATH -t $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$CI_PIPELINE_ID
+        - docker push $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$CI_PIPELINE_ID
+    after_script:
+        - docker logout $CI_REGISTRY
+
+test:
+    stage: test
+    tags: 
+        - docker
+    before_script:
+        - docker -v
+        - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
+        - docker info
+    script: 
+        - docker pull $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$CI_PIPELINE_ID
+        - docker run $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$CI_PIPELINE_ID dotnet test
+    after_script:
+        - docker logout $CI_REGISTRY
+
+release:
+    stage: release
+    tags: 
+        - docker
+    only:
+        - master
+    before_script:
+        - docker -v
+        - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
+        - docker info
+    script:
+        - docker pull $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$CI_PIPELINE_ID
+        - docker tag $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$CI_PIPELINE_ID $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:latest
+        - docker push $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$CI_PIPELINE_ID
+    after_script:
+        - docker logout $CI_REGISTRY
+        
+deploy:
+    stage: deploy
+    tags:
+        - ssh
+    only:
+        - master
+    when: manual
+    variables:
+        GIT_STRATEGY: none
+        GIT_CHECKOUT: "false"
+        DOCKER: "/share/CACHEDEV1_DATA/.qpkg/container-station/bin/docker"
+    script:
+        - $DOCKER login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
+        - $DOCKER stop $ID || true && $DOCKER rm $ID || true
+        - $DOCKER run
+            --detach
+            --name ${ID}
+            --network ${TRAEFIK_NETWORK}
+            --env "ASPNETCORE_URLS=http://+:80;https://+:443"
+            --env "ASPNETCORE_Kestrel__Certificates__Default__Path=webserver.pfx"
+            --env "ASPNETCORE_Kestrel__Certificates__Default__Password=ce43fbef-8a4a-4e9f-864d-9077e4b2d22e"
+            --label "traefik.enable=true"
+            --label "traefik.http.routers.${ID}.entrypoints=http"
+            --label "traefik.http.routers.${ID}.rule=Host(\`$DOMAIN\`) && PathPrefix(\`/${ID}\`)"
+            --label "traefik.http.routers.${ID}.middlewares=${ID}-redirect"
+            --label "traefik.http.routers.${ID}-secure.entrypoints=https"
+            --label "traefik.http.routers.${ID}-secure.rule=Host(\`$DOMAIN\`) && PathPrefix(\`/${ID}\`)"
+            --label "traefik.http.routers.${ID}-secure.middlewares=${ID}-strip"
+            --label "traefik.http.routers.${ID}-secure.tls=true"
+            --label "traefik.http.middlewares.${ID}-strip.stripprefix.prefixes=/${ID}"
+            --label "traefik.http.middlewares.${ID}-redirect.redirectscheme.scheme=https"
+            --label "traefik.http.services.${ID}-secure.loadbalancer.server.port=443"
+            $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$CI_PIPELINE_ID
+        - $DOCKER logout $CI_REGISTRY
