@@ -39,7 +39,7 @@ build:
         - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
         - docker info
     script:
-        - docker build ./src --pull -f $PROJECT_PATH/Dockerfile -t $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$CI_PIPELINE_ID
+        - docker build ./src --pull -f $PROJECT_PATH/Dockerfile -t $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$CI_PIPELINE_ID || true
         - export testcontainer_id=$(docker images --filter "label=test=true" -q | head -1)
         - docker create --name testcontainer $testcontainer_id
         - docker cp testcontainer:/testresults ./testresults
