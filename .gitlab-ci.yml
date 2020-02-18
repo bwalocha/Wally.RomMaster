@@ -43,13 +43,15 @@ build:
         - export testcontainer_id=$(docker images --filter "label=test=true" -q | head -1)
         - docker create --name testcontainer $testcontainer_id
         - docker cp testcontainer:/testresults ./testresults
-        - ls -a ./testresults
+        - ls -a ./testresults/coverage
+        - mv ./testresults/coverage/reports/ public/
         - docker rm testcontainer
         - docker push $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$CI_PIPELINE_ID
     artifacts:
         when: always
+        expire_in: 30 days
         paths:
-            - ./testresults/*
+            - public
         reports:
             junit: 
                 - ./testresults/*-test-result.xml
