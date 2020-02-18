@@ -44,20 +44,31 @@ build:
         - docker create --name testcontainer $testcontainer_id
         - docker cp testcontainer:/testresults ./testresults
         - ls -a ./testresults/coverage
-        - mv ./testresults/coverage/reports/ public/
         - docker rm testcontainer
         - docker push $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$CI_PIPELINE_ID
     artifacts:
         when: always
         expire_in: 30 days
         paths:
-            - public
+            - ./testresults/**/*
         reports:
             junit: 
                 - ./testresults/*-test-result.xml
         
     after_script:
         - docker logout $CI_REGISTRY
+        
+pages:
+    stage: build
+    dependencies:
+        - build
+    script:
+        - mv ./testresults/coverage/reports/ public/
+    artifacts:
+        when: always
+        expire_in: 30 days
+        paths:
+            - public
 
 release:
     stage: release
