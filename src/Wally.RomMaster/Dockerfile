@@ -14,7 +14,20 @@ COPY ["Wally.RomMaster.DatFileParser/Wally.RomMaster.DatFileParser.csproj", "Wal
 COPY ["Wally.RazorComponent.Grid/Wally.RazorComponent.Grid.csproj", "Wally.RazorComponent.Grid/"]
 RUN dotnet restore "Wally.RomMaster/Wally.RomMaster.csproj"
 COPY . .
-RUN dotnet test
+
+# TEST
+LABEL test=true
+# install the report generator tool
+RUN dotnet tool install dotnet-reportgenerator-globaltool --version 4.3.9 --tool-path /tools
+# run the test and collect code coverage (requires coverlet.msbuild to be added to test project)
+# for exclude, use %2c for ,
+RUN echo testing...
+RUN dotnet test --results-directory /testresults --logger "trx;LogFileName=test_results.xml" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=/testresults/coverage/
+# generate html reports using report generator tool
+RUN /tools/reportgenerator "-reports:/testresults/coverage/coverage.cobertura.xml" "-targetdir:/testresults/coverage/reports" "-reporttypes:HTMLInline;HTMLChart"
+RUN ls -la /testresults/coverage/reports
+RUN echo tested
+
 WORKDIR "/src/Wally.RomMaster"
 RUN dotnet build "Wally.RomMaster.csproj" -c Release -o /app/build
 
