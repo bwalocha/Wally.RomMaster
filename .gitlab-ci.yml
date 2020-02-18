@@ -51,7 +51,7 @@ build:
             - ./testresults/**/*
         reports:
             junit: 
-                - ./testresults/**/coverage.cobertura.xml 
+                - ./testresults/**/*-test-result.xml
         
     after_script:
         - docker logout $CI_REGISTRY

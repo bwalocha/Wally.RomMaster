@@ -18,15 +18,13 @@ COPY . .
 # TEST
 LABEL test=true
 # install the report generator tool
-RUN dotnet tool install dotnet-reportgenerator-globaltool --version 4.3.9 --tool-path /tools
+# RUN dotnet tool install dotnet-reportgenerator-globaltool --version 4.3.9 --tool-path /tools
 # run the test and collect code coverage (requires coverlet.msbuild to be added to test project)
 # for exclude, use %2c for ,
-RUN echo testing...
-RUN dotnet test --results-directory /testresults --logger "trx;LogFileName=test_results.xml" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=/testresults/coverage/
+# RUN dotnet test --results-directory /testresults --logger "trx;LogFileName=test_results.xml" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=/testresults/coverage/
+RUN dotnet test --test-adapter-path:. --logger:"junit;LogFilePath=/testresults/{assembly}-test-result.xml;MethodFormat=Class;FailureBodyFormat=Verbose"
 # generate html reports using report generator tool
-RUN /tools/reportgenerator "-reports:/testresults/coverage/coverage.cobertura.xml" "-targetdir:/testresults/coverage/reports" "-reporttypes:HTMLInline;HTMLChart"
-RUN ls -la /testresults/coverage/reports
-RUN echo tested
+# RUN /tools/reportgenerator "-reports:/testresults/coverage/coverage.cobertura.xml" "-targetdir:/testresults/coverage/reports" "-reporttypes:HTMLInline;HTMLChart"
 
 WORKDIR "/src/Wally.RomMaster"
 RUN dotnet build "Wally.RomMaster.csproj" -c Release -o /app/build
