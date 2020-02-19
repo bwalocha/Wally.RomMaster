@@ -21,7 +21,7 @@ LABEL test=true
 RUN dotnet tool install dotnet-reportgenerator-globaltool --version 4.3.9 --tool-path /tools
 # run the test and collect code coverage (requires coverlet.msbuild to be added to test project)
 # for exclude, use %2c for ,
-RUN dotnet test --results-directory /testresults --test-adapter-path:. --logger:"junit;LogFilePath={framework}-{assembly}-test-result.xml;MethodFormat=Full;FailureBodyFormat=Verbose" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=/testresults/coverage/
+RUN dotnet test --test-adapter-path:. --logger:"junit;LogFilePath=/testresults/{framework}-{assembly}-test-result.xml;MethodFormat=Full;FailureBodyFormat=Verbose" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=/testresults/coverage/
 # generate html reports using report generator tool
 RUN /tools/reportgenerator "-reports:/testresults/coverage/coverage.cobertura.xml" "-targetdir:/testresults/coverage/reports" "-reporttypes:HTMLInline;HTMLChart"
 
