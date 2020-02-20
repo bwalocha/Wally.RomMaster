@@ -112,7 +112,7 @@ deploy:
             --env "ASPNETCORE_Kestrel__Certificates__Default__Password=ce43fbef-8a4a-4e9f-864d-9077e4b2d22e"
             --label "traefik.enable=true"
             --label "traefik.http.routers.${CI_PROJECT_PATH_SLUG}.entrypoints=http"
-            --label "traefik.http.routers.${CI_PROJECT_PATH_SLUG}.rule=Host(\`$DOMAIN\`) && PathPrefix(\`/${CI_PROJECT_PATH_SLUG}\`)"
+            --label "traefik.http.routers.${CI_PROJECT_PATH_SLUG}.rule=Host(\`${CI_PROJECT_PATH_SLUG}.${DOMAIN}\`)"
             --label "XXXtraefik.http.routers.${CI_PROJECT_PATH_SLUG}.middlewares=${CI_PROJECT_PATH_SLUG}-redirect"
             --label "YYYtraefik.http.routers.${CI_PROJECT_PATH_SLUG}.middlewares=${CI_PROJECT_PATH_SLUG}-strip"
             --label "traefik.http.services.${CI_PROJECT_PATH_SLUG}.loadbalancer.server.port=80"
