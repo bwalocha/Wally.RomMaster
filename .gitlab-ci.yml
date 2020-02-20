@@ -107,8 +107,8 @@ deploy:
             --network ${TRAEFIK_NETWORK}
             --env "ASPNETCORE_ENVIRONMENT=Development"
             --env "ASPNETCORE_URLS=http://+:80;https://+:443"
-            --env "ASPNETCORE_Kestrel__Certificates__Default__Path=webserver.pfx"
-            --env "ASPNETCORE_Kestrel__Certificates__Default__Password=ce43fbef-8a4a-4e9f-864d-9077e4b2d22e"
+            --env "XXXASPNETCORE_Kestrel__Certificates__Default__Path=webserver.pfx"
+            --env "XXXASPNETCORE_Kestrel__Certificates__Default__Password=ce43fbef-8a4a-4e9f-864d-9077e4b2d22e"
             --label "traefik.enable=true"
             --label "traefik.http.routers.${CI_PROJECT_PATH_SLUG}.entrypoints=http"
             --label "traefik.http.routers.${CI_PROJECT_PATH_SLUG}.rule=Host(\`$DOMAIN\`) && PathPrefix(\`/${CI_PROJECT_PATH_SLUG}\`)"
