@@ -114,6 +114,7 @@ deploy:
             --label "traefik.http.routers.${CI_PROJECT_PATH_SLUG}.entrypoints=http"
             --label "traefik.http.routers.${CI_PROJECT_PATH_SLUG}.rule=Host(\`$DOMAIN\`) && PathPrefix(\`/${CI_PROJECT_PATH_SLUG}\`)"
             --label "XXXtraefik.http.routers.${CI_PROJECT_PATH_SLUG}.middlewares=${CI_PROJECT_PATH_SLUG}-redirect"
+            --label "traefik.http.routers.${CI_PROJECT_PATH_SLUG}.middlewares=${CI_PROJECT_PATH_SLUG}-strip"
             --label "traefik.http.services.${CI_PROJECT_PATH_SLUG}.loadbalancer.server.port=80"
             --label "XXXtraefik.http.routers.${CI_PROJECT_PATH_SLUG}-secure.entrypoints=https"
             --label "XXXtraefik.http.routers.${CI_PROJECT_PATH_SLUG}-secure.rule=Host(\`$DOMAIN\`) && PathPrefix(\`/${CI_PROJECT_PATH_SLUG}\`)"
