@@ -60,7 +60,7 @@ test:
         - mkdir ./art2/abc2
         - docker run
             --rm
-            --volume ${CI_PROJECT_DIR}/art2:/testresults:rw
+            --volume ${CI_PROJECT_DIR}/art2:/testresults/x:rw
             $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:${CI_PIPELINE_ID}_test
         - ls -al $(pwd)
         - ls -al .
