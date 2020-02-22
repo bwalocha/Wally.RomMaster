@@ -24,6 +24,7 @@ WORKDIR "/src"
 RUN echo "dotnet test --test-adapter-path:. --logger:'junit;LogFilePath=/testresults/{framework}-{assembly}-test-result.xml;MethodFormat=Full;FailureBodyFormat=Verbose' /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=/testresults/coverage/" > test.sh
 RUN echo "/tools/reportgenerator -reports:/testresults/coverage/coverage.cobertura.xml -targetdir:/testresults/coverage/reports -reporttypes:'HTMLInline;HTMLChart'" >> test.sh
 RUN echo "ls -al /" >> test.sh
+RUN echo "ls -al /artifacts" >> test.sh
 RUN echo "ls -al /testresults" >> test.sh
 ENTRYPOINT ["sh", "test.sh"]
 
