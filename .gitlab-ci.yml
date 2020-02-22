@@ -57,6 +57,7 @@ test:
             --rm
             --volume "testresults:/testresults:rw"
             $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:${CI_PIPELINE_ID}_test
+        - ls testresults
     artifacts:
         when: always
         expire_in: 30 days
