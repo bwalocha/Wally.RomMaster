@@ -56,25 +56,25 @@ test:
         - docker build ./src --pull --target test -f $PROJECT_PATH/Dockerfile -t $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:${CI_PIPELINE_ID}_test
         - echo ${CI_PROJECT_DIR}
         - ls ${CI_PROJECT_DIR} -la
-        - mkdir ./art1
-        - mkdir ./art1/abc
+        - mkdir ./art2
+        - mkdir ./art2/abc2
         - docker run
             --rm
-            --volume ${CI_PROJECT_DIR}/art1:/testresults:rw
+            --volume ${CI_PROJECT_DIR}/art2:/testresults:rw
             $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:${CI_PIPELINE_ID}_test
         - ls -al $(pwd)
         - ls -al .
         - ls -al /
         - ls -al ${CI_PROJECT_DIR}
-        - ls -al ${CI_PROJECT_DIR}/art1
+        - ls -al ${CI_PROJECT_DIR}/art2
     artifacts:
         when: always
         expire_in: 30 days
         paths:
-            - ${CI_PROJECT_DIR}/art1/**/*
+            - ${CI_PROJECT_DIR}/art2/**/*
         reports:
             junit: 
-                - ${CI_PROJECT_DIR}/art1/*-test-result.xml        
+                - ${CI_PROJECT_DIR}/art2/*-test-result.xml        
     after_script:
         - docker logout $CI_REGISTRY
         
@@ -83,7 +83,7 @@ pages:
     dependencies:
         - build
     script:
-        - mv ${CI_PROJECT_DIR}/art1/coverage/reports/ public/
+        - mv ${CI_PROJECT_DIR}/art2/coverage/reports/ public/
     artifacts:
         when: always
         expire_in: 30 days
