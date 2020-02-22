@@ -1,9 +1,9 @@
 image: docker:19.03.1
 
 variables:
-    ID: wallyrommaster
-    DOMAIN: wally.best
     PROJECT_PATH: ./src/Wally.RomMaster
+    CERT_PASS: ce43fbef-8a4a-4e9f-864d-9077e4b2d22e
+    DOMAIN: wally.best
     # TRAEFIK
     TRAEFIK_NETWORK: traefik
     # CI
@@ -24,6 +24,7 @@ services:
  
 stages:
     - build
+    - test
     - release
     - deploy
 
@@ -40,12 +41,22 @@ build:
         - docker info
     script:
         - docker build ./src --pull -f $PROJECT_PATH/Dockerfile -t $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$CI_PIPELINE_ID
-        - export testcontainer_id=$(docker images --filter "label=test=true" -q | head -1)
-        - docker create --name testcontainer $testcontainer_id
-        - docker cp testcontainer:/testresults ./testresults
-        - ls -a ./testresults/coverage
-        - docker rm testcontainer
         - docker push $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$CI_PIPELINE_ID
+        
+test:
+    stage: test
+    tags:
+        - docker
+    before_script:
+        - docker -v
+        - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
+        - docker info
+    script:
+        - docker build ./src --pull --target test -f $PROJECT_PATH/Dockerfile -t $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:${CI_PIPELINE_ID}_test
+        - docker run
+            --rm
+            --volume "./testresults:/testresults:rw"
+            $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:${CI_PIPELINE_ID}_test
     artifacts:
         when: always
         expire_in: 30 days
@@ -53,8 +64,7 @@ build:
             - ./testresults/**/*
         reports:
             junit: 
-                - ./testresults/*-test-result.xml
-        
+                - ./testresults/*-test-result.xml        
     after_script:
         - docker logout $CI_REGISTRY
         
@@ -110,7 +120,7 @@ deploy:
             --env "ASPNETCORE_HTTPS_PORT=443"
             --env "ASPNETCORE_URLS=http://+:80;https://+:443"
             --env "ASPNETCORE_Kestrel__Certificates__Default__Path=/cert/webserver.pfx"
-            --env "ASPNETCORE_Kestrel__Certificates__Default__Password=ce43fbef-8a4a-4e9f-864d-9077e4b2d22e"
+            --env "ASPNETCORE_Kestrel__Certificates__Default__Password=${CERT_PASS}"
             --label "traefik.enable=true"
             --label "traefik.http.routers.${CI_PROJECT_PATH_SLUG}.entrypoints=http"
             --label "traefik.http.routers.${CI_PROJECT_PATH_SLUG}.rule=Host(\`${CI_PROJECT_PATH_SLUG}.${DOMAIN}\`)"
