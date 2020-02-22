@@ -61,6 +61,7 @@ test:
             -v $(pwd):/artifacts
             --volume ${CI_PROJECT_DIR}:/testresults:rw
             $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:${CI_PIPELINE_ID}_test
+        - ls $(pwd) -al
         - ls . -al
         - ls /
         - ls ${CI_PROJECT_DIR}
