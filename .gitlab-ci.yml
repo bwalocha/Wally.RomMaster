@@ -54,9 +54,11 @@ test:
         - export
     script:
         - docker build ./src --pull --target test -f $PROJECT_PATH/Dockerfile -t $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:${CI_PIPELINE_ID}_test
+        - echo ${CI_PROJECT_DIR}
+        - ls ${CI_PROJECT_DIR} -la
         - docker run
             --rm
-            --volume ${CI_PROJECT_DIR}:/testresults
+            --volume ${CI_PROJECT_DIR}/:/testresults/
             $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:${CI_PIPELINE_ID}_test
         - ls . -al
         - ls /
