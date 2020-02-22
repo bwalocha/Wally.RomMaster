@@ -57,6 +57,7 @@ test:
         - echo ${CI_PROJECT_DIR}
         - ls ${CI_PROJECT_DIR} -la
         - mkdir ./art1
+        - mkdir ./art1/abc
         - docker run
             --rm
             --volume ${CI_PROJECT_DIR}/art1:/testresults:rw

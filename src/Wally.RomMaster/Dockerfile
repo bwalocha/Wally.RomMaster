@@ -27,7 +27,7 @@ RUN echo "echo :" >> test.sh
 RUN echo "ls -al /" >> test.sh
 RUN echo "echo a:" >> test.sh
 RUN echo "ls -al /testresults" >> test.sh
-RUN echo "touch /testresults/zzz" >> test.sh
+RUN echo "touch /testresults/def" >> test.sh
 RUN echo "echo t:" >> test.sh
 RUN echo "ls -al /testresults" >> test.sh
 ENTRYPOINT ["sh", "test.sh"]
