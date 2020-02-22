@@ -55,16 +55,16 @@ test:
         - docker build ./src --pull --target test -f $PROJECT_PATH/Dockerfile -t $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:${CI_PIPELINE_ID}_test
         - docker run
             --rm
-            --volume "./testresults:/testresults:rw"
+            --volume "testresults:/testresults:rw"
             $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:${CI_PIPELINE_ID}_test
     artifacts:
         when: always
         expire_in: 30 days
         paths:
-            - ./testresults/**/*
+            - testresults/**/*
         reports:
             junit: 
-                - ./testresults/*-test-result.xml        
+                - testresults/*-test-result.xml        
     after_script:
         - docker logout $CI_REGISTRY
         
