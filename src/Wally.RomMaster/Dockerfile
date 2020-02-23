@@ -22,14 +22,14 @@ RUN dotnet build "Wally.RomMaster.csproj" -c Release -o /app/build
 FROM build AS test
 WORKDIR "/src"
 RUN echo "echo empty:" > test.sh
-RUN echo "ls -al /testresults" >> test.sh
-RUN echo "dotnet test --test-adapter-path:. --logger:'junit;LogFilePath=/testresults/{framework}-{assembly}-test-result.xml;MethodFormat=Full;FailureBodyFormat=Verbose' /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=/testresults/coverage/" >> test.sh
-RUN echo "/tools/reportgenerator -reports:/testresults/coverage/coverage.cobertura.xml -targetdir:/testresults/coverage/reports -reporttypes:'HTMLInline;HTMLChart'" >> test.sh
+RUN echo "ls -al /artifacts" >> test.sh
+RUN echo "dotnet test --test-adapter-path:. --logger:'junit;LogFilePath=/artifacts/{framework}-{assembly}-test-result.xml;MethodFormat=Full;FailureBodyFormat=Verbose' /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=/artifacts/coverage/" >> test.sh
+RUN echo "/tools/reportgenerator -reports:/artifacts/coverage/coverage.cobertura.xml -targetdir:/artifacts/coverage/reports -reporttypes:'HTMLInline;HTMLChart'" >> test.sh
 RUN echo "echo a:" >> test.sh
-RUN echo "ls -al /testresults" >> test.sh
-RUN echo "touch /testresults/2" >> test.sh
+RUN echo "ls -al /artifacts" >> test.sh
+RUN echo "touch /artifacts/2" >> test.sh
 RUN echo "echo t:" >> test.sh
-RUN echo "ls -al /testresults" >> test.sh
+RUN echo "ls -al /artifacts" >> test.sh
 ENTRYPOINT ["sh", "test.sh"]
 
 FROM build AS publish
