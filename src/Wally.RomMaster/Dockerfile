@@ -32,6 +32,7 @@ RUN echo "ls -al /testresults" >> test.sh
 RUN echo "touch /testresults/def" >> test.sh
 RUN echo "echo t:" >> test.sh
 RUN echo "ls -al /testresults" >> test.sh
+RUN echo "touch /testresults/x/aaa" >> test.sh
 ENTRYPOINT ["sh", "test.sh"]
 
 FROM build AS publish
