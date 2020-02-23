@@ -13,7 +13,7 @@ variables:
     SHARED_PATH: ${CI_PROJECT_DIR}/shared
 
 services:
-    - name: docker:19.03.0-dind
+    - name: docker:19.03.1-dind
 #      entrypoint: ["env", "-u", "DOCKER_HOST"]
 #      command: ["dockerd-entrypoint.sh"]
  
