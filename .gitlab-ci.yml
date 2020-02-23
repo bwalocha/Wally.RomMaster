@@ -15,7 +15,7 @@ variables:
     # DOCKER_TLS_CERTDIR: "/certs"
     # See https://github.com/docker-library/docker/pull/166
     #DOCKER_TLS_CERTDIR: ""
-    SHARED_PATH: /builds/shared/$CI_PROJECT_PATH
+    SHARED_PATH: ${CI_PROJECT_DIR}/shared
 
 services:
     - name: docker:19.03.0-dind
@@ -55,8 +55,6 @@ test:
     script:
         - echo ${DOCKER_DRIVER}
         - echo ${DOCKER_TLS_CERTDIR}
-        - export SHARED_PATH="$(dirname ${CI_PROJECT_DIR})/shared"
-        - export SHARED_PATH="${CI_PROJECT_DIR}/shared"
         - mkdir -p ${SHARED_PATH}
         - echo ${SHARED_PATH}
         - touch ${SHARED_PATH}/test_file
@@ -64,7 +62,7 @@ test:
         - docker build ./src --pull --target test -f $PROJECT_PATH/Dockerfile -t $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:${CI_PIPELINE_ID}_test
         - docker run
             --rm
-            --volume ${SHARED_PATH}:/artifacts:rw
+            --volume ${SHARED_PATH}:/mnt/artifacts:rw
             $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:${CI_PIPELINE_ID}_test
         - ls -al ${SHARED_PATH}
     artifacts:
