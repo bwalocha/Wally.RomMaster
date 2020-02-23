@@ -62,6 +62,8 @@ test:
             --volume /builds:/artifacts:rw
             $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:${CI_PIPELINE_ID}_test
         - ls -al /builds/wally
+        - ls -al /builds/wally/wally.rommaster
+        - ls -al /builds/wally/wally.rommaster.tmp
         - ls -al ${CI_PROJECT_DIR}
         - ls -al ${CI_PROJECT_DIR}/artifacts
     artifacts:
