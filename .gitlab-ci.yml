@@ -2,13 +2,13 @@ image: docker:19.03.1
 
 variables:
     PROJECT_PATH: ./src/Wally.RomMaster
-    CERT_PASS: ce43fbef-8a4a-4e9f-864d-9077e4b2d22e
-    DOMAIN: wally.best
-    DOCKER_NETWORK: traefik
+    #CERT_PASS: ce43fbef-8a4a-4e9f-864d-9077e4b2d22e
+    #DOMAIN: wally.best
+    #DOCKER_NETWORK: traefik
     # CI
-    CI_REGISTRY: wally.best:1050
-    CI_REGISTRY_USER: wally
-    CI_REGISTRY_PASSWORD: wally666
+    #CI_REGISTRY: wally.best:1050
+    #CI_REGISTRY_USER: wally
+    #CI_REGISTRY_PASSWORD: wally666
     # Use TLS https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#tls-enabled
     # DOCKER_HOST: tcp://docker:2376
     #DOCKER_DRIVER: overlay2
