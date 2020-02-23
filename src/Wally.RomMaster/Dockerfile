@@ -27,7 +27,7 @@ RUN echo "dotnet test --test-adapter-path:. --logger:'junit;LogFilePath=/testres
 RUN echo "/tools/reportgenerator -reports:/testresults/coverage/coverage.cobertura.xml -targetdir:/testresults/coverage/reports -reporttypes:'HTMLInline;HTMLChart'" >> test.sh
 RUN echo "echo a:" >> test.sh
 RUN echo "ls -al /testresults" >> test.sh
-RUN echo "touch /testresults/1" >> test.sh
+RUN echo "touch /testresults/2" >> test.sh
 RUN echo "echo t:" >> test.sh
 RUN echo "ls -al /testresults" >> test.sh
 ENTRYPOINT ["sh", "test.sh"]

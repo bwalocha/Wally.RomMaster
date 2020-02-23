@@ -120,11 +120,11 @@ deploy:
             --detach
             --name ${CI_PROJECT_PATH_SLUG}
             --network ${DOCKER_NETWORK}
-            --volume "/share/Container/Wally.DevOps/auth/webserver.pfx:/cert/webserver.pfx:ro"
+            --volume "/share/Container/Wally.DevOps/auth/webserver.pfx:/certs/webserver.pfx:ro"
             --env "ASPNETCORE_ENVIRONMENT=Development"
             --env "ASPNETCORE_HTTPS_PORT=443"
             --env "ASPNETCORE_URLS=http://+:80;https://+:443"
-            --env "ASPNETCORE_Kestrel__Certificates__Default__Path=/cert/webserver.pfx"
+            --env "ASPNETCORE_Kestrel__Certificates__Default__Path=/certs/webserver.pfx"
             --env "ASPNETCORE_Kestrel__Certificates__Default__Password=${CERT_PASS}"
             --label "traefik.enable=true"
             --label "traefik.http.routers.${CI_PROJECT_PATH_SLUG}.entrypoints=http"
