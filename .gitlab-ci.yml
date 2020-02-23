@@ -56,6 +56,7 @@ test:
         - echo ${DOCKER_DRIVER}
         - echo ${DOCKER_TLS_CERTDIR}
         - export SHARED_PATH="$(dirname ${CI_PROJECT_DIR})/shared"
+        - export SHARED_PATH="${CI_PROJECT_DIR}/shared"
         - mkdir -p ${SHARED_PATH}
         - echo ${SHARED_PATH}
         - touch ${SHARED_PATH}/test_file
