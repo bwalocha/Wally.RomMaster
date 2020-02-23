@@ -4,18 +4,17 @@ variables:
     PROJECT_PATH: ./src/Wally.RomMaster
     CERT_PASS: ce43fbef-8a4a-4e9f-864d-9077e4b2d22e
     DOMAIN: wally.best
-    # TRAEFIK
-    TRAEFIK_NETWORK: traefik
+    DOCKER_NETWORK: traefik
     # CI
     CI_REGISTRY: wally.best:1050
     CI_REGISTRY_USER: wally
     CI_REGISTRY_PASSWORD: wally666
     # Use TLS https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#tls-enabled
     # DOCKER_HOST: tcp://docker:2376
-    DOCKER_DRIVER: overlay2
+    #DOCKER_DRIVER: overlay2
     # DOCKER_TLS_CERTDIR: "/certs"
     # See https://github.com/docker-library/docker/pull/166
-    DOCKER_TLS_CERTDIR: ""
+    #DOCKER_TLS_CERTDIR: ""
 
 services:
     - name: docker:19.03.0-dind
@@ -53,12 +52,13 @@ test:
         - docker info
         - export
     script:
+        - echo ${DOCKER_DRIVER}
+        - echo ${DOCKER_TLS_CERTDIR}
         - docker build ./src --pull --target test -f $PROJECT_PATH/Dockerfile -t $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:${CI_PIPELINE_ID}_test
         - mkdir ${CI_PROJECT_DIR}/artifacts
-        - mkdir ${CI_PROJECT_DIR}/artifacts/123
         - docker run
             --rm
-            --volume ${CI_PROJECT_DIR}/artifacts:/testresults/x:rw
+            --volume ${CI_PROJECT_DIR}/artifacts:/testresults:rw
             $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:${CI_PIPELINE_ID}_test
         - ls -al ${CI_PROJECT_DIR}
         - ls -al ${CI_PROJECT_DIR}/artifacts
@@ -119,7 +119,7 @@ deploy:
         - $DOCKER run
             --detach
             --name ${CI_PROJECT_PATH_SLUG}
-            --network ${TRAEFIK_NETWORK}
+            --network ${DOCKER_NETWORK}
             --volume "/share/Container/Wally.DevOps/auth/webserver.pfx:/cert/webserver.pfx:ro"
             --env "ASPNETCORE_ENVIRONMENT=Development"
             --env "ASPNETCORE_HTTPS_PORT=443"
