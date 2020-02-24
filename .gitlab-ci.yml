@@ -57,7 +57,8 @@ test:
         - docker build ./src --pull --target test -f $PROJECT_PATH/Dockerfile -t $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:${CI_PIPELINE_ID}_test
         - docker run
             --rm
-            --volume ${SHARED_PATH}:/mnt/artifacts2:rw
+            --volume /var/run/docker.sock:/var/run/docker.sock
+            --volume ${SHARED_PATH}:/mnt/artifacts3:rw
             $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:${CI_PIPELINE_ID}_test
         - ls -al ${SHARED_PATH}
     artifacts:
