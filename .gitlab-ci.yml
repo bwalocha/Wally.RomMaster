@@ -5,23 +5,10 @@ variables:
     # Registry
     CI_REGISTRY_USER: wally
     CI_REGISTRY_PASSWORD: wally666
-    # Use TLS https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#tls-enabled
-    # DOCKER_HOST: tcp://docker:2376
-    # DOCKER_TLS_CERTDIR: "/certs"
-    # See https://github.com/docker-library/docker/pull/166
-    #DOCKER_TLS_CERTDIR: ""
-    #DOCKER_TLS_VERIFY: 0
-    #DOCKER_HOST: tcp://docker:2375/
-    # DOCKER_HOST: tcp://localhost:2375
-    #DOCKER_VERSION: 19.03.6 # Must match the version in the runner config.toml
     SHARED_PATH: ${CI_PROJECT_DIR}/shared
 
 services:
     - docker:19.03.6-dind
-#services:
-#    - name: docker:19.03.1-dind
-#      entrypoint: ["env", "-u", "DOCKER_HOST"]
-#      command: ["dockerd-entrypoint.sh"]
  
 stages:
     - build
@@ -83,7 +70,7 @@ pages:
     dependencies:
         - build
     script:
-        - mv ${CI_PROJECT_DIR}/artifacts/coverage/reports/ public/
+        - mv ${SHARED_PATH}/coverage/reports/ public/
     artifacts:
         when: always
         expire_in: 30 days
