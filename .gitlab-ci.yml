@@ -54,9 +54,12 @@ pages:
     stage: release
     tags:
         - docker
+    allow_failure: true
     dependencies:
         - test
-    needs: ["test"]
+    needs:
+        - job: test
+        artifacts: true
     variables:
         GIT_STRATEGY: none
         GIT_CHECKOUT: "false"
@@ -76,7 +79,9 @@ release:
         - master
     dependencies:
         - test
-    needs: ["test"]
+    needs:
+        - job: test
+        artifacts: false
     before_script:
         - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
     script:
