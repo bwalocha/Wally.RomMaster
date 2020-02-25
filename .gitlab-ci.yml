@@ -7,9 +7,10 @@ variables:
     CI_REGISTRY_PASSWORD: wally666
     # Use TLS https://docs.gitlab.com/ee/ci/docker/using_docker_build.html#tls-enabled
     # DOCKER_HOST: tcp://docker:2376
-    DOCKER_TLS_CERTDIR: "/certs"
+    # DOCKER_TLS_CERTDIR: "/certs"
     # See https://github.com/docker-library/docker/pull/166
-    #DOCKER_TLS_CERTDIR: ""
+    DOCKER_TLS_CERTDIR: ""
+    DOCKER_TLS_VERIFY: 0
     SHARED_PATH: ${CI_PROJECT_DIR}/shared
 
 services:
