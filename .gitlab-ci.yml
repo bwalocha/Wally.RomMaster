@@ -9,8 +9,10 @@ variables:
     # DOCKER_HOST: tcp://docker:2376
     # DOCKER_TLS_CERTDIR: "/certs"
     # See https://github.com/docker-library/docker/pull/166
-    DOCKER_TLS_CERTDIR: ""
-    DOCKER_TLS_VERIFY: 0
+    #DOCKER_TLS_CERTDIR: ""
+    #DOCKER_TLS_VERIFY: 0
+    DOCKER_HOST: tcp://docker:2375/
+    # DOCKER_HOST: tcp://localhost:2375
     SHARED_PATH: ${CI_PROJECT_DIR}/shared
 
 services:
