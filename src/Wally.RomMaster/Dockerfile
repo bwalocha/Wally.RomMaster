@@ -22,10 +22,9 @@ RUN dotnet build "Wally.RomMaster.csproj" -c Release -o /app/build
 FROM build AS test
 WORKDIR "/src"
 RUN echo "echo empty? or test_file?:" > test.sh
-# RUN echo "find /" >> test.sh
+RUN echo "find /mnt" >> test.sh
 RUN echo "dotnet test --test-adapter-path:. --logger:'junit;LogFilePath=/mnt/artifacts/{framework}-{assembly}-test-result.xml;MethodFormat=Full;FailureBodyFormat=Verbose' /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=/mnt/artifacts/coverage/" >> test.sh
 RUN echo "/tools/reportgenerator -reports:/mnt/artifacts/coverage/coverage.cobertura.xml -targetdir:/mnt/artifacts/coverage/reports -reporttypes:'HTMLInline;HTMLChart'" >> test.sh
-RUN echo "touch /mnt/artifacts3/xxx" >> test.sh
 RUN echo "find /mnt" >> test.sh
 ENTRYPOINT ["sh", "test.sh"]
 

@@ -1,4 +1,4 @@
-image: docker:19.03.1
+image: docker:19.03.6
 
 variables:
     PROJECT_PATH: ./src/Wally.RomMaster
@@ -12,6 +12,8 @@ variables:
     #DOCKER_TLS_CERTDIR: ""
     SHARED_PATH: ${CI_PROJECT_DIR}/shared
 
+services:
+    - docker:19.03.6-dind
 #services:
 #    - name: docker:19.03.1-dind
 #      entrypoint: ["env", "-u", "DOCKER_HOST"]
@@ -57,8 +59,7 @@ test:
         - docker build ./src --pull --target test -f $PROJECT_PATH/Dockerfile -t $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:${CI_PIPELINE_ID}_test
         - docker run
             --rm
-            --volume /var/run/docker.sock:/var/run/docker.sock
-            --volume ${SHARED_PATH}:/mnt/artifacts3:rw
+            --volume ${SHARED_PATH}:/mnt/artifacts:rw
             $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:${CI_PIPELINE_ID}_test
         - ls -al ${SHARED_PATH}
     artifacts:
