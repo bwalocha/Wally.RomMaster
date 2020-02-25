@@ -34,7 +34,7 @@ test:
         - docker run
             --rm
             --volume ${SHARED_PATH}:/mnt/artifacts:rw
-            $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:${CI_PIPELINE_ID}_test
+            ${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}:${CI_PIPELINE_ID}_test
     artifacts:
         when: always
         expire_in: 30 days
@@ -71,8 +71,6 @@ release:
         - docker
     only:
         - master
-    dependencies:
-        - test
     needs:
         - job: test
           artifacts: false
@@ -101,9 +99,9 @@ deploy:
         DOCKER: "/share/CACHEDEV1_DATA/.qpkg/container-station/bin/docker"
     script:
         - export
-        - $DOCKER login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
+        - $DOCKER login ${CI_REGISTRY} -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
         - $DOCKER stop ${CI_PROJECT_PATH_SLUG} || true && $DOCKER rm ${CI_PROJECT_PATH_SLUG} || true
-        - $DOCKER run
+        - echo $DOCKER run
             --detach
             --name ${CI_PROJECT_PATH_SLUG}
             --network ${DOCKER_NETWORK}
@@ -121,5 +119,5 @@ deploy:
             --label "_traefik.http.routers.${CI_PROJECT_PATH_SLUG}-secure.rule=Host(\`${CI_PROJECT_PATH_SLUG}.${DOMAIN}\`)"
             --label "_traefik.http.routers.${CI_PROJECT_PATH_SLUG}-secure.tls=true"
             --label "_traefik.http.services.${CI_PROJECT_PATH_SLUG}-secure.loadbalancer.server.port=443"
-            $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$CI_PIPELINE_ID
-        - $DOCKER logout $CI_REGISTRY
+            ${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}:${CI_PIPELINE_ID}
+        - $DOCKER logout ${CI_REGISTRY}
