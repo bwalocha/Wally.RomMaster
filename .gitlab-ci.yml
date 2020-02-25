@@ -11,9 +11,6 @@ stages:
     - release
     - deploy
 
-before_script:
-    - export
-
 build:
     stage: build
     tags: 
@@ -23,14 +20,13 @@ build:
     script:
         - docker build ./src --pull -f $PROJECT_PATH/Dockerfile -t $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$CI_PIPELINE_ID
         - docker push $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$CI_PIPELINE_ID
+    after_script:
+        - docker logout $CI_REGISTRY
         
 test:
     stage: test
     tags:
         - docker
-    dependencies:
-        - build
-    needs: ["build"]
     before_script:
         - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
     script:
@@ -55,8 +51,6 @@ pages:
     tags:
         - docker
     allow_failure: true
-    dependencies:
-        - test
     needs:
         - job: test
           artifacts: true
@@ -97,10 +91,10 @@ deploy:
         - ssh
     only:
         - master
+    environment:
+        name: prod
+        url: https://${CI_PROJECT_PATH_SLUG}.${DOMAIN}
     when: manual
-    dependencies:
-        - release
-    needs: ["release"]
     variables:
         GIT_STRATEGY: none
         GIT_CHECKOUT: "false"
