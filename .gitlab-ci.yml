@@ -1,5 +1,3 @@
-image: docker:19.03.6
-
 variables:
     PROJECT_PATH: ./src/Wally.RomMaster
     # Registry
@@ -7,9 +5,6 @@ variables:
     CI_REGISTRY_PASSWORD: wally666
     SHARED_PATH: ${CI_PROJECT_DIR}/shared
 
-#services:
-#    - docker:19.03.6-dind
- 
 stages:
     - build
     - test
@@ -35,6 +30,7 @@ test:
         - docker
     dependencies:
         - build
+    needs: ["build"]
     before_script:
         - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
     script:
@@ -60,6 +56,7 @@ pages:
         - docker
     dependencies:
         - test
+    needs: ["test"]
     variables:
         GIT_STRATEGY: none
         GIT_CHECKOUT: "false"
@@ -79,6 +76,7 @@ release:
         - master
     dependencies:
         - test
+    needs: ["test"]
     before_script:
         - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
     script:
@@ -97,6 +95,7 @@ deploy:
     when: manual
     dependencies:
         - release
+    needs: ["release"]
     variables:
         GIT_STRATEGY: none
         GIT_CHECKOUT: "false"
