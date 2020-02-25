@@ -70,8 +70,6 @@ pages:
     variables:
         GIT_STRATEGY: none
         GIT_CHECKOUT: "false"
-    dependencies:
-        - test
     script:
         - mv ${SHARED_PATH}/coverage/reports/ public/
     artifacts:
