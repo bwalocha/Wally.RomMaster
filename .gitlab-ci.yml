@@ -67,8 +67,11 @@ test:
         
 pages:
     stage: release
+    variables:
+        GIT_STRATEGY: none
+        GIT_CHECKOUT: "false"
     dependencies:
-        - build
+        - test
     script:
         - mv ${SHARED_PATH}/coverage/reports/ public/
     artifacts:
