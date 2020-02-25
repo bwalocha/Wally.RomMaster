@@ -33,6 +33,8 @@ test:
     stage: test
     tags:
         - docker
+    dependencies:
+        - build
     before_script:
         - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
     script:
@@ -56,6 +58,8 @@ pages:
     stage: release
     tags:
         - docker
+    dependencies:
+        - test
     variables:
         GIT_STRATEGY: none
         GIT_CHECKOUT: "false"
@@ -73,6 +77,8 @@ release:
         - docker
     only:
         - master
+    dependencies:
+        - test
     before_script:
         - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
     script:
@@ -89,6 +95,8 @@ deploy:
     only:
         - master
     when: manual
+    dependencies:
+        - release
     variables:
         GIT_STRATEGY: none
         GIT_CHECKOUT: "false"
