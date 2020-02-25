@@ -28,7 +28,7 @@ test:
     tags:
         - docker
     before_script:
-        - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
+        - docker login ${CI_REGISTRY} -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
     script:
         - docker build ./src --pull --target test -f $PROJECT_PATH/Dockerfile -t $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:${CI_PIPELINE_ID}_test
         - docker run
@@ -44,7 +44,7 @@ test:
             junit: 
                 - ${SHARED_PATH}/*-test-result.xml        
     after_script:
-        - docker logout $CI_REGISTRY
+        - docker logout ${CI_REGISTRY}
         
 pages:
     stage: release
@@ -75,13 +75,13 @@ release:
         - job: test
           artifacts: false
     before_script:
-        - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
+        - docker login ${CI_REGISTRY} -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
     script:
         - docker pull $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$CI_PIPELINE_ID
         - docker tag $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$CI_PIPELINE_ID $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:latest
         - docker push $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$CI_PIPELINE_ID
     after_script:
-        - docker logout $CI_REGISTRY
+        - docker logout ${CI_REGISTRY}
         
 deploy:
     stage: deploy
@@ -91,12 +91,11 @@ deploy:
         - master
     environment:
         name: prod
-        url: https://${CI_PROJECT_PATH_SLUG}.${DOMAIN}
-    #when: manual
+        url: "https://${CI_PROJECT_PATH_SLUG}.${DOMAIN}"
+    when: manual
     variables:
         GIT_STRATEGY: none
         GIT_CHECKOUT: "false"
-        DOCKER: "/share/CACHEDEV1_DATA/.qpkg/container-station/bin/docker"
     script:
         - export
         - $DOCKER login ${CI_REGISTRY} -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
