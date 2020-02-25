@@ -92,7 +92,7 @@ deploy:
     environment:
         name: prod
         url: https://${CI_PROJECT_PATH_SLUG}.${DOMAIN}
-    when: manual
+    #when: manual
     variables:
         GIT_STRATEGY: none
         GIT_CHECKOUT: "false"
@@ -101,7 +101,7 @@ deploy:
         - export
         - $DOCKER login ${CI_REGISTRY} -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
         - $DOCKER stop ${CI_PROJECT_PATH_SLUG} || true && $DOCKER rm ${CI_PROJECT_PATH_SLUG} || true
-        - echo $DOCKER run
+        - $DOCKER run
             --detach
             --name ${CI_PROJECT_PATH_SLUG}
             --network ${DOCKER_NETWORK}
