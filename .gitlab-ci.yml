@@ -59,7 +59,7 @@ pages:
         - test
     needs:
         - job: test
-        artifacts: true
+          artifacts: true
     variables:
         GIT_STRATEGY: none
         GIT_CHECKOUT: "false"
@@ -81,7 +81,7 @@ release:
         - test
     needs:
         - job: test
-        artifacts: false
+          artifacts: false
     before_script:
         - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
     script:
