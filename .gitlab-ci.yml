@@ -92,7 +92,6 @@ deploy:
         - ssh
     only:
         - master
-    allow_failure: false
     environment:
         name: prod
         url: "https://${CI_PROJECT_PATH_SLUG}.${DOMAIN}"
