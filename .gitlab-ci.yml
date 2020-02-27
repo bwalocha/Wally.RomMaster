@@ -48,8 +48,9 @@ test:
                 - ${SHARED_PATH}/*-test-result.xml        
     after_script:
         - docker logout ${CI_REGISTRY}
-        
-report:
+       
+#report:       
+pages:
     stage: publish
     tags:
         - docker
