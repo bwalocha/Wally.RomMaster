@@ -4,6 +4,9 @@ variables:
     CI_REGISTRY_USER: wally
     CI_REGISTRY_PASSWORD: wally666
     SHARED_PATH: ${CI_PROJECT_DIR}/shared
+    DOCKER_IMAGE: ${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}
+    DOCKER_IMAGE_TAGGED: ${DOCKER_IMAGE}:${CI_PIPELINE_ID}
+    DOCKER_IMAGE_LATEST: ${DOCKER_IMAGE}:latest
 
 stages:
     - build
@@ -16,12 +19,12 @@ build:
     tags: 
         - docker
     before_script:
-        - docker login $CI_REGISTRY -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
+        - docker login ${CI_REGISTRY} -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
     script:
-        - docker build ./src --pull -f $PROJECT_PATH/Dockerfile -t $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$CI_PIPELINE_ID
-        - docker push $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$CI_PIPELINE_ID
+        - docker build ./src --pull -f ${PROJECT_PATH}/Dockerfile -t ${DOCKER_IMAGE_TAGGED}
+        - docker push ${DOCKER_IMAGE_TAGGED}
     after_script:
-        - docker logout $CI_REGISTRY
+        - docker logout ${CI_REGISTRY}
         
 test:
     stage: test
@@ -30,11 +33,11 @@ test:
     before_script:
         - docker login ${CI_REGISTRY} -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
     script:
-        - docker build ./src --pull --target test -f $PROJECT_PATH/Dockerfile -t $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:${CI_PIPELINE_ID}_test
+        - docker build ./src --pull --target test -f ${PROJECT_PATH}/Dockerfile -t ${DOCKER_IMAGE_TEST}
         - docker run
             --rm
             --volume ${SHARED_PATH}:/mnt/artifacts:rw
-            ${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}:${CI_PIPELINE_ID}_test
+            ${DOCKER_IMAGE_TEST}
     artifacts:
         when: always
         expire_in: 30 days
@@ -56,7 +59,7 @@ report:
           artifacts: true
     variables:
         GIT_STRATEGY: none
-        GIT_CHECKOUT: "false"
+        GIT_CHECKOUT: false
     script:
         - mv ${SHARED_PATH}/coverage/reports/ public/
     artifacts:
@@ -77,9 +80,9 @@ release:
     before_script:
         - docker login ${CI_REGISTRY} -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
     script:
-        - docker pull $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$CI_PIPELINE_ID
-        - docker tag $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$CI_PIPELINE_ID $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:latest
-        - docker push $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:$CI_PIPELINE_ID
+        - docker pull ${DOCKER_IMAGE_TAGGED}
+        - docker tag ${DOCKER_IMAGE_TAGGED} ${DOCKER_IMAGE_LATEST}
+        - docker push ${DOCKER_IMAGE_TAGGED}
     after_script:
         - docker logout ${CI_REGISTRY}
         
@@ -89,6 +92,7 @@ deploy:
         - ssh
     only:
         - master
+    allow_failure: false
     environment:
         name: prod
         url: "https://${CI_PROJECT_PATH_SLUG}.${DOMAIN}"
@@ -118,5 +122,5 @@ deploy:
             --label "_traefik.http.routers.${CI_PROJECT_PATH_SLUG}-secure.rule=Host(\`${CI_PROJECT_PATH_SLUG}.${DOMAIN}\`)"
             --label "_traefik.http.routers.${CI_PROJECT_PATH_SLUG}-secure.tls=true"
             --label "_traefik.http.services.${CI_PROJECT_PATH_SLUG}-secure.loadbalancer.server.port=443"
-            ${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}:${CI_PIPELINE_ID}
+            ${DOCKER_IMAGE_TAGGED}
         - $DOCKER logout ${CI_REGISTRY}
