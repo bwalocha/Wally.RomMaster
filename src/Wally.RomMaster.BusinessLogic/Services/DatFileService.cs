@@ -23,6 +23,11 @@ namespace Wally.RomMaster.BusinessLogic.Services
 
         protected override IEnumerable<Folder> GetFolders(IOptions<AppSettings> appSettings)
         {
+            if (appSettings == null)
+            {
+                throw new ArgumentNullException(nameof(appSettings));
+            }
+
             return appSettings.Value.DatRoots;
         }
 
