@@ -1,9 +1,9 @@
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1.2-buster-slim AS base
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster-slim AS build
+FROM mcr.microsoft.com/dotnet/core/sdk:3.0.103-buster AS build
 # install the report generator tool
 RUN dotnet tool install dotnet-reportgenerator-globaltool --version 4.3.9 --tool-path /tools
 
