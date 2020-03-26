@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ContentModelStore">
+    <e p="C:\repo\wally\wally.rommaster\src" t="IncludeFlat">
+      <e p=".dockerignore" t="Include" />
+      <e p="AssemblyInfo.cs" t="Include" />
+      <e p="Directory.Build.props" t="Include" />
+      <e p="global.json" t="Include" />
+      <e p="packages" t="ExcludeRecursive" />
+      <e p="Solution Items" t="Include" />
+      <e p="stylecop.json" t="Include" />
+      <e p="StyleCop.ruleset" t="Include" />
+      <e p="Wally.Database" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="IEntity.cs" t="Include" />
+        <e p="IIncluder.cs" t="Include" />
+        <e p="Includer.cs" t="Include" />
+        <e p="IReadRepository.cs" t="Include" />
+        <e p="IRepository.cs" t="Include" />
+        <e p="IThenIncluder.cs" t="Include" />
+        <e p="IUnitOfWork.cs" t="Include" />
+        <e p="IUnitOfWorkFactory.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netstandard2.1" t="Include">
+              <e p="Wally.Database.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Properties" t="Include" />
+        <e p="ReadRepository.cs" t="Include" />
+        <e p="Repository.cs" t="Include" />
+        <e p="ThenIncluder.cs" t="Include" />
+        <e p="UnitOfWork.cs" t="Include" />
+        <e p="Wally.Database.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="Wally.RazorComponent.Grid" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Grid.cs" t="Include" />
+        <e p="Grid.razor" t="Include" />
+        <e p="GridColumn.cs" t="Include" />
+        <e p="GridOptions.cs" t="Include" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.0" t="Include">
+              <e p="RazorDeclaration" t="Include">
+                <e p="Grid.razor.g.cs" t="Include" />
+              </e>
+              <e p="Wally.RazorComponent.Grid.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Properties" t="Include">
+          <e p="launchSettings.json" t="Include" />
+        </e>
+        <e p="Wally.RazorComponent.Grid.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="wally.rommaster" t="IncludeRecursive">
+        <e p="_Imports.razor" t="Include" />
+        <e p="App.razor" t="Include" />
+        <e p="appsettings.Development.json" t="Include" />
+        <e p="appsettings.json" t="Include" />
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Dockerfile" t="Include" />
+        <e p="Mappers" t="Include">
+          <e p="DatProfile.cs" t="Include" />
+          <e p="GameProfile.cs" t="Include" />
+          <e p="RomProfile.cs" t="Include" />
+        </e>
+        <e p="Models" t="Include">
+          <e p="BaseViewModel.cs" t="Include" />
+          <e p="DatViewModel.cs" t="Include" />
+          <e p="GameViewModel.cs" t="Include" />
+          <e p="RomViewModel.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.0" t="Include">
+              <e p="RazorDeclaration" t="Include">
+                <e p="_Imports.razor.g.cs" t="Include" />
+                <e p="App.razor.g.cs" t="Include" />
+                <e p="Pages" t="Include">
+                  <e p="_Imports.razor.g.cs" t="Include" />
+                  <e p="Counter.razor.g.cs" t="Include" />
+                  <e p="DatList.razor.g.cs" t="Include" />
+                  <e p="DatListDetails.razor.g.cs" t="Include" />
+                  <e p="Debugger.razor.g.cs" t="Include" />
+                  <e p="GameDetails.razor.g.cs" t="Include" />
+                  <e p="Index.razor.g.cs" t="Include" />
+                </e>
+                <e p="Shared" t="Include">
+                  <e p="MainLayout.razor.g.cs" t="Include" />
+                  <e p="NavMenu.razor.g.cs" t="Include" />
+                </e>
+              </e>
+              <e p="Wally.RomMaster.AssemblyInfo.cs" t="Include" />
+              <e p="Wally.RomMaster.RazorAssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Pages" t="Include">
+          <e p="_Host.cshtml" t="Include" />
+          <e p="_Imports.razor" t="Include" />
+          <e p="Counter.razor" t="Include" />
+          <e p="DatList.cs" t="Include" />
+          <e p="DatList.razor" t="Include" />
+          <e p="DatListDetails.cs" t="Include" />
+          <e p="DatListDetails.razor" t="Include" />
+          <e p="Debugger.cs" t="Include" />
+          <e p="Debugger.razor" t="Include" />
+          <e p="GameDetails.cs" t="Include" />
+          <e p="GameDetails.razor" t="Include" />
+          <e p="Index.razor" t="Include" />
+        </e>
+        <e p="Program.cs" t="Include" />
+        <e p="Properties" t="Include">
+          <e p="launchSettings.json" t="Include" />
+        </e>
+        <e p="rommaster.sqlite" t="Include" />
+        <e p="Shared" t="Include">
+          <e p="MainLayout.razor" t="Include" />
+          <e p="NavMenu.razor" t="Include" />
+        </e>
+        <e p="Startup.cs" t="Include" />
+        <e p="Wally.RomMaster.csproj" t="IncludeRecursive" />
+        <e p="wwwroot" t="Include">
+          <e p="css" t="Include">
+            <e p="bootstrap" t="Include">
+              <e p="bootstrap.min.css" t="Include" />
+              <e p="bootstrap.min.css.map" t="Include" />
+            </e>
+            <e p="open-iconic" t="Include">
+              <e p="font" t="Include">
+                <e p="css" t="Include">
+                  <e p="open-iconic-bootstrap.min.css" t="Include" />
+                </e>
+                <e p="fonts" t="Include">
+                  <e p="open-iconic.eot" t="Include" />
+                  <e p="open-iconic.otf" t="Include" />
+                  <e p="open-iconic.svg" t="Include" />
+                  <e p="open-iconic.ttf" t="Include" />
+                  <e p="open-iconic.woff" t="Include" />
+                </e>
+              </e>
+              <e p="FONT-LICENSE" t="Include" />
+              <e p="ICON-LICENSE" t="Include" />
+              <e p="README.md" t="Include" />
+            </e>
+            <e p="site.css" t="Include" />
+          </e>
+          <e p="favicon.ico" t="Include" />
+        </e>
+      </e>
+      <e p="Wally.RomMaster.BusinessLogic" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netstandard2.1" t="Include">
+              <e p="Wally.RomMaster.BusinessLogic.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Properties" t="Include" />
+        <e p="Services" t="Include">
+          <e p="ClientService.cs" t="Include" />
+          <e p="DatFileService.cs" t="Include" />
+          <e p="DebuggerService.cs" t="Include" />
+          <e p="FileService.cs" t="Include" />
+          <e p="FileWatcherService.cs" t="Include" />
+          <e p="FixService.cs" t="Include" />
+          <e p="RomFileService.cs" t="Include" />
+          <e p="TimedLogger.cs" t="Include" />
+          <e p="ToSortFileService.cs" t="Include" />
+        </e>
+        <e p="Wally.RomMaster.BusinessLogic.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="Wally.RomMaster.Database" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="DatabaseContext.cs" t="Include" />
+        <e p="DatabaseContextFactory.cs" t="Include" />
+        <e p="Mappings" t="Include">
+          <e p="DatMapping.cs" t="Include" />
+          <e p="FileMapping.cs" t="Include" />
+          <e p="GameMapping.cs" t="Include" />
+          <e p="RomMapping.cs" t="Include" />
+        </e>
+        <e p="Migrations" t="Include">
+          <e p="20190427104844_Initial.cs" t="Include" />
+          <e p="20190427104844_Initial.Designer.cs" t="Include" />
+          <e p="20190427152905_FileCrcSizeIndex.cs" t="Include" />
+          <e p="20190427152905_FileCrcSizeIndex.Designer.cs" t="Include" />
+          <e p="20190427194732_RomCrcSizeIndex.cs" t="Include" />
+          <e p="20190427194732_RomCrcSizeIndex.Designer.cs" t="Include" />
+          <e p="20190427214224_FileCrcSizeNoUnique.cs" t="Include" />
+          <e p="20190427214224_FileCrcSizeNoUnique.Designer.cs" t="Include" />
+          <e p="DatabaseContextModelSnapshot.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.0" t="Include">
+              <e p="Wally.RomMaster.Database.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Properties" t="Include" />
+        <e p="UnitOfWorkFactory.cs" t="Include" />
+        <e p="Wally.RomMaster.Database.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="Wally.RomMaster.DatFileParser" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="ClrMameProParser" t="Include">
+          <e p="Parser.cs" t="Include" />
+        </e>
+        <e p="LogiqxXMLParser" t="Include">
+          <e p="datafile.dtd" t="Include" />
+          <e p="Parser.cs" t="Include" />
+        </e>
+        <e p="Models" t="Include">
+          <e p="DataFile.cs" t="Include" />
+          <e p="Disk.cs" t="Include" />
+          <e p="Game.cs" t="Include" />
+          <e p="Header.cs" t="Include" />
+          <e p="Rom.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netstandard2.1" t="Include">
+              <e p="Wally.RomMaster.DatFileParser.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Parser.cs" t="Include" />
+        <e p="Properties" t="Include" />
+        <e p="Wally.RomMaster.DatFileParser.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="Wally.RomMaster.Domain" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Interfaces" t="Include">
+          <e p="IDebuggerService.cs" t="Include" />
+        </e>
+        <e p="Models" t="Include">
+          <e p="AppSettings.cs" t="Include" />
+          <e p="Dat.cs" t="Include" />
+          <e p="Exclude.cs" t="Include" />
+          <e p="File.cs" t="Include" />
+          <e p="FileQueueItem.cs" t="Include" />
+          <e p="Folder.cs" t="Include" />
+          <e p="Game.cs" t="Include" />
+          <e p="Rom.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netstandard2.1" t="Include">
+              <e p="Wally.RomMaster.Domain.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Properties" t="Include" />
+        <e p="Wally.RomMaster.Domain.csproj" t="IncludeRecursive" />
+      </e>
+      <e p="Wally.RomMaster.sln" t="IncludeFlat" />
+      <e p="Wally.RomMaster.Tests" t="IncludeRecursive">
+        <e p="bin" t="ExcludeRecursive" />
+        <e p="Domain" t="Include">
+          <e p="ExcludeTest.cs" t="Include" />
+        </e>
+        <e p="obj" t="ExcludeRecursive">
+          <e p="Debug" t="Include">
+            <e p="netcoreapp3.0" t="Include">
+              <e p="Wally.RomMaster.Tests.AssemblyInfo.cs" t="Include" />
+            </e>
+          </e>
+        </e>
+        <e p="Properties" t="Include" />
+        <e p="Wally.RomMaster.Tests.csproj" t="IncludeRecursive" />
+      </e>
+    </e>
+    <e p="C:\Users\wally\.nuget\packages\junitxml.testlogger\2.1.15\build\_common\Microsoft.VisualStudio.TestPlatform.Extension.JUnit.Xml.TestAdapter.dll" t="Include" />
+    <e p="C:\Users\wally\.nuget\packages\junitxml.testlogger\2.1.15\build\_common\Microsoft.VisualStudio.TestPlatform.Extension.JUnit.Xml.TestLogger.dll" t="Include" />
+    <e p="C:\Users\wally\.nuget\packages\microsoft.net.test.sdk\16.5.0\build\netcoreapp2.1" t="Include">
+      <e p="Microsoft.NET.Test.Sdk.Program.cs" t="Include" />
+    </e>
+    <e p="C:\Users\wally\.nuget\packages\microsoft.testplatform.testhost\16.5.0\build\netcoreapp2.1\x64\testhost.dll" t="Include" />
+    <e p="C:\Users\wally\.nuget\packages\microsoft.testplatform.testhost\16.5.0\build\netcoreapp2.1\x64\testhost.exe" t="Include" />
+    <e p="C:\Users\wally\.nuget\packages\xunit.runner.visualstudio\2.4.1\build\netcoreapp1.0\xunit.runner.reporters.netcoreapp10.dll" t="Include" />
+    <e p="C:\Users\wally\.nuget\packages\xunit.runner.visualstudio\2.4.1\build\netcoreapp1.0\xunit.runner.utility.netcoreapp10.dll" t="Include" />
+    <e p="C:\Users\wally\.nuget\packages\xunit.runner.visualstudio\2.4.1\build\netcoreapp1.0\xunit.runner.visualstudio.dotnetcore.testadapter.dll" t="Include" />
+    <e p="C:\Users\wally\.Rider2019.3\system\extResources" t="IncludeRecursive" />
+    <e p="C:\Users\wally\.Rider2019.3\system\resharper-host\local\Transient\ReSharperHost\v193\SolutionCaches\_Wally.RomMaster.-2138556524.00" t="ExcludeRecursive" />
+  </component>
+</project>
