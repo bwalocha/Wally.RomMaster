@@ -101,7 +101,6 @@ deploy:
         GIT_STRATEGY: none
         GIT_CHECKOUT: "false"
     script:
-        - export
         - $DOCKER login ${CI_REGISTRY} -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
         - $DOCKER stop ${CI_PROJECT_PATH_SLUG} || true && $DOCKER rm ${CI_PROJECT_PATH_SLUG} || true
         - $DOCKER run

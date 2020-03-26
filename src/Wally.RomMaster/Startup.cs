@@ -44,8 +44,7 @@ namespace Wally.RomMaster
             services
                 .AddDbContext<DatabaseContext>(options =>
                 {
-                    options.UseSqlite(Configuration.GetSection("AppSettings")
-                            .GetConnectionString("sqlite"))
+                    options.UseSqlite(appConfig.GetConnectionString("sqlite"))
                         .EnableSensitiveDataLogging(appSettings.EnableSensitiveDataLogging);
                 }, ServiceLifetime.Singleton)
                 .AddAutoMapper(GetType())
