@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 
 namespace Wally.RomMaster.Domain.Models
 {
@@ -13,16 +14,17 @@ namespace Wally.RomMaster.Domain.Models
             if (regex == null)
             {
                 var pattern = Pattern
-                    .Replace(".", "\\.")
-                    .Replace("?", ".")
-                    // .Replace("**", ".*?") //TODO reorder
-                    .Replace("*", ".*");
+                    .Replace(".", "\\.", StringComparison.InvariantCulture)
+                    .Replace("?", ".", StringComparison.InvariantCulture)
+                    // .Replace("**", ".*?", StringComparison.InvariantCulture) //TODO reorder
+                    .Replace("*", ".*", StringComparison.InvariantCulture);
 
-                regex = new Regex($"^{pattern}$", RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
+                regex = new Regex($"^{pattern}$",
+                    RegexOptions.IgnoreCase | RegexOptions.Singleline | RegexOptions.Compiled);
             }
             else
             {
-                throw new System.Exception();
+                throw new Exception();
             }
 
             return regex.IsMatch(file);

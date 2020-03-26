@@ -9,5 +9,7 @@ namespace Wally.RomMaster.Domain.Models
         public List<Folder> RomRoots { get; } = new List<Folder>();
 
         public List<Folder> ToSortRoots { get; } = new List<Folder>();
+
+        public bool EnableSensitiveDataLogging { get; set; } = false;
     }
 }

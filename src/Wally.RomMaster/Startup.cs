@@ -31,22 +31,25 @@ namespace Wally.RomMaster
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services
+                .AddOptions()
+                .Configure<AppSettings>(Configuration.GetSection(nameof(AppSettings)));
+
+            var appConfig = Configuration.GetSection(nameof(AppSettings));
+            var appSettings = appConfig.Get<AppSettings>();
+
             services.AddRazorPages();
             services.AddServerSideBlazor();
 
-            services.AddOptions()
-                .Configure<AppSettings>(Configuration.GetSection("AppSettings"))
+            services
                 .AddDbContext<DatabaseContext>(options =>
                 {
                     options.UseSqlite(Configuration.GetSection("AppSettings")
                             .GetConnectionString("sqlite"))
-                        .EnableSensitiveDataLogging(false);
+                        .EnableSensitiveDataLogging(appSettings.EnableSensitiveDataLogging);
                 }, ServiceLifetime.Singleton)
-
                 .AddAutoMapper(GetType())
-
                 .AddTransient<IUnitOfWorkFactory, UnitOfWorkFactory>()
-
                 .AddSingleton<Parser>()
                 .AddSingleton<FileWatcherService>()
                 .AddSingleton<DatFileService>()
@@ -58,8 +61,6 @@ namespace Wally.RomMaster
                 .AddSingleton<IHostedService, ClientService>()
                 .Replace(ServiceDescriptor.Singleton(typeof(ILogger<>), typeof(TimedLogger<>)))
                 ;
-
-            // ILoggerFactory AddProvider
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -75,7 +76,8 @@ namespace Wally.RomMaster
                 throw new ArgumentNullException(nameof(loggerFactory));
             }
 
-            loggerFactory.AddProvider(app.ApplicationServices.GetService<IDebuggerService>().LoggerProvider);
+            loggerFactory
+                .AddProvider(app.ApplicationServices.GetService<IDebuggerService>().LoggerProvider);
 
             if (env.IsDevelopment())
             {
@@ -83,15 +85,15 @@ namespace Wally.RomMaster
             }
             else
             {
-                // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+                // The default HSTS value is 30 days.
+                // You may want to change this for production scenarios,
+                // see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
                 app.UseHttpsRedirection();
             }
 
             app.UseStaticFiles();
-
             app.UseRouting();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapBlazorHub();

@@ -15,5 +15,10 @@ namespace Wally.RomMaster.Domain.Models
         public string Sha1 { get; set; }
 
         public string Md5 { get; set; }
+
+        public override string ToString()
+        {
+            return Path;
+        }
     }
 }

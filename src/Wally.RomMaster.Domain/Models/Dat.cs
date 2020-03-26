@@ -1,4 +1,5 @@
 ﻿// using RomMaster.Common.Database;
+
 using System;
 using System.Collections.Generic;
 
@@ -13,7 +14,7 @@ namespace Wally.RomMaster.Domain.Models
         <author>RomVault</author>
     */
 
-    public class Dat// : IEntity
+    public class Dat // : IEntity
     {
         public int Id { get; private set; }
 
@@ -29,15 +30,14 @@ namespace Wally.RomMaster.Domain.Models
 
         public string Author { get; set; }
 
-        public virtual ISet<Game> Games { get; set; }
+        public virtual ISet<Game> Games { get; set; } = new HashSet<Game>();
 
         public File File { get; set; }
 
         // public int FileId { get; private set; }
 
-        public Dat()
-        {
-            this.Games = new HashSet<Game>();
-        }
+        // public Dat()
+        // {
+        // }
     }
 }

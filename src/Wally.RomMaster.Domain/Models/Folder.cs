@@ -7,12 +7,17 @@ namespace Wally.RomMaster.Domain.Models
     {
         public bool Enabled { get; set; } = true;
 
-        public string Path { get; set; }
+        public string Path { get; set; } = string.Empty;
 
         public SearchOption SearchOptions { get; set; } = SearchOption.TopDirectoryOnly;
 
-        public bool WatcherEnabled { get; set; }
+        public bool WatcherEnabled { get; set; } = false;
 
         public List<Exclude> Excludes { get; } = new List<Exclude>();
+
+        public override string ToString()
+        {
+            return Path;
+        }
     }
 }

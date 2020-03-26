@@ -12,11 +12,6 @@ namespace Wally.RomMaster.Domain.Models
 
         public string Year { get; set; }
 
-        public virtual ISet<Rom> Roms { get; set; }
-
-        public Game()
-        {
-            this.Roms = new HashSet<Rom>();
-        }
+        public virtual ISet<Rom> Roms { get; set; } = new HashSet<Rom>();
     }
 }

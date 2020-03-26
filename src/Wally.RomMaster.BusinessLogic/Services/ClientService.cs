@@ -18,7 +18,13 @@ namespace Wally.RomMaster.BusinessLogic.Services
         private readonly ToSortFileService toSortFileService;
         private readonly FixService fixService;
 
-        public ClientService(ILogger<ClientService> logger, FileWatcherService fileWatcherService, DatFileService datFileService, RomFileService romFileService, ToSortFileService toSortFileService, FixService fixService)
+        public ClientService(
+            ILogger<ClientService> logger,
+            FileWatcherService fileWatcherService,
+            DatFileService datFileService,
+            RomFileService romFileService,
+            ToSortFileService toSortFileService,
+            FixService fixService)
         {
             this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
             this.fileWatcherService = fileWatcherService ?? throw new ArgumentNullException(nameof(fileWatcherService));
@@ -33,7 +39,7 @@ namespace Wally.RomMaster.BusinessLogic.Services
 
         private void DatFileChanged(object sender, FileSystemEventArgs e)
         {
-            this.datFileService.Enqueue(e.FullPath);
+            datFileService.Enqueue(e.FullPath);
             // TODO: execute FixService for new Dat file data
             // this.fixService.Enqueue(e.FullPath);
         }
@@ -41,7 +47,7 @@ namespace Wally.RomMaster.BusinessLogic.Services
         private void ToSortFileChanged(object sender, FileSystemEventArgs e)
         {
             // TODO: wait for access to file
-            this.toSortFileService.Enqueue(e.FullPath);
+            toSortFileService.Enqueue(e.FullPath);
             // TODO: wait for end of thr toSortService processing
             // TODO: execute FixService for new Dat file data
             // this.fixService.Enqueue(e.FullPath);
