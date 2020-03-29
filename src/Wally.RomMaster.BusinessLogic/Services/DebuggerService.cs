@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using Microsoft.Extensions.Logging;
 using Wally.RomMaster.Domain.Interfaces;
 
@@ -8,7 +9,9 @@ namespace Wally.RomMaster.BusinessLogic.Services
     {
         public ILoggerProvider LoggerProvider { get; private set; }
 
-        public event EventHandler<string> MessageReceived;
+        // public event EventHandler<string> MessageReceived;
+
+        public ObservableCollection<string> Messages { get; } = new ObservableCollection<string>();
 
         public DebuggerService()
         {
@@ -17,7 +20,8 @@ namespace Wally.RomMaster.BusinessLogic.Services
 
         protected void OnMessageReceived(object sender, string e)
         {
-            MessageReceived?.Invoke(sender, e);
+            Messages.Add(e);
+            // MessageReceived?.Invoke(sender, e);
         }
 
         private class DebuggerLoggerProvider : ILoggerProvider

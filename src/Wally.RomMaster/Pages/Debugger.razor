@@ -5,11 +5,11 @@
 
 @if (IsLoading)
 {
-    <p><em>Loading... @Counter</em></p>
+    <p><em>Loading...</em></p>
 }
 
 <ul>
-    @foreach (var message in Messages.ToArray())
+    @foreach (var message in Messages)
     {
         <li>@message</li>
     }
