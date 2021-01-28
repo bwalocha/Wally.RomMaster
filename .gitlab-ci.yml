@@ -1,7 +1,7 @@
 variables:
     # https://gitlab.com/gitlab-org/gitlab-runner/-/issues/1809
-    #FRONTEND_PROJECT_NAME: "Wally.Wally.RomMaster"
-    BACKEND_PROJECT_NAME: "Wally.Wally.RomMaster"
+    #FRONTEND_PROJECT_NAME: "Wally.RomMaster"
+    BACKEND_PROJECT_NAME: "Wally.RomMaster"
     #
     CI_DEBUG_TRACE: "false"
     CI_REGISTRY_USER: ${REGISTRY_USER}
