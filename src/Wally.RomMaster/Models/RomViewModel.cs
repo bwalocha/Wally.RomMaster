@@ -2,40 +2,42 @@
 
 namespace Wally.RomMaster.Models
 {
-    public class RomViewModel : BaseViewModel
-    {
-        private int id;
-        public int Id
-        {
-            get
-            {
-                return id;
-            }
+	public class RomViewModel : BaseViewModel
+	{
+		private int _id;
 
-            set
-            {
-                id = value;
-                NotifyPropertyChanged();
-            }
-        }
+		public int Id
+		{
+			get
+			{
+				return _id;
+			}
 
-        private string name;
-        public string Name
-        {
-            get => name;
-            set
-            {
-                name = value;
-                NotifyPropertyChanged();
-            }
-        }
+			set
+			{
+				_id = value;
+				NotifyPropertyChanged();
+			}
+		}
 
-        public long Size { get; internal set; }
+		private string _name;
 
-        public string Crc { get; internal set; }
+		public string Name
+		{
+			get => _name;
+			set
+			{
+				_name = value;
+				NotifyPropertyChanged();
+			}
+		}
 
-        public string Sha1 { get; internal set; }
+		public long Size { get; internal set; }
 
-        public string Md5 { get; internal set; }
-    }
+		public string Crc { get; internal set; }
+
+		public string Sha1 { get; internal set; }
+
+		public string Md5 { get; internal set; }
+	}
 }

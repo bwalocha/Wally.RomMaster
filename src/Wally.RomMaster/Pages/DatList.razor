@@ -5,9 +5,11 @@
 
 @if (IsLoading)
 {
-    <p><em>Loading...</em></p>
+    <p>
+        <em>Loading...</em>
+    </p>
 }
 else
 {
-    <Grid TModel="Wally.RomMaster.Models.DatViewModel" Options="@GridOptions" Source="@Source" />
+    <Grid TModel="Wally.RomMaster.Models.DatViewModel" Options="@GridOptions" Source="@Source"/>
 }

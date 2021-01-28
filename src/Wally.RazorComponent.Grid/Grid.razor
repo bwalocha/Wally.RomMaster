@@ -6,27 +6,27 @@
 
 <table>
     <thead>
+    <tr>
+        @foreach (var column in Options.Columns)
+        {
+            <th>@column.Caption</th>
+        }
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Source.Skip(Page * Options.PageSize).Take(Options.PageSize))
+    {
         <tr>
             @foreach (var column in Options.Columns)
             {
-                <th>@column.Caption</th>
+                <td>@column.Bind(item)</td>
             }
         </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Source.Skip(Page * Options.PageSize).Take(Options.PageSize))
-        {
-            <tr>
-                @foreach (var column in Options.Columns)
-                {
-                    <td>@column.Bind(item)</td>
-                }
-            </tr>
-        }
+    }
     </tbody>
     <tfoot>
-        <tr>
-            <td>@Source.Skip(Page * Options.PageSize).Take(Options.PageSize).Count()</td>
-        </tr>
+    <tr>
+        <td>@Source.Skip(Page * Options.PageSize).Take(Options.PageSize).Count()</td>
+    </tr>
     </tfoot>
 </table>

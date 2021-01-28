@@ -1,77 +1,83 @@
 ﻿using System.IO;
 using System.Xml;
+
 // using System.Xml.Schema;
 using System.Xml.Serialization;
 
 namespace Wally.RomMaster.DatFileParser.LogiqxXMLParser
 {
-    public class Parser
-    {
-        private readonly XmlReaderSettings settings;
-        private readonly XmlSerializer serializer;
+	public class Parser
+	{
+		private readonly XmlReaderSettings _settings;
+		private readonly XmlSerializer _serializer;
 
-        public Parser()
-        {
-            settings = new XmlReaderSettings
-            {
-                // settings.DtdProcessing = DtdProcessing.Ignore;
-                DtdProcessing = DtdProcessing.Parse,
-                ValidationType = ValidationType.None,
-                // settings.ValidationType = ValidationType.DTD;
-                // settings.ValidationEventHandler += new ValidationEventHandler(ValidationCallBack);
+		public Parser()
+		{
+			_settings = new XmlReaderSettings
+						{
+							// settings.DtdProcessing = DtdProcessing.Ignore;
+							DtdProcessing = DtdProcessing.Parse,
+							ValidationType = ValidationType.None,
 
-                MaxCharactersFromEntities = 1024
-            };
+							// settings.ValidationType = ValidationType.DTD;
+							// settings.ValidationEventHandler += new ValidationEventHandler(ValidationCallBack);
 
-            serializer = new XmlSerializer(typeof(Models.DataFile));
-        }
+							MaxCharactersFromEntities = 1024
+						};
 
-        public Models.DataFile Parse(string filePathName)
-        {
-            using var stream = new FileStream(filePathName, FileMode.Open);
-            Validate(stream);
+			_serializer = new XmlSerializer(typeof(Models.DataFile));
+		}
 
-            stream.Seek(0, SeekOrigin.Begin);
-            return Parse(stream);
-        }
+		public Models.DataFile Parse(string filePathName)
+		{
+			using var stream = new FileStream(filePathName, FileMode.Open);
+			Validate(stream);
 
-        public Models.DataFile Parse(Stream stream)
-        {
-            using XmlReader reader = XmlReader.Create(stream, settings);
-            return (Models.DataFile)serializer.Deserialize(reader);
-        }
+			stream.Seek(0, SeekOrigin.Begin);
+			return Parse(stream);
+		}
 
-        public void Validate(Stream stream)
-        {
-            var dtdSettings = new XmlReaderSettings
-            {
-                // settings.DtdProcessing = DtdProcessing.Ignore;
-                DtdProcessing = DtdProcessing.Parse
-            };
-            // dtdSettings.ValidationType = ValidationType.DTD;
-            // dtdSettings.ValidationEventHandler += new ValidationEventHandler(ValidationCallBack);
+		public Models.DataFile Parse(Stream stream)
+		{
+			using XmlReader reader = XmlReader.Create(stream, _settings);
+			return (Models.DataFile)_serializer.Deserialize(reader);
+		}
 
-            settings.Schemas.Add(null, XmlReader.Create("datafile.dtd", dtdSettings));
+		public void Validate(Stream stream)
+		{
+			var dtdSettings = new XmlReaderSettings
+							{
+								// settings.DtdProcessing = DtdProcessing.Ignore;
+								DtdProcessing = DtdProcessing.Parse
+							};
 
-            using var dtdStream = new FileStream("datafile.dtd", FileMode.Open, FileAccess.Read);
-            using XmlReader reader = XmlReader.Create(stream, settings);
-            // XmlSchema schema = XmlSchema.Read(dtdStream, ValidationCallBack);
+			// dtdSettings.ValidationType = ValidationType.DTD;
+			// dtdSettings.ValidationEventHandler += new ValidationEventHandler(ValidationCallBack);
 
-            // XmlDocument doc = new XmlDocument();
+			_settings.Schemas.Add(null, XmlReader.Create("datafile.dtd", dtdSettings));
 
-            // doc.Schemas.Add(schema);
-            // doc.Schemas.Compile();
+			using var dtdStream = new FileStream("datafile.dtd", FileMode.Open, FileAccess.Read);
+			using XmlReader reader = XmlReader.Create(stream, _settings);
 
-            // doc.Load(reader);
+			// XmlSchema schema = XmlSchema.Read(dtdStream, ValidationCallBack);
 
-            // doc.Validate(ValidationCallBack);
+			// XmlDocument doc = new XmlDocument();
 
-            while (reader.Read()) { }
-        }
+			// doc.Schemas.Add(schema);
+			// doc.Schemas.Compile();
 
-        // private static void ValidationCallBack(object sender, ValidationEventArgs e)
-        // {
-        //    System.Console.WriteLine("Validation Error: {0}", e.Message);
-        // }
-    }
+			// doc.Load(reader);
+
+			// doc.Validate(ValidationCallBack);
+
+			while (reader.Read())
+			{
+			}
+		}
+
+		// private static void ValidationCallBack(object sender, ValidationEventArgs e)
+		// {
+		//    System.Console.WriteLine("Validation Error: {0}", e.Message);
+		// }
+	}
 }

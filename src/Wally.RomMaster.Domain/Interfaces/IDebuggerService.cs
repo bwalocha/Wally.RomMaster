@@ -4,12 +4,12 @@ using Microsoft.Extensions.Logging;
 
 namespace Wally.RomMaster.Domain.Interfaces
 {
-    public interface IDebuggerService
-    {
-        ILoggerProvider LoggerProvider { get; }
+	public interface IDebuggerService
+	{
+		ILoggerProvider LoggerProvider { get; }
 
-        // event EventHandler<string> MessageReceived;
+		// event EventHandler<string> MessageReceived;
 
-        ObservableCollection<string> Messages { get; }
-    }
+		ObservableCollection<string> Messages { get; }
+	}
 }

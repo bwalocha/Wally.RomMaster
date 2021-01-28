@@ -4,41 +4,48 @@ using System.Linq;
 
 namespace Wally.RomMaster.Models
 {
-    public class GameViewModel : BaseViewModel
-    {
-        private int id;
-        public int Id
-        {
-            get
-            {
-                return id;
-            }
+	public class GameViewModel : BaseViewModel
+	{
+		private int _id;
 
-            set
-            {
-                id = value;
-                NotifyPropertyChanged();
-            }
-        }
+		public int Id
+		{
+			get
+			{
+				return _id;
+			}
 
-        private string name;
-        public string Name
-        {
-            get => name;
-            set
-            {
-                name = value;
-                NotifyPropertyChanged();
-            }
-        }
+			set
+			{
+				_id = value;
+				NotifyPropertyChanged();
+			}
+		}
 
-        // public string Author { get; internal set; }
-        // public string Category { get; internal set; }
-        public string Year { get; internal set; }
-        public string Description { get; internal set; }
-        // public string Version { get; internal set; }
-        public IEnumerable<RomViewModel> Roms { get; internal set; }
+		private string _name;
 
-        public int RomCount { get { return Roms.Count(); } }
-    }
+		public string Name
+		{
+			get => _name;
+			set
+			{
+				_name = value;
+				NotifyPropertyChanged();
+			}
+		}
+
+		// public string Author { get; internal set; }
+		// public string Category { get; internal set; }
+		public string Year { get; internal set; }
+
+		public string Description { get; internal set; }
+
+		// public string Version { get; internal set; }
+		public IEnumerable<RomViewModel> Roms { get; internal set; }
+
+		public int RomCount
+		{
+			get { return Roms.Count(); }
+		}
+	}
 }

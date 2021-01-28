@@ -13,321 +13,330 @@ using Wally.RomMaster.Domain.Models;
 
 namespace Wally.RomMaster.BusinessLogic.Services
 {
-    public abstract class FileService : BackgroundService
-    {
-        private readonly ILogger<FileService> logger;
-        private readonly IOptions<AppSettings> appSettings;
+	public abstract class FileService : BackgroundService
+	{
+		private readonly ILogger<FileService> _logger;
+		private readonly IOptions<AppSettings> _appSettings;
 
-        protected IUnitOfWorkFactory UnitOfWorkFactory { get; }
+		protected IUnitOfWorkFactory UnitOfWorkFactory { get; }
 
-        private readonly HashAlgorithm crc32;
-        private readonly BlockingCollection<FileQueueItem> queue = new BlockingCollection<FileQueueItem>();
-        private readonly ManualResetEvent queueIsEmpty = new ManualResetEvent(false);
+		private readonly HashAlgorithm _crc32;
+		private readonly BlockingCollection<FileQueueItem> _queue = new BlockingCollection<FileQueueItem>();
+		private readonly ManualResetEvent _queueIsEmpty = new ManualResetEvent(false);
 
-        public ILogger<FileService> Logger
-        {
-            get
-            {
-                return logger;
-            }
-        }
+		public ILogger<FileService> Logger
+		{
+			get { return _logger; }
+		}
 
-        private List<Exclude> excludes;
-        protected List<Exclude> Excludes
-        {
-            get
-            {
-                if (excludes == null)
-                {
-                    excludes = GetFolders(appSettings)
-                        .Where(a => a.Enabled)
-                        .SelectMany(a => a.Excludes).ToList();
-                }
+		private List<Exclude> _excludes;
 
-                return this.excludes;
-            }
-        }
+		protected List<Exclude> Excludes
+		{
+			get
+			{
+				if (_excludes == null)
+				{
+					_excludes = GetFolders(_appSettings).Where(a => a.Enabled).SelectMany(a => a.Excludes).ToList();
+				}
 
-        public FileService(ILogger<FileService> logger, IOptions<AppSettings> appSettings, IUnitOfWorkFactory unitOfWorkFactory, HashAlgorithm crc32)
-        {
-            this.logger = logger;
-            this.appSettings = appSettings;
-            this.UnitOfWorkFactory = unitOfWorkFactory;
-            this.crc32 = crc32;
-        }
+				return this._excludes;
+			}
+		}
 
-        public override void Dispose()
-        {
-            queue.Dispose();
-            queueIsEmpty.Dispose();
+		public FileService(
+			ILogger<FileService> logger,
+			IOptions<AppSettings> appSettings,
+			IUnitOfWorkFactory unitOfWorkFactory,
+			HashAlgorithm crc32)
+		{
+			this._logger = logger;
+			this._appSettings = appSettings;
+			this.UnitOfWorkFactory = unitOfWorkFactory;
+			this._crc32 = crc32;
+		}
 
-            base.Dispose();
-        }
+		public override void Dispose()
+		{
+			_queue.Dispose();
+			_queueIsEmpty.Dispose();
 
-        protected abstract IEnumerable<Folder> GetFolders(IOptions<AppSettings> appSettings);
+			base.Dispose();
+		}
 
-        public override async Task StartAsync(CancellationToken cancellationToken)
-        {
-            foreach (var folder in GetFolders(appSettings))
-            {
-                if (!folder.Enabled)
-                {
-                    logger.LogWarning($"Folder '{folder.Path}' is not active. Skipping.");
-                    continue;
-                }
+		protected abstract IEnumerable<Folder> GetFolders(IOptions<AppSettings> appSettings);
 
-                logger.LogDebug($"Processing folder '{folder.Path}' ({folder.SearchOptions})");
-                if (!System.IO.Directory.Exists(folder.Path))
-                {
-                    logger.LogWarning($"Folder '{folder.Path}' does not exist. Skipping.");
-                    continue;
-                }
+		public override async Task StartAsync(CancellationToken cancellationToken)
+		{
+			foreach (var folder in GetFolders(_appSettings))
+			{
+				if (!folder.Enabled)
+				{
+					_logger.LogWarning($"Folder '{folder.Path}' is not active. Skipping.");
+					continue;
+				}
 
-                var files = System.IO.Directory.EnumerateFiles(folder.Path, "*.*", folder.SearchOptions);
-                var filesCount = files.Count();
-                var index = 0;
-                foreach (var file in files)
-                {
-                    ++index;
-                    logger.LogInformation($"Enqueuing [{(float)index / filesCount * 100,3:000}] file '{file}' ({index}/{filesCount})");
-                    if (cancellationToken.IsCancellationRequested)
-                    {
-                        logger.LogWarning($"Processing file '{file}' ({index}/{filesCount}) has been cancelled.");
-                        return;
-                    }
+				_logger.LogDebug($"Processing folder '{folder.Path}' ({folder.SearchOptions})");
+				if (!System.IO.Directory.Exists(folder.Path))
+				{
+					_logger.LogWarning($"Folder '{folder.Path}' does not exist. Skipping.");
+					continue;
+				}
 
-                    Enqueue(file);
-                }
+				var files = System.IO.Directory.EnumerateFiles(folder.Path, "*.*", folder.SearchOptions);
+				var filesCount = files.Count();
+				var index = 0;
+				foreach (var file in files)
+				{
+					++index;
+					_logger.LogInformation(
+						$"Enqueuing [{(float)index / filesCount * 100,3:000}] file '{file}' ({index}/{filesCount})");
+					if (cancellationToken.IsCancellationRequested)
+					{
+						_logger.LogWarning($"Processing file '{file}' ({index}/{filesCount}) has been cancelled.");
+						return;
+					}
 
-                logger.LogDebug($"Finished processing folder '{folder.Path}'. Found {filesCount} files.");
-            }
+					Enqueue(file);
+				}
 
-            await base.StartAsync(cancellationToken).ConfigureAwait(false);
-        }
+				_logger.LogDebug($"Finished processing folder '{folder.Path}'. Found {filesCount} files.");
+			}
 
-        private bool IsExcluded(string file) => IsExcluded(file, Excludes);
+			await base.StartAsync(cancellationToken).ConfigureAwait(false);
+		}
 
-        private static bool IsExcluded(string file, List<Exclude> excludes)
-        {
-            if (!excludes.Any())
-            {
-                return false;
-            }
+		private bool IsExcluded(string file) => IsExcluded(file, Excludes);
 
-            foreach (var exclude in excludes)
-            {
-                if (FileService.IsExcluded(file, exclude))
-                {
-                    return true;
-                }
-            }
+		private static bool IsExcluded(string file, List<Exclude> excludes)
+		{
+			if (!excludes.Any())
+			{
+				return false;
+			}
 
-            return false;
-        }
+			foreach (var exclude in excludes)
+			{
+				if (FileService.IsExcluded(file, exclude))
+				{
+					return true;
+				}
+			}
 
-        private static bool IsExcluded(string file, Exclude exclude) => exclude.Match(file);
+			return false;
+		}
 
-        protected override async Task ExecuteAsync(CancellationToken cancellationToken)
-        {
-            logger.LogDebug("Starting...");
-            cancellationToken.Register(() => logger.LogDebug("Background task is stopping."));
+		private static bool IsExcluded(string file, Exclude exclude) => exclude.Match(file);
 
-            while (!cancellationToken.IsCancellationRequested)
-            {
-                if (!queue.Any())
-                {
-                    queueIsEmpty.Set();
-                }
+		protected override async Task ExecuteAsync(CancellationToken cancellationToken)
+		{
+			_logger.LogDebug("Starting...");
+			cancellationToken.Register(() => _logger.LogDebug("Background task is stopping."));
 
-                var item = await Task.Run(() => queue.Take(cancellationToken), cancellationToken).ConfigureAwait(false);
-                logger.LogInformation($"Background task is procesing [{queue.Count}] item '{item}'.");
-                var files = await Process(item).ConfigureAwait(false);
-                foreach (var file in files)
-                {
-                    await PostProcessAsync(file, cancellationToken).ConfigureAwait(false);
-                }
-            }
+			while (!cancellationToken.IsCancellationRequested)
+			{
+				if (!_queue.Any())
+				{
+					_queueIsEmpty.Set();
+				}
 
-            logger.LogDebug("Background task is stopping.");
-        }
+				var item = await Task.Run(() => _queue.Take(cancellationToken), cancellationToken).ConfigureAwait(false);
+				_logger.LogInformation($"Background task is procesing [{_queue.Count}] item '{item}'.");
+				var files = await Process(item).ConfigureAwait(false);
+				foreach (var file in files)
+				{
+					await PostProcessAsync(file, cancellationToken).ConfigureAwait(false);
+				}
+			}
 
-        public void Enqueue(string file)
-        {
-            if (IsExcluded(file))
-            {
-                logger.LogInformation($"File processing '{file}' excluded. Skipped.");
-                return;
-            }
+			_logger.LogDebug("Background task is stopping.");
+		}
 
-            var item = new FileQueueItem
-            {
-                File = file
-            };
+		public void Enqueue(string file)
+		{
+			if (IsExcluded(file))
+			{
+				_logger.LogInformation($"File processing '{file}' excluded. Skipped.");
+				return;
+			}
 
-            queue.Add(item);
-            queueIsEmpty.Reset();
-        }
+			var item = new FileQueueItem { File = file };
 
-        public Task WaitForQueueEmptyAsync(CancellationToken cancellationToken)
-        {
-            return Task.Factory.StartNew(() => queueIsEmpty.WaitOne(), cancellationToken);
-        }
+			_queue.Add(item);
+			_queueIsEmpty.Reset();
+		}
 
-        protected virtual async Task<List<File>> Process(FileQueueItem item)
-        {
-            if (item == null)
-            {
-                throw new ArgumentNullException(nameof(item));
-            }
+		public Task WaitForQueueEmptyAsync(CancellationToken cancellationToken)
+		{
+			return Task.Factory.StartNew(() => _queueIsEmpty.WaitOne(), cancellationToken);
+		}
 
-            List<File> files = new List<File>();
-            File file = null;
-            using (var uow = UnitOfWorkFactory.Create())
-            {
-                var repoFile = uow.GetReadRepository<File>();
-                if (await repoFile.AnyAsync(a => a.Path == item.File).ConfigureAwait(false))
-                {
-                    logger.LogDebug($"File '{item.File}' already processed. Skipped.");
-                    // Return already processed file
-                    //
-                    // files.Add(file);
-                    return files;
-                }
+		protected virtual async Task<List<File>> Process(FileQueueItem item)
+		{
+			if (item == null)
+			{
+				throw new ArgumentNullException(nameof(item));
+			}
 
-                if (IsFileLocked(item.File))
-                {
-                    logger.LogDebug($"File '{item.File}' access is denied. Skipped.");
-                    return files;
-                }
+			List<File> files = new List<File>();
+			File file = null;
+			using (var uow = UnitOfWorkFactory.Create())
+			{
+				var repoFile = uow.GetReadRepository<File>();
+				if (await repoFile.AnyAsync(a => a.Path == item.File).ConfigureAwait(false))
+				{
+					_logger.LogDebug($"File '{item.File}' already processed. Skipped.");
 
-                // add file regardless it is archive
-                string computedCrc32 = null;
-                long size = 0;
-                var writeRepoFile = uow.GetRepository<File>();
+					// Return already processed file
+					//
+					// files.Add(file);
+					return files;
+				}
 
-                // archive
-                if (IsArchive(item.File))
-                {
-                    try
-                    {
-                        using System.IO.Stream stream = System.IO.File.OpenRead(item.File);
-                        using var archive = SharpCompress.Archives.ArchiveFactory.Open(stream);
-                        foreach (var entry in archive.Entries.Where(a => !a.IsDirectory))
-                        {
-                            var fileName = $"{item.File}#{entry.Key}";
+				if (IsFileLocked(item.File))
+				{
+					_logger.LogDebug($"File '{item.File}' access is denied. Skipped.");
+					return files;
+				}
 
-                            if (await repoFile.AnyAsync(a => a.Path == fileName).ConfigureAwait(false))
-                            {
-                                continue;
-                            }
+				// add file regardless it is archive
+				string computedCrc32 = null;
+				long size = 0;
+				var writeRepoFile = uow.GetRepository<File>();
 
-                            // store file info
-                            file = new File
-                            {
-                                Crc = entry.Crc.ToString("X2", System.Globalization.CultureInfo.InvariantCulture),
-                                Path = fileName,
-                                Size = entry.Size
-                            };
+				// archive
+				if (IsArchive(item.File))
+				{
+					try
+					{
+						using System.IO.Stream stream = System.IO.File.OpenRead(item.File);
+						using var archive = SharpCompress.Archives.ArchiveFactory.Open(stream);
+						foreach (var entry in archive.Entries.Where(a => !a.IsDirectory))
+						{
+							var fileName = $"{item.File}#{entry.Key}";
 
-                            await writeRepoFile.AddAsync(file).ConfigureAwait(false);
-                            files.Add(file);
-                        }
-                    }
-                    catch (SharpCompress.Common.ArchiveException ex)
-                    {
-                        logger.LogError(ex, $"File '{item.File}' corrupted.");
-                        return files;
-                    }
-                    catch (InvalidOperationException ex)
-                    {
-                        logger.LogError(ex, $"File '{item.File}' error.");
-                        return files;
-                    }
-                    catch (IndexOutOfRangeException ex)
-                    {
-                        logger.LogError(ex, $"File '{item.File}' corrupted.");
-                        return files;
-                    }
-                }
-                else
-                {
-                    using var stream = System.IO.File.Open(item.File, System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.Read);
-                    size = stream.Length;
-                    var hash = crc32.ComputeHash(stream);
-                    computedCrc32 = BitConverter.ToString(hash).Replace("-", newValue: null, true, System.Globalization.CultureInfo.InvariantCulture);
-                }
+							if (await repoFile.AnyAsync(a => a.Path == fileName).ConfigureAwait(false))
+							{
+								continue;
+							}
 
-                // store file info
-                file = new File
-                {
-                    Crc = computedCrc32, // null if file is archive package
-                    Path = item.File,
-                    Size = size // 0 if file is archive package
-                };
+							// store file info
+							file = new File
+									{
+										Crc = entry.Crc.ToString(
+											"X2",
+											System.Globalization.CultureInfo.InvariantCulture),
+										Path = fileName,
+										Size = entry.Size
+									};
 
-                await writeRepoFile.AddAsync(file).ConfigureAwait(false);
-                files.Add(file);
+							await writeRepoFile.AddAsync(file).ConfigureAwait(false);
+							files.Add(file);
+						}
+					}
+					catch (SharpCompress.Common.ArchiveException ex)
+					{
+						_logger.LogError(ex, $"File '{item.File}' corrupted.");
+						return files;
+					}
+					catch (InvalidOperationException ex)
+					{
+						_logger.LogError(ex, $"File '{item.File}' error.");
+						return files;
+					}
+					catch (IndexOutOfRangeException ex)
+					{
+						_logger.LogError(ex, $"File '{item.File}' corrupted.");
+						return files;
+					}
+				}
+				else
+				{
+					using var stream = System.IO.File.Open(
+						item.File,
+						System.IO.FileMode.Open,
+						System.IO.FileAccess.Read,
+						System.IO.FileShare.Read);
+					size = stream.Length;
+					var hash = _crc32.ComputeHash(stream);
+					computedCrc32 = BitConverter.ToString(hash).Replace(
+						"-",
+						newValue: null,
+						true,
+						System.Globalization.CultureInfo.InvariantCulture);
+				}
 
-                await uow.CommitAsync().ConfigureAwait(false);
-            }
+				// store file info
+				file = new File
+						{
+							Crc = computedCrc32, // null if file is archive package
+							Path = item.File,
+							Size = size // 0 if file is archive package
+						};
 
-            return files;
-        }
+				await writeRepoFile.AddAsync(file).ConfigureAwait(false);
+				files.Add(file);
 
-        protected virtual Task PostProcessAsync(File file, CancellationToken cancellationToken)
-        {
-            return Task.CompletedTask;
-        }
+				await uow.CommitAsync().ConfigureAwait(false);
+			}
 
-        private bool IsFileLocked(string file)
-        {
-            System.IO.FileStream stream = null;
+			return files;
+		}
 
-            try
-            {
-                var fileInfo = new System.IO.FileInfo(file);
-                if (!fileInfo.Exists)
-                {
-                    // file does not exist or is a directory
-                    return true;
-                }
+		protected virtual Task PostProcessAsync(File file, CancellationToken cancellationToken)
+		{
+			return Task.CompletedTask;
+		}
 
-                // stream = fileInfo.Open(System.IO.FileMode.Open, System.IO.FileAccess.ReadWrite, System.IO.FileShare.None);
-                stream = fileInfo.Open(System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.None);
-            }
-            catch (System.IO.IOException)
-            {
-                // the file is unavailable because it is:
-                // still being written to
-                // or being processed by another thread
-                // or does not exist
-                return true;
-            }
-            finally
-            {
-                if (stream != null)
-                {
-                    stream.Close();
-                }
-            }
+		private bool IsFileLocked(string file)
+		{
+			System.IO.FileStream stream = null;
 
-            // file is not locked
-            return false;
-        }
+			try
+			{
+				var fileInfo = new System.IO.FileInfo(file);
+				if (!fileInfo.Exists)
+				{
+					// file does not exist or is a directory
+					return true;
+				}
 
-        protected static bool IsArchive(string file)
-        {
-            switch (System.IO.Path.GetExtension(file).ToUpperInvariant())
-            {
-                // Zip, GZip, BZip2, Tar, Rar, LZip, XZ'
-                case ".RAR":
-                case ".ZIP":
-                    return true;
-                case ".7Z":
-                    return true;
-                default:
-                    return false;
-            }
-        }
-    }
+				// stream = fileInfo.Open(System.IO.FileMode.Open, System.IO.FileAccess.ReadWrite, System.IO.FileShare.None);
+				stream = fileInfo.Open(System.IO.FileMode.Open, System.IO.FileAccess.Read, System.IO.FileShare.None);
+			}
+			catch (System.IO.IOException)
+			{
+				// the file is unavailable because it is:
+				// still being written to
+				// or being processed by another thread
+				// or does not exist
+				return true;
+			}
+			finally
+			{
+				if (stream != null)
+				{
+					stream.Close();
+				}
+			}
+
+			// file is not locked
+			return false;
+		}
+
+		protected static bool IsArchive(string file)
+		{
+			switch (System.IO.Path.GetExtension(file).ToUpperInvariant())
+			{
+				// Zip, GZip, BZip2, Tar, Rar, LZip, XZ'
+				case ".RAR":
+				case ".ZIP":
+					return true;
+				case ".7Z":
+					return true;
+				default:
+					return false;
+			}
+		}
+	}
 }

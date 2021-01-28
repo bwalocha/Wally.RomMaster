@@ -5,7 +5,9 @@
 
 @if (IsLoading)
 {
-    <p><em>Loading...</em></p>
+    <p>
+        <em>Loading...</em>
+    </p>
 }
 else
 {
@@ -17,5 +19,5 @@ else
     @ViewModel.Description
     @ViewModel.Version*@
 
-    <Grid TModel="Wally.RomMaster.Models.RomViewModel" Options="@GridOptions" Source="@ViewModel.Roms" />
+    <Grid TModel="Wally.RomMaster.Models.RomViewModel" Options="@GridOptions" Source="@ViewModel.Roms"/>
 }

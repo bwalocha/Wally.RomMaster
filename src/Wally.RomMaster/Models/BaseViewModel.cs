@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Wally.RomMaster.Models
 {
-    public class BaseViewModel : INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler PropertyChanged;
+	public class BaseViewModel : INotifyPropertyChanged
+	{
+		public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void NotifyPropertyChanged([CallerMemberName]string propertyName = "")
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-    }
+		protected void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
+		{
+			PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+		}
+	}
 }

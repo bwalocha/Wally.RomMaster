@@ -11,172 +11,187 @@ using Wally.RomMaster.Domain.Models;
 
 namespace Wally.RomMaster.BusinessLogic.Services
 {
-    public class FileWatcherService : IHostedService, IDisposable
-    {
-        private readonly ILogger<FileWatcherService> logger;
-        private readonly IOptions<AppSettings> appSettings;
-        private readonly List<FileSystemWatcher> watchers = new List<FileSystemWatcher>();
+	public class FileWatcherService : IHostedService, IDisposable
+	{
+		private readonly ILogger<FileWatcherService> _logger;
+		private readonly IOptions<AppSettings> _appSettings;
+		private readonly List<FileSystemWatcher> _watchers = new List<FileSystemWatcher>();
 
-        public FileSystemEventHandler DatFileChanged { get; set; }
-        public FileSystemEventHandler RomFileChanged { get; set; }
-        public FileSystemEventHandler ToSortFileChanged { get; set; }
+		public FileSystemEventHandler DatFileChanged { get; set; }
 
-        public FileWatcherService(ILogger<FileWatcherService> logger, IOptions<AppSettings> appSettings)
-        {
-            this.logger = logger;
-            this.appSettings = appSettings;
-        }
+		public FileSystemEventHandler RomFileChanged { get; set; }
 
-        public Task StartAsync(CancellationToken cancellationToken)
-        {
-            logger.LogInformation("Starting...");
+		public FileSystemEventHandler ToSortFileChanged { get; set; }
 
-            watchers.AddRange(CreateWatchers(appSettings.Value.DatRoots, OnDatFileChanged));
-            watchers.AddRange(CreateWatchers(appSettings.Value.RomRoots, OnRomFileChanged));
-            watchers.AddRange(CreateWatchers(appSettings.Value.ToSortRoots, OnToSortFileChanged));
+		public FileWatcherService(ILogger<FileWatcherService> logger, IOptions<AppSettings> appSettings)
+		{
+			this._logger = logger;
+			this._appSettings = appSettings;
+		}
 
-            return Task.CompletedTask;
-        }
+		public Task StartAsync(CancellationToken cancellationToken)
+		{
+			_logger.LogInformation("Starting...");
 
-        public Task StopAsync(CancellationToken cancellationToken)
-        {
-            logger.LogInformation("Stopping...");
+			_watchers.AddRange(CreateWatchers(_appSettings.Value.DatRoots, OnDatFileChanged));
+			_watchers.AddRange(CreateWatchers(_appSettings.Value.RomRoots, OnRomFileChanged));
+			_watchers.AddRange(CreateWatchers(_appSettings.Value.ToSortRoots, OnToSortFileChanged));
 
-            watchers.ForEach((watcher) => watcher.EnableRaisingEvents = false);
+			return Task.CompletedTask;
+		}
 
-            return Task.CompletedTask;
-        }
+		public Task StopAsync(CancellationToken cancellationToken)
+		{
+			_logger.LogInformation("Stopping...");
 
-        protected virtual void OnDatFileChanged(object sender, FileSystemEventArgs e)
-        {
-            DatFileChanged?.Invoke(sender, e);
-        }
+			_watchers.ForEach((watcher) => watcher.EnableRaisingEvents = false);
 
-        protected virtual void OnRomFileChanged(object sender, FileSystemEventArgs e)
-        {
-            RomFileChanged?.Invoke(sender, e);
-        }
+			return Task.CompletedTask;
+		}
 
-        protected virtual void OnToSortFileChanged(object sender, FileSystemEventArgs e)
-        {
-            ToSortFileChanged?.Invoke(sender, e);
-        }
+		protected virtual void OnDatFileChanged(object sender, FileSystemEventArgs e)
+		{
+			DatFileChanged?.Invoke(sender, e);
+		}
 
-        private IEnumerable<FileSystemWatcher> CreateWatchers(List<Folder> folders, FileSystemEventHandler onFileChanged = null)
-        {
-            foreach (var folder in folders)
-            {
-                if (!folder.Enabled)
-                {
-                    logger.LogWarning($"Folder '{folder.Path}' is not active. Skipping.");
-                    continue;
-                }
+		protected virtual void OnRomFileChanged(object sender, FileSystemEventArgs e)
+		{
+			RomFileChanged?.Invoke(sender, e);
+		}
 
-                if (!Directory.Exists(folder.Path))
-                {
-                    logger.LogWarning($"Folder '{folder.Path}' does not exist. Skipping.");
-                    continue;
-                }
+		protected virtual void OnToSortFileChanged(object sender, FileSystemEventArgs e)
+		{
+			ToSortFileChanged?.Invoke(sender, e);
+		}
 
-                var watcher = new FileSystemWatcher(folder.Path, "*.*")
-                {
-                    IncludeSubdirectories = folder.SearchOptions == SearchOption.AllDirectories,
-                    NotifyFilter =
-                        // NotifyFilters.LastAccess |
-                        NotifyFilters.LastWrite |
-                        NotifyFilters.FileName // |
-                        // NotifyFilters.DirectoryName
-                };
+		private IEnumerable<FileSystemWatcher> CreateWatchers(
+			List<Folder> folders,
+			FileSystemEventHandler onFileChanged = null)
+		{
+			foreach (var folder in folders)
+			{
+				if (!folder.Enabled)
+				{
+					_logger.LogWarning($"Folder '{folder.Path}' is not active. Skipping.");
+					continue;
+				}
 
-                if (onFileChanged != null)
-                {
-                    watcher.Renamed += (sender, args) =>
-                    {
-                        OnChanged(onFileChanged, sender, args.ChangeType, args.FullPath, folder);
-                    };
-                    watcher.Created += (sender, args) =>
-                    {
-                        OnCreated(onFileChanged, sender, args, folder);
-                    };
-                    watcher.Changed += (sender, args) =>
-                    {
-                        OnChanged(onFileChanged, sender, args.ChangeType, args.FullPath, folder);
-                    };
-                    watcher.Deleted += (sender, args) =>
-                    {
-                        OnChanged(onFileChanged, sender, args.ChangeType, args.FullPath, folder);
-                    };
-                }
+				if (!Directory.Exists(folder.Path))
+				{
+					_logger.LogWarning($"Folder '{folder.Path}' does not exist. Skipping.");
+					continue;
+				}
 
-                watcher.Error += Watcher_Error;
-                watcher.EnableRaisingEvents = folder.WatcherEnabled;
+				var watcher = new FileSystemWatcher(folder.Path, "*.*")
+							{
+								IncludeSubdirectories = folder.SearchOptions == SearchOption.AllDirectories,
+								NotifyFilter =
 
-                yield return watcher;
-            }
-        }
+									// NotifyFilters.LastAccess |
+									NotifyFilters.LastWrite | NotifyFilters.FileName // |
+								// NotifyFilters.DirectoryName
+							};
 
-        private void OnCreated(FileSystemEventHandler onFileChanged, object sender, FileSystemEventArgs args, Folder folder)
-        {
-            if (Directory.Exists(args.FullPath))
-            {
-                Action<string> notify = null;
-                notify = (dir) =>
-                {
-                    foreach (var f in Directory.GetFiles(dir))
-                    {
-                        OnChanged(onFileChanged, sender, args.ChangeType, f, folder);
-                    }
+				if (onFileChanged != null)
+				{
+					watcher.Renamed += (sender, args) =>
+					{
+						OnChanged(onFileChanged, sender, args.ChangeType, args.FullPath, folder);
+					};
+					watcher.Created += (sender, args) => { OnCreated(onFileChanged, sender, args, folder); };
+					watcher.Changed += (sender, args) =>
+					{
+						OnChanged(onFileChanged, sender, args.ChangeType, args.FullPath, folder);
+					};
+					watcher.Deleted += (sender, args) =>
+					{
+						OnChanged(onFileChanged, sender, args.ChangeType, args.FullPath, folder);
+					};
+				}
 
-                    foreach (var d in Directory.GetDirectories(dir))
-                    {
-                        notify(d);
-                    }
-                };
+				watcher.Error += Watcher_Error;
+				watcher.EnableRaisingEvents = folder.WatcherEnabled;
 
-                notify(args.FullPath);
-            }
-        }
+				yield return watcher;
+			}
+		}
 
-        private void Watcher_Error(object sender, ErrorEventArgs e)
-        {
-            logger.LogError("Watch file error: {0}", e.GetException());
+		private void OnCreated(
+			FileSystemEventHandler onFileChanged,
+			object sender,
+			FileSystemEventArgs args,
+			Folder folder)
+		{
+			if (Directory.Exists(args.FullPath))
+			{
+				Action<string> notify = null;
+				notify = (dir) =>
+				{
+					foreach (var f in Directory.GetFiles(dir))
+					{
+						OnChanged(onFileChanged, sender, args.ChangeType, f, folder);
+					}
 
-            System.Diagnostics.Debugger.Break();
-        }
+					foreach (var d in Directory.GetDirectories(dir))
+					{
+						notify(d);
+					}
+				};
 
-        private void OnChanged(FileSystemEventHandler onChanged, object sender, WatcherChangeTypes changeType, string filePathName, Folder folder)
-        {
-            // if directory: return or notify;
-            // ...
+				notify(args.FullPath);
+			}
+		}
 
-            if (IsExcluded(filePathName, folder.Excludes))
-            {
-                logger.LogDebug($"File '{filePathName}' excluded from watching.");
-            }
-            else
-            {
-                logger.LogDebug($"File '{filePathName}' changed: '{changeType}'.");
-                onChanged(sender, new FileSystemEventArgs(changeType, Path.GetDirectoryName(filePathName), Path.GetFileName(filePathName)));
-            }
-        }
+		private void Watcher_Error(object sender, ErrorEventArgs e)
+		{
+			_logger.LogError("Watch file error: {0}", e.GetException());
 
-        private bool IsExcluded(string file, List<Exclude> excludes)
-        {
-            return excludes.Any(a => IsExcluded(file, a));
-        }
+			System.Diagnostics.Debugger.Break();
+		}
 
-        private static bool IsExcluded(string file, Exclude exclude)
-        {
-            return exclude.Match(file);
-        }
+		private void OnChanged(
+			FileSystemEventHandler onChanged,
+			object sender,
+			WatcherChangeTypes changeType,
+			string filePathName,
+			Folder folder)
+		{
+			// if directory: return or notify;
+			// ...
 
-        public void Dispose()
-        {
-            foreach (var watcher in watchers.ToArray())
-            {
-                watcher.EnableRaisingEvents = false;
-                watcher.Dispose();
-            }
-        }
-    }
+			if (IsExcluded(filePathName, folder.Excludes))
+			{
+				_logger.LogDebug($"File '{filePathName}' excluded from watching.");
+			}
+			else
+			{
+				_logger.LogDebug($"File '{filePathName}' changed: '{changeType}'.");
+				onChanged(
+					sender,
+					new FileSystemEventArgs(
+						changeType,
+						Path.GetDirectoryName(filePathName),
+						Path.GetFileName(filePathName)));
+			}
+		}
+
+		private bool IsExcluded(string file, List<Exclude> excludes)
+		{
+			return excludes.Any(a => IsExcluded(file, a));
+		}
+
+		private static bool IsExcluded(string file, Exclude exclude)
+		{
+			return exclude.Match(file);
+		}
+
+		public void Dispose()
+		{
+			foreach (var watcher in _watchers.ToArray())
+			{
+				watcher.EnableRaisingEvents = false;
+				watcher.Dispose();
+			}
+		}
+	}
 }

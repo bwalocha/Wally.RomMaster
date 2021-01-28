@@ -1,7 +1,7 @@
 ﻿namespace Wally.Database
 {
-    public interface IUnitOfWorkFactory
-    {
-        IUnitOfWork Create();
-    }
+	public interface IUnitOfWorkFactory
+	{
+		IUnitOfWork Create();
+	}
 }

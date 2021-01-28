@@ -5,63 +5,69 @@ using Wally.RomMaster.Domain.Interfaces;
 
 namespace Wally.RomMaster.BusinessLogic.Services
 {
-    public class DebuggerService : IDebuggerService
-    {
-        public ILoggerProvider LoggerProvider { get; private set; }
+	public class DebuggerService : IDebuggerService
+	{
+		public ILoggerProvider LoggerProvider { get; private set; }
 
-        // public event EventHandler<string> MessageReceived;
+		// public event EventHandler<string> MessageReceived;
 
-        public ObservableCollection<string> Messages { get; } = new ObservableCollection<string>();
+		public ObservableCollection<string> Messages { get; } = new ObservableCollection<string>();
 
-        public DebuggerService()
-        {
-            LoggerProvider = new DebuggerLoggerProvider(this);
-        }
+		public DebuggerService()
+		{
+			LoggerProvider = new DebuggerLoggerProvider(this);
+		}
 
-        protected void OnMessageReceived(object sender, string e)
-        {
-            Messages.Add(e);
-            // MessageReceived?.Invoke(sender, e);
-        }
+		protected void OnMessageReceived(object sender, string e)
+		{
+			Messages.Add(e);
 
-        private class DebuggerLoggerProvider : ILoggerProvider
-        {
-            private readonly DebuggerLogger logger;
+			// MessageReceived?.Invoke(sender, e);
+		}
 
-            public DebuggerLoggerProvider(DebuggerService debuggerService)
-            {
-                logger = new DebuggerLogger();
-                logger.OnMessageReceived += debuggerService.OnMessageReceived;
-            }
+		private class DebuggerLoggerProvider : ILoggerProvider
+		{
+			private readonly DebuggerLogger _logger;
 
-            public ILogger CreateLogger(string categoryName)
-            {
-                return logger;
-            }
+			public DebuggerLoggerProvider(DebuggerService debuggerService)
+			{
+				_logger = new DebuggerLogger();
+				_logger.OnMessageReceived += debuggerService.OnMessageReceived;
+			}
 
-            public void Dispose()
-            {
-            }
-        }
+			public ILogger CreateLogger(string categoryName)
+			{
+				return _logger;
+			}
 
-        private class DebuggerLogger : ILogger
-        {
-            public Action<object, string> OnMessageReceived { get; set; }
+			public void Dispose()
+			{
+			}
+		}
 
-            public IDisposable BeginScope<TState>(TState state)
-            {
-                return null;
-            }
+		private class DebuggerLogger : ILogger
+		{
+			public Action<object, string> OnMessageReceived { get; set; }
 
-            public bool IsEnabled(LogLevel logLevel)
-            {
-                return true;
-            }
+			public IDisposable BeginScope<TState>(TState state)
+			{
+				return null;
+			}
 
-            public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception exception, Func<TState, Exception, string> formatter)
-            {
-                OnMessageReceived?.Invoke(this, formatter.Invoke(state, exception));
-            }
-        }
-    }
+			public bool IsEnabled(LogLevel logLevel)
+			{
+				return true;
+			}
+
+			public void Log<TState>(
+				LogLevel logLevel,
+				EventId eventId,
+				TState state,
+				Exception exception,
+				Func<TState, Exception, string> formatter)
+			{
+				OnMessageReceived?.Invoke(this, formatter.Invoke(state, exception));
+			}
+		}
+	}
 }

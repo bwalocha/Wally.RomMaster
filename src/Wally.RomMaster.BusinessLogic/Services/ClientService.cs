@@ -9,93 +9,95 @@ using Wally.RomMaster.Domain.Models;
 
 namespace Wally.RomMaster.BusinessLogic.Services
 {
-    public class ClientService : BackgroundService
-    {
-        private readonly ILogger<ClientService> logger;
-        private readonly FileWatcherService fileWatcherService;
-        private readonly DatFileService datFileService;
-        private readonly RomFileService romFileService;
-        private readonly ToSortFileService toSortFileService;
-        private readonly FixService fixService;
+	public class ClientService : BackgroundService
+	{
+		private readonly ILogger<ClientService> _logger;
+		private readonly FileWatcherService _fileWatcherService;
+		private readonly DatFileService _datFileService;
+		private readonly RomFileService _romFileService;
+		private readonly ToSortFileService _toSortFileService;
+		private readonly FixService _fixService;
 
-        public ClientService(
-            ILogger<ClientService> logger,
-            FileWatcherService fileWatcherService,
-            DatFileService datFileService,
-            RomFileService romFileService,
-            ToSortFileService toSortFileService,
-            FixService fixService)
-        {
-            this.logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            this.fileWatcherService = fileWatcherService ?? throw new ArgumentNullException(nameof(fileWatcherService));
-            this.datFileService = datFileService ?? throw new ArgumentNullException(nameof(datFileService));
-            this.romFileService = romFileService ?? throw new ArgumentNullException(nameof(romFileService));
-            this.toSortFileService = toSortFileService ?? throw new ArgumentNullException(nameof(toSortFileService));
-            this.fixService = fixService ?? throw new ArgumentNullException(nameof(fixService));
+		public ClientService(
+			ILogger<ClientService> logger,
+			FileWatcherService fileWatcherService,
+			DatFileService datFileService,
+			RomFileService romFileService,
+			ToSortFileService toSortFileService,
+			FixService fixService)
+		{
+			this._logger = logger ?? throw new ArgumentNullException(nameof(logger));
+			this._fileWatcherService = fileWatcherService ?? throw new ArgumentNullException(nameof(fileWatcherService));
+			this._datFileService = datFileService ?? throw new ArgumentNullException(nameof(datFileService));
+			this._romFileService = romFileService ?? throw new ArgumentNullException(nameof(romFileService));
+			this._toSortFileService = toSortFileService ?? throw new ArgumentNullException(nameof(toSortFileService));
+			this._fixService = fixService ?? throw new ArgumentNullException(nameof(fixService));
 
-            this.fileWatcherService.DatFileChanged += DatFileChanged;
-            this.fileWatcherService.ToSortFileChanged += ToSortFileChanged;
-        }
+			this._fileWatcherService.DatFileChanged += DatFileChanged;
+			this._fileWatcherService.ToSortFileChanged += ToSortFileChanged;
+		}
 
-        private void DatFileChanged(object sender, FileSystemEventArgs e)
-        {
-            datFileService.Enqueue(e.FullPath);
-            // TODO: execute FixService for new Dat file data
-            // this.fixService.Enqueue(e.FullPath);
-        }
+		private void DatFileChanged(object sender, FileSystemEventArgs e)
+		{
+			_datFileService.Enqueue(e.FullPath);
 
-        private void ToSortFileChanged(object sender, FileSystemEventArgs e)
-        {
-            // TODO: wait for access to file
-            toSortFileService.Enqueue(e.FullPath);
-            // TODO: wait for end of thr toSortService processing
-            // TODO: execute FixService for new Dat file data
-            // this.fixService.Enqueue(e.FullPath);
-        }
+			// TODO: execute FixService for new Dat file data
+			// this.fixService.Enqueue(e.FullPath);
+		}
 
-        public override async Task StartAsync(CancellationToken cancellationToken)
-        {
-            logger.LogDebug("Statring the application...");
+		private void ToSortFileChanged(object sender, FileSystemEventArgs e)
+		{
+			// TODO: wait for access to file
+			_toSortFileService.Enqueue(e.FullPath);
 
-            cancellationToken.Register(() => logger.LogDebug("Background task is stopping..."));
-            await fileWatcherService.StartAsync(cancellationToken).ConfigureAwait(false);
-            await datFileService.StartAsync(cancellationToken).ConfigureAwait(false);
-            await datFileService.WaitForQueueEmptyAsync(cancellationToken).ConfigureAwait(false);
+			// TODO: wait for end of thr toSortService processing
+			// TODO: execute FixService for new Dat file data
+			// this.fixService.Enqueue(e.FullPath);
+		}
 
-            await romFileService.StartAsync(cancellationToken).ConfigureAwait(false);
-            await toSortFileService.StartAsync(cancellationToken).ConfigureAwait(false);
+		public override async Task StartAsync(CancellationToken cancellationToken)
+		{
+			_logger.LogDebug("Statring the application...");
 
-            logger.LogDebug("Application has been started.");
-            await base.StartAsync(cancellationToken).ConfigureAwait(false);
-        }
+			cancellationToken.Register(() => _logger.LogDebug("Background task is stopping..."));
+			await _fileWatcherService.StartAsync(cancellationToken).ConfigureAwait(false);
+			await _datFileService.StartAsync(cancellationToken).ConfigureAwait(false);
+			await _datFileService.WaitForQueueEmptyAsync(cancellationToken).ConfigureAwait(false);
 
-        protected override async Task ExecuteAsync(CancellationToken cancellationToken)
-        {
-            logger.LogDebug("Starting...");
+			await _romFileService.StartAsync(cancellationToken).ConfigureAwait(false);
+			await _toSortFileService.StartAsync(cancellationToken).ConfigureAwait(false);
 
-            cancellationToken.Register(() => logger.LogDebug("Background task is stopping..."));
+			_logger.LogDebug("Application has been started.");
+			await base.StartAsync(cancellationToken).ConfigureAwait(false);
+		}
 
-            await datFileService.WaitForQueueEmptyAsync(cancellationToken).ConfigureAwait(false);
-            await romFileService.WaitForQueueEmptyAsync(cancellationToken).ConfigureAwait(false);
-            await toSortFileService.WaitForQueueEmptyAsync(cancellationToken).ConfigureAwait(false);
+		protected override async Task ExecuteAsync(CancellationToken cancellationToken)
+		{
+			_logger.LogDebug("Starting...");
 
-            await fixService.StartAsync(cancellationToken).ConfigureAwait(false);
+			cancellationToken.Register(() => _logger.LogDebug("Background task is stopping..."));
 
-            logger.LogDebug("Background task is stopping.");
-        }
+			await _datFileService.WaitForQueueEmptyAsync(cancellationToken).ConfigureAwait(false);
+			await _romFileService.WaitForQueueEmptyAsync(cancellationToken).ConfigureAwait(false);
+			await _toSortFileService.WaitForQueueEmptyAsync(cancellationToken).ConfigureAwait(false);
 
-        public override async Task StopAsync(CancellationToken cancellationToken)
-        {
-            logger.LogDebug("Stopping the application...");
+			await _fixService.StartAsync(cancellationToken).ConfigureAwait(false);
 
-            // Run background task clean-up actions
-            await fileWatcherService.StopAsync(cancellationToken).ConfigureAwait(false);
-            await datFileService.StopAsync(cancellationToken).ConfigureAwait(false);
-            await romFileService.StopAsync(cancellationToken).ConfigureAwait(false);
-            await toSortFileService.StopAsync(cancellationToken).ConfigureAwait(false);
-            await fixService.StopAsync(cancellationToken).ConfigureAwait(false);
+			_logger.LogDebug("Background task is stopping.");
+		}
 
-            logger.LogDebug("Application has been stopped.");
-        }
-    }
+		public override async Task StopAsync(CancellationToken cancellationToken)
+		{
+			_logger.LogDebug("Stopping the application...");
+
+			// Run background task clean-up actions
+			await _fileWatcherService.StopAsync(cancellationToken).ConfigureAwait(false);
+			await _datFileService.StopAsync(cancellationToken).ConfigureAwait(false);
+			await _romFileService.StopAsync(cancellationToken).ConfigureAwait(false);
+			await _toSortFileService.StopAsync(cancellationToken).ConfigureAwait(false);
+			await _fixService.StopAsync(cancellationToken).ConfigureAwait(false);
+
+			_logger.LogDebug("Application has been stopped.");
+		}
+	}
 }

@@ -2,20 +2,22 @@
 
 namespace Wally.RomMaster.Database
 {
-    public class UnitOfWorkFactory : IUnitOfWorkFactory
-    {
-        private readonly DatabaseContext databaseContext;
-        // private IUnitOfWork unitOfWork;
+	public class UnitOfWorkFactory : IUnitOfWorkFactory
+	{
+		private readonly DatabaseContext _databaseContext;
 
-        public UnitOfWorkFactory(DatabaseContext databaseContext)
-        {
-            this.databaseContext = databaseContext;
-        }
+		// private IUnitOfWork unitOfWork;
 
-        public IUnitOfWork Create()
-        {
-            return new UnitOfWork(databaseContext);
-            // return unitOfWork ?? (unitOfWork = new UnitOfWork(databaseContext));
-        }
-    }
+		public UnitOfWorkFactory(DatabaseContext databaseContext)
+		{
+			this._databaseContext = databaseContext;
+		}
+
+		public IUnitOfWork Create()
+		{
+			return new UnitOfWork(_databaseContext);
+
+			// return unitOfWork ?? (unitOfWork = new UnitOfWork(databaseContext));
+		}
+	}
 }
