@@ -1,12 +1,11 @@
 variables:
-    PROJECT_PATH: ./src/Wally.RomMaster
-    # Registry
-    CI_REGISTRY_USER: wally
-    CI_REGISTRY_PASSWORD: wally666
-    SHARED_PATH: ${CI_PROJECT_DIR}/shared
-    DOCKER_IMAGE_TEST: ${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}:${CI_PIPELINE_ID}_test
-    DOCKER_IMAGE_TAGGED: ${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}:${CI_PIPELINE_ID}
-    DOCKER_IMAGE_LATEST: ${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_NAME}:latest
+    # https://gitlab.com/gitlab-org/gitlab-runner/-/issues/1809
+    #FRONTEND_PROJECT_NAME: "Wally.Wally.RomMaster"
+    BACKEND_PROJECT_NAME: "Wally.Wally.RomMaster"
+    #
+    CI_DEBUG_TRACE: "false"
+    CI_REGISTRY_USER: ${REGISTRY_USER}
+    CI_REGISTRY_PASSWORD: ${REGISTRY_PASSWORD}
 
 stages:
     - build
@@ -14,112 +13,7 @@ stages:
     - publish
     - deploy
 
-build:
-    stage: build
-    tags: 
-        - docker
-    before_script:
-        - docker login ${CI_REGISTRY} -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
-    script:
-        - docker build ./src --pull -f ${PROJECT_PATH}/Dockerfile -t ${DOCKER_IMAGE_TAGGED}
-        - docker push ${DOCKER_IMAGE_TAGGED}
-    after_script:
-        - docker logout ${CI_REGISTRY}
-        
-test:
-    stage: test
-    tags:
-        - docker
-    before_script:
-        - docker login ${CI_REGISTRY} -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
-    script:
-        - docker build ./src --pull --target test -f ${PROJECT_PATH}/Dockerfile -t ${DOCKER_IMAGE_TEST}
-        - docker run
-            --rm
-            --volume ${SHARED_PATH}:/mnt/artifacts:rw
-            ${DOCKER_IMAGE_TEST}
-    artifacts:
-        when: always
-        expire_in: 30 days
-        paths:
-            - ${SHARED_PATH}/**/*
-        reports:
-            junit: 
-                - ${SHARED_PATH}/*-test-result.xml        
-    after_script:
-        - docker logout ${CI_REGISTRY}
-       
-#report:       
-pages:
-    stage: publish
-    tags:
-        - docker
-    allow_failure: true
-    needs:
-        - job: test
-          artifacts: true
-    variables:
-        GIT_STRATEGY: none
-        GIT_CHECKOUT: "false"
-    script:
-        - mv ${SHARED_PATH}/coverage/reports/ public/
-    artifacts:
-        when: always
-        expire_in: 30 days
-        paths:
-            - public
-
-release:
-    stage: publish
-    tags: 
-        - docker
-    only:
-        - master
-    needs:
-        - job: test
-          artifacts: false
-    before_script:
-        - docker login ${CI_REGISTRY} -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
-    script:
-        - docker pull ${DOCKER_IMAGE_TAGGED}
-        - docker tag ${DOCKER_IMAGE_TAGGED} ${DOCKER_IMAGE_LATEST}
-        - docker push ${DOCKER_IMAGE_TAGGED}
-    after_script:
-        - docker logout ${CI_REGISTRY}
-        
-deploy:
-    stage: deploy
-    tags:
-        - ssh
-    only:
-        - master
-    environment:
-        name: prod
-        url: "https://${CI_PROJECT_PATH_SLUG}.${DOMAIN}"
-    when: manual
-    variables:
-        GIT_STRATEGY: none
-        GIT_CHECKOUT: "false"
-    script:
-        - $DOCKER login ${CI_REGISTRY} -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
-        - $DOCKER stop ${CI_PROJECT_PATH_SLUG} || true && $DOCKER rm ${CI_PROJECT_PATH_SLUG} || true
-        - $DOCKER run
-            --detach
-            --name ${CI_PROJECT_PATH_SLUG}
-            --network ${DOCKER_NETWORK}
-            --volume "/share/Container/Wally.DevOps/auth/webserver.pfx:/certs/webserver.pfx:ro"
-            --env "ASPNETCORE_ENVIRONMENT=Development"
-            --env "ASPNETCORE_HTTPS_PORT=443"
-            --env "ASPNETCORE_URLS=http://+:80;https://+:443"
-            --env "ASPNETCORE_Kestrel__Certificates__Default__Path=/certs/webserver.pfx"
-            --env "ASPNETCORE_Kestrel__Certificates__Default__Password=${CERT_PASS}"
-            --label "traefik.enable=true"
-            --label "traefik.http.routers.${CI_PROJECT_PATH_SLUG}.entrypoints=http"
-            --label "traefik.http.routers.${CI_PROJECT_PATH_SLUG}.rule=Host(\`${CI_PROJECT_PATH_SLUG}.${DOMAIN}\`)"
-            --label "traefik.http.services.${CI_PROJECT_PATH_SLUG}.loadbalancer.server.port=80"
-            --label "_traefik.http.routers.${CI_PROJECT_PATH_SLUG}-secure.entrypoints=https"
-            --label "_traefik.http.routers.${CI_PROJECT_PATH_SLUG}-secure.rule=Host(\`${CI_PROJECT_PATH_SLUG}.${DOMAIN}\`)"
-            --label "_traefik.http.routers.${CI_PROJECT_PATH_SLUG}-secure.tls=true"
-            --label "_traefik.http.services.${CI_PROJECT_PATH_SLUG}-secure.loadbalancer.server.port=443"
-            ${DOCKER_IMAGE_TAGGED}
-        - $DOCKER logout ${CI_REGISTRY}
+include:
+    - local: .gitlab/ci/backend.gitlab-ci.yml
+    #- local: .gitlab/ci/frontend.gitlab-ci.yml
+    - local: .gitlab/ci/deploy.gitlab-ci.yml

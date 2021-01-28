@@ -1,0 +1,93 @@
+.frontend:
+    #only:
+    #    changes:
+    #        - src/${FRONTEND_PROJECT_NAME}/**/*
+    variables:
+        SHARED_PATH: ${CI_PROJECT_DIR}/shared
+        DOCKER_IMAGE_TEST:   ${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_PATH_SLUG}:${FRONTEND_PROJECT_NAME}_${CI_PIPELINE_ID}_test
+        DOCKER_IMAGE_TAGGED: ${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_PATH_SLUG}:${FRONTEND_PROJECT_NAME}_${CI_PIPELINE_ID}
+        DOCKER_IMAGE_LATEST: ${CI_REGISTRY}/${CI_PROJECT_NAMESPACE}/${CI_PROJECT_PATH_SLUG}:${FRONTEND_PROJECT_NAME}_latest
+
+frontend:build:
+    stage: build
+    extends:
+        - .frontend
+    tags: 
+        - docker
+    before_script:
+        - docker login ${CI_REGISTRY} -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
+    script:
+        - docker
+            --log-level debug
+            build ./src
+            --pull
+            -f ./src/${FRONTEND_PROJECT_NAME}/Dockerfile
+            -t ${DOCKER_IMAGE_TAGGED}
+            --build-arg PROJECT_NAME=${FRONTEND_PROJECT_NAME}
+        - docker push ${DOCKER_IMAGE_TAGGED}
+    after_script:
+        - docker logout ${CI_REGISTRY}
+        
+# test:
+    # stage: test
+    # tags:
+        # - docker
+    # before_script:
+        # - docker login ${CI_REGISTRY} -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
+    # script:
+        # - docker --log-level debug build ./src --pull --target test -f ./src/${FRONTEND_PROJECT_NAME}/Dockerfile -t ${DOCKER_IMAGE_TEST} --build-arg PROJECT_NAME=${FRONTEND_PROJECT_NAME}
+        # - docker run
+            # --rm
+            # --volume ${SHARED_PATH}:/mnt/artifacts:rw
+            # ${DOCKER_IMAGE_TEST}
+    # artifacts:
+        # when: always
+        # expire_in: 30 days
+        # paths:
+            # - ${SHARED_PATH}/**/*
+        # reports:
+            # junit: 
+                # - ${SHARED_PATH}/*-test-result.xml        
+    # after_script:
+        # - docker logout ${CI_REGISTRY}
+       
+# #report:       
+# pages:
+    # stage: publish
+    # tags:
+        # - docker
+    # allow_failure: true
+    # needs:
+        # - job: test
+          # artifacts: true
+    # variables:
+        # GIT_STRATEGY: none
+        # GIT_CHECKOUT: "false"
+    # script:
+        # - mv ${SHARED_PATH}/coverage/reports/ public/
+    # artifacts:
+        # when: always
+        # expire_in: 30 days
+        # paths:
+            # - public
+
+frontend:release:
+    stage: publish
+    extends:
+        - .frontend
+    tags: 
+        - docker
+    only:
+        - master
+        - /^release/.*$/
+    # needs:
+        # - job: test
+          # artifacts: false
+    before_script:
+        - docker login ${CI_REGISTRY} -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
+    script:
+        - docker pull ${DOCKER_IMAGE_TAGGED}
+        - docker tag ${DOCKER_IMAGE_TAGGED} ${DOCKER_IMAGE_LATEST}
+        - docker push ${DOCKER_IMAGE_TAGGED}
+    after_script:
+        - docker logout ${CI_REGISTRY}

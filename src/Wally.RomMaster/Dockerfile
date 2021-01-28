@@ -1,35 +1,43 @@
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1.2-buster-slim AS base
+ARG PROJECT_NAME
+
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1.4-buster-slim AS base
+ARG PROJECT_NAME
+ENV PROJECT_NAME ${PROJECT_NAME}
 WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/core/sdk:3.0.103-buster AS build
-# install the report generator tool
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1.201-buster AS build
+ARG PROJECT_NAME
 RUN dotnet tool install dotnet-reportgenerator-globaltool --version 4.3.9 --tool-path /tools
-
 WORKDIR /src
-COPY ["Wally.RomMaster/Wally.RomMaster.csproj", "Wally.RomMaster/"]
-COPY ["Wally.RomMaster.Domain/Wally.RomMaster.Domain.csproj", "Wally.RomMaster.Domain/"]
-COPY ["Wally.RomMaster.Database/Wally.RomMaster.Database.csproj", "Wally.RomMaster.Database/"]
-COPY ["Wally.Database/Wally.Database.csproj", "Wally.Database/"]
-COPY ["Wally.RomMaster.BusinessLogic/Wally.RomMaster.BusinessLogic.csproj", "Wally.RomMaster.BusinessLogic/"]
-COPY ["Wally.RomMaster.DatFileParser/Wally.RomMaster.DatFileParser.csproj", "Wally.RomMaster.DatFileParser/"]
-COPY ["Wally.RazorComponent.Grid/Wally.RazorComponent.Grid.csproj", "Wally.RazorComponent.Grid/"]
-RUN dotnet restore "Wally.RomMaster/Wally.RomMaster.csproj"
-
+COPY ./*/*.csproj ./
+RUN for file in $(ls *.csproj); do mkdir -p ./${file%.*}/ && mv $file ./${file%.*}/; done
+RUN dotnet restore "${PROJECT_NAME}/${PROJECT_NAME}.csproj"
 COPY . .
 RUN dotnet build -c Release -o /app/build
 
 FROM build AS test
 WORKDIR /src
-RUN echo "dotnet test --test-adapter-path:. --logger:'junit;LogFilePath=/mnt/artifacts/{framework}-{assembly}-test-result.xml;MethodFormat=Full;FailureBodyFormat=Verbose' /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput=/mnt/artifacts/coverage/" >> test.sh
-RUN echo "/tools/reportgenerator -reports:/mnt/artifacts/coverage/coverage.cobertura.xml -targetdir:/mnt/artifacts/coverage/reports -reporttypes:'HTMLInline;HTMLChart'" >> test.sh
-ENTRYPOINT ["sh", "test.sh"]
+ENTRYPOINT dotnet test \
+	--test-adapter-path:. \
+	--logger:'junit;LogFilePath=/mnt/artifacts/{framework}-{assembly}-test-result.xml;MethodFormat=Full;FailureBodyFormat=Verbose' \
+	/p:CollectCoverage=true \
+	/p:CoverletOutputFormat=cobertura \
+	/p:CoverletOutput=/mnt/artifacts/coverage/ \
+	&& \
+	/tools/reportgenerator \
+	-reports:/mnt/artifacts/coverage/coverage.cobertura.xml \
+	-targetdir:/mnt/artifacts/coverage/reports \
+	-reporttypes:'HTMLInline;HTMLChart'
 
 FROM build AS publish
-WORKDIR /src/Wally.RomMaster
-RUN dotnet publish "Wally.RomMaster.csproj" -c Release -o /app/publish
+ARG PROJECT_NAME
+WORKDIR /src/${PROJECT_NAME}
+RUN dotnet publish "${PROJECT_NAME}.csproj" -c Release -o /app/publish
 
 FROM base AS final
+ARG PROJECT_NAME
+ENV PROJECT_NAME ${PROJECT_NAME}
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Wally.RomMaster.dll"]
+ENTRYPOINT dotnet ${PROJECT_NAME}.dll
