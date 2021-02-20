@@ -1,11 +1,14 @@
+default:
+    tags: 
+        - docker
+
 variables:
-    # https://gitlab.com/gitlab-org/gitlab-runner/-/issues/1809
-    #FRONTEND_PROJECT_NAME: "Wally.RomMaster"
-    BACKEND_PROJECT_NAME: "Wally.RomMaster"
-    #
     CI_DEBUG_TRACE: "false"
     CI_REGISTRY_USER: ${REGISTRY_USER}
     CI_REGISTRY_PASSWORD: ${REGISTRY_PASSWORD}
+    SHARED_PATH: ${CI_PROJECT_DIR}/shared
+    #
+    API_PROJECT_NAME: "Wally.RomMaster"
 
 stages:
     - build
@@ -13,7 +16,33 @@ stages:
     - publish
     - deploy
 
+build:api:
+    extends:
+        - .build
+        - .build:docker
+    variables:
+        PROJECT_NAME: ${API_PROJECT_NAME}
+
+test:api:
+    extends:
+        - .test
+        - .test:backend:docker
+    variables:
+        PROJECT_NAME: ${API_PROJECT_NAME}
+
+publish:docker:api:
+    extends:
+        - .publish:docker
+    variables:
+        PROJECT_NAME: ${API_PROJECT_NAME}
+
+deploy:container-station:
+    extends:
+        - .deploy:container-station
+
 include:
-    - local: .gitlab/ci/backend.gitlab-ci.yml
-    #- local: .gitlab/ci/frontend.gitlab-ci.yml
+    - local: .gitlab/ci/docker.gitlab-ci.yml
+    - local: .gitlab/ci/build.gitlab-ci.yml
+    - local: .gitlab/ci/test.gitlab-ci.yml
+    - local: .gitlab/ci/publish.gitlab-ci.yml
     - local: .gitlab/ci/deploy.gitlab-ci.yml

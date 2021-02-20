@@ -142,10 +142,17 @@ namespace Wally.RomMaster.BusinessLogic.Services
 
 				var item = await Task.Run(() => _queue.Take(cancellationToken), cancellationToken).ConfigureAwait(false);
 				_logger.LogInformation($"Background task is procesing [{_queue.Count}] item '{item}'.");
-				var files = await Process(item).ConfigureAwait(false);
-				foreach (var file in files)
+				try
 				{
-					await PostProcessAsync(file, cancellationToken).ConfigureAwait(false);
+					var files = await Process(item).ConfigureAwait(false);
+					foreach (var file in files)
+					{
+						await PostProcessAsync(file, cancellationToken).ConfigureAwait(false);
+					}
+				}
+				catch (Exception ex)
+				{
+					_logger.LogError(ex.Message);
 				}
 			}
 

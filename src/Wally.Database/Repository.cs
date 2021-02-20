@@ -13,6 +13,7 @@ namespace Wally.Database
 		public Repository(DbContext context)
 			: base(context)
 		{
+			DbSet = context.Set<TEntity>();
 		}
 
 		protected override IQueryable<TEntity> CreateSet(DbContext context)

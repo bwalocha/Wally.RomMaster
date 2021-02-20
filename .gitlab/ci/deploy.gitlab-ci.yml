@@ -1,20 +1,3 @@
-deploy:
-    stage: deploy
-    tags:
-        - ssh
-    only:
-        - master
-        - /^release/.*$/
-    environment:
-        name: prod
-        url: "https://${CI_PROJECT_PATH_SLUG}.${DOMAIN}"
-    when: manual
-    variables:
-        GIT_STRATEGY: none
-        GIT_CHECKOUT: "false"
-    before_script:
-        - docker login ${CI_REGISTRY} -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
-    script:
-        - mkdir -p /share/Container/${CI_PROJECT_PATH_SLUG}
-        - cd /share/Container/${CI_PROJECT_PATH_SLUG}
-        - ${DOCKER_COMPOSE} down && ${DOCKER_COMPOSE} up -d
+include:
+    - local: .gitlab/ci/deploy-azure.gitlab-ci.yml
+    - local: .gitlab/ci/deploy-container-station.gitlab-ci.yml
