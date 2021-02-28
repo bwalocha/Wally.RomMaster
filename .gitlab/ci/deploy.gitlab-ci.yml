@@ -1,3 +1,0 @@
-include:
-    - local: .gitlab/ci/deploy-azure.gitlab-ci.yml
-    - local: .gitlab/ci/deploy-container-station.gitlab-ci.yml

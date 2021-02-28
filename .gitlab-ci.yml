@@ -18,21 +18,19 @@ stages:
 
 build:api:
     extends:
-        - .build
         - .build:docker
     variables:
         PROJECT_NAME: ${API_PROJECT_NAME}
 
 test:api:
     extends:
-        - .test
-        - .test:backend:docker
+        - .test:docker:backend
     variables:
         PROJECT_NAME: ${API_PROJECT_NAME}
 
-publish:docker:api:
+publish:api:
     extends:
-        - .publish:docker
+        - .publish:docker:backend
     variables:
         PROJECT_NAME: ${API_PROJECT_NAME}
 
@@ -41,8 +39,16 @@ deploy:container-station:
         - .deploy:container-station
 
 include:
-    - local: .gitlab/ci/docker.gitlab-ci.yml
-    - local: .gitlab/ci/build.gitlab-ci.yml
-    - local: .gitlab/ci/test.gitlab-ci.yml
-    - local: .gitlab/ci/publish.gitlab-ci.yml
-    - local: .gitlab/ci/deploy.gitlab-ci.yml
+    - project: 'wally/wally.common.pipelines'
+      ref: master
+      file: 
+        - /src/docker.gitlab-ci.yml
+        - /src/build.gitlab-ci.yml
+        - /src/build-docker.gitlab-ci.yml
+        - /src/test.gitlab-ci.yml
+        - /src/test-docker.gitlab-ci.yml
+        - /src/publish.gitlab-ci.yml
+        - /src/publish-docker.gitlab-ci.yml
+        - /src/deploy.gitlab-ci.yml
+        - /src/deploy-azure.gitlab-ci.yml
+        - /src/deploy-container-station.gitlab-ci.yml
