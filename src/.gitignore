@@ -1,6 +1,6 @@
 
-# Created by https://www.toptal.com/developers/gitignore/api/rider,dotnetcore,visualstudio,jetbrains+all,vuejs
-# Edit at https://www.toptal.com/developers/gitignore?templates=rider,dotnetcore,visualstudio,jetbrains+all,vuejs
+# Created by https://www.toptal.com/developers/gitignore/api/rider,dotnetcore,jetbrains+all,visualstudio,visualstudiocode
+# Edit at https://www.toptal.com/developers/gitignore?templates=rider,dotnetcore,jetbrains+all,visualstudio,visualstudiocode
 
 ### DotnetCore ###
 # .NET Core build folders
@@ -21,6 +21,9 @@ obj/
 .idea/**/usage.statistics.xml
 .idea/**/dictionaries
 .idea/**/shelf
+
+# AWS User-specific
+.idea/**/aws.xml
 
 # Generated files
 .idea/**/contentModel.xml
@@ -106,6 +109,8 @@ modules.xml
 
 # User-specific stuff
 
+# AWS User-specific
+
 # Generated files
 
 # Sensitive or high-churn files
@@ -145,13 +150,24 @@ modules.xml
 
 # Android studio 3.1+ serialized cache file
 
-### Vuejs ###
-# Recommended template: Node.gitignore
+### VisualStudioCode ###
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+*.code-workspace
 
-node_modules/
-dist/
-npm-debug.log
-yarn-error.log
+# Local History for Visual Studio Code
+.history/
+
+### VisualStudioCode Patch ###
+# Ignore all local history of files
+.history
+.ionide
+
+# Support for Project snippet scope
+!.vscode/*.code-snippets
 
 ### VisualStudio ###
 ## Ignore Visual Studio temporary files, build results, and
@@ -179,6 +195,7 @@ mono_crash.*
 [Rr]eleases/
 x64/
 x86/
+[Ww][Ii][Nn]32/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
 bld/
@@ -217,6 +234,9 @@ project.lock.json
 project.fragment.lock.json
 artifacts/
 
+# ASP.NET Scaffolding
+ScaffoldingReadMe.txt
+
 # StyleCop
 StyleCopReport.xml
 
@@ -242,6 +262,7 @@ StyleCopReport.xml
 *.tmp_proj
 *_wpftmp.csproj
 *.log
+*.tlog
 *.vspscc
 *.vssscc
 .builds
@@ -294,7 +315,9 @@ _TeamCity*
 !.axoCover/settings.json
 
 # Coverlet is a free, cross platform Code Coverage Tool
-coverage*[.json, .xml, .info]
+coverage*.json
+coverage*.xml
+coverage*.info
 
 # Visual Studio code coverage results
 *.coverage
@@ -354,6 +377,9 @@ PublishScripts/
 # NuGet v3's project.json files produces more ignorable files
 *.nuget.props
 *.nuget.targets
+
+# Nuget personal access tokens and Credentials
+# nuget.config
 
 # Microsoft Azure Build Output
 csx/
@@ -432,6 +458,7 @@ FakesAssemblies/
 
 # Node.js Tools for Visual Studio
 .ntvs_analysis.dat
+node_modules/
 
 # Visual Studio 6 build log
 *.plg
@@ -507,4 +534,24 @@ MigrationBackup/
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
 
-# End of https://www.toptal.com/developers/gitignore/api/rider,dotnetcore,visualstudio,jetbrains+all,vuejs
+# Fody - auto-generated XML schema
+FodyWeavers.xsd
+
+# VS Code files for those working on multiple tools
+
+# Local History for Visual Studio Code
+
+# Windows Installer files from build outputs
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+
+# JetBrains Rider
+*.sln.iml
+
+### VisualStudio Patch ###
+# Additional files built by Visual Studio
+
+# End of https://www.toptal.com/developers/gitignore/api/rider,dotnetcore,jetbrains+all,visualstudio,visualstudiocode
