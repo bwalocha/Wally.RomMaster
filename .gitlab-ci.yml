@@ -1,54 +1,62 @@
-default:
-    tags: 
-        - docker
-
 variables:
-    CI_DEBUG_TRACE: "false"
-    CI_REGISTRY_USER: ${REGISTRY_USER}
-    CI_REGISTRY_PASSWORD: ${REGISTRY_PASSWORD}
-    SHARED_PATH: ${CI_PROJECT_DIR}/shared
-    #
-    API_PROJECT_NAME: "Wally.RomMaster"
+  STACK: rommaster
+  SLN_SOLUTION_NAME: "Wally.RomMaster"
+  API_PROJECT_NAME: "Wally.RomMaster"
+  #
+  VERSION: "0.1.${CI_PIPELINE_ID}"
+  #CI_DEBUG_TRACE: "true"
 
 stages:
-    - build
-    - test
-    - publish
-    - deploy
+  - build
+  - test
+  - publish
+  - deploy
 
-build:api:
-    extends:
-        - .build:docker
-    variables:
-        PROJECT_NAME: ${API_PROJECT_NAME}
 
-test:api:
-    extends:
-        - .test:docker:backend
-    variables:
-        PROJECT_NAME: ${API_PROJECT_NAME}
+.dotnet:
+  # https://hub.docker.com/_/microsoft-dotnet-sdk
+  image: mcr.microsoft.com/dotnet/sdk:5.0.402-alpine3.14-amd64
+
+build:sln:
+  extends:
+    - .build:dotnet
+  variables:
+    SOLUTION_NAME: ${SLN_SOLUTION_NAME}
+
+test:sln:
+  extends:
+    - .test:dotnet
+  needs:
+    - build:sln
+  variables:
+    SOLUTION_NAME: ${SLN_SOLUTION_NAME}
 
 publish:api:
-    extends:
-        - .publish:docker:backend
-    variables:
-        PROJECT_NAME: ${API_PROJECT_NAME}
+  extends:
+    - .publish:dotnet
+  needs:
+    - test:sln
+  variables:
+    PROJECT_NAME: ${API_PROJECT_NAME}
+
+publish:docker:api:
+  extends:
+    - .publish:docker
+  needs:
+    - publish:api
+  variables:
+    PROJECT_NAME: ${API_PROJECT_NAME}
 
 deploy:container-station:
-    extends:
-        - .deploy:container-station
+  extends:
+    - .deploy:container-station
+  needs:
+    - publish:docker:api
+  variables:
+    ENV: PROD
 
 include:
-    - project: 'wally/wally.common.pipelines'
-      ref: master
-      file: 
-        - /src/docker.gitlab-ci.yml
-        - /src/build.gitlab-ci.yml
-        - /src/build-docker.gitlab-ci.yml
-        - /src/test.gitlab-ci.yml
-        - /src/test-docker.gitlab-ci.yml
-        - /src/publish.gitlab-ci.yml
-        - /src/publish-docker.gitlab-ci.yml
-        - /src/deploy.gitlab-ci.yml
-        - /src/deploy-azure.gitlab-ci.yml
-        - /src/deploy-container-station.gitlab-ci.yml
+  - project: wally/wally.common.pipelines
+    ref: master
+    file:
+      - /src/gitlab-ci.yml
