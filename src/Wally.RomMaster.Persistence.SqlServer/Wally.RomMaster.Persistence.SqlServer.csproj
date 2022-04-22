@@ -7,7 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Wally.Lib.DDD.Abstractions" Version="1.1.2"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.4"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Wally.RomMaster.Persistence\Wally.RomMaster.Persistence.csproj"/>
     </ItemGroup>
 
 </Project>

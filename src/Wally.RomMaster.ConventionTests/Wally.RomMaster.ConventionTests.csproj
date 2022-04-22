@@ -4,10 +4,17 @@
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>disable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <IsPackable>false</IsPackable>
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="AutoMapper" Version="11.0.1"/>
         <PackageReference Include="Wally.Lib.DDD.Abstractions" Version="1.1.2"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Wally.RomMaster.Domain\Wally.RomMaster.Domain.csproj"/>
+        <ProjectReference Include="..\Wally.RomMaster.WebApi\Wally.RomMaster.WebApi.csproj"/>
     </ItemGroup>
 
 </Project>

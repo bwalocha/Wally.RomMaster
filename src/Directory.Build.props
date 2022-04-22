@@ -1,20 +1,20 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-	<PropertyGroup Label="BasePath">
-		<SolutionDir Condition="'$(SolutionDir)'==''">$(MSBuildThisFileDirectory)</SolutionDir>
-	</PropertyGroup>
-	
-	<!-- StyleCop Analyzers configuration -->
-	<PropertyGroup>
-		<CodeAnalysisRuleSet>$(SolutionDir)Wally.Common.CodeStyleRules\settings.stylecop</CodeAnalysisRuleSet>
-	</PropertyGroup>
-	<!-- TODO: Add IDE-->
-	<ItemGroup>
-		<PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="all" />
-		<AdditionalFiles Include="$(SolutionDir)Wally.Common.CodeStyleRules\stylecop.json" Link="Properties\stylecop.json" />
-	</ItemGroup>
-	
-	<ItemGroup>
-		<Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.cs" Link="Properties\AssemblyInfo.cs" />
-		<RazorCompile Include="$(MSBuildThisFileDirectory)AssemblyInfo.cs" Link="Properties\AssemblyInfo.cs" />
-	</ItemGroup>
+    <PropertyGroup Label="BasePath">
+        <SolutionDir Condition="'$(SolutionDir)'==''">$(MSBuildThisFileDirectory)</SolutionDir>
+    </PropertyGroup>
+
+    <!-- StyleCop Analyzers configuration -->
+    <PropertyGroup>
+        <CodeAnalysisRuleSet>$(SolutionDir)Wally.Common.CodeStyleRules\settings.stylecop</CodeAnalysisRuleSet>
+    </PropertyGroup>
+    <!-- TODO: Add IDE-->
+    <ItemGroup>
+        <PackageReference Include="StyleCop.Analyzers" Version="1.1.118" PrivateAssets="all"/>
+        <AdditionalFiles Include="$(SolutionDir)Wally.Common.CodeStyleRules\stylecop.json" Link="Properties\stylecop.json"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Include="$(MSBuildThisFileDirectory)AssemblyInfo.cs" Link="Properties\AssemblyInfo.cs"/>
+        <RazorCompile Include="$(MSBuildThisFileDirectory)AssemblyInfo.cs" Link="Properties\AssemblyInfo.cs"/>
+    </ItemGroup>
 </Project>
