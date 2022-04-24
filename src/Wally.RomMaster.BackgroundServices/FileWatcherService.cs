@@ -72,13 +72,13 @@ public class FileWatcherService : BackgroundService
 				continue;
 			}
 
-			if (!Directory.Exists(folder.Path))
+			if (!Directory.Exists(folder.Path.LocalPath))
 			{
 				_logger.LogWarning($"Folder '{folder.Path}' does not exist. Skipping.");
 				continue;
 			}
 
-			var watcher = new FileSystemWatcher(folder.Path, "*.*")
+			var watcher = new FileSystemWatcher(folder.Path.LocalPath, "*.*")
 			{
 				IncludeSubdirectories = folder.SearchOptions == SearchOption.AllDirectories,
 				NotifyFilter =

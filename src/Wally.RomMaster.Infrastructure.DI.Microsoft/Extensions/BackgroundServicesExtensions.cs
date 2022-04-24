@@ -11,9 +11,9 @@ public static class BackgroundServicesExtensions
 	public static IServiceCollection AddBackgroundServices(this IServiceCollection services, AppSettings settings)
 	{
 		services.AddHostedService(
-			a => new FileScannerService(a.GetRequiredService<ILogger<FileScannerService>>(), settings));
-		services.AddHostedService(
 			a => new FileWatcherService(a.GetRequiredService<ILogger<FileWatcherService>>(), settings, a));
+		services.AddHostedService(
+			a => new FileScannerService(a.GetRequiredService<ILogger<FileScannerService>>(), settings));
 
 		return services;
 	}

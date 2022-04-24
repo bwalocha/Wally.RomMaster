@@ -57,7 +57,7 @@ public class FileScannerService : BackgroundService
 				continue;
 			}
 
-			if (!Directory.Exists(folder.Path))
+			if (!Directory.Exists(folder.Path.LocalPath))
 			{
 				_logger.LogWarning($"Folder '{folder.Path}' does not exist. Skipping.");
 				continue;
@@ -69,9 +69,9 @@ public class FileScannerService : BackgroundService
 
 	private void Scan(FolderSettings folder)
 	{
-		Scan(folder.Path, folder.Excludes);
+		Scan(folder.Path.LocalPath, folder.Excludes);
 
-		foreach (var directory in Directory.EnumerateDirectories(folder.Path, "*.*", folder.SearchOptions))
+		foreach (var directory in Directory.EnumerateDirectories(folder.Path.LocalPath, "*.*", folder.SearchOptions))
 		{
 			Scan(directory, folder.Excludes);
 		}
