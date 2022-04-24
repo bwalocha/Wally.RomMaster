@@ -2,25 +2,24 @@
 
 using Wally.Lib.DDD.Abstractions.DomainModels;
 
-namespace Wally.RomMaster.Domain.Files
+namespace Wally.RomMaster.Domain.Files;
+
+public class Game : Entity
 {
-	public class Game : Entity
-	{
-		// Hide public .ctor
+	private readonly List<Rom> _roms = new();
+
+	// Hide public .ctor
 #pragma warning disable CS8618
-		private Game()
+	private Game()
 #pragma warning restore CS8618
-		{
-		}
-		
-		public string Name { get; private set; }
-
-		public string Description { get; private set; }
-
-		public string Year { get; private set; }
-
-		private readonly List<Rom> _roms = new();
-
-		public IReadOnlyCollection<Rom> Roms => _roms.AsReadOnly();
+	{
 	}
+
+	public string Name { get; private set; }
+
+	public string Description { get; private set; }
+
+	public string Year { get; private set; }
+
+	public IReadOnlyCollection<Rom> Roms => _roms.AsReadOnly();
 }

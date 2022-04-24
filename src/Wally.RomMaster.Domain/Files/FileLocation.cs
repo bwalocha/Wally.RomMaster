@@ -10,12 +10,12 @@ namespace Wally.RomMaster.Domain.Files;
 [DebuggerDisplay("Location = {Location}")]
 public class FileLocation : ValueObject
 {
-	public Uri Location { get; }
-
 	private FileLocation(Uri location)
 	{
 		Location = location;
 	}
+
+	public Uri Location { get; }
 
 	public static FileLocation Create(Uri location)
 	{
@@ -27,14 +27,16 @@ public class FileLocation : ValueObject
 	{
 		try
 		{
-			using (System.IO.File.Open(Location.LocalPath, FileMode.Open)) { }
+			using (System.IO.File.Open(Location.LocalPath, FileMode.Open))
+			{
+			}
 		}
 		catch (IOException e)
 		{
 			var errorCode = Marshal.GetHRForException(e) & ((1 << 16) - 1);
 			return errorCode is 32 or 33;
 		}
-		
+
 		return false;
 	}
 }

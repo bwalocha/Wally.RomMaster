@@ -1,12 +1,17 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
+using MediatR;
+
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
+using Wally.RomMaster.Application.Files.Commands;
 using Wally.RomMaster.BackgroundServices.Abstractions;
 using Wally.RomMaster.BackgroundServices.Extensions;
 using Wally.RomMaster.BackgroundServices.Models;
@@ -15,13 +20,21 @@ namespace Wally.RomMaster.BackgroundServices;
 
 public class FileScannerService : BackgroundService
 {
+	private readonly IClockService _clockService;
 	private readonly ILogger<FileScannerService> _logger;
+	private readonly IServiceProvider _serviceProvider;
 	private readonly ISettings _settings;
 
-	public FileScannerService(ILogger<FileScannerService> logger, ISettings settings)
+	public FileScannerService(
+		ILogger<FileScannerService> logger,
+		ISettings settings,
+		IClockService clockService,
+		IServiceProvider serviceProvider)
 	{
 		_logger = logger;
 		_settings = settings;
+		_clockService = clockService;
+		_serviceProvider = serviceProvider;
 	}
 
 	public override Task StartAsync(CancellationToken cancellationToken)
@@ -38,13 +51,16 @@ public class FileScannerService : BackgroundService
 		return base.StopAsync(cancellationToken);
 	}
 
-	protected override Task ExecuteAsync(CancellationToken stoppingToken)
+	protected override async Task ExecuteAsync(CancellationToken stoppingToken)
 	{
 		Scan(_settings.DatRoots);
 		Scan(_settings.RomRoots);
 		Scan(_settings.ToSortRoots);
 
-		return Task.CompletedTask;
+		var command = new RemoveOutdatedFilesCommand(_clockService.StartTimestamp);
+		using var scope = _serviceProvider.CreateScope();
+		var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+		await mediator.Send(command);
 	}
 
 	private void Scan(List<FolderSettings> folders)
