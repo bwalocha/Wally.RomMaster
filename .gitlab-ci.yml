@@ -1,7 +1,7 @@
 variables:
   STACK: rommaster
   SLN_SOLUTION_NAME: "Wally.RomMaster"
-  API_PROJECT_NAME: "Wally.RomMaster"
+  API_PROJECT_NAME: "Wally.RomMaster.WebApi"
   #
   VERSION: "0.1.${CI_PIPELINE_ID}"
   #CI_DEBUG_TRACE: "true"
