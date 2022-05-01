@@ -7,13 +7,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Wally.RomMaster.Contracts\Wally.RomMaster.Contracts.csproj" />
-        <ProjectReference Include="..\Wally.RomMaster.Domain\Wally.RomMaster.Domain.csproj" />
+        <ProjectReference Include="..\Wally.RomMaster.Contracts\Wally.RomMaster.Contracts.csproj"/>
+        <ProjectReference Include="..\Wally.RomMaster.Domain\Wally.RomMaster.Domain.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.OData" Version="8.0.9" />
-        <PackageReference Include="Wally.Lib.ServiceBus.Abstractions" Version="1.1.2" />
+        <PackageReference Include="Microsoft.AspNetCore.OData" Version="8.0.9"/>
+        <PackageReference Include="Wally.Lib.ServiceBus.Abstractions" Version="1.1.2"/>
     </ItemGroup>
 
 </Project>

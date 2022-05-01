@@ -1,15 +1,23 @@
 ﻿using System;
 
-using Wally.RomMaster.BackgroundServices.Abstractions;
+using Wally.RomMaster.Domain.Abstractions;
 
 namespace Wally.RomMaster.BackgroundServices.Services;
 
 public class ClockService : IClockService
 {
-	public ClockService(DateTime startTimestamp)
+	private readonly Func<DateTime> _clock;
+
+	public ClockService(Func<DateTime> clock)
 	{
-		StartTimestamp = startTimestamp;
+		_clock = clock;
+		StartTimestamp = clock();
 	}
 
 	public DateTime StartTimestamp { get; }
+
+	public DateTime GetTimestamp()
+	{
+		return _clock();
+	}
 }

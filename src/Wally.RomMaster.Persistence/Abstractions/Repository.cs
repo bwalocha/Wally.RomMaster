@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
@@ -60,6 +61,11 @@ public abstract class Repository<TAggregateRoot> : ReadOnlyRepository<TAggregate
 			.State = EntityState.Unchanged;
 
 		return entity;
+	}
+
+	public void Remove(IEnumerable<TAggregateRoot> aggregateRoots)
+	{
+		_context.RemoveRange(aggregateRoots);
 	}
 
 	protected IQueryable<TAggregateRoot> GetReadWriteEntitySet()

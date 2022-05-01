@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.IO;
 
 using Wally.Lib.DDD.Abstractions.DomainModels;
+using Wally.RomMaster.Domain.Abstractions;
 
 namespace Wally.RomMaster.Domain.Files;
 
@@ -14,6 +15,12 @@ public class File : AggregateRoot
 	private File()
 #pragma warning restore CS8618
 	{
+	}
+
+	private File(DateTime timestamp, FileLocation location)
+	{
+		ModifiedAt = timestamp;
+		Location = location;
 	}
 
 	public FileLocation Location { get; private set; }
@@ -33,4 +40,13 @@ public class File : AggregateRoot
 	public DateTime LastAccessTimeUtc { get; private set; }
 
 	public DateTime LastWriteTimeUtc { get; private set; }
+
+	public DateTime ModifiedAt { get; private set; }
+
+	public static File Create(IClockService clockService, FileLocation location)
+	{
+		var model = new File(clockService.GetTimestamp(), location);
+
+		return model;
+	}
 }

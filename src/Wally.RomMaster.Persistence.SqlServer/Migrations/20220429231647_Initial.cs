@@ -5,12 +5,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Wally.RomMaster.Persistence.SqlServer.Migrations
 {
-	public partial class Init : Migration
+	public partial class Initial : Migration
 	{
 		protected override void Up(MigrationBuilder migrationBuilder)
 		{
 			migrationBuilder.CreateTable(
-				name: "File",
+				name: "[File]",
 				columns: table => new
 				{
 					Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -22,9 +22,10 @@ namespace Wally.RomMaster.Persistence.SqlServer.Migrations
 					Attributes = table.Column<int>(type: "int", nullable: false),
 					CreationTimeUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
 					LastAccessTimeUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
-					LastWriteTimeUtc = table.Column<DateTime>(type: "datetime2", nullable: false)
+					LastWriteTimeUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
+					ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
 				},
-				constraints: table => { table.PrimaryKey("PK_File", x => x.Id); });
+				constraints: table => { table.PrimaryKey("PK_[File]", x => x.Id); });
 
 			migrationBuilder.CreateTable(
 				name: "User",
@@ -35,14 +36,14 @@ namespace Wally.RomMaster.Persistence.SqlServer.Migrations
 				},
 				constraints: table => { table.PrimaryKey("PK_User", x => x.Id); });
 
-			migrationBuilder.CreateIndex(name: "IX_File_Location", table: "File", column: "Location", unique: true);
+			migrationBuilder.CreateIndex(name: "IX_[File]_Location", table: "[File]", column: "Location", unique: true);
 
 			migrationBuilder.CreateIndex(name: "IX_User_Name", table: "User", column: "Name", unique: true);
 		}
 
 		protected override void Down(MigrationBuilder migrationBuilder)
 		{
-			migrationBuilder.DropTable(name: "File");
+			migrationBuilder.DropTable(name: "[File]");
 
 			migrationBuilder.DropTable(name: "User");
 		}

@@ -3,7 +3,9 @@ using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 using Serilog;
@@ -38,9 +40,16 @@ public static class Program
 		try
 		{
 			Log.Information("Starting host...");
-			CreateHostBuilder(args)
-				.Build()
-				.Run();
+			var host = CreateHostBuilder(args)
+				.Build();
+
+			using (var scope = host.Services.CreateScope())
+			{
+				var db = scope.ServiceProvider.GetRequiredService<DbContext>();
+				db.Database.Migrate();
+			}
+
+			host.Run();
 		}
 		catch (Exception ex)
 		{

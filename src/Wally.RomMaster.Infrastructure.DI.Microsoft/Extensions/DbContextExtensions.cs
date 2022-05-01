@@ -54,10 +54,10 @@ public static class DbContextExtensions
 		DbContext dbContext,
 		DbContextSettings settings)
 	{
-		if (settings.IsMigrationEnabled)
+		/*if (settings.IsMigrationEnabled)
 		{
 			dbContext.Database.Migrate();
-		}
+		}*/
 
 		return app;
 	}

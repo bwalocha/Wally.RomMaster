@@ -227,7 +227,8 @@ public class FileWatcherService : BackgroundService
 		var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
 		try
 		{
-			await mediator.Send(command, cancellationToken);
+			// TODO: Delay Queue
+			// await mediator.Send(command, cancellationToken);
 		}
 		catch (Exception exception)
 		{

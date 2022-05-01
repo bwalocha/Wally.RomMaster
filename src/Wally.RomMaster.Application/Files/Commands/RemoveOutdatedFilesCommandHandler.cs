@@ -7,12 +7,17 @@ namespace Wally.RomMaster.Application.Files.Commands;
 
 public class RemoveOutdatedFilesCommandHandler : CommandHandler<RemoveOutdatedFilesCommand>
 {
-	public RemoveOutdatedFilesCommandHandler()
+	private readonly IFileRepository _fileRepository;
+
+	public RemoveOutdatedFilesCommandHandler(IFileRepository fileRepository)
 	{
+		_fileRepository = fileRepository;
 	}
 
 	public override Task HandleAsync(RemoveOutdatedFilesCommand command, CancellationToken cancellationToken)
 	{
+		_fileRepository.RemoveOutdatedFiles(command.Timestamp);
+
 		return Task.CompletedTask;
 	}
 }

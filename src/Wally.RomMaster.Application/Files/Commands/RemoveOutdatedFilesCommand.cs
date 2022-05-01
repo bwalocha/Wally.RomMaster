@@ -8,10 +8,10 @@ namespace Wally.RomMaster.Application.Files.Commands;
 [ExcludeFromCodeCoverage]
 public class RemoveOutdatedFilesCommand : ICommand
 {
-	public DateTime Timestamp { get; }
-
 	public RemoveOutdatedFilesCommand(DateTime timestamp)
 	{
 		Timestamp = timestamp;
 	}
+
+	public DateTime Timestamp { get; }
 }

@@ -15,6 +15,7 @@ using Wally.RomMaster.Application.Files.Commands;
 using Wally.RomMaster.BackgroundServices.Abstractions;
 using Wally.RomMaster.BackgroundServices.Extensions;
 using Wally.RomMaster.BackgroundServices.Models;
+using Wally.RomMaster.Domain.Abstractions;
 
 namespace Wally.RomMaster.BackgroundServices;
 

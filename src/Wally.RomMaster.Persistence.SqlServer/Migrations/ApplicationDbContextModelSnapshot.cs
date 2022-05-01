@@ -50,13 +50,16 @@ namespace Wally.RomMaster.Persistence.SqlServer.Migrations
                         .HasMaxLength(32)
                         .HasColumnType("nvarchar(32)");
 
+                    b.Property<DateTime>("ModifiedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Sha1")
                         .HasMaxLength(40)
                         .HasColumnType("nvarchar(40)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("File");
+                    b.ToTable("[File]", (string)null);
                 });
 
             modelBuilder.Entity("Wally.RomMaster.Domain.Users.User", b =>
@@ -95,7 +98,7 @@ namespace Wally.RomMaster.Persistence.SqlServer.Migrations
                             b1.HasIndex("Location")
                                 .IsUnique();
 
-                            b1.ToTable("File");
+                            b1.ToTable("[File]");
 
                             b1.WithOwner()
                                 .HasForeignKey("FileId");
