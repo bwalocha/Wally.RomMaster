@@ -17,10 +17,15 @@ public class File : AggregateRoot
 	{
 	}
 
-	private File(DateTime timestamp, FileLocation location)
+	private File(DateTime timestamp, FileInfo fileInfo)
 	{
 		ModifiedAt = timestamp;
-		Location = location;
+		Location = FileLocation.Create(new Uri(fileInfo.FullName));
+		Length = fileInfo.Length;
+		Attributes = fileInfo.Attributes;
+		CreationTimeUtc = fileInfo.CreationTimeUtc;
+		LastAccessTimeUtc = fileInfo.LastAccessTimeUtc;
+		LastWriteTimeUtc = fileInfo.LastWriteTimeUtc;
 	}
 
 	public FileLocation Location { get; private set; }
@@ -43,10 +48,29 @@ public class File : AggregateRoot
 
 	public DateTime ModifiedAt { get; private set; }
 
-	public static File Create(IClockService clockService, FileLocation location)
+	public static File Create(IClockService clockService, FileInfo fileInfo)
 	{
-		var model = new File(clockService.GetTimestamp(), location);
+		var model = new File(clockService.GetTimestamp(), fileInfo);
 
 		return model;
+	}
+
+	public void Update(IClockService clockService, FileInfo fileInfo)
+	{
+		// if (HasChanged(fileInfo))
+		{
+			ModifiedAt = clockService.GetTimestamp();
+			Length = fileInfo.Length;
+			Attributes = fileInfo.Attributes;
+			CreationTimeUtc = fileInfo.CreationTimeUtc;
+			LastAccessTimeUtc = fileInfo.LastAccessTimeUtc;
+			LastWriteTimeUtc = fileInfo.LastWriteTimeUtc;
+		}
+	}
+
+	private bool HasChanged(FileInfo fileInfo)
+	{
+		return Attributes != fileInfo.Attributes || LastAccessTimeUtc != fileInfo.LastAccessTimeUtc ||
+				LastWriteTimeUtc != fileInfo.LastWriteTimeUtc;
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
+using Wally.Lib.DDD.Abstractions.Commands;
 using Wally.RomMaster.Application.Users.Commands;
 using Wally.RomMaster.BackgroundServices.Abstractions;
 using Wally.RomMaster.BackgroundServices.Extensions;
@@ -21,6 +23,7 @@ namespace Wally.RomMaster.BackgroundServices;
 
 public class FileWatcherService : BackgroundService
 {
+	private readonly ConcurrentQueue<ICommand> _commandQueue = new();
 	private readonly ILogger<FileWatcherService> _logger;
 	private readonly IServiceProvider _serviceProvider;
 	private readonly ISettings _settings;
@@ -37,9 +40,9 @@ public class FileWatcherService : BackgroundService
 	{
 		_logger.LogInformation("Starting...");
 
-		_watchers.AddRange(CreateWatchers(_settings.DatRoots, OnDatFileChangedAsync, cancellationToken));
-		_watchers.AddRange(CreateWatchers(_settings.RomRoots, OnRomFileChangedAsync, cancellationToken));
-		_watchers.AddRange(CreateWatchers(_settings.ToSortRoots, OnToSortFileChangedAsync, cancellationToken));
+		_watchers.AddRange(CreateWatchers(_settings.DatRoots, OnDatFileChanged));
+		_watchers.AddRange(CreateWatchers(_settings.RomRoots, OnRomFileChanged));
+		_watchers.AddRange(CreateWatchers(_settings.ToSortRoots, OnToSortFileChanged));
 
 		return base.StartAsync(cancellationToken);
 	}
@@ -53,22 +56,36 @@ public class FileWatcherService : BackgroundService
 		return base.StopAsync(cancellationToken);
 	}
 
-	protected override Task ExecuteAsync(CancellationToken stoppingToken)
+	protected override Task ExecuteAsync(CancellationToken cancellationToken)
 	{
-		// throw new NotImplementedException();
-		return Task.CompletedTask;
+		var processCommandQueue = new Task(
+			() => ProcessCommandQueueAsync(cancellationToken)
+				.Wait(cancellationToken));
+		processCommandQueue.Start();
+
+		foreach (var watcher in _watchers)
+		{
+			watcher.EnableRaisingEvents = true;
+		}
+
+		return processCommandQueue.WaitAsync(cancellationToken);
 	}
 
 	private IEnumerable<FileSystemWatcher> CreateWatchers(
 		List<FolderSettings> folders,
-		FileSystemEventHandlerAsync onFileChangedAsync,
-		CancellationToken cancellationToken)
+		FileSystemEventHandler onFileChanged)
 	{
 		foreach (var folder in folders)
 		{
 			if (!folder.Enabled)
 			{
 				_logger.LogWarning($"Folder '{folder.Path}' is not active. Skipping.");
+				continue;
+			}
+
+			if (!folder.WatcherEnabled)
+			{
+				_logger.LogWarning($"Watcher for '{folder.Path}' is not active. Skipping.");
 				continue;
 			}
 
@@ -88,85 +105,61 @@ public class FileWatcherService : BackgroundService
 				// NotifyFilters.DirectoryName
 			};
 
-			if (onFileChangedAsync != null)
+			if (onFileChanged != null)
 			{
-				watcher.Renamed += async (sender, args) =>
+				watcher.Renamed += (sender, args) =>
 				{
-					await OnChangedAsync(
-						onFileChangedAsync,
-						sender,
-						args.ChangeType,
-						args.FullPath,
-						folder,
-						cancellationToken);
+					OnChanged(onFileChanged, sender, args.ChangeType, args.FullPath, folder);
 				};
-				watcher.Created += async (sender, args) =>
+				watcher.Created += (sender, args) => { OnCreated(onFileChanged, sender, args, folder); };
+				watcher.Changed += (sender, args) =>
 				{
-					await OnCreatedAsync(onFileChangedAsync, sender, args, folder, cancellationToken);
+					OnChanged(onFileChanged, sender, args.ChangeType, args.FullPath, folder);
 				};
-				watcher.Changed += async (sender, args) =>
+				watcher.Deleted += (sender, args) =>
 				{
-					await OnChangedAsync(
-						onFileChangedAsync,
-						sender,
-						args.ChangeType,
-						args.FullPath,
-						folder,
-						cancellationToken);
-				};
-				watcher.Deleted += async (sender, args) =>
-				{
-					await OnChangedAsync(
-						onFileChangedAsync,
-						sender,
-						args.ChangeType,
-						args.FullPath,
-						folder,
-						cancellationToken);
+					OnChanged(onFileChanged, sender, args.ChangeType, args.FullPath, folder);
 				};
 			}
 
 			watcher.Error += Watcher_Error;
-			watcher.EnableRaisingEvents = folder.WatcherEnabled;
 
 			yield return watcher;
 		}
 	}
 
-	private async Task OnCreatedAsync(
-		FileSystemEventHandlerAsync onFileChangedAsync,
+	private void OnCreated(
+		FileSystemEventHandler onFileChanged,
 		object sender,
 		FileSystemEventArgs args,
-		FolderSettings folder,
-		CancellationToken cancellationToken)
+		FolderSettings folder)
 	{
 		if (Directory.Exists(args.FullPath))
 		{
-			Func<string, Task>? notify = null;
-			notify = async dir =>
+			Action<string>? notify = null;
+			notify = dir =>
 			{
 				foreach (var f in Directory.GetFiles(dir))
 				{
-					await OnChangedAsync(onFileChangedAsync, sender, args.ChangeType, f, folder, cancellationToken);
+					OnChanged(onFileChanged, sender, args.ChangeType, f, folder);
 				}
 
 				foreach (var d in Directory.GetDirectories(dir))
 				{
-					await notify!(d);
+					notify!(d);
 				}
 			};
 
-			await notify(args.FullPath);
+			notify(args.FullPath);
 		}
 	}
 
-	private Task OnChangedAsync(
-		FileSystemEventHandlerAsync onChangedAsync,
+	private void OnChanged(
+		FileSystemEventHandler onChanged,
 		object sender,
 		WatcherChangeTypes changeType,
 		string filePathName,
-		FolderSettings folder,
-		CancellationToken cancellationToken)
+		FolderSettings folder)
 	{
 		// if directory: return or notify;
 		// ...
@@ -174,18 +167,17 @@ public class FileWatcherService : BackgroundService
 		if (IsExcluded(filePathName, folder.Excludes))
 		{
 			_logger.LogDebug($"File '{filePathName}' excluded from watching.");
-			return Task.CompletedTask;
+			return;
 		}
 
 		_logger.LogDebug($"File '{filePathName}' changed: '{changeType}'.");
-		return onChangedAsync(
+		onChanged(
 			sender,
 			new FileSystemEventArgs(
 				changeType,
 				Path.GetDirectoryName(filePathName) ??
 				throw new ArgumentException($"Wrong directory name for {filePathName}"),
-				Path.GetFileName(filePathName)),
-			cancellationToken);
+				Path.GetFileName(filePathName)));
 	}
 
 	private bool IsExcluded(string file, List<ExcludeSettings> excludes)
@@ -205,35 +197,41 @@ public class FileWatcherService : BackgroundService
 		Debugger.Break();
 	}
 
-	private Task OnDatFileChangedAsync(object sender, FileSystemEventArgs e, CancellationToken cancellationToken)
+	private void OnDatFileChanged(object sender, FileSystemEventArgs e)
 	{
-		return Task.CompletedTask;
 	}
 
-	private Task OnRomFileChangedAsync(object sender, FileSystemEventArgs e, CancellationToken cancellationToken)
+	private void OnRomFileChanged(object sender, FileSystemEventArgs e)
 	{
-		return Task.CompletedTask;
 	}
 
-	private async Task OnToSortFileChangedAsync(
-		object sender,
-		FileSystemEventArgs e,
-		CancellationToken cancellationToken)
+	private void OnToSortFileChanged(object sender, FileSystemEventArgs e)
 	{
-		// https://stackoverflow.com/questions/876473/is-there-a-way-to-check-if-a-file-is-in-use
-		// https://programmer.ink/think/is-there-a-way-to-check-if-the-file-is-in-use.html
 		var command = new UpdateUserCommand(Guid.NewGuid(), e.FullPath);
-		using var scope = _serviceProvider.CreateScope();
-		var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
-		try
+		_commandQueue.Enqueue(command);
+	}
+
+	private async Task ProcessCommandQueueAsync(CancellationToken cancellationToken)
+	{
+		do
 		{
-			// TODO: Delay Queue
-			// await mediator.Send(command, cancellationToken);
-		}
-		catch (Exception exception)
-		{
-			_logger.LogError("OnToSortFileChangedAsync error: {0}", exception);
-		}
+			while (_commandQueue.TryDequeue(out var command))
+			{
+				using var scope = _serviceProvider.CreateScope();
+				var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+				try
+				{
+					await mediator.Send(command, cancellationToken);
+				}
+				catch (Exception exception)
+				{
+					_logger.LogError("ProcessCommandQueueAsync error: {0}", exception);
+				}
+			}
+
+			await Task.Delay(1000);
+		} 
+		while (!cancellationToken.IsCancellationRequested);
 	}
 
 	public override void Dispose()
@@ -246,9 +244,4 @@ public class FileWatcherService : BackgroundService
 
 		base.Dispose();
 	}
-
-	private delegate Task FileSystemEventHandlerAsync(
-		object sender,
-		FileSystemEventArgs args,
-		CancellationToken cancellationToken);
 }

@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using Wally.RomMaster.Domain.Files;
@@ -17,6 +19,7 @@ internal class FileMapping : IEntityTypeConfiguration<File>
 			{
 				b.Property(c => c.Location)
 					.IsRequired()
+					.HasConversion(a => a.LocalPath, b => new Uri(b))
 					.HasColumnName(nameof(File.Location))
 					.HasMaxLength(3000);
 				b.HasIndex(c => c.Location)

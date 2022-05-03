@@ -36,7 +36,10 @@ public static class DbContextExtensions
 					builder.Default(WarningBehavior.Throw);
 					builder.Ignore(RelationalEventId.MultipleCollectionIncludeWarning);
 					builder.Ignore(SqlServerEventId.SavepointsDisabledBecauseOfMARS);
+					builder.Ignore(CoreEventId.SensitiveDataLoggingEnabledWarning); // TODO: use app settings
 				});
+
+			options.EnableSensitiveDataLogging(); // TODO: use app settings
 		};
 		services.AddDbContext<DbContext, ApplicationDbContext>(dbContextOptions);
 

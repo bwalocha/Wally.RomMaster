@@ -1,5 +1,7 @@
 using System;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 using AutoMapper;
 
@@ -24,5 +26,11 @@ public class FileRepository : Repository<File>, IFileRepository
 			.Where(a => a.ModifiedAt < timestamp);
 
 		Remove(toRemove);
+	}
+
+	public Task<File?> GetOrDefaultAsync(FileLocation location, CancellationToken cancellationToken)
+	{
+		return GetReadWriteEntitySet()
+			.SingleOrDefaultAsync(a => a.Location.Location == location.Location, cancellationToken);
 	}
 }

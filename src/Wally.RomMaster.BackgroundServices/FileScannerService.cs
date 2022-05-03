@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,17 +12,20 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
+using Wally.Lib.DDD.Abstractions.Commands;
 using Wally.RomMaster.Application.Files.Commands;
 using Wally.RomMaster.BackgroundServices.Abstractions;
 using Wally.RomMaster.BackgroundServices.Extensions;
 using Wally.RomMaster.BackgroundServices.Models;
 using Wally.RomMaster.Domain.Abstractions;
+using Wally.RomMaster.Domain.Files;
 
 namespace Wally.RomMaster.BackgroundServices;
 
 public class FileScannerService : BackgroundService
 {
 	private readonly IClockService _clockService;
+	private readonly ConcurrentQueue<ICommand> _commandQueue = new();
 	private readonly ILogger<FileScannerService> _logger;
 	private readonly IServiceProvider _serviceProvider;
 	private readonly ISettings _settings;
@@ -52,11 +56,22 @@ public class FileScannerService : BackgroundService
 		return base.StopAsync(cancellationToken);
 	}
 
-	protected override async Task ExecuteAsync(CancellationToken stoppingToken)
+	protected override async Task ExecuteAsync(CancellationToken cancellationToken)
 	{
-		Scan(_settings.DatRoots);
-		Scan(_settings.RomRoots);
-		Scan(_settings.ToSortRoots);
+		var manualResetEvent = new ManualResetEvent(false);
+		var processCommandQueue = new Task(
+			() => ProcessCommandQueueAsync(manualResetEvent, cancellationToken)
+				.Wait(cancellationToken));
+
+		processCommandQueue.Start();
+
+		Parallel.Invoke(
+			() => Scan(_settings.DatRoots, cancellationToken),
+			() => Scan(_settings.RomRoots, cancellationToken),
+			() => Scan(_settings.ToSortRoots, cancellationToken));
+
+		manualResetEvent.Set();
+		await processCommandQueue.WaitAsync(cancellationToken);
 
 		var command = new RemoveOutdatedFilesCommand(_clockService.StartTimestamp);
 		using var scope = _serviceProvider.CreateScope();
@@ -64,10 +79,16 @@ public class FileScannerService : BackgroundService
 		await mediator.Send(command);
 	}
 
-	private void Scan(List<FolderSettings> folders)
+	private void Scan(List<FolderSettings> folders, CancellationToken cancellationToken)
 	{
 		foreach (var folder in folders)
 		{
+			if (cancellationToken.IsCancellationRequested)
+			{
+				_logger.LogDebug("ScanAsync cancelled.");
+				return;
+			}
+
 			if (!folder.Enabled)
 			{
 				_logger.LogWarning($"Folder '{folder.Path}' is not active. Skipping.");
@@ -80,24 +101,36 @@ public class FileScannerService : BackgroundService
 				continue;
 			}
 
-			Scan(folder);
+			Scan(folder, cancellationToken);
 		}
 	}
 
-	private void Scan(FolderSettings folder)
+	private void Scan(FolderSettings folder, CancellationToken cancellationToken)
 	{
-		Scan(folder.Path.LocalPath, folder.Excludes);
+		Scan(folder.Path.LocalPath, folder.Excludes, cancellationToken);
 
 		foreach (var directory in Directory.EnumerateDirectories(folder.Path.LocalPath, "*.*", folder.SearchOptions))
 		{
-			Scan(directory, folder.Excludes);
+			if (cancellationToken.IsCancellationRequested)
+			{
+				_logger.LogDebug("ScanAsync cancelled.");
+				return;
+			}
+
+			Scan(directory, folder.Excludes, cancellationToken);
 		}
 	}
 
-	private void Scan(string directory, List<ExcludeSettings> excludes)
+	private void Scan(string directory, List<ExcludeSettings> excludes, CancellationToken cancellationToken)
 	{
 		foreach (var file in Directory.EnumerateFiles(directory, "*.*", SearchOption.TopDirectoryOnly))
 		{
+			if (cancellationToken.IsCancellationRequested)
+			{
+				_logger.LogDebug("ScanAsync cancelled.");
+				return;
+			}
+
 			if (IsExcluded(file, excludes))
 			{
 				_logger.LogDebug($"File '{file}' excluded from scanning.");
@@ -106,7 +139,8 @@ public class FileScannerService : BackgroundService
 
 			_logger.LogDebug($"File '{file}' found.");
 
-			// ...
+			var command = new ScanFileCommand(FileLocation.Create(new Uri(file)));
+			_commandQueue.Enqueue(command);
 		}
 	}
 
@@ -118,5 +152,33 @@ public class FileScannerService : BackgroundService
 	private static bool IsExcluded(string file, ExcludeSettings exclude)
 	{
 		return exclude.Match(file);
+	}
+
+	private async Task ProcessCommandQueueAsync(ManualResetEvent manualResetEvent, CancellationToken cancellationToken)
+	{
+		do
+		{
+			await ProcessCommandQueueAsync(cancellationToken);
+		} 
+		while (!manualResetEvent.WaitOne(1000));
+
+		await ProcessCommandQueueAsync(cancellationToken);
+	}
+
+	private async Task ProcessCommandQueueAsync(CancellationToken cancellationToken)
+	{
+		while (_commandQueue.TryDequeue(out var command))
+		{
+			using var scope = _serviceProvider.CreateScope();
+			var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+			try
+			{
+				await mediator.Send(command, cancellationToken);
+			}
+			catch (Exception exception)
+			{
+				_logger.LogError("ProcessCommandQueueAsync error: {0}", exception);
+			}
+		}
 	}
 }
