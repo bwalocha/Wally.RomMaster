@@ -2,7 +2,7 @@
 
 using Wally.Lib.DDD.Abstractions.DomainModels;
 
-namespace Wally.RomMaster.Domain.Files;
+namespace Wally.RomMaster.Domain.DataFiles;
 
 public class Game : Entity
 {

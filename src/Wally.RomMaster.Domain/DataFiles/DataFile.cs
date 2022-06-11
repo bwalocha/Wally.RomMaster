@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 
 using Wally.Lib.DDD.Abstractions.DomainModels;
+using Wally.RomMaster.Domain.Files;
 
-namespace Wally.RomMaster.Domain.Files;
+namespace Wally.RomMaster.Domain.DataFiles;
 
 /*
 	<name>fix_Sony - PlayStation Portable</name>
@@ -13,13 +14,13 @@ namespace Wally.RomMaster.Domain.Files;
 	<date>06.20.2018</date>
 	<author>RomVault</author>
 */
-public class DatFile : AggregateRoot
+public class DataFile : AggregateRoot
 {
 	private readonly List<Game> _games = new();
 
 	// Hide public .ctor
 #pragma warning disable CS8618
-	private DatFile()
+	private DataFile()
 #pragma warning restore CS8618
 	{
 	}
@@ -35,6 +36,12 @@ public class DatFile : AggregateRoot
 	public DateTime? Date { get; private set; }
 
 	public string Author { get; private set; }
+
+	public string Email { get; private set; }
+
+	public string HomePage { get; private set; }
+
+	public Uri Url { get; private set; }
 
 	public IReadOnlyCollection<Game> Games => _games.AsReadOnly();
 

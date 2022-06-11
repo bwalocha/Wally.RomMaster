@@ -1,6 +1,9 @@
 using System.Reflection;
+using System.Security.Cryptography;
 
 using FluentValidation.AspNetCore;
+
+using Force.Crc32;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -75,6 +78,7 @@ public class Startup
 		services.AddMessaging(Configuration);
 		services.AddEventHub();
 		services.AddBackgroundServices(AppSettings);
+		services.AddSingleton<HashAlgorithm, Crc32Algorithm>();
 	}
 
 	public void Configure(

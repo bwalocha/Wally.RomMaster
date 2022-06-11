@@ -66,9 +66,9 @@ public class FileScannerService : BackgroundService
 		processCommandQueue.Start();
 
 		Parallel.Invoke(
-			() => Scan(_settings.DatRoots, cancellationToken),
-			() => Scan(_settings.RomRoots, cancellationToken),
-			() => Scan(_settings.ToSortRoots, cancellationToken));
+			() => Scan(SourceType.DatRoot, _settings.DatRoots, cancellationToken),
+			() => Scan(SourceType.Output, _settings.RomRoots, cancellationToken),
+			() => Scan(SourceType.Input, _settings.ToSortRoots, cancellationToken));
 
 		manualResetEvent.Set();
 		await processCommandQueue.WaitAsync(cancellationToken);
@@ -79,7 +79,7 @@ public class FileScannerService : BackgroundService
 		await mediator.Send(command);
 	}
 
-	private void Scan(List<FolderSettings> folders, CancellationToken cancellationToken)
+	private void Scan(SourceType sourceType, List<FolderSettings> folders, CancellationToken cancellationToken)
 	{
 		foreach (var folder in folders)
 		{
@@ -101,13 +101,13 @@ public class FileScannerService : BackgroundService
 				continue;
 			}
 
-			Scan(folder, cancellationToken);
+			Scan(sourceType, folder, cancellationToken);
 		}
 	}
 
-	private void Scan(FolderSettings folder, CancellationToken cancellationToken)
+	private void Scan(SourceType sourceType, FolderSettings folder, CancellationToken cancellationToken)
 	{
-		Scan(folder.Path.LocalPath, folder.Excludes, cancellationToken);
+		Scan(sourceType, folder.Path.LocalPath, folder.Excludes, cancellationToken);
 
 		foreach (var directory in Directory.EnumerateDirectories(folder.Path.LocalPath, "*.*", folder.SearchOptions))
 		{
@@ -117,11 +117,15 @@ public class FileScannerService : BackgroundService
 				return;
 			}
 
-			Scan(directory, folder.Excludes, cancellationToken);
+			Scan(sourceType, directory, folder.Excludes, cancellationToken);
 		}
 	}
 
-	private void Scan(string directory, List<ExcludeSettings> excludes, CancellationToken cancellationToken)
+	private void Scan(
+		SourceType sourceType,
+		string directory,
+		List<ExcludeSettings> excludes,
+		CancellationToken cancellationToken)
 	{
 		foreach (var file in Directory.EnumerateFiles(directory, "*.*", SearchOption.TopDirectoryOnly))
 		{
@@ -139,7 +143,7 @@ public class FileScannerService : BackgroundService
 
 			_logger.LogDebug($"File '{file}' found.");
 
-			var command = new ScanFileCommand(FileLocation.Create(new Uri(file)));
+			var command = new ScanFileCommand(sourceType, FileLocation.Create(new Uri(file)));
 			_commandQueue.Enqueue(command);
 		}
 	}

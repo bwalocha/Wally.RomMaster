@@ -7,7 +7,7 @@ using Wally.Lib.DDD.Abstractions.DomainModels;
 
 namespace Wally.RomMaster.Domain.Files;
 
-[DebuggerDisplay("Location = {Location}")]
+[DebuggerDisplay("{Location}")]
 public class FileLocation : ValueObject
 {
 	private FileLocation(Uri location)

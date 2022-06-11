@@ -14,10 +14,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 using Wally.Lib.DDD.Abstractions.Commands;
-using Wally.RomMaster.Application.Users.Commands;
+using Wally.RomMaster.Application.Files.Commands;
 using Wally.RomMaster.BackgroundServices.Abstractions;
 using Wally.RomMaster.BackgroundServices.Extensions;
 using Wally.RomMaster.BackgroundServices.Models;
+using Wally.RomMaster.Domain.Files;
 
 namespace Wally.RomMaster.BackgroundServices;
 
@@ -199,15 +200,19 @@ public class FileWatcherService : BackgroundService
 
 	private void OnDatFileChanged(object sender, FileSystemEventArgs e)
 	{
+		var command = new ScanFileCommand(SourceType.DatRoot, FileLocation.Create(new Uri(e.FullPath)));
+		_commandQueue.Enqueue(command);
 	}
 
 	private void OnRomFileChanged(object sender, FileSystemEventArgs e)
 	{
+		var command = new ScanFileCommand(SourceType.Output, FileLocation.Create(new Uri(e.FullPath)));
+		_commandQueue.Enqueue(command);
 	}
 
 	private void OnToSortFileChanged(object sender, FileSystemEventArgs e)
 	{
-		var command = new UpdateUserCommand(Guid.NewGuid(), e.FullPath);
+		var command = new ScanFileCommand(SourceType.Input, FileLocation.Create(new Uri(e.FullPath)));
 		_commandQueue.Enqueue(command);
 	}
 
