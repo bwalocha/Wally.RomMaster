@@ -6,9 +6,9 @@ using Wally.Lib.DDD.Abstractions.DomainEvents;
 namespace Wally.RomMaster.Domain.Files;
 
 [ExcludeFromCodeCoverage]
-public class MetadataFileCreatedDomainEvent : DomainEvent
+public class DataFileCreatedDomainEvent : DomainEvent
 {
-	public MetadataFileCreatedDomainEvent(Guid id)
+	public DataFileCreatedDomainEvent(Guid id)
 	{
 		Id = id;
 	}

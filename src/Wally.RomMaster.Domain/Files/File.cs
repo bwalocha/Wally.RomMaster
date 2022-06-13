@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.IO.Compression;
 using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
@@ -30,6 +31,18 @@ public class File : AggregateRoot
 		CreationTimeUtc = fileInfo.CreationTimeUtc;
 		LastAccessTimeUtc = fileInfo.LastAccessTimeUtc;
 		LastWriteTimeUtc = fileInfo.LastWriteTimeUtc;
+		Crc = crc32;
+	}
+	
+	private File(DateTime timestamp, Uri fullName, long length, string crc32, File archivePackage)
+	{
+		ModifiedAt = timestamp;
+		Location = FileLocation.Create(fullName);
+		Length = length;
+		Attributes = archivePackage.Attributes;
+		CreationTimeUtc = archivePackage.CreationTimeUtc;
+		LastAccessTimeUtc = archivePackage.LastAccessTimeUtc;
+		LastWriteTimeUtc = archivePackage.LastWriteTimeUtc;
 		Crc = crc32;
 	}
 
@@ -70,17 +83,28 @@ public class File : AggregateRoot
 		}
 		else if (type == SourceType.DatRoot)
 		{
-			model.AddDomainEvent(new MetadataFileCreatedDomainEvent(model.Id));
+			model.AddDomainEvent(new DataFileCreatedDomainEvent(model.Id));
 		}
 		else if (type == SourceType.Input)
 		{
 		}
 
-		if (model.IsArchivePackage())
+		/*if (model.IsArchivePackage())
 		{
 			// TODO: If the file is a Zip Archive then create also inner file entries
 			// ...
-		}
+		}*/
+
+		return model;
+	}
+	
+	public static File Create(
+		IClockService clockService,
+		File archivePackage, ZipArchiveEntry entry)
+	{
+		var crc32 = entry.Crc32.ToString("X2", CultureInfo.InvariantCulture);
+		var fullName = new Uri($"{archivePackage.Location.Location.LocalPath}#{entry.FullName}");
+		var model = new File(clockService.GetTimestamp(), fullName, entry.Length, crc32, archivePackage);
 
 		return model;
 	}
@@ -105,18 +129,18 @@ public class File : AggregateRoot
 	{
 		if (HasChanged(fileInfo))
 		{
-			Crc = await ComputeHashAsync(fileInfo, hashAlgorithm, cancellationToken);
-
 			// TODO: If the file is a Zip Archive then recreate also inner file entries
 			// ...
+			
+			Length = fileInfo.Length;
+			Attributes = fileInfo.Attributes;
+			CreationTimeUtc = fileInfo.CreationTimeUtc;
+			LastAccessTimeUtc = fileInfo.LastAccessTimeUtc;
+			LastWriteTimeUtc = fileInfo.LastWriteTimeUtc;
+			Crc = await ComputeHashAsync(fileInfo, hashAlgorithm, cancellationToken);
 		}
 
 		ModifiedAt = clockService.GetTimestamp();
-		Length = fileInfo.Length;
-		Attributes = fileInfo.Attributes;
-		CreationTimeUtc = fileInfo.CreationTimeUtc;
-		LastAccessTimeUtc = fileInfo.LastAccessTimeUtc;
-		LastWriteTimeUtc = fileInfo.LastWriteTimeUtc;
 	}
 
 	private bool HasChanged(FileInfo fileInfo)

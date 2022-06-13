@@ -7,6 +7,7 @@ using MediatR;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 using Wally.Lib.DDD.Abstractions.Commands;
 using Wally.Lib.DDD.Abstractions.DomainEvents;
@@ -19,11 +20,13 @@ public class DomainEventHandlerBehavior<TRequest, TResponse> : IPipelineBehavior
 {
 	private readonly DbContext _dbContext;
 	private readonly IServiceProvider _serviceProvider;
+	private readonly ILogger<DomainEventHandlerBehavior<TRequest, TResponse>> _logger;
 
-	public DomainEventHandlerBehavior(DbContext dbContext, IServiceProvider serviceProvider)
+	public DomainEventHandlerBehavior(DbContext dbContext, IServiceProvider serviceProvider, ILogger<DomainEventHandlerBehavior<TRequest, TResponse>> logger)
 	{
 		_dbContext = dbContext;
 		_serviceProvider = serviceProvider;
+		_logger = logger;
 	}
 
 	public async Task<TResponse> Handle(
@@ -42,8 +45,10 @@ public class DomainEventHandlerBehavior<TRequest, TResponse> : IPipelineBehavior
 		var domainEvents = domainEntities.SelectMany(x => x.Entity.GetDomainEvents())
 			.ToList();
 
-		await _dbContext.SaveChangesAsync(cancellationToken);
-
+		var rowsAffected = await _dbContext.SaveChangesAsync(cancellationToken);
+		
+		_logger.LogDebug($"Rows affected: '{rowsAffected}'");
+		
 		foreach (var domainEvent in domainEvents)
 		{
 			var domainEvenHandlerType = typeof(IDomainEventHandler<>);

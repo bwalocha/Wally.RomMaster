@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using MediatR;
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 using Wally.Lib.DDD.Abstractions.Commands;
 
@@ -13,10 +14,12 @@ public class TransactionBehavior<TRequest, TResponse> : IPipelineBehavior<TReque
 	where TRequest : ICommand, IRequest<TResponse>
 {
 	private readonly DbContext _dbContext;
+	private readonly ILogger<TransactionBehavior<TRequest, TResponse>> _logger;
 
-	public TransactionBehavior(DbContext dbContext)
+	public TransactionBehavior(DbContext dbContext, ILogger<TransactionBehavior<TRequest, TResponse>> logger)
 	{
 		_dbContext = dbContext;
+		_logger = logger;
 	}
 
 	public async Task<TResponse> Handle(
@@ -32,10 +35,12 @@ public class TransactionBehavior<TRequest, TResponse> : IPipelineBehavior<TReque
 
 			// UpdateAggregateMetadata(_dbContext.ChangeTracker.Entries<AggregateRoot>());
 
-			await _dbContext.SaveChangesAsync(cancellationToken);
+			var rowsAffected = await _dbContext.SaveChangesAsync(cancellationToken);
 
 			await transaction.CommitAsync(cancellationToken);
 
+			_logger.LogDebug($"Rows affected: '{rowsAffected}'");
+			
 			return response;
 		}
 		catch
