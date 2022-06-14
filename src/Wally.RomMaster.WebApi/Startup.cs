@@ -1,10 +1,4 @@
-using System.Reflection;
-using System.Security.Cryptography;
-
 using FluentValidation.AspNetCore;
-
-using Force.Crc32;
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -14,11 +8,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-
 using Newtonsoft.Json;
-
 using Wally.RomMaster.Application.Users.Commands;
 using Wally.RomMaster.Contracts.Requests.Users;
+using Wally.RomMaster.Infrastructure.DI.Microsoft;
 using Wally.RomMaster.Infrastructure.DI.Microsoft.Extensions;
 using Wally.RomMaster.Infrastructure.DI.Microsoft.Models;
 using Wally.RomMaster.WebApi.Filters;
@@ -69,16 +62,7 @@ public class Startup
 			.AddNewtonsoftJson(
 				options => { options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore; });
 
-		services.AddApiCors(AppSettings.Cors);
-		services.AddCqrs();
-		services.AddSwagger(Assembly.GetExecutingAssembly());
-		services.AddHealthChecks(Configuration);
-		services.AddDbContext(Configuration);
-		services.AddMapper();
-		services.AddMessaging(Configuration);
-		services.AddEventHub();
-		services.AddBackgroundServices(AppSettings);
-		services.AddSingleton<HashAlgorithm, Crc32Algorithm>();
+		services.AddInfrastructure(AppSettings);
 	}
 
 	public void Configure(
@@ -121,7 +105,6 @@ public class Startup
 			});
 
 		app.UseDbContext(dbContext, AppSettings.Database);
-		app.UseMessaging();
 		app.UseEventHub<EventHub>();
 	}
 }

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 using Wally.Lib.DDD.Abstractions.DomainModels;
 using Wally.RomMaster.Domain.Abstractions;
+using Wally.RomMaster.Domain.Extensions;
 
 namespace Wally.RomMaster.Domain.Files;
 
@@ -73,7 +74,7 @@ public class File : AggregateRoot
 		HashAlgorithm hashAlgorithm,
 		CancellationToken cancellationToken)
 	{
-		var crc32 = await ComputeHashAsync(fileInfo, hashAlgorithm, cancellationToken);
+		var crc32 = fileInfo.IsArchivePackage() ? "-" : await ComputeHashAsync(fileInfo, hashAlgorithm, cancellationToken);
 		var model = new File(clockService.GetTimestamp(), fileInfo, crc32);
 
 		model.AddDomainEvent(new FileCreatedDomainEvent(model.Id));
@@ -88,12 +89,6 @@ public class File : AggregateRoot
 		else if (type == SourceType.Input)
 		{
 		}
-
-		/*if (model.IsArchivePackage())
-		{
-			// TODO: If the file is a Zip Archive then create also inner file entries
-			// ...
-		}*/
 
 		return model;
 	}
@@ -137,7 +132,7 @@ public class File : AggregateRoot
 			CreationTimeUtc = fileInfo.CreationTimeUtc;
 			LastAccessTimeUtc = fileInfo.LastAccessTimeUtc;
 			LastWriteTimeUtc = fileInfo.LastWriteTimeUtc;
-			Crc = await ComputeHashAsync(fileInfo, hashAlgorithm, cancellationToken);
+			Crc = fileInfo.IsArchivePackage() ? "-" : await ComputeHashAsync(fileInfo, hashAlgorithm, cancellationToken);
 		}
 
 		ModifiedAt = clockService.GetTimestamp();
@@ -151,7 +146,10 @@ public class File : AggregateRoot
 	public bool IsArchivePackage()
 	{
 		return Location.Location.LocalPath.EndsWith(".zip", StringComparison.InvariantCultureIgnoreCase) ||
+				Location.Location.LocalPath.EndsWith(".gzip", StringComparison.InvariantCultureIgnoreCase) ||
+				Location.Location.LocalPath.EndsWith(".gz", StringComparison.InvariantCultureIgnoreCase) ||
 				Location.Location.LocalPath.EndsWith(".rar", StringComparison.InvariantCultureIgnoreCase) ||
-				Location.Location.LocalPath.EndsWith(".7z", StringComparison.InvariantCultureIgnoreCase);
+				Location.Location.LocalPath.EndsWith(".7z", StringComparison.InvariantCultureIgnoreCase) ||
+				Location.Location.LocalPath.EndsWith(".7zip", StringComparison.InvariantCultureIgnoreCase);
 	}
 }

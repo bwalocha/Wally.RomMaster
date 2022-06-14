@@ -3,7 +3,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using Wally.RomMaster.Domain.Abstractions;
@@ -15,13 +14,13 @@ namespace Wally.RomMaster.Infrastructure.DI.Microsoft.Extensions;
 
 public static class DbContextExtensions
 {
-	public static IServiceCollection AddDbContext(this IServiceCollection services, IConfiguration configuration)
+	public static IServiceCollection AddDbContext(this IServiceCollection services, AppSettings settings)
 	{
 		Action<DbContextOptionsBuilder> dbContextOptions;
 		dbContextOptions = options =>
 		{
 			options.UseSqlServer(
-				configuration.GetConnectionString(Constants.Database),
+				settings.ConnectionStrings.Database,
 				builder =>
 				{
 					builder.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);
@@ -57,10 +56,10 @@ public static class DbContextExtensions
 		DbContext dbContext,
 		DbContextSettings settings)
 	{
-		/*if (settings.IsMigrationEnabled)
+		if (settings.IsMigrationEnabled)
 		{
 			dbContext.Database.Migrate();
-		}*/
+		}
 
 		return app;
 	}

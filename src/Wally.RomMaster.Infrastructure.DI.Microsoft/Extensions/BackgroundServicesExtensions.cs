@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Security.Cryptography;
 
+using Force.Crc32;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-
 using Wally.RomMaster.BackgroundServices;
 using Wally.RomMaster.BackgroundServices.Services;
 using Wally.RomMaster.Domain.Abstractions;
@@ -14,6 +15,7 @@ public static class BackgroundServicesExtensions
 {
 	public static IServiceCollection AddBackgroundServices(this IServiceCollection services, AppSettings settings)
 	{
+		services.AddSingleton<HashAlgorithm, Crc32Algorithm>();
 		services.AddSingleton<IClockService>(new ClockService(() => DateTime.UtcNow));
 
 		services.AddHostedService(
