@@ -18,7 +18,7 @@ public static class ServiceCollectionExtensions
 		services.AddMapper();
 		services.AddEventHub();
 		services.AddBackgroundServices(settings);
-		
+
 		return services;
 	}
 }

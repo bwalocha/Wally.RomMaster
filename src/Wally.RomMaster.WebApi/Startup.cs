@@ -1,4 +1,5 @@
 using FluentValidation.AspNetCore;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -8,7 +9,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+
 using Newtonsoft.Json;
+
 using Wally.RomMaster.Application.Users.Commands;
 using Wally.RomMaster.Contracts.Requests.Users;
 using Wally.RomMaster.Infrastructure.DI.Microsoft;

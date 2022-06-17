@@ -40,7 +40,7 @@ public class TransactionBehavior<TRequest, TResponse> : IPipelineBehavior<TReque
 			await transaction.CommitAsync(cancellationToken);
 
 			_logger.LogDebug($"Rows affected: '{rowsAffected}'");
-			
+
 			return response;
 		}
 		catch

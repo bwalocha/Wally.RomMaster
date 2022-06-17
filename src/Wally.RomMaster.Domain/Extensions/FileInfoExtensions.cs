@@ -11,7 +11,8 @@ public static class FileInfoExtensions
 				fileInfo.Name.EndsWith(".gzip", StringComparison.InvariantCultureIgnoreCase) ||
 				fileInfo.Name.EndsWith(".gz", StringComparison.InvariantCultureIgnoreCase) ||
 				fileInfo.Name.EndsWith(".rar", StringComparison.InvariantCultureIgnoreCase) ||
-				fileInfo.Name.EndsWith(".7z", StringComparison.InvariantCultureIgnoreCase) ||
-				fileInfo.Name.EndsWith(".7zip", StringComparison.InvariantCultureIgnoreCase);
+				fileInfo.Name.EndsWith(".7z", StringComparison.InvariantCultureIgnoreCase) || fileInfo.Name.EndsWith(
+					".7zip",
+					StringComparison.InvariantCultureIgnoreCase);
 	}
 }

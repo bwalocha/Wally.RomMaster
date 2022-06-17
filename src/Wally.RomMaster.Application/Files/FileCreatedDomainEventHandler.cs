@@ -13,8 +13,8 @@ namespace Wally.RomMaster.Application.Files;
 
 public class FileCreatedDomainEventHandler : IDomainEventHandler<FileCreatedDomainEvent>
 {
-	private readonly IFileRepository _fileRepository;
 	private readonly IClockService _clockService;
+	private readonly IFileRepository _fileRepository;
 
 	public FileCreatedDomainEventHandler(IFileRepository fileRepository, IClockService clockService)
 	{
@@ -28,7 +28,7 @@ public class FileCreatedDomainEventHandler : IDomainEventHandler<FileCreatedDoma
 
 		if (model.IsArchivePackage())
 		{
-			await using (var zipToOpen = new FileStream(model.Location.Location.LocalPath, FileMode.Open))
+			await using (var zipToOpen = new FileStream(model.Location.Location.LocalPath, FileMode.Open, FileAccess.Read))
 			{
 				using var archive = new ZipArchive(zipToOpen, ZipArchiveMode.Read);
 				foreach (var entry in archive.Entries)

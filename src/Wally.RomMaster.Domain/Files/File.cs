@@ -34,7 +34,7 @@ public class File : AggregateRoot
 		LastWriteTimeUtc = fileInfo.LastWriteTimeUtc;
 		Crc = crc32;
 	}
-	
+
 	private File(DateTime timestamp, Uri fullName, long length, string crc32, File archivePackage)
 	{
 		ModifiedAt = timestamp;
@@ -74,7 +74,9 @@ public class File : AggregateRoot
 		HashAlgorithm hashAlgorithm,
 		CancellationToken cancellationToken)
 	{
-		var crc32 = fileInfo.IsArchivePackage() ? "-" : await ComputeHashAsync(fileInfo, hashAlgorithm, cancellationToken);
+		var crc32 = fileInfo.IsArchivePackage()
+			? "-"
+			: await ComputeHashAsync(fileInfo, hashAlgorithm, cancellationToken);
 		var model = new File(clockService.GetTimestamp(), fileInfo, crc32);
 
 		model.AddDomainEvent(new FileCreatedDomainEvent(model.Id));
@@ -92,10 +94,8 @@ public class File : AggregateRoot
 
 		return model;
 	}
-	
-	public static File Create(
-		IClockService clockService,
-		File archivePackage, ZipArchiveEntry entry)
+
+	public static File Create(IClockService clockService, File archivePackage, ZipArchiveEntry entry)
 	{
 		var crc32 = entry.Crc32.ToString("X2", CultureInfo.InvariantCulture);
 		var fullName = new Uri($"{archivePackage.Location.Location.LocalPath}#{entry.FullName}");
@@ -126,13 +126,15 @@ public class File : AggregateRoot
 		{
 			// TODO: If the file is a Zip Archive then recreate also inner file entries
 			// ...
-			
+
 			Length = fileInfo.Length;
 			Attributes = fileInfo.Attributes;
 			CreationTimeUtc = fileInfo.CreationTimeUtc;
 			LastAccessTimeUtc = fileInfo.LastAccessTimeUtc;
 			LastWriteTimeUtc = fileInfo.LastWriteTimeUtc;
-			Crc = fileInfo.IsArchivePackage() ? "-" : await ComputeHashAsync(fileInfo, hashAlgorithm, cancellationToken);
+			Crc = fileInfo.IsArchivePackage()
+				? "-"
+				: await ComputeHashAsync(fileInfo, hashAlgorithm, cancellationToken);
 		}
 
 		ModifiedAt = clockService.GetTimestamp();

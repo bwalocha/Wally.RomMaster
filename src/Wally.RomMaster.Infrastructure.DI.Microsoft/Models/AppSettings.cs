@@ -17,7 +17,7 @@ public class AppSettings : ISettings
 	public AuthenticationSettings SwaggerAuthentication { get; } = new();
 
 	public DbContextSettings Database { get; } = new();
-	
+
 	public ConnectionStrings ConnectionStrings { get; } = new();
 
 	public List<FolderSettings> DatRoots { get; } = new();

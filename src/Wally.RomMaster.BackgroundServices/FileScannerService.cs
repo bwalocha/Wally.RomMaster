@@ -184,5 +184,7 @@ public class FileScannerService : BackgroundService
 				_logger.LogError("ProcessCommandQueueAsync error: {0}", exception);
 			}
 		}
+
+		await Task.Delay(1000);
 	}
 }

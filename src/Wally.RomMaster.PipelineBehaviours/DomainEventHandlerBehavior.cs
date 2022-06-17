@@ -19,10 +19,13 @@ public class DomainEventHandlerBehavior<TRequest, TResponse> : IPipelineBehavior
 	where TRequest : ICommand, IRequest<TResponse>
 {
 	private readonly DbContext _dbContext;
-	private readonly IServiceProvider _serviceProvider;
 	private readonly ILogger<DomainEventHandlerBehavior<TRequest, TResponse>> _logger;
+	private readonly IServiceProvider _serviceProvider;
 
-	public DomainEventHandlerBehavior(DbContext dbContext, IServiceProvider serviceProvider, ILogger<DomainEventHandlerBehavior<TRequest, TResponse>> logger)
+	public DomainEventHandlerBehavior(
+		DbContext dbContext,
+		IServiceProvider serviceProvider,
+		ILogger<DomainEventHandlerBehavior<TRequest, TResponse>> logger)
 	{
 		_dbContext = dbContext;
 		_serviceProvider = serviceProvider;
@@ -46,9 +49,9 @@ public class DomainEventHandlerBehavior<TRequest, TResponse> : IPipelineBehavior
 			.ToList();
 
 		var rowsAffected = await _dbContext.SaveChangesAsync(cancellationToken);
-		
+
 		_logger.LogDebug($"Rows affected: '{rowsAffected}'");
-		
+
 		foreach (var domainEvent in domainEvents)
 		{
 			var domainEvenHandlerType = typeof(IDomainEventHandler<>);
