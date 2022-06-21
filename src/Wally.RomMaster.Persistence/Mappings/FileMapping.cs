@@ -3,6 +3,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
+using Wally.RomMaster.Domain.DataFiles;
 using Wally.RomMaster.Domain.Files;
 
 namespace Wally.RomMaster.Persistence.Mappings;
@@ -37,6 +38,11 @@ internal class FileMapping : IEntityTypeConfiguration<File>
 		builder.Property(a => a.Sha1)
 			.IsRequired(false)
 			.HasMaxLength(40);
+
+		builder.HasOne(a => a.DataFile)
+			.WithOne(a => a.File)
+			.HasForeignKey<DataFile>(a => a.FileId)
+			.IsRequired(false);
 
 		// builder.HasIndex(a => new { a.Crc, a.Length }).IsUnique(false); // Length 0 files has the same Crc
 	}

@@ -8,7 +8,7 @@
 
     <ItemGroup>
         <PackageReference Include="Crc32.NET" Version="1.2.0"/>
-        <PackageReference Include="AutoMapper.Extensions.ExpressionMapping" Version="5.0.2"/>
+        <PackageReference Include="AutoMapper.Extensions.ExpressionMapping" Version="5.0.3"/>
         <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="11.0.0"/>
         <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0"/>
         <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="6.0.0"/>
@@ -29,6 +29,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Wally.RomMaster.BackgroundServices\Wally.RomMaster.BackgroundServices.csproj"/>
+        <ProjectReference Include="..\Wally.RomMaster.DatFileParser\Wally.RomMaster.DatFileParser.csproj"/>
         <ProjectReference Include="..\Wally.RomMaster.Domain\Wally.RomMaster.Domain.csproj"/>
         <ProjectReference Include="..\Wally.RomMaster.MapperProfiles\Wally.RomMaster.MapperProfiles.csproj"/>
         <ProjectReference Include="..\Wally.RomMaster.Messaging\Wally.RomMaster.Messaging.csproj"/>

@@ -28,7 +28,10 @@ public class FileCreatedDomainEventHandler : IDomainEventHandler<FileCreatedDoma
 
 		if (model.IsArchivePackage())
 		{
-			await using (var zipToOpen = new FileStream(model.Location.Location.LocalPath, FileMode.Open, FileAccess.Read))
+			await using (var zipToOpen = new FileStream(
+							model.Location.Location.LocalPath,
+							FileMode.Open,
+							FileAccess.Read))
 			{
 				using var archive = new ZipArchive(zipToOpen, ZipArchiveMode.Read);
 				foreach (var entry in archive.Entries)

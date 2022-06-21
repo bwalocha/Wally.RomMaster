@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 using Wally.Lib.DDD.Abstractions.DomainModels;
 using Wally.RomMaster.Domain.Files;
@@ -14,7 +15,7 @@ namespace Wally.RomMaster.Domain.DataFiles;
 	<date>06.20.2018</date>
 	<author>RomVault</author>
 */
-public class DataFile : AggregateRoot
+public class DataFile : Entity
 {
 	private readonly List<Game> _games = new();
 
@@ -23,6 +24,30 @@ public class DataFile : AggregateRoot
 	private DataFile()
 #pragma warning restore CS8618
 	{
+	}
+
+	private DataFile(
+		string name,
+		string description,
+		string category,
+		string version,
+		DateTime? date,
+		string author,
+		string email,
+		string homePage,
+		Uri url,
+		IEnumerable<Game> games)
+	{
+		Name = name;
+		Description = description;
+		Category = category;
+		Version = version;
+		Date = date;
+		Author = author;
+		Email = email;
+		HomePage = homePage;
+		Url = url;
+		_games = games.ToList();
 	}
 
 	public string Name { get; private set; }
@@ -47,5 +72,5 @@ public class DataFile : AggregateRoot
 
 	public File File { get; private set; }
 
-	public int FileId { get; private set; }
+	public Guid FileId { get; private set; }
 }

@@ -2,6 +2,8 @@
 
 using Microsoft.Extensions.DependencyInjection;
 
+using Wally.RomMaster.DatFileParser;
+using Wally.RomMaster.Domain.Abstractions;
 using Wally.RomMaster.Infrastructure.DI.Microsoft.Extensions;
 using Wally.RomMaster.Infrastructure.DI.Microsoft.Models;
 
@@ -18,6 +20,8 @@ public static class ServiceCollectionExtensions
 		services.AddMapper();
 		services.AddEventHub();
 		services.AddBackgroundServices(settings);
+
+		services.AddScoped<IDataFileParser, Parser>();
 
 		return services;
 	}

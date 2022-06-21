@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 
 using Wally.Lib.DDD.Abstractions.DomainModels;
 
@@ -13,6 +14,14 @@ public class Game : Entity
 	private Game()
 #pragma warning restore CS8618
 	{
+	}
+
+	private Game(string name, string description, string year, IEnumerable<Rom> roms)
+	{
+		Name = name;
+		Description = description;
+		Year = year;
+		_roms = roms.ToList();
 	}
 
 	public string Name { get; private set; }

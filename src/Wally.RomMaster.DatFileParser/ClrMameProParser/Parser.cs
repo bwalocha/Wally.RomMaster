@@ -230,6 +230,9 @@ internal class Parser
 						await ReadRomAsync(lines, cancellationToken)
 							.ConfigureAwait(false)); // = value;
 					break;
+				case "region":
+					game.Region = value;
+					break;
 				default:
 					throw new ArgumentOutOfRangeException(nameof(key), key, "Unexpected token");
 			}

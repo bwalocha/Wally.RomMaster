@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 using Wally.Lib.DDD.Abstractions.DomainModels;
 using Wally.RomMaster.Domain.Abstractions;
+using Wally.RomMaster.Domain.DataFiles;
 using Wally.RomMaster.Domain.Extensions;
 
 namespace Wally.RomMaster.Domain.Files;
@@ -66,6 +67,10 @@ public class File : AggregateRoot
 	public DateTime LastWriteTimeUtc { get; private set; }
 
 	public DateTime ModifiedAt { get; private set; }
+
+	public DataFile DataFile { get; private set; }
+
+	public Guid? DataFileId { get; private set; }
 
 	public static async Task<File> CreateAsync(
 		IClockService clockService,
@@ -153,5 +158,11 @@ public class File : AggregateRoot
 				Location.Location.LocalPath.EndsWith(".rar", StringComparison.InvariantCultureIgnoreCase) ||
 				Location.Location.LocalPath.EndsWith(".7z", StringComparison.InvariantCultureIgnoreCase) ||
 				Location.Location.LocalPath.EndsWith(".7zip", StringComparison.InvariantCultureIgnoreCase);
+	}
+
+	public void SetDataFile(DataFile dataFile)
+	{
+		DataFile = dataFile;
+		DataFileId = dataFile.Id;
 	}
 }

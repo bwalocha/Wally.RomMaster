@@ -43,4 +43,7 @@ public class Game
 
 	[XmlAttribute("serial")]
 	public string Serial { get; set; }
+
+	[XmlAttribute("region")]
+	public string Region { get; set; } // USA
 }

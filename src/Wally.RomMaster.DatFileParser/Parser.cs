@@ -4,27 +4,33 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 
-using Wally.RomMaster.DatFileParser.Models;
+using AutoMapper;
+
+using Wally.RomMaster.Domain.Abstractions;
+using Wally.RomMaster.Domain.DataFiles;
+using Wally.RomMaster.Domain.Files;
 
 namespace Wally.RomMaster.DatFileParser;
 
-public class Parser
+public class Parser : IDataFileParser
 {
+	private readonly IMapper _mapper;
 	private readonly XmlReaderSettings _settings;
 
-	public Parser()
+	public Parser(IMapper mapper)
 	{
+		_mapper = mapper;
 		_settings = new XmlReaderSettings();
 	}
 
-	public async Task<DataFile> ParseAsync(string filePathName, CancellationToken cancellationToken)
+	public async Task<DataFile> ParseAsync(FileLocation location, CancellationToken cancellationToken)
 	{
-		using var stream = new FileStream(filePathName, FileMode.Open);
-		return await ParseAsync(stream, cancellationToken)
-			.ConfigureAwait(false);
+		await using var stream = new FileStream(location.Location.LocalPath, FileMode.Open, FileAccess.Read);
+		var data = await ParseAsync(stream, cancellationToken);
+		return _mapper.Map<DataFile>(data);
 	}
 
-	public static async Task<DataFile> ParseAsync(Stream stream, CancellationToken cancellationToken)
+	private static async Task<Models.DataFile> ParseAsync(Stream stream, CancellationToken cancellationToken)
 	{
 		if (stream == null)
 		{
@@ -32,9 +38,13 @@ public class Parser
 		}
 
 		using var reader = new StreamReader(stream);
-		var line = await reader.ReadLineAsync()
-			.ConfigureAwait(false);
+		var line = await reader.ReadLineAsync();
 		stream.Seek(0, SeekOrigin.Begin);
+
+		if (string.IsNullOrWhiteSpace(line))
+		{
+			throw new ArgumentException("Unknown DAT file format");
+		}
 
 		if (line.StartsWith("<", StringComparison.InvariantCulture))
 		{
