@@ -10,7 +10,7 @@ public class Rom
 	public string Name { get; set; } // Air Conflicts - Aces of World War II (USA).iso
 
 	[XmlAttribute("size")]
-	public uint Size { get; set; } // 900825088
+	public ulong Size { get; set; } // 900825088 // 4453531648
 
 	[XmlAttribute("crc")]
 	public string Crc { get; set; } // 1a36c729

@@ -13,7 +13,7 @@ public class Rom : Entity
 
 	public string Name { get; private set; }
 
-	public long Size { get; private set; }
+	public ulong Size { get; private set; }
 
 	public string Crc { get; private set; }
 

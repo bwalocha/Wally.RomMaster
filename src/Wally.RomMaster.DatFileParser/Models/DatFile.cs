@@ -43,9 +43,9 @@ namespace Wally.RomMaster.DatFileParser.Models;
 
 
 [Serializable]
-// [XmlRoot(ElementName = "DatFile")]
-[XmlRoot(ElementName = "datafile")]
-public class DataFile
+[XmlRoot(ElementName = "DatFile")]
+// [XmlRoot(ElementName = "datafile")]
+public class DatFile
 {
 	[XmlElement("header")]
 	public Header Header { get; set; }

@@ -13,11 +13,11 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Wally.RomMaster.Domain\Wally.RomMaster.Domain.csproj"/>
+        <ProjectReference Include="..\Wally.RomMaster.Domain\Wally.RomMaster.Domain.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="AutoMapper" Version="11.0.1"/>
+        <PackageReference Include="AutoMapper" Version="11.0.1" />
     </ItemGroup>
 
 </Project>

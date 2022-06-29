@@ -45,5 +45,6 @@ internal class FileMapping : IEntityTypeConfiguration<File>
 			.IsRequired(false);
 
 		// builder.HasIndex(a => new { a.Crc, a.Length }).IsUnique(false); // Length 0 files has the same Crc
+		builder.HasIndex(a => a.Crc).IsUnique(false); // Length 0 files has the same Crc
 	}
 }

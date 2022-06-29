@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Xml;
+using System.Xml.Schema;
 using System.Xml.Serialization;
 
 using Wally.RomMaster.DatFileParser.Models;
@@ -22,12 +23,12 @@ public class Parser
 			ValidationType = ValidationType.None,
 
 			// settings.ValidationType = ValidationType.DTD;
-			// settings.ValidationEventHandler += new ValidationEventHandler(ValidationCallBack);
-
 			MaxCharactersFromEntities = 1024,
 		};
 
-		_serializer = new XmlSerializer(typeof(DataFile));
+		_settings.ValidationEventHandler += ValidationCallBack;
+
+		_serializer = new XmlSerializer(typeof(DataFile), new XmlRootAttribute("datafile"));
 	}
 
 	public DataFile Parse(string filePathName)
@@ -77,8 +78,8 @@ public class Parser
 		}
 	}
 
-	// private static void ValidationCallBack(object sender, ValidationEventArgs e)
-	// {
-	//    System.Console.WriteLine("Validation Error: {0}", e.Message);
-	// }
+	private static void ValidationCallBack(object sender, ValidationEventArgs e)
+	{
+		System.Console.WriteLine("Validation Error: {0}", e.Message);
+	}
 }

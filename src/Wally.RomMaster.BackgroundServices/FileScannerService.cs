@@ -65,10 +65,10 @@ public class FileScannerService : BackgroundService
 
 		processCommandQueue.Start();
 
-		Parallel.Invoke(
-			() => Scan(SourceType.DatRoot, _settings.DatRoots, cancellationToken),
-			() => Scan(SourceType.Output, _settings.RomRoots, cancellationToken),
-			() => Scan(SourceType.Input, _settings.ToSortRoots, cancellationToken));
+		await Task.WhenAll(
+			ScanAsync(SourceType.DatRoot, _settings.DatRoots, cancellationToken),
+			ScanAsync(SourceType.Output, _settings.RomRoots, cancellationToken),
+			ScanAsync(SourceType.Input, _settings.ToSortRoots, cancellationToken));
 
 		manualResetEvent.Set();
 		await processCommandQueue.WaitAsync(cancellationToken);
@@ -79,7 +79,7 @@ public class FileScannerService : BackgroundService
 		await mediator.Send(command);
 	}
 
-	private void Scan(SourceType sourceType, List<FolderSettings> folders, CancellationToken cancellationToken)
+	private async Task ScanAsync(SourceType sourceType, List<FolderSettings> folders, CancellationToken cancellationToken)
 	{
 		foreach (var folder in folders)
 		{
@@ -101,13 +101,13 @@ public class FileScannerService : BackgroundService
 				continue;
 			}
 
-			Scan(sourceType, folder, cancellationToken);
+			await ScanAsync(sourceType, folder, cancellationToken);
 		}
 	}
 
-	private void Scan(SourceType sourceType, FolderSettings folder, CancellationToken cancellationToken)
+	private async Task ScanAsync(SourceType sourceType, FolderSettings folder, CancellationToken cancellationToken)
 	{
-		Scan(sourceType, folder.Path.LocalPath, folder.Excludes, cancellationToken);
+		await ScanAsync(sourceType, folder.Path.LocalPath, folder.Excludes, cancellationToken);
 
 		foreach (var directory in Directory.EnumerateDirectories(folder.Path.LocalPath, "*.*", folder.SearchOptions))
 		{
@@ -117,11 +117,11 @@ public class FileScannerService : BackgroundService
 				return;
 			}
 
-			Scan(sourceType, directory, folder.Excludes, cancellationToken);
+			await ScanAsync(sourceType, directory, folder.Excludes, cancellationToken);
 		}
 	}
 
-	private void Scan(
+	private async Task ScanAsync(
 		SourceType sourceType,
 		string directory,
 		List<ExcludeSettings> excludes,
@@ -144,6 +144,12 @@ public class FileScannerService : BackgroundService
 			_logger.LogDebug($"File '{file}' found.");
 
 			var command = new ScanFileCommand(sourceType, FileLocation.Create(new Uri(file)));
+
+			while (_commandQueue.Count >= 1000)
+			{
+				await Task.Delay(1000, cancellationToken);
+			}
+
 			_commandQueue.Enqueue(command);
 		}
 	}

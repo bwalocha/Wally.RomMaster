@@ -12,7 +12,7 @@ internal class RomMapping : IEntityTypeConfiguration<Rom>
 		builder.ToTable("Rom");
 
 		builder.Property(a => a.Crc)
-			.IsRequired()
+			.IsRequired(false) // some DataFiles does not contain the value
 			.HasMaxLength(8);
 		builder.Property(a => a.Md5)
 			.IsRequired(false)
@@ -27,5 +27,6 @@ internal class RomMapping : IEntityTypeConfiguration<Rom>
 			.IsRequired();
 
 		// builder.HasIndex(a => new { a.Crc, a.Length }).IsUnique(false); // Length 0 files has the same Crc
+		builder.HasIndex(a => a.Crc).IsUnique(false); // Length 0 files has the same Crc
 	}
 }

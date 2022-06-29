@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System;
+
+using AutoMapper;
 
 using Wally.RomMaster.DatFileParser.Models;
 
@@ -11,13 +13,17 @@ public class DataFileProfile : Profile
 		CreateMap<DataFile, Domain.DataFiles.DataFile>()
 			.ForCtorParam(nameof(Domain.DataFiles.DataFile.Author), a => a.MapFrom(b => b.Header.Author))
 			.ForCtorParam(nameof(Domain.DataFiles.DataFile.Category), a => a.MapFrom(b => b.Header.Category))
-			.ForCtorParam(nameof(Domain.DataFiles.DataFile.Date), a => a.MapFrom(b => b.Header.Date))
+			// .ForCtorParam(nameof(Domain.DataFiles.DataFile.Date), a => a.MapFrom(b =>
+			// DateTime.TryParse(b.Header.Date, out var value) ? value : (DateTime?)null
+			// ))
+			.ForCtorParam(nameof(Domain.DataFiles.DataFile.Date), a => a.MapFrom(b => (DateTime?)null))
 			.ForCtorParam(nameof(Domain.DataFiles.DataFile.Description), a => a.MapFrom(b => b.Header.Description))
 			.ForCtorParam(nameof(Domain.DataFiles.DataFile.Email), a => a.MapFrom(b => b.Header.Email))
 
 			// .ForCtorParam(nameof(Wally.RomMaster.Domain.DataFiles.DataFile.File), a => a.Ignore())
 			.ForCtorParam(nameof(Domain.DataFiles.DataFile.Name), a => a.MapFrom(b => b.Header.Name))
-			.ForCtorParam(nameof(Domain.DataFiles.DataFile.Url), a => a.MapFrom(b => b.Header.Url))
+			// .ForCtorParam(nameof(Domain.DataFiles.DataFile.Url), a => a.MapFrom(b => b.Header.Url))
+			.ForCtorParam(nameof(Domain.DataFiles.DataFile.Url), a => a.MapFrom(b => new Uri("https://wally.best")))
 			.ForCtorParam(nameof(Domain.DataFiles.DataFile.Version), a => a.MapFrom(b => b.Header.Version))
 
 			// .ForCtorParam(nameof(Wally.RomMaster.Domain.DataFiles.DataFile.FileId), a => a.Ignore())

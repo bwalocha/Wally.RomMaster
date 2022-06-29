@@ -15,8 +15,7 @@ internal class Parser
 	public async Task<DataFile> ParseAsync(string filePathName, CancellationToken cancellationToken)
 	{
 		using var stream = new FileStream(filePathName, FileMode.Open);
-		return await ParseAsync(stream, cancellationToken)
-			.ConfigureAwait(false);
+		return await ParseAsync(stream, cancellationToken);
 	}
 
 	public async Task<DataFile> ParseAsync(Stream stream, CancellationToken cancellationToken)
@@ -24,8 +23,7 @@ internal class Parser
 		using var reader = new StreamReader(stream);
 		var enumerator = new AsyncLineEnumerator(reader);
 
-		var header = await ReadHeaderAsync(enumerator, cancellationToken)
-			.ConfigureAwait(false);
+		var header = await ReadHeaderAsync(enumerator, cancellationToken);
 		var games = ReadGamesAsync(enumerator, cancellationToken);
 
 		var response = new DataFile { Header = header, };
@@ -42,7 +40,7 @@ internal class Parser
 	}
 
 	private static async Task<Header> ReadHeaderAsync(
-		IAsyncEnumerator<string> lines,
+		IAsyncEnumerator<string?> lines,
 		CancellationToken cancellationToken)
 	{
 		var header = new Header();
@@ -63,7 +61,7 @@ internal class Parser
 		{
 			cancellationToken.ThrowIfCancellationRequested();
 
-			line = lines.Current.Trim();
+			line = lines.Current!.Trim();
 
 			var tags = line.Split(' ', 2);
 
@@ -130,15 +128,14 @@ internal class Parser
 	}
 
 	private static async IAsyncEnumerator<Game> ReadGamesAsync(
-		IAsyncEnumerator<string> lines,
+		IAsyncEnumerator<string?> lines,
 		CancellationToken cancellationToken)
 	{
 		while (await lines.MoveNextAsync())
 		{
 			cancellationToken.ThrowIfCancellationRequested();
 
-			var game = await ReadGameAsync(lines, cancellationToken)
-				.ConfigureAwait(false);
+			var game = await ReadGameAsync(lines, cancellationToken);
 
 			if (game != null)
 			{
@@ -152,10 +149,15 @@ internal class Parser
 		}
 	}
 
-	private static async Task<Game> ReadGameAsync(IAsyncEnumerator<string> lines, CancellationToken cancellationToken)
+	private static async Task<Game?> ReadGameAsync(IAsyncEnumerator<string?> lines, CancellationToken cancellationToken)
 	{
 		var line = lines.Current;
 
+		if (string.IsNullOrWhiteSpace(line))
+		{
+			return null;
+		}
+		
 		if (line.StartsWith("resource", StringComparison.InvariantCulture))
 		{
 			while (await lines.MoveNextAsync())
@@ -164,7 +166,7 @@ internal class Parser
 
 				line = lines.Current;
 
-				var tags = line.Split(' ', 2);
+				var tags = line!.Split(' ', 2);
 
 				var key = tags[0];
 
@@ -190,7 +192,7 @@ internal class Parser
 
 			line = lines.Current;
 
-			var tags = line.Split(' ', 2);
+			var tags = line!.Split(' ', 2);
 
 			var key = tags[0];
 
@@ -226,9 +228,7 @@ internal class Parser
 					game.Manufacturer = value;
 					break;
 				case "rom":
-					game.Roms.Add(
-						await ReadRomAsync(lines, cancellationToken)
-							.ConfigureAwait(false)); // = value;
+					game.Roms.Add(await ReadRomAsync(lines, cancellationToken)); // = value;
 					break;
 				case "region":
 					game.Region = value;
@@ -241,9 +241,15 @@ internal class Parser
 		return game;
 	}
 
-	private static Task<Rom> ReadRomAsync(IAsyncEnumerator<string> lines, CancellationToken cancellationToken)
+	private static Task<Rom> ReadRomAsync(IAsyncEnumerator<string?> lines, CancellationToken cancellationToken)
 	{
 		var line = lines.Current;
+
+		if (string.IsNullOrWhiteSpace(line))
+		{
+			throw new ArgumentOutOfRangeException(nameof(lines), line, $"Empty line");
+		}
+		
 		var tags = line.Split(' ', 2);
 		var key = tags[0];
 
@@ -324,16 +330,17 @@ internal class Parser
 		return Task.FromResult(rom);
 	}
 
-	private class AsyncLineEnumerator : IAsyncEnumerator<string>
+	private class AsyncLineEnumerator : IAsyncEnumerator<string?>
 	{
 		private readonly StreamReader _reader;
 
 		public AsyncLineEnumerator(StreamReader reader)
 		{
 			_reader = reader;
+			Current = null;
 		}
 
-		public string Current { get; private set; }
+		public string? Current { get; private set; }
 
 		public ValueTask DisposeAsync()
 		{
@@ -347,8 +354,8 @@ internal class Parser
 				return false;
 			}
 
-			Current = (await _reader.ReadLineAsync()
-				.ConfigureAwait(false)).Trim();
+			var line = await _reader.ReadLineAsync();
+			Current = line?.Trim();
 			if (string.IsNullOrWhiteSpace(Current))
 			{
 				return await MoveNextAsync();

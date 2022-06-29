@@ -30,7 +30,8 @@ public class FileRepository : Repository<File>, IFileRepository
 
 	public Task<File?> GetOrDefaultAsync(FileLocation location, CancellationToken cancellationToken)
 	{
+		// Location is Unique so we can get First result
 		return GetReadWriteEntitySet()
-			.SingleOrDefaultAsync(a => a.Location.Location == location.Location, cancellationToken);
+			.FirstOrDefaultAsync(a => a.Location.Location == location.Location, cancellationToken);
 	}
 }

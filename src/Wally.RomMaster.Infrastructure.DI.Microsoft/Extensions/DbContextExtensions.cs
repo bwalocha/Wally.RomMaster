@@ -40,7 +40,8 @@ public static class DbContextExtensions
 
 			options.EnableSensitiveDataLogging(); // TODO: use app settings
 		};
-		services.AddDbContext<DbContext, ApplicationDbContext>(dbContextOptions);
+		// services.AddDbContext<DbContext, ApplicationDbContext>(dbContextOptions);
+		services.AddDbContextPool<DbContext, ApplicationDbContext>(dbContextOptions);
 
 		services.Scan(
 			a => a.FromApplicationDependencies(b => b.FullName!.StartsWith("Wally.RomMaster."))

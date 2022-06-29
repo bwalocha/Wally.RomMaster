@@ -53,8 +53,7 @@ public class Parser : IDataFileParser
 
 		if (line.StartsWith("clrmamepro", StringComparison.InvariantCulture))
 		{
-			return await new ClrMameProParser.Parser().ParseAsync(stream, cancellationToken)
-				.ConfigureAwait(false);
+			return await new ClrMameProParser.Parser().ParseAsync(stream, cancellationToken);
 		}
 
 		throw new ArgumentException($"Unknown DAT file header: '{line}'.");

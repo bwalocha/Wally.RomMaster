@@ -3,7 +3,6 @@ using System.Linq;
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.Extensions.Logging;
 
 using Wally.Lib.DDD.Abstractions.DomainModels;
 
@@ -13,12 +12,9 @@ public sealed class ApplicationDbContext : DbContext
 {
 	private const string RowVersion = nameof(RowVersion);
 
-	private readonly ILogger<ApplicationDbContext> _logger;
-
-	public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, ILogger<ApplicationDbContext> logger)
+	public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
 		: base(options)
 	{
-		_logger = logger;
 		ChangeTracker.LazyLoadingEnabled = false;
 	}
 
