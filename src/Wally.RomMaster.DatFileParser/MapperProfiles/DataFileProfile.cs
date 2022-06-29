@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 
 using AutoMapper;
 
@@ -30,12 +31,20 @@ public class DataFileProfile : Profile
 			.ForCtorParam(nameof(Domain.DataFiles.DataFile.HomePage), a => a.MapFrom(b => b.Header.HomePage))
 
 			// .ForCtorParam(nameof(Wally.RomMaster.Domain.DataFiles.DataFile.Id), a => a.Ignore())
+			.ForCtorParam(nameof(Wally.RomMaster.Domain.DataFiles.DataFile.Games), a => a.MapFrom(b => b.Games.Cast<object>().Concat(b.Machines)))
 
 			//.ForMember(a => a._games, a => a.MapFrom(b => b.Games));
 			// .AfterMap((prop, reprop) => reprop.AddGames(prop.Games));
 			;
 
 		CreateMap<Game, Domain.DataFiles.Game>();
+		CreateMap<Machine, Domain.DataFiles.Game>()
+			.ForCtorParam(nameof(Domain.DataFiles.Game.Name), a => a.MapFrom(b => b.Name))
+			.ForCtorParam(nameof(Domain.DataFiles.Game.Description), a => a.MapFrom(b => b.Description))
+			.ForCtorParam(nameof(Domain.DataFiles.Game.Year), a => a.MapFrom(b => string.Empty))
+
+			// .ForCtorParam(nameof(Domain.DataFiles.Game.Name), a => a.MapFrom(b => b.Name))
+			;
 		CreateMap<Rom, Domain.DataFiles.Rom>();
 	}
 }

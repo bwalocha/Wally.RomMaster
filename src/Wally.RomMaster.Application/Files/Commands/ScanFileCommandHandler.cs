@@ -60,8 +60,8 @@ public class ScanFileCommandHandler : CommandHandler<ScanFileCommand>
 			return;
 		}
 
-		await file.UpdateAsync(_clockService, fileInfo, _hashAlgorithm, cancellationToken);
+		/*await file.UpdateAsync(_clockService, fileInfo, _hashAlgorithm, cancellationToken);
 
-		_fileRepository.Update(file);
+		_fileRepository.Update(file);*/
 	}
 }

@@ -52,4 +52,7 @@ public class DataFile
 
 	[XmlElement("game")]
 	public List<Game> Games { get; } = new();
+	
+	[XmlElement("machine")]
+	public List<Machine> Machines { get; } = new();
 }
