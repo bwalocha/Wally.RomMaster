@@ -27,6 +27,7 @@ internal class RomMapping : IEntityTypeConfiguration<Rom>
 			.IsRequired();
 
 		// builder.HasIndex(a => new { a.Crc, a.Length }).IsUnique(false); // Length 0 files has the same Crc
-		builder.HasIndex(a => a.Crc).IsUnique(false); // Length 0 files has the same Crc
+		builder.HasIndex(a => a.Crc)
+			.IsUnique(false); // Length 0 files has the same Crc
 	}
 }

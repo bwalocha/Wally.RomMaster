@@ -24,7 +24,6 @@ namespace Wally.RomMaster.DatFileParser.Models;
 		<rom name="10000-Watts (1987)(ACSW - Blade).adf" size="901120" crc="b1e40889" md5="c6567c343d67e90c23dd0f6d8d7d3df3" sha1="ca6e33faed9a6cd22fedbb02f45e9955d1e557c3"/>
 	</game>
 */
-
 /*
 <?xml version="1.0"?>
 <DatFile>
@@ -41,9 +40,7 @@ namespace Wally.RomMaster.DatFileParser.Models;
 	</game> 
 */
 
-
 [Serializable]
-// [XmlRoot(ElementName = "DatFile")]
 [XmlRoot(ElementName = "datafile")]
 public class DataFile
 {
@@ -52,7 +49,7 @@ public class DataFile
 
 	[XmlElement("game")]
 	public List<Game> Games { get; } = new();
-	
+
 	[XmlElement("machine")]
 	public List<Machine> Machines { get; } = new();
 }

@@ -45,6 +45,7 @@ public class TransactionBehavior<TRequest, TResponse> : IPipelineBehavior<TReque
 		}
 		catch
 		{
+			_dbContext.ChangeTracker.Clear();
 			await transaction.RollbackAsync(cancellationToken);
 			throw;
 		}

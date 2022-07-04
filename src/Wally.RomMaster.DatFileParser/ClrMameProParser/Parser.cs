@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -157,7 +156,7 @@ internal class Parser
 		{
 			return null;
 		}
-		
+
 		if (line.StartsWith("resource", StringComparison.InvariantCulture))
 		{
 			while (await lines.MoveNextAsync())
@@ -247,9 +246,9 @@ internal class Parser
 
 		if (string.IsNullOrWhiteSpace(line))
 		{
-			throw new ArgumentOutOfRangeException(nameof(lines), line, $"Empty line");
+			throw new ArgumentOutOfRangeException(nameof(lines), line, "Empty line");
 		}
-		
+
 		var tags = line.Split(' ', 2);
 		var key = tags[0];
 
@@ -288,7 +287,7 @@ internal class Parser
 					rom.Name = value;
 					break;
 				case "size":
-					rom.Size = uint.Parse(value, NumberStyles.None, CultureInfo.InvariantCulture);
+					rom.Size = value; // uint.Parse(value, NumberStyles.None, CultureInfo.InvariantCulture);
 					break;
 				case "crc":
 					rom.Crc = value;
@@ -304,6 +303,9 @@ internal class Parser
 					break;
 				case "merge":
 					rom.Merge = value;
+					break;
+				case "serial":
+					rom.Serial = value;
 					break;
 				default:
 					throw new ArgumentOutOfRangeException(nameof(key), key, $"Unexpected token: '{key}'");

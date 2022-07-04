@@ -34,7 +34,10 @@ public class Disk
 
 	[XmlAttribute("sha1")]
 	public string Sha1 { get; set; } // 5ff10f4e87094d4449eabf3de7549564ca568c7e
-	
+
 	[XmlAttribute("status")]
 	public string Status { get; set; }
+
+	[XmlAttribute("region")]
+	public string Region { get; set; } // region="ide:0:hdd:image"
 }

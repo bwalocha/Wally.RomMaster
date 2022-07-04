@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Diagnostics;
+using System.Threading;
 using System.Threading.Tasks;
 
 using Wally.Lib.DDD.Abstractions.Commands;
@@ -16,6 +17,8 @@ public class RemoveOutdatedFilesCommandHandler : CommandHandler<RemoveOutdatedFi
 
 	public override Task HandleAsync(RemoveOutdatedFilesCommand command, CancellationToken cancellationToken)
 	{
+		Debugger.Break();
+
 		_fileRepository.RemoveOutdatedFiles(command.Timestamp);
 
 		return Task.CompletedTask;

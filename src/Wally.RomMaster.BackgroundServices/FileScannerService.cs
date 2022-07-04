@@ -79,7 +79,10 @@ public class FileScannerService : BackgroundService
 		await mediator.Send(command);
 	}
 
-	private async Task ScanAsync(SourceType sourceType, List<FolderSettings> folders, CancellationToken cancellationToken)
+	private async Task ScanAsync(
+		SourceType sourceType,
+		List<FolderSettings> folders,
+		CancellationToken cancellationToken)
 	{
 		foreach (var folder in folders)
 		{
@@ -107,9 +110,7 @@ public class FileScannerService : BackgroundService
 
 	private async Task ScanAsync(SourceType sourceType, FolderSettings folder, CancellationToken cancellationToken)
 	{
-		await ScanAsync(sourceType, folder.Path.LocalPath, folder.Excludes, cancellationToken);
-
-		foreach (var directory in Directory.EnumerateDirectories(folder.Path.LocalPath, "*.*", folder.SearchOptions))
+		foreach (var file in Directory.EnumerateFiles(folder.Path.LocalPath, "*.*", folder.SearchOptions))
 		{
 			if (cancellationToken.IsCancellationRequested)
 			{
@@ -117,35 +118,17 @@ public class FileScannerService : BackgroundService
 				return;
 			}
 
-			await ScanAsync(sourceType, directory, folder.Excludes, cancellationToken);
-		}
-	}
-
-	private async Task ScanAsync(
-		SourceType sourceType,
-		string directory,
-		List<ExcludeSettings> excludes,
-		CancellationToken cancellationToken)
-	{
-		foreach (var file in Directory.EnumerateFiles(directory, "*.*", SearchOption.TopDirectoryOnly))
-		{
-			if (cancellationToken.IsCancellationRequested)
-			{
-				_logger.LogDebug("ScanAsync cancelled.");
-				return;
-			}
-
-			if (IsExcluded(file, excludes))
+			if (IsExcluded(file, folder.Excludes))
 			{
 				_logger.LogDebug($"File '{file}' excluded from scanning.");
-				return;
+				continue;
 			}
 
 			_logger.LogDebug($"File '{file}' found.");
 
 			var command = new ScanFileCommand(sourceType, FileLocation.Create(new Uri(file)));
 
-			while (_commandQueue.Count >= 1000)
+			while (_commandQueue.Count >= 100)
 			{
 				await Task.Delay(1000, cancellationToken);
 			}

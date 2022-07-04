@@ -235,7 +235,7 @@ public class FileWatcherService : BackgroundService
 			}
 
 			await Task.Delay(1000);
-		} 
+		}
 		while (!cancellationToken.IsCancellationRequested);
 	}
 

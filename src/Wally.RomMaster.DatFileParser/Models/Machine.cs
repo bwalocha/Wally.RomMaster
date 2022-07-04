@@ -27,4 +27,57 @@ public class Machine
 
 	[XmlElement("rom")]
 	public List<Rom> Roms { get; } = new();
+
+	[XmlAttribute("sourcefile")]
+	public string SourceFile { get; set; } // sourcefile="segag80r.cpp"
+
+	[XmlAttribute("cloneof")]
+	public string CloneOf { get; set; } // cloneof="10yard"
+
+	[XmlAttribute("romof")]
+	public string RomOf { get; set; } // romof="10yard"
+
+	[XmlAttribute("sampleof")]
+	public string SampleOf { get; set; } // sampleof="astrof"
+
+	[XmlElement("year")]
+	public string Year { get; set; } // <year>19??</year>
+
+	[XmlElement("manufacturer")]
+	public string Manufacturer { get; set; } // <manufacturer>Sega</manufacturer>
+
+	[XmlElement("device_ref")]
+	public List<DeviceRef> DeviceRefs { get; set; } // <device_ref name="z80"/>
+
+	[XmlElement("sample")]
+	public List<Sample> Samples { get; set; } // <sample name="dropbomb"/>
+
+	[XmlElement("driver")]
+	public Driver Driver { get; set; } // <driver status="imperfect"/>
+
+	[XmlAttribute("isdevice")]
+	public string IsDevice { get; set; } // isdevice="yes" runnable="no"
+
+	[XmlAttribute("isbios")]
+	public string IsBios { get; set; } // isbios="yes"
+
+	[XmlAttribute("runnable")]
+	public string Runnable { get; set; } // runnable="no"
+
+	[XmlElement("biosset")]
+	public List<BiosSet> BiosSets { get; set; } // <biosset name="bios0" description="epr-21576h (Japan)"/>
+
+	[XmlAttribute("ismechanical")]
+	public string IsMechanical { get; set; } // ismechanical="yes"
+
+	[XmlElement("disk")]
+	public List<Disk>
+		Disks
+	{
+		get;
+		set;
+	} // <disk name="area51" sha1="3b303bc37e206a6d7339352c869f050d04186f11" region="ide:0:hdd:image"/>
+
+	[XmlElement("softwarelist")]
+	public List<SoftwareList> SoftwareLists { get; set; } // <softwarelist name="vc4000"/>
 }

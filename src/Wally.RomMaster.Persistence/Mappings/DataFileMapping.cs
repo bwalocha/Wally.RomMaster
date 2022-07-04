@@ -14,7 +14,7 @@ internal class DataFileMapping : IEntityTypeConfiguration<DataFile>
 
 		builder.Property(a => a.Author)
 			.IsRequired(false)
-			.HasMaxLength(512);
+			.HasMaxLength(1024);
 		builder.Property(a => a.Category)
 			.IsRequired(false)
 			.HasMaxLength(512);

@@ -46,4 +46,7 @@ public class Game
 
 	[XmlAttribute("region")]
 	public string Region { get; set; } // USA
+
+	[XmlElement("game_id")]
+	public string GameId { get; set; } // <game_id>RX112</game_id>
 }

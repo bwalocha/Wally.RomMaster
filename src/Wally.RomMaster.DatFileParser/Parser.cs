@@ -1,36 +1,45 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Xml;
 
 using AutoMapper;
 
+using Wally.RomMaster.DatFileParser.Models;
+using Wally.RomMaster.DatFileParser.XMLParser;
 using Wally.RomMaster.Domain.Abstractions;
-using Wally.RomMaster.Domain.DataFiles;
 using Wally.RomMaster.Domain.Files;
+
+using DataFile = Wally.RomMaster.Domain.DataFiles.DataFile;
 
 namespace Wally.RomMaster.DatFileParser;
 
 public class Parser : IDataFileParser
 {
 	private readonly IMapper _mapper;
-	private readonly XmlReaderSettings _settings;
 
 	public Parser(IMapper mapper)
 	{
 		_mapper = mapper;
-		_settings = new XmlReaderSettings();
 	}
 
 	public async Task<DataFile> ParseAsync(FileLocation location, CancellationToken cancellationToken)
 	{
-		await using var stream = new FileStream(location.Location.LocalPath, FileMode.Open, FileAccess.Read);
-		var data = await ParseAsync(stream, cancellationToken);
-		return _mapper.Map<DataFile>(data);
+		try
+		{
+			await using var stream = new FileStream(location.Location.LocalPath, FileMode.Open, FileAccess.Read);
+			var data = await ParseAsync(stream, cancellationToken);
+			return _mapper.Map<DataFile>(data);
+		}
+		catch
+		{
+			Debugger.Break();
+			throw;
+		}
 	}
 
-	private static async Task<Models.DataFile> ParseAsync(Stream stream, CancellationToken cancellationToken)
+	private static async Task<object> ParseAsync(Stream stream, CancellationToken cancellationToken)
 	{
 		if (stream == null)
 		{
@@ -48,7 +57,27 @@ public class Parser : IDataFileParser
 
 		if (line.StartsWith("<", StringComparison.InvariantCulture))
 		{
-			return new LogiqxXMLParser.Parser().Parse(stream);
+			while (line.StartsWith("<?") || line.StartsWith("<!") || string.IsNullOrWhiteSpace(line))
+			{
+				line = await reader.ReadLineAsync();
+			}
+
+			if (line.StartsWith("<datafile>"))
+			{
+				return new Parser<Models.DataFile>().Parse(stream);
+			}
+
+			if (line.StartsWith("<datfile>"))
+			{
+				return new Parser<DatFile>().Parse(stream);
+			}
+
+			if (line.StartsWith("<retrobytes>"))
+			{
+				return new Parser<RetroBytesFile>().Parse(stream);
+			}
+
+			throw new ArgumentException($"Unknown DAT file header: '{line}'.");
 		}
 
 		if (line.StartsWith("clrmamepro", StringComparison.InvariantCulture))
@@ -57,37 +86,5 @@ public class Parser : IDataFileParser
 		}
 
 		throw new ArgumentException($"Unknown DAT file header: '{line}'.");
-	}
-
-	public void Validate(Stream stream)
-	{
-		var dtdSettings = new XmlReaderSettings
-		{
-			// settings.DtdProcessing = DtdProcessing.Ignore;
-			DtdProcessing = DtdProcessing.Parse,
-		};
-
-		// dtdSettings.ValidationType = ValidationType.DTD;
-		// dtdSettings.ValidationEventHandler += new ValidationEventHandler(ValidationCallBack);
-
-		_settings.Schemas.Add(null, XmlReader.Create("datafile.dtd", dtdSettings));
-
-		using var dtdStream = new FileStream("datafile.dtd", FileMode.Open, FileAccess.Read);
-		using var reader = XmlReader.Create(stream, _settings);
-
-		// XmlSchema schema = XmlSchema.Read(dtdStream, ValidationCallBack);
-
-		// XmlDocument doc = new XmlDocument();
-
-		// doc.Schemas.Add(schema);
-		// doc.Schemas.Compile();
-
-		// doc.Load(reader);
-
-		// doc.Validate(ValidationCallBack);
-
-		while (reader.Read())
-		{
-		}
 	}
 }
