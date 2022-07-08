@@ -152,7 +152,7 @@ public class FileScannerService : BackgroundService
 		do
 		{
 			await ProcessCommandQueueAsync(cancellationToken);
-		} 
+		}
 		while (!manualResetEvent.WaitOne(1000));
 
 		await ProcessCommandQueueAsync(cancellationToken);

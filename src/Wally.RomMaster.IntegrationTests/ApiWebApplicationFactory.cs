@@ -14,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 
 using Wally.Lib.DDD.Abstractions.DomainNotifications;
 using Wally.Lib.ServiceBus.Abstractions;
+using Wally.RomMaster.BackgroundServices;
 using Wally.RomMaster.Persistence;
 
 namespace Wally.RomMaster.IntegrationTests;
@@ -43,6 +44,19 @@ public class ApiWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup
 					.Where(
 						a => a.ServiceType != typeof(DbContextOptions<HealthChecksDb>) &&
 							a.ServiceType != typeof(HealthChecksDb));
+
+				foreach (var descriptor in descriptors.ToArray())
+				{
+					services.Remove(descriptor);
+				}
+
+				descriptors = services.Where(
+					a => a.ServiceType.IsInterface && a.ServiceType == typeof(IHostedService) && (a
+						.ImplementationFactory?.GetType()
+						.GetGenericArguments()
+						.LastOrDefault() == typeof(FileScannerService) || a.ImplementationFactory?.GetType()
+						.GetGenericArguments()
+						.LastOrDefault() == typeof(FileWatcherService)));
 
 				foreach (var descriptor in descriptors.ToArray())
 				{
