@@ -19,7 +19,7 @@ public class RemoveOutdatedFilesCommandHandler : CommandHandler<RemoveOutdatedFi
 	{
 		Debugger.Break();
 
-		_fileRepository.RemoveOutdatedFiles(command.Timestamp);
+		// _fileRepository.RemoveOutdatedFiles(command.Timestamp);
 
 		return Task.CompletedTask;
 	}
