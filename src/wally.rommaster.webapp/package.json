@@ -1,0 +1,15 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev --open --host 127.0.0.1 --port 3000",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview"
+  },
+  "devDependencies": {
+    "nuxt": "3.0.0-rc.5"
+  },
+  "dependencies": {
+    "@grapoza/vue-tree": "^4.0.3"
+  }
+}

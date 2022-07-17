@@ -20,6 +20,9 @@ public class Game
 	[XmlAttribute("name")]
 	public string Name { get; set; } // Air Conflicts - Aces of World War II (USA)
 
+	[XmlAttribute("sourcefile")]
+	public string SourceFile { get; set; } // <game name="forgottn" sourcefile="cps1.c">
+
 	[XmlAttribute("cloneof")]
 	public string CloneOf { get; set; } // area51mx
 
@@ -49,4 +52,13 @@ public class Game
 
 	[XmlElement("game_id")]
 	public string GameId { get; set; } // <game_id>RX112</game_id>
+
+	[XmlAttribute("isbios")]
+	public string IsBios { get; set; } // <game name="aurora" isbios="yes">
+
+	[XmlAttribute("board")]
+	public string Board { get; set; } // <game name="ainferno" board="C45">
+
+	[XmlElement("biosset")]
+	public List<BiosSet> BiosSets { get; set; } // <biosset name="bios0" description="epr-21576h (Japan)"/>
 }

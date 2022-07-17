@@ -12,7 +12,7 @@ internal class FileMapping : IEntityTypeConfiguration<File>
 {
 	public void Configure(EntityTypeBuilder<File> builder)
 	{
-		builder.ToTable("[File]");
+		builder.ToTable("\"File\"");
 
 		builder.OwnsOne(
 			a => a.Location,

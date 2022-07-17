@@ -232,6 +232,9 @@ internal class Parser
 				case "region":
 					game.Region = value;
 					break;
+				case "board":
+					game.Board = value;
+					break;
 				default:
 					throw new ArgumentOutOfRangeException(nameof(key), key, "Unexpected token");
 			}
@@ -290,7 +293,7 @@ internal class Parser
 					rom.Size = value; // uint.Parse(value, NumberStyles.None, CultureInfo.InvariantCulture);
 					break;
 				case "crc":
-					rom.Crc = value;
+					rom.Crc = value.StartsWith("0x") ? value.Substring(2) : value;
 					break;
 				case "md5":
 					rom.Md5 = value;

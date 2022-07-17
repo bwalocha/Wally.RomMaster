@@ -20,6 +20,8 @@ using Wally.RomMaster.BackgroundServices.Extensions;
 using Wally.RomMaster.BackgroundServices.Models;
 using Wally.RomMaster.Domain.Files;
 
+using Path = System.IO.Path;
+
 namespace Wally.RomMaster.BackgroundServices;
 
 public class FileWatcherService : BackgroundService

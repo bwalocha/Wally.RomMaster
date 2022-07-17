@@ -24,9 +24,10 @@ public class File : AggregateRoot
 	{
 	}
 
-	private File(DateTime timestamp, FileInfo fileInfo, string crc32)
+	private File(DateTime timestamp, Path path, FileInfo fileInfo, string crc32)
 	{
 		ModifiedAt = timestamp;
+		Path = path;
 		Location = FileLocation.Create(new Uri(fileInfo.FullName));
 		Length = fileInfo.Length;
 		Attributes = fileInfo.Attributes;
@@ -36,9 +37,10 @@ public class File : AggregateRoot
 		Crc = crc32;
 	}
 
-	private File(DateTime timestamp, Uri fullName, long length, string crc32, File archivePackage)
+	private File(DateTime timestamp, Path path, Uri fullName, long length, string crc32, File archivePackage)
 	{
 		ModifiedAt = timestamp;
+		Path = path;
 		Location = FileLocation.Create(fullName);
 		Length = length;
 		Attributes = archivePackage.Attributes;
@@ -68,12 +70,15 @@ public class File : AggregateRoot
 
 	public DateTime ModifiedAt { get; private set; }
 
+	public Path Path { get; private set; }
+
 	public DataFile DataFile { get; private set; }
 
 	public Guid? DataFileId { get; private set; }
 
 	public static async Task<File> CreateAsync(
 		IClockService clockService,
+		Path path,
 		FileInfo fileInfo,
 		SourceType type,
 		HashAlgorithm hashAlgorithm,
@@ -82,7 +87,7 @@ public class File : AggregateRoot
 		var crc32 = fileInfo.IsArchivePackage()
 			? "-"
 			: await ComputeHashAsync(fileInfo, hashAlgorithm, cancellationToken);
-		var model = new File(clockService.GetTimestamp(), fileInfo, crc32);
+		var model = new File(clockService.GetTimestamp(), path, fileInfo, crc32);
 
 		model.AddDomainEvent(new FileCreatedDomainEvent(model.Id));
 
@@ -100,11 +105,11 @@ public class File : AggregateRoot
 		return model;
 	}
 
-	public static File Create(IClockService clockService, File archivePackage, ZipArchiveEntry entry)
+	public static File Create(IClockService clockService, Path path, File archivePackage, ZipArchiveEntry entry)
 	{
 		var crc32 = entry.Crc32.ToString("X2", CultureInfo.InvariantCulture);
 		var fullName = new Uri($"{archivePackage.Location.Location.LocalPath}#{entry.FullName}");
-		var model = new File(clockService.GetTimestamp(), fullName, entry.Length, crc32, archivePackage);
+		var model = new File(clockService.GetTimestamp(), path, fullName, entry.Length, crc32, archivePackage);
 
 		return model;
 	}

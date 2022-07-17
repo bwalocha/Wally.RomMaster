@@ -13,6 +13,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\Wally.RomMaster.Contracts\Wally.RomMaster.Contracts.csproj"/>
         <ProjectReference Include="..\Wally.RomMaster.Domain\Wally.RomMaster.Domain.csproj"/>
     </ItemGroup>
 

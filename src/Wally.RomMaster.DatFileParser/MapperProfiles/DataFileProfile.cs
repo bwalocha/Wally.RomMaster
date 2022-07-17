@@ -56,9 +56,8 @@ public class DataFileProfile : Profile
 			.ForMember(
 				a => a.Size,
 				a => a.MapFrom(
-					b => string.IsNullOrEmpty(b.Size)
-						? 0
-						: ulong.Parse(b.Size, NumberStyles.None, CultureInfo.InvariantCulture)));
+					b => string.IsNullOrEmpty(b.Size) ? 0 :
+						b.Size == "-" ? 0 : ulong.Parse(b.Size, NumberStyles.None, CultureInfo.InvariantCulture)));
 
 		CreateMap<RetroBytesFile, Domain.DataFiles.DataFile>()
 			.ForCtorParam(nameof(Domain.DataFiles.DataFile.Author), a => a.MapFrom(b => b.Header.Author))

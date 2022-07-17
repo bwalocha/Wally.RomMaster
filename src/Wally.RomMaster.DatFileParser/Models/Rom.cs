@@ -44,4 +44,10 @@ public class Rom
 
 	[XmlAttribute("header")]
 	public string Header { get; set; } // header="4E 45 53 1A 08 00 21 08 00 00 00 07 00 00 00 01"
+
+	[XmlAttribute("offset")]
+	public uint Offset { get; set; } // <rom name="vm2001f01.u17" size="8388608" crc="       0" offset="41943040"/>
+
+	[XmlAttribute("bios")]
+	public string Bios { get; set; } // <rom name="dcnaodev.bios" bios="bios26" size="524288" crc="7a50fab9"/>
 }

@@ -1,12 +1,16 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
 
 using Wally.Lib.DDD.Abstractions.Commands;
+using Wally.RomMaster.Application.Paths;
 using Wally.RomMaster.Domain.Abstractions;
+using Wally.RomMaster.Domain.Files;
 
 using File = Wally.RomMaster.Domain.Files.File;
+using Path = Wally.RomMaster.Domain.Files.Path;
 
 namespace Wally.RomMaster.Application.Files.Commands;
 
@@ -15,13 +19,16 @@ public class ScanFileCommandHandler : CommandHandler<ScanFileCommand>
 	private readonly IClockService _clockService;
 	private readonly IFileRepository _fileRepository;
 	private readonly HashAlgorithm _hashAlgorithm;
+	private readonly IPathRepository _pathRepository;
 
 	public ScanFileCommandHandler(
 		IFileRepository fileRepository,
+		IPathRepository pathRepository,
 		IClockService clockService,
 		HashAlgorithm hashAlgorithm)
 	{
 		_fileRepository = fileRepository;
+		_pathRepository = pathRepository;
 		_clockService = clockService;
 		_hashAlgorithm = hashAlgorithm;
 	}
@@ -49,19 +56,42 @@ public class ScanFileCommandHandler : CommandHandler<ScanFileCommand>
 
 		if (file == null)
 		{
+			var path = await GetOrCreatePathAsync(command.Location.Location.LocalPath, cancellationToken);
+
 			file = await File.CreateAsync(
 				_clockService,
+				path,
 				fileInfo,
 				command.SourceType,
 				_hashAlgorithm,
 				cancellationToken);
 
 			_fileRepository.Add(file);
-			return;
 		}
 
 		/*await file.UpdateAsync(_clockService, fileInfo, _hashAlgorithm, cancellationToken);
 
 		_fileRepository.Update(file);*/
+	}
+
+	private async Task<Path?> GetOrCreatePathAsync(string pathName, CancellationToken cancellationToken)
+	{
+		var name = System.IO.Path.GetDirectoryName(pathName);
+
+		if (string.IsNullOrEmpty(name))
+		{
+			return null;
+		}
+
+		var path = await _pathRepository.GetOrDefaultAsync(FileLocation.Create(new Uri(name)), cancellationToken);
+
+		if (path == null)
+		{
+			var parent = await GetOrCreatePathAsync(name, cancellationToken);
+
+			path = Path.Create(parent, name);
+		}
+
+		return path;
 	}
 }

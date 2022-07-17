@@ -36,7 +36,7 @@ public class FileCreatedDomainEventHandler : IDomainEventHandler<FileCreatedDoma
 				using var archive = new ZipArchive(zipToOpen, ZipArchiveMode.Read);
 				foreach (var entry in archive.Entries)
 				{
-					var file = File.Create(_clockService, model, entry);
+					var file = File.Create(_clockService, model.Path, model, entry);
 
 					_fileRepository.Add(file);
 				}

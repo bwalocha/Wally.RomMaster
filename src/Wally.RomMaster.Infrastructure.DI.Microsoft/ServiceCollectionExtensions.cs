@@ -13,6 +13,7 @@ public static class ServiceCollectionExtensions
 {
 	public static IServiceCollection AddInfrastructure(this IServiceCollection services, AppSettings settings)
 	{
+		services.AddApiCors(settings.Cors);
 		services.AddCqrs();
 		services.AddSwagger(Assembly.GetCallingAssembly());
 		services.AddHealthChecks(settings);

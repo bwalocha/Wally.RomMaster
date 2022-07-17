@@ -12,8 +12,8 @@ using Wally.RomMaster.Persistence;
 namespace Wally.RomMaster.Persistence.SqlServer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220621142605_DataFileUpdate")]
-    partial class DataFileUpdate
+    [Migration("20220716180930_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,8 +30,8 @@ namespace Wally.RomMaster.Persistence.SqlServer.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Author")
-                        .HasMaxLength(512)
-                        .HasColumnType("nvarchar(512)");
+                        .HasMaxLength(1024)
+                        .HasColumnType("nvarchar(1024)");
 
                     b.Property<string>("Category")
                         .HasMaxLength(512)
@@ -110,7 +110,6 @@ namespace Wally.RomMaster.Persistence.SqlServer.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Crc")
-                        .IsRequired()
                         .HasMaxLength(8)
                         .HasColumnType("nvarchar(8)");
 
@@ -130,10 +129,12 @@ namespace Wally.RomMaster.Persistence.SqlServer.Migrations
                         .HasMaxLength(64)
                         .HasColumnType("nvarchar(64)");
 
-                    b.Property<long>("Size")
-                        .HasColumnType("bigint");
+                    b.Property<decimal>("Size")
+                        .HasColumnType("decimal(20,0)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Crc");
 
                     b.HasIndex("GameId");
 
@@ -175,13 +176,43 @@ namespace Wally.RomMaster.Persistence.SqlServer.Migrations
                     b.Property<DateTime>("ModifiedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("PathId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Sha1")
                         .HasMaxLength(40)
                         .HasColumnType("nvarchar(40)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("[File]", (string)null);
+                    b.HasIndex("Crc");
+
+                    b.HasIndex("PathId");
+
+                    b.ToTable("\"File\"", (string)null);
+                });
+
+            modelBuilder.Entity("Wally.RomMaster.Domain.Files.Path", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(2048)
+                        .HasColumnType("nvarchar(2048)");
+
+                    b.Property<Guid?>("ParentId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique();
+
+                    b.HasIndex("ParentId");
+
+                    b.ToTable("Path");
                 });
 
             modelBuilder.Entity("Wally.RomMaster.Domain.Users.User", b =>
@@ -231,6 +262,12 @@ namespace Wally.RomMaster.Persistence.SqlServer.Migrations
 
             modelBuilder.Entity("Wally.RomMaster.Domain.Files.File", b =>
                 {
+                    b.HasOne("Wally.RomMaster.Domain.Files.Path", "Path")
+                        .WithMany("Files")
+                        .HasForeignKey("PathId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.OwnsOne("Wally.RomMaster.Domain.Files.FileLocation", "Location", b1 =>
                         {
                             b1.Property<Guid>("FileId")
@@ -247,7 +284,7 @@ namespace Wally.RomMaster.Persistence.SqlServer.Migrations
                             b1.HasIndex("Location")
                                 .IsUnique();
 
-                            b1.ToTable("[File]");
+                            b1.ToTable("\"File\"");
 
                             b1.WithOwner()
                                 .HasForeignKey("FileId");
@@ -255,6 +292,17 @@ namespace Wally.RomMaster.Persistence.SqlServer.Migrations
 
                     b.Navigation("Location")
                         .IsRequired();
+
+                    b.Navigation("Path");
+                });
+
+            modelBuilder.Entity("Wally.RomMaster.Domain.Files.Path", b =>
+                {
+                    b.HasOne("Wally.RomMaster.Domain.Files.Path", "Parent")
+                        .WithMany()
+                        .HasForeignKey("ParentId");
+
+                    b.Navigation("Parent");
                 });
 
             modelBuilder.Entity("Wally.RomMaster.Domain.DataFiles.DataFile", b =>
@@ -270,6 +318,11 @@ namespace Wally.RomMaster.Persistence.SqlServer.Migrations
             modelBuilder.Entity("Wally.RomMaster.Domain.Files.File", b =>
                 {
                     b.Navigation("DataFile");
+                });
+
+            modelBuilder.Entity("Wally.RomMaster.Domain.Files.Path", b =>
+                {
+                    b.Navigation("Files");
                 });
 #pragma warning restore 612, 618
         }

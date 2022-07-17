@@ -17,6 +17,11 @@
         "resolved": "1.1.118",
         "contentHash": "Onx6ovGSqXSK07n/0eM3ZusiNdB6cIlJdabQhWGgJp3Vooy9AaLS/tigeybOJAobqbtggTamoWndz72JscZBvw=="
       },
+      "FluentValidation": {
+        "type": "Transitive",
+        "resolved": "11.1.0",
+        "contentHash": "Ld7w+2jOmnhQqFkngEGuEWTRa5j6u4Xzli7jKxRtbA5PtuHHcpin01qxvxYL0LomeJuzRMGAOURu2rKONdjKQA=="
+      },
       "MediatR": {
         "type": "Transitive",
         "resolved": "10.0.1",
@@ -119,6 +124,13 @@
           "MediatR": "10.0.1",
           "Microsoft.AspNetCore.OData": "8.0.8",
           "Newtonsoft.Json": "13.0.1"
+        }
+      },
+      "wally.rommaster.contracts": {
+        "type": "Project",
+        "dependencies": {
+          "FluentValidation": "11.1.0",
+          "Wally.Lib.DDD.Abstractions": "1.1.2"
         }
       },
       "wally.rommaster.domain": {
