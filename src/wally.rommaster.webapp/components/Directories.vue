@@ -1,106 +1,80 @@
-<!--https://grapoza.github.io/vue-tree/4.0.3/demos.html#asynchronous-loading-->
 <script lang="ts" setup>
-
-import { ref } from '@vue/reactivity';
-import TreeView from "@grapoza/vue-tree"
+import TreeView from "@grapoza/vue-tree" // https://grapoza.github.io/vue-tree/4.0.3/demos.html#asynchronous-loading
 // const url = 'https://rommaster-api.wally.best/users'
 const url = 'https://localhost:7181/paths'
-// const { data, pending, refresh, error } = await useFetch(url);
-
-// const items = ref<any[]>([]); // define your tree items here.
-/*
-const selectedItems = ref<TreeViewItem[]>([]);
-const checkedItems = ref<TreeViewItem[]>([]);
-const selectedItem = ref<TreeViewItem>();
-*/
-
-// const onItemChecked = (arg: ItemEventArgs) => console.log(arg.item.name, arg.change);
-// const onItemSelected = (arg: ItemEventArgs) => console.log(arg.item.name);
-
-/*watch(data, (d) => {
-  // Because posts starts out null, you won't have access
-  // to its contents immediately, but you can watch it.
-  items.value = (d as any).items.map(a => ({ id: a.id, label: a.name, children: [] }));
-})*/
-
-/*const loadNodesAsync = async () => {
-  return new Promise(resolve => setTimeout(resolve.bind(null, [
-    {
-      id: "async-rootnode",
-      label: "Root Node"
-    }
-  ]), 1000));
-}*/
 
 const loadNodesAsync = async () => {
-  const x = [
-    {
-      id: "async-rootnode",
-      label: "Root Node"
-    }
-  ]
-  // const { data, pending, refresh, error } = await useFetch(url).then(a => a.data);
-
-  return useFetch(url)
-    .then(a => {
-      console.log(a);
-      
-      const z = (a.data.value as any)
-      ?.items
-      ?.map(a => ({ id: a.id, label: a.name, children: [] }))
-    
-      return z;
-    });
+    const response = await $fetch(url);
+    return (response as any).items;
 }
 
 const loadChildrenAsync = async (parentModel) => {
-  const id = Date.now();
-  return new Promise(resolve => setTimeout(resolve.bind(null, [
-    {
-      id: `async-child-node-${id}-1`,
-      label: `Child ${id}-1`
-    },
-    {
-      id: `async-child-node-${id}-2`,
-      label: `Child ${id}-2`,
-      treeNodeSpec: { deletable: true }
-    }
-  ]), 1000));
+  const response = await $fetch(`${url}/${parentModel.id}`);
+  return (response as any).items;
 };
 
-const modelDefaults = ref<any>({
-  loadChildrenAsync: loadChildrenAsync,
-  deleteTitle: 'Delete this node',
-  expanderTitle: 'Expand this node'
-});
+const addChildCallback = (parentModel) => console.log("ADD", parentModel);
 
+const modelDefaults = {
+  loadChildrenAsync: loadChildrenAsync,
+  addChildCallback: addChildCallback,
+  addChildTitle: 'Add a new child node',
+  deleteTitle: 'Delete this node',
+  expanderTitle: 'Expand this node',
+  selectable: true,
+  idProperty: 'id',
+  labelProperty: 'name',
+  // expandable: false,
+  /*state: {
+    expanded: true
+  },*/
+  /*customizations: {
+    classes: {
+      treeViewNodeSelf: 'large-line',
+      treeViewNodeSelfText: 'big-text',
+      treeViewNodeSelfExpander: 'action-button',
+      treeViewNodeSelfExpandedIndicator: 'fa-solid fa-chevron-right',
+      treeViewNodeSelfAction: 'action-button',
+      treeViewNodeSelfAddChildIcon: 'fa-solid fa-plus-circle',
+      treeViewNodeSelfDeleteIcon: 'fa-solid fa-minus-circle'
+    }
+  }*/
+};
 </script>
 
 <template>
   <client-only placeholder="loading...">
-<!--  <div>
-    error: <code>{{ error }}</code>
-    Items: <code>{{ items }}</code>
-  </div>-->
-  <div>
 
-    <div>
-<!--      <tree-view v-if="error === null && pending === false" :load-nodes-async="loadNodesAsync" :model-defaults="modelDefaults">
-      </tree-view>-->
-      <tree-view :load-nodes-async="loadNodesAsync" :model-defaults="modelDefaults">
-      </tree-view>
-    </div>
+    <font-awesome-icon icon="fa-solid fa-chevron-right" />
+    <font-awesome-icon :icon="['fas', 'home']" />
+    <font-awesome-icon :icon="['fas', 'user-secret']" />
+    <font-awesome-icon icon="fa-solid fa-plus-circle" />
+    <font-awesome-icon icon="fa-solid fa-minus-circle" />
     
     <div>
-<!--      <button :disabled="pending === true" @click="refresh">
-        refresh
-      </button>-->
+      <tree-view :load-nodes-async="loadNodesAsync" :model-defaults="modelDefaults" selection-mode="single" :skin-class="'grayscale'">
+        <template #text="{ model, customClasses }">
+          <strong>
+            {{ model[model.treeNodeSpec.labelProperty] }}
+          </strong>
+        </template>
+        <template #checkbox="{ model, customClasses, inputId, checkboxChangeHandler }">
+          <code>{{ "Slotted Content for " + model[model.treeNodeSpec.labelProperty] }}</code>
+        </template>
+        <template v-slot:radio="{ model, customClasses, inputId, inputModel, radioChangeHandler }">
+          <div>RADIO</div>
+        </template>
+        <template v-slot:loading="{ model, customClasses }">
+          <div>...</div>
+        </template>
+        <template v-slot:loading-root>
+          LOADING...
+        </template>
+      </tree-view>
     </div>
-
-  </div>
   </client-only>
- 
 </template>
 
-<style scoped>
+<style>
+@import '@/assets/css/main.css';
 </style>
