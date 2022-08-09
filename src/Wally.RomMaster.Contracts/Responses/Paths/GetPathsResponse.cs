@@ -9,5 +9,5 @@ public class GetPathsResponse : IResponse
 
 	public string Name { get; private set; }
 
-	public bool HasChildren { get; private set; }
+	// public bool HasChildren { get; private set; }
 }

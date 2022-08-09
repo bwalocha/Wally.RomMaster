@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -50,6 +51,11 @@ internal class Parser
 		}
 
 		var line = lines.Current;
+
+		if (line == "game (")
+		{
+			return header;
+		}
 
 		if (line != "clrmamepro (")
 		{
@@ -235,6 +241,22 @@ internal class Parser
 				case "board":
 					game.Board = value;
 					break;
+				case "chip":
+					break;
+				case "video":
+					break;
+				case "sound":
+					break;
+				case "input":
+					break;
+				case "dipswitch":
+					break;
+				case "driver":
+					break;
+				case "sampleof":
+					break;
+				case "sample":
+					break;
 				default:
 					throw new ArgumentOutOfRangeException(nameof(key), key, "Unexpected token");
 			}
@@ -309,6 +331,12 @@ internal class Parser
 					break;
 				case "serial":
 					rom.Serial = value;
+					break;
+				case "region":
+					// rom.Region = value;
+					break;
+				case "offs":
+					rom.Offset = uint.Parse(value, NumberStyles.HexNumber, CultureInfo.InvariantCulture);
 					break;
 				default:
 					throw new ArgumentOutOfRangeException(nameof(key), key, $"Unexpected token: '{key}'");
