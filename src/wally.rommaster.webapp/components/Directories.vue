@@ -28,7 +28,7 @@ const modelDefaults = {
   /*state: {
     expanded: true
   },*/
-  /*customizations: {
+  customizations: {
     classes: {
       treeViewNodeSelf: 'large-line',
       treeViewNodeSelfText: 'big-text',
@@ -38,7 +38,7 @@ const modelDefaults = {
       treeViewNodeSelfAddChildIcon: 'fa-solid fa-plus-circle',
       treeViewNodeSelfDeleteIcon: 'fa-solid fa-minus-circle'
     }
-  }*/
+  }
 };
 </script>
 
@@ -50,13 +50,31 @@ const modelDefaults = {
     <font-awesome-icon :icon="['fas', 'user-secret']" />
     <font-awesome-icon icon="fa-solid fa-plus-circle" />
     <font-awesome-icon icon="fa-solid fa-minus-circle" />
+
+    <!-- solid style -->
+    <i class="fa-solid fa-user"></i>
+
+    <!-- regular style -->
+    <i class="fa-regular fa-user"></i>
+
+    <!-- light style -->
+    <i class="fa-light fa-user"></i>
+
+    <!-- duotone style -->
+    <i class="fa-duotone fa-user"></i>
+
+    <!-- all new thin style -->
+    <i class="fa-thin fa-user"></i>
+
+    <!--brand icon-->
+    <i class="fa-brands fa-github-square"></i>
     
     <div>
-      <tree-view :load-nodes-async="loadNodesAsync" :model-defaults="modelDefaults" selection-mode="single" :skin-class="'grayscale'">
+      <tree-view :load-nodes-async="loadNodesAsync" :model-defaults="modelDefaults" selection-mode="single" :skin-class="'grtv grayscale'">
         <template #text="{ model, customClasses }">
-          <strong>
-            {{ model[model.treeNodeSpec.labelProperty] }}
-          </strong>
+          <code>
+            [{{ model[model.treeNodeSpec.labelProperty] }}]
+          </code>
         </template>
         <template #checkbox="{ model, customClasses, inputId, checkboxChangeHandler }">
           <code>{{ "Slotted Content for " + model[model.treeNodeSpec.labelProperty] }}</code>
@@ -77,4 +95,8 @@ const modelDefaults = {
 
 <style>
 @import '@/assets/css/main.css';
+
+ul.grtv {
+  list-style-type: none;
+}
 </style>

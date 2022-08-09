@@ -7,9 +7,10 @@ export default defineNuxtConfig({
         dirs: ['~/components']
     },*/
     plugins: [
-        '@/plugins/fontawesome'
+        // '@/plugins/fontawesome'
     ],
     css: [
-        '@fortawesome/fontawesome-svg-core/styles.css'
+        '@fortawesome/fontawesome-svg-core/styles.css',
+        'assets/css/fontawesome-free-6.1.2-web/css/all.css'
     ]
 })
