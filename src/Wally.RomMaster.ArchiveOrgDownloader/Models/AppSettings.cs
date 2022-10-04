@@ -5,9 +5,9 @@
 // and add ConventionTests
 public class AppSettings
 {
-	public Uri DatsRootPath { get; set; } = null;
+	public Uri DatsRootPath { get; init; } = null!;
 
-	public Uri DownloadPath { get; set; } = null;
+	public Uri DownloadPath { get; init; } = null!;
 
-	public Uri ArchiveOrgUri { get; set; } = null;
+	public Uri ArchiveOrgUri { get; init; } = null!;
 }

@@ -90,7 +90,11 @@ public static class Program
 			{
 				var handler = new HttpClientHandler { AllowAutoRedirect = true, };
 
-				return new HttpClient(handler);
+				var httpClient = new HttpClient(handler);
+				httpClient.Timeout = TimeSpan.FromMinutes(20);
+
+				// httpClient.MaxResponseContentBufferSize = long.MaxValue;
+				return httpClient;
 			});
 		services.AddTransient(_ => appSettings);
 	}

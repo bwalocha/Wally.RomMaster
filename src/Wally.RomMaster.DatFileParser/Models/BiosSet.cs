@@ -18,5 +18,5 @@ public class BiosSet
 	public string Description { get; set; } // description="epr-21576h (Japan)"
 
 	[XmlAttribute("default")]
-	public string Default { get; set; } //  <biosset name="euro" description="Europe MVS (Ver. 2)" default="yes"/>
+	public string Default { get; set; } // <biosset name="euro" description="Europe MVS (Ver. 2)" default="yes"/>
 }

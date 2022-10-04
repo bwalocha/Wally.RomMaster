@@ -8,7 +8,7 @@ public class FolderSettings
 {
 	public bool Enabled { get; set; } = true;
 
-	public Uri Path { get; set; } = null;
+	public Uri Path { get; set; } = null!;
 
 	public SearchOption SearchOptions { get; set; } = SearchOption.TopDirectoryOnly;
 

@@ -4,9 +4,9 @@
     "net6.0": {
       "AutoMapper": {
         "type": "Direct",
-        "requested": "[11.0.1, )",
-        "resolved": "11.0.1",
-        "contentHash": "WIadGC1pIwbnyTubvI577p3F++Bsj9q2Q3OaAc1I0QS+JhupN1xkdrPBhI9bPIeg63zM81tZplUNYkqU1HE5jQ==",
+        "requested": "[12.0.0, )",
+        "resolved": "12.0.0",
+        "contentHash": "0Rmg0zI5AFu1O/y//o9VGyhxKjhggWpk9mOA1tp0DEVx40c61bs+lnQv+0jUq8XbniF7FKgIVvI1perqiMtLrA==",
         "dependencies": {
           "Microsoft.CSharp": "4.7.0"
         }
@@ -19,8 +19,8 @@
       },
       "FluentValidation": {
         "type": "Transitive",
-        "resolved": "11.2.0",
-        "contentHash": "KV1YBM8T4plLKmShjxfmHMF6X1lDuXgyqE+t8NYNxb7jmMbPnA3u30RsuXAf2NYMv0TBCUQguI2Z6W17c/Dh1A=="
+        "resolved": "11.2.2",
+        "contentHash": "5QEte2BUZZF6Sezeekr7Zu1THfgpxU7pmuL2SjIrajuGMah+pxPGiRiLtw+x/tSUSSVmcv9LrUe41lKu4l0n4A=="
       },
       "MediatR": {
         "type": "Transitive",
@@ -129,14 +129,14 @@
       "wally.rommaster.contracts": {
         "type": "Project",
         "dependencies": {
-          "FluentValidation": "11.2.0",
-          "Wally.Lib.DDD.Abstractions": "1.2.0"
+          "FluentValidation": "[11.2.2, )",
+          "Wally.Lib.DDD.Abstractions": "[1.2.0, )"
         }
       },
       "wally.rommaster.domain": {
         "type": "Project",
         "dependencies": {
-          "Wally.Lib.DDD.Abstractions": "1.2.0"
+          "Wally.Lib.DDD.Abstractions": "[1.2.0, )"
         }
       }
     }

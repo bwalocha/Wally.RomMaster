@@ -15,6 +15,8 @@ const loadChildrenAsync = async (parentModel) => {
 
 const addChildCallback = (parentModel) => console.log("ADD", parentModel);
 
+const model = ref([]);
+
 const modelDefaults = {
   loadChildrenAsync: loadChildrenAsync,
   addChildCallback: addChildCallback,
@@ -69,8 +71,10 @@ const modelDefaults = {
     <!--brand icon-->
     <i class="fa-brands fa-github-square"></i>
     
+    {{ model }}
+    
     <div>
-      <tree-view :load-nodes-async="loadNodesAsync" :model-defaults="modelDefaults" selection-mode="single" :skin-class="'grtv grayscale'">
+      <tree-view :initial-model="model" :load-nodes-async="loadNodesAsync" :model-defaults="modelDefaults" selection-mode="single" :skin-class="'grtv_grayscale'">
         <template #text="{ model, customClasses }">
           <code>
             [{{ model[model.treeNodeSpec.labelProperty] }}]
