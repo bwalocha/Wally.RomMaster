@@ -7,13 +7,13 @@ variables:
   FILE_SLN_NAME: "Wally.RomMaster.FileService"
   FILE_API_NAME: "Wally.RomMaster.FileService.WebApi"
   #
-  #USER_SOLUTION_NAME: "Wally.RomMaster.UserService"
-  #USER_API_PROJECT_NAME: "Wally.RomMaster.UserService.WebApi"
+  #USER_SLN_NAME: "Wally.RomMaster.UserService"
+  #USER_API_NAME: "Wally.RomMaster.UserService.WebApi"
   #
-  #WEB_PROJECT_NAME: "wally.rommaster.webapp"
+  STORYBOOK_WEB_NAME: "wally.rommaster.storybook.webapp"
   #
   VERSION: "0.1.${CI_PIPELINE_ID}"
-  CI_DEBUG_TRACE: "true"
+  #CI_DEBUG_TRACE: "true"
 
 stages:
   - build
@@ -39,11 +39,11 @@ build:file_sln:
   # variables:
     # SOLUTION_NAME: ${USER_SOLUTION_NAME}
 
-# build:web:
-  # extends:
-    # - .build:node
-  # variables:
-    # PROJECT_NAME: ${WEB_PROJECT_NAME}
+build:storybook_web:
+  extends:
+    - .build:node
+  variables:
+    PROJECT_NAME: ${STORYBOOK_WEB_NAME}
 
 test:proxy_sln:
   extends:
@@ -125,13 +125,14 @@ publish:docker:file_api:
   # variables:
     # PROJECT_NAME: ${USER_API_PROJECT_NAME}
 
-# publish:docker:web:
-  # extends:
-    # - .publish:docker
-  # needs:
+publish:docker:storybook_web:
+  extends:
+    - .publish:docker
+  needs:
     # - test:web
-  # variables:
-    # PROJECT_NAME: ${WEB_PROJECT_NAME}
+    - build:storybook_web
+  variables:
+    PROJECT_NAME: ${STORYBOOK_WEB_NAME}
 
 deploy:container-station:
   extends:
@@ -140,7 +141,7 @@ deploy:container-station:
     - publish:docker:proxy_api
     - publish:docker:file_api
     # - publish:docker:user_api
-    # - publish:docker:web
+    - publish:docker:storybook_web
   variables:
     ENV: PROD
 

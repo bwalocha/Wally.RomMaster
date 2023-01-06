@@ -4,10 +4,31 @@ RomMaster helps to manage collections of documrnt files (books), audio files (mu
 
 ## Development
 
+### Backend
+
 ```
 dotnet new install Wally.CleanArchitecture.Template
 dotnet new wally.cleanarchitecture --output . --name Wally.RomMaster --copyrightName Wally --serviceName FileService -proxy=true -service=true -frontend=true -storybook=true
 ```
+
+### Storybook
+
+Vite + Vue + Storybook
+
+```
+npm create vite@latest wally.rommaster.storybook.webapp -- --template vue-ts
+cd ./wally.rommaster.storybook.webapp
+npx storybook init
+```
+
+### Frontend
+
+Nuxt
+
+```
+```
+
+http://127.0.0.1:6006/
 
 ## Installation
 
