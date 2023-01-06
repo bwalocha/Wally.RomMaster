@@ -49,7 +49,7 @@ test:proxy_sln:
   extends:
     - .test:dotnet
   needs:
-    - build:sln
+    - build:proxy_sln
   variables:
     SOLUTION_NAME: ${PROXY_SLN_NAME}
 
