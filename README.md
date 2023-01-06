@@ -1,10 +1,13 @@
 # Wally.RomMaster
 
-ROM Master helps to manage collections of games supported by an emulator
+RomMaster helps to manage collections of documrnt files (books), audio files (music), video files (movies, courses), game roms, ...
 
-## Requirements
+## Development
 
-- [ ] .NET Core 3.0 (at least [3.0.100-preview4-011223](https://dotnet.microsoft.com/download/dotnet-core/3.0))
+```
+dotnet new install Wally.CleanArchitecture.Template
+dotnet new wally.cleanarchitecture --output . --name Wally.RomMaster --copyrightName Wally --serviceName FileService -proxy=true -service=true -frontend=true -storybook=true
+```
 
 ## Installation
 
