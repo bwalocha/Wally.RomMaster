@@ -32,10 +32,19 @@ http://127.0.0.1:6006/
 
 ## Installation
 
+### Backend
+
 ```bash
 dotnet build
 dotnet run --project Wally.RomMaster/Wally.RomMaster.csproj
 ```
+
+### Storybook
+
+```
+npm i --cache ./node_modules --prefer-offline --legacy-peer-deps
+```
+
 
 ## Test
 
