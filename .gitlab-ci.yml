@@ -13,7 +13,7 @@ variables:
   #WEB_PROJECT_NAME: "wally.rommaster.webapp"
   #
   VERSION: "0.1.${CI_PIPELINE_ID}"
-  #CI_DEBUG_TRACE: "true"
+  CI_DEBUG_TRACE: "true"
 
 stages:
   - build
