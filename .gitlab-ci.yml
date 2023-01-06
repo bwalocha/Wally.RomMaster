@@ -1,7 +1,16 @@
 variables:
-  STACK: rommaster
-  SLN_SOLUTION_NAME: "Wally.RomMaster"
-  API_PROJECT_NAME: "Wally.RomMaster.WebApi"
+  STACK: RomMaster
+  #
+  PROXY_SLN_NAME: "Wally.RomMaster.ApiGateway"
+  PROXY_API_NAME: "Wally.RomMaster.ApiGateway.WebApi"
+  #
+  FILE_SLN_NAME: "Wally.RomMaster.FileService"
+  FILE_API_NAME: "Wally.RomMaster.FileService.WebApi"
+  #
+  #USER_SOLUTION_NAME: "Wally.RomMaster.UserService"
+  #USER_API_PROJECT_NAME: "Wally.RomMaster.UserService.WebApi"
+  #
+  #WEB_PROJECT_NAME: "wally.rommaster.webapp"
   #
   VERSION: "0.1.${CI_PIPELINE_ID}"
   #CI_DEBUG_TRACE: "true"
@@ -12,42 +21,126 @@ stages:
   - publish
   - deploy
 
-build:sln:
+build:proxy_sln:
   extends:
     - .build:dotnet
   variables:
-    SOLUTION_NAME: ${SLN_SOLUTION_NAME}
+    SOLUTION_NAME: ${PROXY_SLN_NAME}
 
-test:sln:
+build:file_sln:
+  extends:
+    - .build:dotnet
+  variables:
+    SOLUTION_NAME: ${FILE_SLN_NAME}
+
+# build:user_sln:
+  # extends:
+    # - .build:dotnet
+  # variables:
+    # SOLUTION_NAME: ${USER_SOLUTION_NAME}
+
+# build:web:
+  # extends:
+    # - .build:node
+  # variables:
+    # PROJECT_NAME: ${WEB_PROJECT_NAME}
+
+test:proxy_sln:
   extends:
     - .test:dotnet
   needs:
     - build:sln
-  allow_failure: true
   variables:
-    SOLUTION_NAME: ${SLN_SOLUTION_NAME}
+    SOLUTION_NAME: ${PROXY_SLN_NAME}
 
-publish:api:
+test:file_sln:
+  extends:
+    - .test:dotnet
+  needs:
+    - build:file_sln
+  variables:
+    SOLUTION_NAME: ${FILE_SLN_NAME}
+
+# test:user_sln:
+  # extends:
+    # - .test:dotnet
+  # needs:
+    # - build:user_sln
+  # variables:
+    # SOLUTION_NAME: ${USER_SOLUTION_NAME}
+
+# test:web:
+  # extends:
+    # - .test:node
+  # needs:
+    # - build:web
+  # variables:
+    # PROJECT_NAME: ${WEB_PROJECT_NAME}
+
+publish:proxy_api:
   extends:
     - .publish:dotnet
   needs:
-    - test:sln
+    - test:proxy_sln
   variables:
-    PROJECT_NAME: ${API_PROJECT_NAME}
+    PROJECT_NAME: ${PROXY_API_NAME}
 
-publish:docker:api:
+publish:file_api:
+  extends:
+    - .publish:dotnet
+  needs:
+    - test:file_sln
+  variables:
+    PROJECT_NAME: ${FILE_API_NAME}
+
+# publish:user_api:
+  # extends:
+    # - .publish:dotnet
+  # needs:
+    # - test:user_sln
+  # variables:
+    # PROJECT_NAME: ${USER_API_PROJECT_NAME}
+
+publish:docker:proxy_api:
   extends:
     - .publish:docker
   needs:
-    - publish:api
+    - publish:proxy_api
   variables:
-    PROJECT_NAME: ${API_PROJECT_NAME}
+    PROJECT_NAME: ${PROXY_API_NAME}
+
+publish:docker:file_api:
+  extends:
+    - .publish:docker
+  needs:
+    - publish:file_api
+  variables:
+    PROJECT_NAME: ${FILE_API_NAME}
+
+# publish:docker:user_api:
+  # extends:
+    # - .publish:docker
+  # needs:
+    # - publish:user_api
+  # variables:
+    # PROJECT_NAME: ${USER_API_PROJECT_NAME}
+
+# publish:docker:web:
+  # extends:
+    # - .publish:docker
+  # needs:
+    # - test:web
+  # variables:
+    # PROJECT_NAME: ${WEB_PROJECT_NAME}
 
 deploy:container-station:
   extends:
     - .deploy:container-station
   needs:
-    - publish:docker:api
+    - publish:docker:proxy_api
+    - publish:docker:file_api
+    # - publish:docker:user_api
+    # - publish:docker:web
   variables:
     ENV: PROD
 
