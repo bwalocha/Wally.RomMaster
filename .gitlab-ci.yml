@@ -44,7 +44,7 @@ build:storybook_web:
     - .build:node
   variables:
     PROJECT_NAME: ${STORYBOOK_WEB_NAME}
-    LEGACY-PEER-DEPS: true
+    LEGACY_PEER_DEPS: "true"
 
 test:proxy_sln:
   extends:
