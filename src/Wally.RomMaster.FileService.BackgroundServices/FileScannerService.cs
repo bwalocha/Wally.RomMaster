@@ -13,10 +13,12 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 using Wally.Lib.DDD.Abstractions.Commands;
+using Wally.RomMaster.FileService.Application.Files.Commands;
 using Wally.RomMaster.FileService.BackgroundServices.Abstractions;
 using Wally.RomMaster.FileService.BackgroundServices.Extensions;
 using Wally.RomMaster.FileService.BackgroundServices.Models;
 using Wally.RomMaster.FileService.Domain.Abstractions;
+using Wally.RomMaster.FileService.Domain.Files;
 
 namespace Wally.RomMaster.FileService.BackgroundServices;
 
@@ -56,19 +58,19 @@ public class FileScannerService : BackgroundService
 
 	protected override async Task ExecuteAsync(CancellationToken cancellationToken)
 	{
-		var manualResetEvent = new ManualResetEvent(false);
+		/*var manualResetEvent = new ManualResetEvent(false);
 		var processCommandQueue = new Task(
 			() => ProcessCommandQueueAsync(manualResetEvent, cancellationToken)
 				.Wait(cancellationToken));
 
-		processCommandQueue.Start();
+		processCommandQueue.Start();*/
 
 		var scanners = _settings.FolderSettings.Select(a => ScanAsync(a, cancellationToken));
 
 		await Task.WhenAll(scanners);
 
-		manualResetEvent.Set();
-		await processCommandQueue.WaitAsync(cancellationToken);
+		/*manualResetEvent.Set();
+		await processCommandQueue.WaitAsync(cancellationToken);*/
 
 		/*var command = new RemoveOutdatedFilesCommand(_clockService.StartTimestamp);
 		using var scope = _serviceProvider.CreateScope();
@@ -90,6 +92,7 @@ public class FileScannerService : BackgroundService
 			return;
 		}
 
+		using var scope = _serviceProvider.CreateScope();
 		foreach (var file in Directory.EnumerateFiles(folder.Path.LocalPath, "*.*", folder.SearchOptions))
 		{
 			if (cancellationToken.IsCancellationRequested)
@@ -106,9 +109,18 @@ public class FileScannerService : BackgroundService
 
 			_logger.LogDebug($"File '{file}' found.");
 
-			/*var command = new ScanFileCommand(sourceType, FileLocation.Create(new Uri(file)));
+			var command = new ScanFileCommand( /*sourceType, */FileLocation.Create(new Uri(file)));
+			var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+			try
+			{
+				await mediator.Send(command, cancellationToken);
+			}
+			catch (Exception exception)
+			{
+				_logger.LogError("Error: '{0}'", exception);
+			}
 
-			while (_commandQueue.Count >= 100)
+			/*while (_commandQueue.Count >= 100)
 			{
 				await Task.Delay(1000, cancellationToken);
 			}
@@ -127,7 +139,7 @@ public class FileScannerService : BackgroundService
 		return exclude.Match(file);
 	}
 
-	private async Task ProcessCommandQueueAsync(ManualResetEvent manualResetEvent, CancellationToken cancellationToken)
+	/*private async Task ProcessCommandQueueAsync(ManualResetEvent manualResetEvent, CancellationToken cancellationToken)
 	{
 		do
 		{
@@ -155,5 +167,5 @@ public class FileScannerService : BackgroundService
 		}
 
 		await Task.Delay(1000);
-	}
+	}*/
 }

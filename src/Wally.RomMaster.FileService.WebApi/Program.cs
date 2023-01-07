@@ -8,6 +8,9 @@ using Microsoft.Extensions.Hosting;
 
 using Serilog;
 
+using Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.Extensions;
+using Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.Models;
+
 namespace Wally.RomMaster.FileService.WebApi;
 
 [ExcludeFromCodeCoverage]
@@ -61,6 +64,13 @@ public static class Program
 		return Host.CreateDefaultBuilder(args)
 			.UseSerilog()
 			.UseDefaultServiceProvider(opt => { opt.ValidateScopes = true; })
-			.ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
-	}
+			.ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); })
+			.ConfigureServices(
+				services =>
+				{
+					var settings = new AppSettings();
+					Configuration.Bind(settings);
+					services.AddBackgroundServices(settings);
+				});
+}
 }

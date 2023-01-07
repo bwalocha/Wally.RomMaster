@@ -78,18 +78,15 @@ public class ScanFileCommandHandler : CommandHandler<ScanFileCommand>
 		_fileRepository.Update(file);*/
 	}
 
-	private async Task<Path> GetOrCreatePathAsync(string pathName, CancellationToken cancellationToken)
+	private async Task<Path?> GetOrCreatePathAsync(string pathName, CancellationToken cancellationToken)
 	{
 		var name = System.IO.Path.GetDirectoryName(pathName);
-
 		if (string.IsNullOrEmpty(name))
 		{
-			// return null;
-			throw new ArgumentException(nameof(pathName));
+			return null;
 		}
 
 		var path = await _pathRepository.GetOrDefaultAsync(FileLocation.Create(new Uri(name)), cancellationToken);
-
 		if (path == null)
 		{
 			var parent = await GetOrCreatePathAsync(name, cancellationToken);

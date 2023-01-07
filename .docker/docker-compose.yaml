@@ -1,28 +1,11 @@
 version: '3.7'
 
 services:
-#    web:
-#        container_name: ${CI_PROJECT_PATH_SLUG}_web
-#        restart: "no"
-#        image: ${CI_REGISTRY_IMAGE}/${WEB_PROJECT_NAME}:${CI_PIPELINE_ID}
-#        depends_on:
-#            - api
-#        labels:
-#            - "traefik.enable=true"
-#            - "traefik.http.routers.${CI_PROJECT_PATH_SLUG}-web.entrypoints=http"
-#            - "traefik.http.routers.${CI_PROJECT_PATH_SLUG}-web.rule=Host(`${STACK}.${DOMAIN}`)"
-#            - "traefik.http.routers.${CI_PROJECT_PATH_SLUG}-web.middlewares=${CI_PROJECT_PATH_SLUG}-web-redirect"
-#            - "traefik.http.routers.${CI_PROJECT_PATH_SLUG}-web-secure.entrypoints=https"
-#            - "traefik.http.routers.${CI_PROJECT_PATH_SLUG}-web-secure.tls=true"
-#            - "traefik.http.routers.${CI_PROJECT_PATH_SLUG}-web-secure.tls.certresolver=myresolver"
-#            - "traefik.http.routers.${CI_PROJECT_PATH_SLUG}-web-secure.rule=Host(`${STACK}.${DOMAIN}`)"
-#            - "traefik.http.middlewares.${CI_PROJECT_PATH_SLUG}-web-redirect.redirectscheme.scheme=https"
-#            - "traefik.http.services.${CI_PROJECT_PATH_SLUG}-web-secure.loadbalancer.server.port=80"
-
-    api:
-        container_name: ${CI_PROJECT_PATH_SLUG}_api
+    # https://rommaster-api.wally.best/
+    proxy_api:
+        container_name: ${CI_PROJECT_PATH_SLUG}_proxy_api
         restart: "no"
-        image: ${CI_REGISTRY_IMAGE}/${API_PROJECT_NAME}:${CI_PIPELINE_ID}
+        image: ${CI_REGISTRY_IMAGE}/${PROXY_API_NAME1}:${CI_PIPELINE_ID}
         # depends_on:
             # - db
         volumes:
@@ -35,14 +18,33 @@ services:
         labels:
             - "traefik.enable=true"
             - "traefik.http.routers.${CI_PROJECT_PATH_SLUG}-api.entrypoints=http"
-            - "traefik.http.routers.${CI_PROJECT_PATH_SLUG}-api.rule=Host(`${STACK}.${DOMAIN}`)"
+            - "traefik.http.routers.${CI_PROJECT_PATH_SLUG}-api.rule=Host(`${STACK}-api.${DOMAIN}`)"
             - "traefik.http.routers.${CI_PROJECT_PATH_SLUG}-api.middlewares=${CI_PROJECT_PATH_SLUG}-api-redirect"
             - "traefik.http.routers.${CI_PROJECT_PATH_SLUG}-api-secure.entrypoints=https"
             - "traefik.http.routers.${CI_PROJECT_PATH_SLUG}-api-secure.tls=true"
             - "traefik.http.routers.${CI_PROJECT_PATH_SLUG}-api-secure.tls.certresolver=myresolver"
-            - "traefik.http.routers.${CI_PROJECT_PATH_SLUG}-api-secure.rule=Host(`${STACK}.${DOMAIN}`)"
+            - "traefik.http.routers.${CI_PROJECT_PATH_SLUG}-api-secure.rule=Host(`${STACK}-api.${DOMAIN}`)"
             - "traefik.http.middlewares.${CI_PROJECT_PATH_SLUG}-api-redirect.redirectscheme.scheme=https"
             - "traefik.http.services.${CI_PROJECT_PATH_SLUG}-api-secure.loadbalancer.server.port=80"
+
+    # https://rommaster-storybook.wally.best
+    storybook_web:
+        container_name: ${CI_PROJECT_PATH_SLUG}_storybook_web
+        restart: "no"
+        image: ${CI_REGISTRY_IMAGE}/${STORYBOOK_WEB_NAME}:${CI_PIPELINE_ID}
+        # depends_on:
+            # - api
+        labels:
+            - "traefik.enable=true"
+            - "traefik.http.routers.${CI_PROJECT_PATH_SLUG}-storybook_web.entrypoints=http"
+            - "traefik.http.routers.${CI_PROJECT_PATH_SLUG}-storybook_web.rule=Host(`${STACK}-storybook.${DOMAIN}`)"
+            - "traefik.http.routers.${CI_PROJECT_PATH_SLUG}-storybook_web.middlewares=${CI_PROJECT_PATH_SLUG}-storybook_web-redirect"
+            - "traefik.http.routers.${CI_PROJECT_PATH_SLUG}-storybook_web-secure.entrypoints=https"
+            - "traefik.http.routers.${CI_PROJECT_PATH_SLUG}-storybook_web-secure.tls=true"
+            - "traefik.http.routers.${CI_PROJECT_PATH_SLUG}-storybook_web-secure.tls.certresolver=myresolver"
+            - "traefik.http.routers.${CI_PROJECT_PATH_SLUG}-storybook_web-secure.rule=Host(`${STACK}-storybook.${DOMAIN}`)"
+            - "traefik.http.middlewares.${CI_PROJECT_PATH_SLUG}-storybook_web-redirect.redirectscheme.scheme=https"
+            - "traefik.http.services.${CI_PROJECT_PATH_SLUG}-storybook_web-secure.loadbalancer.server.port=80"
 
     # db:
         # container_name: ${CI_PROJECT_PATH_SLUG}_db

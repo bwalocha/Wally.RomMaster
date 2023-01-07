@@ -1,11 +1,14 @@
-﻿using Wally.RomMaster.FileService.BackgroundServices.Models;
+﻿using System.Collections.Generic;
+
+using Wally.RomMaster.FileService.BackgroundServices.Abstractions;
+using Wally.RomMaster.FileService.BackgroundServices.Models;
 
 namespace Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.Models;
 
 // TODO: Remove Setters,
 // extract interfaces
 // and add ConventionTests
-public class AppSettings
+public class AppSettings : ISettings
 {
 	public AuthenticationSettings Authentication { get; } = new(); // TODO: only with no Api Gateway
 
@@ -17,5 +20,5 @@ public class AppSettings
 
 	public ConnectionStrings ConnectionStrings { get; } = new();
 
-	public FolderSettings FolderSettings { get; } = new();
+	public List<FolderSettings> FolderSettings { get; } = new();
 }
