@@ -72,5 +72,5 @@ public static class Program
 					Configuration.Bind(settings);
 					services.AddBackgroundServices(settings);
 				});
-}
+	}
 }

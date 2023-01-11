@@ -72,10 +72,10 @@ public class FileScannerService : BackgroundService
 		/*manualResetEvent.Set();
 		await processCommandQueue.WaitAsync(cancellationToken);*/
 
-		/*var command = new RemoveOutdatedFilesCommand(_clockService.StartTimestamp);
+		var command = new RemoveOutdatedFilesCommand(_clockService.StartTimestamp);
 		using var scope = _serviceProvider.CreateScope();
 		var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
-		await mediator.Send(command);*/
+		await mediator.Send(command);
 	}
 
 	private async Task ScanAsync(FolderSettings folder, CancellationToken cancellationToken)

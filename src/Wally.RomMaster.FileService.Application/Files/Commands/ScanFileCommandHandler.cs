@@ -72,10 +72,12 @@ public class ScanFileCommandHandler : CommandHandler<ScanFileCommand>
 
 			_fileRepository.Add(file);
 		}
+		else
+		{
+			file.Update(_clockService, fileInfo);
 
-		/*await file.UpdateAsync(_clockService, fileInfo, _hashAlgorithm, cancellationToken);
-
-		_fileRepository.Update(file);*/
+			_fileRepository.Update(file);
+		}
 	}
 
 	private async Task<Path?> GetOrCreatePathAsync(string pathName, CancellationToken cancellationToken)

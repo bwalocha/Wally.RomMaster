@@ -19,7 +19,7 @@ public class File : AggregateRoot
 
 	private File(DateTime timestamp, Path path, FileInfo fileInfo /*, string crc32*/)
 	{
-		ModifiedAt = timestamp;
+		// ModifiedAt = timestamp;
 		Path = path;
 		Location = FileLocation.Create(new Uri(fileInfo.FullName));
 		Length = fileInfo.Length;
@@ -33,7 +33,7 @@ public class File : AggregateRoot
 
 	private File(DateTime timestamp, Path path, Uri fullName, long length, File archivePackage /*, string crc32*/)
 	{
-		ModifiedAt = timestamp;
+		// ModifiedAt = timestamp;
 		Path = path;
 		Location = FileLocation.Create(fullName);
 		Length = length;
@@ -63,7 +63,7 @@ public class File : AggregateRoot
 
 	public DateTime LastWriteTimeUtc { get; private set; }
 
-	public DateTime ModifiedAt { get; private set; }
+	// public DateTime ModifiedAt { get; private set; }
 
 	public Path Path { get; private set; }
 
@@ -138,12 +138,12 @@ public class File : AggregateRoot
 			LastAccessTimeUtc = fileInfo.LastAccessTimeUtc;
 			LastWriteTimeUtc = fileInfo.LastWriteTimeUtc;
 
-			// Crc = fileInfo.IsArchivePackage()
-			// 	? "-"
-			// 	: await ComputeHashAsync(fileInfo, hashAlgorithm, cancellationToken);
+			/*Crc = fileInfo.IsArchivePackage()
+				? "-"
+				: await ComputeHashAsync(fileInfo, hashAlgorithm, cancellationToken);*/
 		}
 
-		ModifiedAt = clockService.GetTimestamp();
+		// ModifiedAt = clockService.GetTimestamp();
 	}
 
 	private bool HasChanged(FileInfo fileInfo)
@@ -167,9 +167,9 @@ public class File : AggregateRoot
 					StringComparison.InvariantCultureIgnoreCase);
 	}
 
-	// public void SetDataFile(DataFile dataFile)
-	// {
-	// 	DataFile = dataFile;
-	// 	DataFileId = dataFile.Id;
-	// }
+	/*public void SetDataFile(DataFile dataFile)
+	{
+		DataFile = dataFile;
+		DataFileId = dataFile.Id;
+	}*/
 }

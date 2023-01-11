@@ -15,6 +15,7 @@ public static class BackgroundServicesExtensions
 {
 	public static IServiceCollection AddBackgroundServices(this IServiceCollection services, AppSettings settings)
 	{
+		services.AddSingleton<IUserProvider, ServiceUserProvider>();
 		services.AddSingleton<ISettings>(settings);
 		services.AddSingleton<IClockService>(new ClockService(() => DateTime.UtcNow));
 
