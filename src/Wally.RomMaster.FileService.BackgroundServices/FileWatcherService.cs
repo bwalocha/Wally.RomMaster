@@ -14,9 +14,13 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 using Wally.Lib.DDD.Abstractions.Commands;
+using Wally.RomMaster.FileService.Application.Files.Commands;
 using Wally.RomMaster.FileService.BackgroundServices.Abstractions;
 using Wally.RomMaster.FileService.BackgroundServices.Extensions;
 using Wally.RomMaster.FileService.BackgroundServices.Models;
+using Wally.RomMaster.FileService.Domain.Files;
+
+using Path = System.IO.Path;
 
 namespace Wally.RomMaster.FileService.BackgroundServices;
 
@@ -28,6 +32,8 @@ public class FileWatcherService : BackgroundService
 	private readonly ISettings _settings;
 	private readonly List<FileSystemWatcher> _watchers = new();
 
+	public delegate Task FileSystemEventHandlerAsync(object sender, FileSystemEventArgs e, CancellationToken cancellationToken);
+	
 	public FileWatcherService(ILogger<FileWatcherService> logger, ISettings settings, IServiceProvider serviceProvider)
 	{
 		_logger = logger;
@@ -43,6 +49,8 @@ public class FileWatcherService : BackgroundService
 		_watchers.AddRange(CreateWatchers(_settings.RomRoots, OnRomFileChanged));
 		_watchers.AddRange(CreateWatchers(_settings.ToSortRoots, OnToSortFileChanged));*/
 
+		_watchers.AddRange(CreateWatchers(_settings.FolderSettings, OnFileChangedAsync, cancellationToken));
+		
 		return base.StartAsync(cancellationToken);
 	}
 
@@ -72,7 +80,8 @@ public class FileWatcherService : BackgroundService
 
 	private IEnumerable<FileSystemWatcher> CreateWatchers(
 		List<FolderSettings> folders,
-		FileSystemEventHandler onFileChanged)
+		FileSystemEventHandlerAsync onFileChanged,
+		CancellationToken cancellationToken)
 	{
 		foreach (var folder in folders)
 		{
@@ -106,18 +115,18 @@ public class FileWatcherService : BackgroundService
 
 			if (onFileChanged != null)
 			{
-				watcher.Renamed += (sender, args) =>
+				watcher.Renamed += async (sender, args) =>
 				{
-					OnChanged(onFileChanged, sender, args.ChangeType, args.FullPath, folder);
+					await OnChangedAsync(onFileChanged, sender, args.ChangeType, args.FullPath, folder, cancellationToken);
 				};
-				watcher.Created += (sender, args) => { OnCreated(onFileChanged, sender, args, folder); };
-				watcher.Changed += (sender, args) =>
+				watcher.Created += async (sender, args) => { await OnCreatedAsync(onFileChanged, sender, args, folder, cancellationToken); };
+				watcher.Changed += async (sender, args) =>
 				{
-					OnChanged(onFileChanged, sender, args.ChangeType, args.FullPath, folder);
+					await OnChangedAsync(onFileChanged, sender, args.ChangeType, args.FullPath, folder, cancellationToken);
 				};
-				watcher.Deleted += (sender, args) =>
+				watcher.Deleted += async (sender, args) =>
 				{
-					OnChanged(onFileChanged, sender, args.ChangeType, args.FullPath, folder);
+					await OnChangedAsync(onFileChanged, sender, args.ChangeType, args.FullPath, folder, cancellationToken);
 				};
 			}
 
@@ -127,38 +136,42 @@ public class FileWatcherService : BackgroundService
 		}
 	}
 
-	private void OnCreated(
-		FileSystemEventHandler onFileChanged,
+	private async Task OnCreatedAsync(
+		FileSystemEventHandlerAsync onFileChanged,
 		object sender,
 		FileSystemEventArgs args,
-		FolderSettings folder)
+		FolderSettings folder,
+		CancellationToken cancellationToken)
 	{
-		if (Directory.Exists(args.FullPath))
+		if (!Directory.Exists(args.FullPath))
 		{
-			Action<string>? notify = null;
-			notify = dir =>
+			return;
+		}
+		
+		Func<string, Task>? notify = null;
+		notify = async (dir) =>
 			{
 				foreach (var f in Directory.GetFiles(dir))
 				{
-					OnChanged(onFileChanged, sender, args.ChangeType, f, folder);
+					await OnChangedAsync(onFileChanged, sender, args.ChangeType, f, folder, cancellationToken);
 				}
 
 				foreach (var d in Directory.GetDirectories(dir))
 				{
-					notify!(d);
+					await notify!(d);
 				}
 			};
 
-			notify(args.FullPath);
-		}
+		await notify(args.FullPath);
 	}
 
-	private void OnChanged(
-		FileSystemEventHandler onChanged,
+	private async Task OnChangedAsync(
+		FileSystemEventHandlerAsync onChanged,
 		object sender,
 		WatcherChangeTypes changeType,
 		string filePathName,
-		FolderSettings folder)
+		FolderSettings folder,
+		CancellationToken cancellationToken)
 	{
 		// if directory: return or notify;
 		// ...
@@ -170,13 +183,13 @@ public class FileWatcherService : BackgroundService
 		}
 
 		_logger.LogDebug($"File '{filePathName}' changed: '{changeType}'.");
-		onChanged(
+		await onChanged(
 			sender,
 			new FileSystemEventArgs(
 				changeType,
 				Path.GetDirectoryName(filePathName) ??
 				throw new ArgumentException($"Wrong directory name for {filePathName}"),
-				Path.GetFileName(filePathName)));
+				Path.GetFileName(filePathName)), cancellationToken);
 	}
 
 	private bool IsExcluded(string file, List<ExcludeSettings> excludes)
@@ -196,23 +209,44 @@ public class FileWatcherService : BackgroundService
 		Debugger.Break();
 	}
 
-	private void OnDatFileChanged(object sender, FileSystemEventArgs e)
+	private async Task OnFileChangedAsync(object sender, FileSystemEventArgs e, CancellationToken cancellationToken)
+	{
+		var command = new ScanFileCommand(FileLocation.Create(new Uri(e.FullPath)));
+		// _commandQueue.Enqueue(command);
+		using var scope = _serviceProvider.CreateScope();
+		var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+		try
+		{
+			((FileSystemWatcher)sender).EnableRaisingEvents = false;
+			await mediator.Send(command, cancellationToken);
+		}
+		catch (Exception exception)
+		{
+			_logger.LogError("OnFileChangedAsync error: {0}", exception);
+		}
+		finally
+		{
+			((FileSystemWatcher)sender).EnableRaisingEvents = true;
+		}
+	}
+	
+	/*private void OnDatFileChanged(object sender, FileSystemEventArgs e)
 	{
 		/*var command = new ScanFileCommand(SourceType.DatRoot, FileLocation.Create(new Uri(e.FullPath)));
-		_commandQueue.Enqueue(command);*/
+		_commandQueue.Enqueue(command);#1#
 	}
 
 	private void OnRomFileChanged(object sender, FileSystemEventArgs e)
 	{
 		/*var command = new ScanFileCommand(SourceType.Output, FileLocation.Create(new Uri(e.FullPath)));
-		_commandQueue.Enqueue(command);*/
+		_commandQueue.Enqueue(command);#1#
 	}
 
 	private void OnToSortFileChanged(object sender, FileSystemEventArgs e)
 	{
 		/*var command = new ScanFileCommand(SourceType.Input, FileLocation.Create(new Uri(e.FullPath)));
-		_commandQueue.Enqueue(command);*/
-	}
+		_commandQueue.Enqueue(command);#1#
+	}*/
 
 	private async Task ProcessCommandQueueAsync(CancellationToken cancellationToken)
 	{
