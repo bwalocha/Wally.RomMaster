@@ -4,27 +4,27 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "web-start": "vite",
-    "web-build": "vue-tsc && vite build",
-    "web-preview": "vite preview",
-    "build": "storybook build --output-dir ./dist",
-    "start": "storybook dev --port 6006"
+    "web:dev": "vite",
+    "web:build": "vue-tsc && vite build",
+    "web:preview": "vite preview",
+    "start": "storybook dev --host 127.0.0.1 --port 6006",
+    "build": "storybook build --output-dir ./dist"
   },
   "dependencies": {
     "vue": "^3.2.45"
   },
   "devDependencies": {
-    "@storybook/addon-essentials": "^7.0.0-beta.25",
-    "@storybook/addon-interactions": "^7.0.0-beta.25",
-    "@storybook/addon-links": "^7.0.0-beta.25",
-    "@storybook/blocks": "^7.0.0-beta.25",
+    "@storybook/addon-essentials": "^7.0.0-beta.27",
+    "@storybook/addon-interactions": "^7.0.0-beta.27",
+    "@storybook/addon-links": "^7.0.0-beta.27",
+    "@storybook/blocks": "^7.0.0-beta.27",
     "@storybook/testing-library": "^0.0.13",
-    "@storybook/vue3": "^7.0.0-beta.25",
-    "@storybook/vue3-vite": "^7.0.0-beta.25",
+    "@storybook/vue3": "^7.0.0-beta.27",
+    "@storybook/vue3-vite": "^7.0.0-beta.27",
     "@vitejs/plugin-vue": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "storybook": "^7.0.0-beta.25",
+    "storybook": "^7.0.0-beta.27",
     "typescript": "^4.9.3",
     "vite": "^4.0.0",
     "vue-tsc": "^1.0.11"
