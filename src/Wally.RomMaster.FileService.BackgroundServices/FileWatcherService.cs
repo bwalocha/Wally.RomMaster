@@ -65,17 +65,18 @@ public class FileWatcherService : BackgroundService
 
 	protected override Task ExecuteAsync(CancellationToken cancellationToken)
 	{
-		var processCommandQueue = new Task(
+		/*var processCommandQueue = new Task(
 			() => ProcessCommandQueueAsync(cancellationToken)
 				.Wait(cancellationToken));
-		processCommandQueue.Start();
+		processCommandQueue.Start();*/
 
 		foreach (var watcher in _watchers)
 		{
 			watcher.EnableRaisingEvents = true;
 		}
 
-		return processCommandQueue.WaitAsync(cancellationToken);
+		// return processCommandQueue.WaitAsync(cancellationToken);
+		return Task.CompletedTask;
 	}
 
 	private IEnumerable<FileSystemWatcher> CreateWatchers(
@@ -248,7 +249,7 @@ public class FileWatcherService : BackgroundService
 		_commandQueue.Enqueue(command);#1#
 	}*/
 
-	private async Task ProcessCommandQueueAsync(CancellationToken cancellationToken)
+	/*private async Task ProcessCommandQueueAsync(CancellationToken cancellationToken)
 	{
 		do
 		{
@@ -269,7 +270,7 @@ public class FileWatcherService : BackgroundService
 			await Task.Delay(1000);
 		}
 		while (!cancellationToken.IsCancellationRequested);
-	}
+	}*/
 
 	public override void Dispose()
 	{
