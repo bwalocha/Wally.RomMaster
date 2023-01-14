@@ -1,45 +1,28 @@
-﻿using System.IO;
-using System.IO.Compression;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
 using Wally.Lib.DDD.Abstractions.DomainEvents;
+using Wally.Lib.ServiceBus.Abstractions;
 using Wally.RomMaster.FileService.Domain.Files;
-
-using File = System.IO.File;
+using Wally.RomMaster.FileService.Messages.Files;
 
 namespace Wally.RomMaster.FileService.Application.Files.DomainEvents;
 
-public class FileCreatedDomainEventHandler : IDomainEventHandler<FileCreatedDomainEvent>
+public class SendMessageOnFileCreatedDomainEventHandler : IDomainEventHandler<FileCreatedDomainEvent>
 {
-	private readonly IClockService _clockService;
+	private readonly IPublisher _publisher;
 	private readonly IFileRepository _fileRepository;
 
-	public FileCreatedDomainEventHandler(IFileRepository fileRepository, IClockService clockService)
+	public SendMessageOnFileCreatedDomainEventHandler(IPublisher publisher, IFileRepository fileRepository)
 	{
+		_publisher = publisher;
 		_fileRepository = fileRepository;
-		_clockService = clockService;
 	}
 
 	public async Task HandleAsync(FileCreatedDomainEvent domainEvent, CancellationToken cancellationToken)
 	{
 		var model = await _fileRepository.GetAsync(domainEvent.Id, cancellationToken);
-
-		if (model.IsArchivePackage())
-		{
-			await using (var zipToOpen = new FileStream(
-							model.Location.Location.LocalPath,
-							FileMode.Open,
-							FileAccess.Read))
-			{
-				using var archive = new ZipArchive(zipToOpen, ZipArchiveMode.Read);
-				foreach (var entry in archive.Entries)
-				{
-					var file = File.Create(_clockService, model.Path, model, entry);
-
-					_fileRepository.Add(file);
-				}
-			}
-		}
+		var message = new FileCreatedMessage(model.Id, model.Location.Location.LocalPath);
+		await _publisher.PublishAsync(message, cancellationToken);
 	}
 }

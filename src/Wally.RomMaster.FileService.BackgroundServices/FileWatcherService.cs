@@ -118,6 +118,7 @@ public class FileWatcherService : BackgroundService
 			{
 				watcher.Renamed += async (sender, args) =>
 				{
+					// TODO: remove and add?
 					await OnChangedAsync(onFileChanged, sender, args.ChangeType, args.FullPath, folder, cancellationToken);
 				};
 				watcher.Created += async (sender, args) => { await OnCreatedAsync(onFileChanged, sender, args, folder, cancellationToken); };

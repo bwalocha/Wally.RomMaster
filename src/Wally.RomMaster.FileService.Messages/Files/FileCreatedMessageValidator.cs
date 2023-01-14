@@ -1,14 +1,14 @@
-﻿namespace Wally.RomMaster.FileService.Messages.Files;
+﻿using FluentValidation;
 
-public class FileCreatedMessage
+namespace Wally.RomMaster.FileService.Messages.Files;
+
+public class FileCreatedMessageValidator : AbstractValidator<FileCreatedMessage>
 {
-	private readonly Guid _id;
-	private readonly string _location;
-
-	public FileCreatedMessage(Guid id, string location)
+	public FileCreatedMessageValidator()
 	{
-		_id = id;
-		_location = location;
-		
+		RuleFor(a => a.Id)
+			.NotEmpty();
+		RuleFor(a => a.Location)
+			.NotEmpty();
 	}
 }

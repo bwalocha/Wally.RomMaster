@@ -47,6 +47,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.FileService
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.FileService.BackgroundServices", "Wally.RomMaster.FileService.BackgroundServices\Wally.RomMaster.FileService.BackgroundServices.csproj", "{E61F3074-7FC2-488D-9DF2-82B11DC476C2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.FileService.Messages", "Wally.RomMaster.FileService.Messages\Wally.RomMaster.FileService.Messages.csproj", "{051096F3-022B-4B1E-98C5-D44E474D331F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -228,6 +230,18 @@ Global
 		{E61F3074-7FC2-488D-9DF2-82B11DC476C2}.Release|x64.Build.0 = Release|Any CPU
 		{E61F3074-7FC2-488D-9DF2-82B11DC476C2}.Release|x86.ActiveCfg = Release|Any CPU
 		{E61F3074-7FC2-488D-9DF2-82B11DC476C2}.Release|x86.Build.0 = Release|Any CPU
+		{051096F3-022B-4B1E-98C5-D44E474D331F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{051096F3-022B-4B1E-98C5-D44E474D331F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{051096F3-022B-4B1E-98C5-D44E474D331F}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{051096F3-022B-4B1E-98C5-D44E474D331F}.Debug|x64.Build.0 = Debug|Any CPU
+		{051096F3-022B-4B1E-98C5-D44E474D331F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{051096F3-022B-4B1E-98C5-D44E474D331F}.Debug|x86.Build.0 = Debug|Any CPU
+		{051096F3-022B-4B1E-98C5-D44E474D331F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{051096F3-022B-4B1E-98C5-D44E474D331F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{051096F3-022B-4B1E-98C5-D44E474D331F}.Release|x64.ActiveCfg = Release|Any CPU
+		{051096F3-022B-4B1E-98C5-D44E474D331F}.Release|x64.Build.0 = Release|Any CPU
+		{051096F3-022B-4B1E-98C5-D44E474D331F}.Release|x86.ActiveCfg = Release|Any CPU
+		{051096F3-022B-4B1E-98C5-D44E474D331F}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{146340BA-C579-4B66-BB50-37E99C872FBE} = {9AAFF7B3-E577-412D-9BEF-9068E01EE580}
@@ -244,5 +258,6 @@ Global
 		{28CA81E6-66BA-4EF7-9E08-D5060148673C} = {3D179E9D-31A7-4FF7-B56D-5CA2DFFD0488}
 		{1A740842-AD9A-4246-9C0E-E51EB9606229} = {3D179E9D-31A7-4FF7-B56D-5CA2DFFD0488}
 		{E61F3074-7FC2-488D-9DF2-82B11DC476C2} = {3D179E9D-31A7-4FF7-B56D-5CA2DFFD0488}
+		{051096F3-022B-4B1E-98C5-D44E474D331F} = {088C9E51-33B0-4839-A5E9-2428589F796D}
 	EndGlobalSection
 EndGlobal

@@ -83,8 +83,7 @@ public class File : AggregateRoot
 			? "-"
 			: await ComputeHashAsync(fileInfo, hashAlgorithm, cancellationToken);*/
 		var model = new File(clockService.GetTimestamp(), path, fileInfo /*, crc32*/);
-
-		// model.AddDomainEvent(new FileCreatedDomainEvent(model.Id));
+		model.AddDomainEvent(new FileCreatedDomainEvent(model.Id));
 
 		/*if (type == SourceType.Output)
 		{

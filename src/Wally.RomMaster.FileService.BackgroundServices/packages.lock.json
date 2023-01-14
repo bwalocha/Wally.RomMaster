@@ -182,7 +182,8 @@
           "Microsoft.AspNetCore.OData": "[8.0.12, )",
           "Wally.Lib.ServiceBus.Abstractions": "[1.2.7, )",
           "Wally.RomMaster.FileService.Contracts": "[1.0.0, )",
-          "Wally.RomMaster.FileService.Domain": "[1.0.0, )"
+          "Wally.RomMaster.FileService.Domain": "[1.0.0, )",
+          "Wally.RomMaster.FileService.Messages": "[1.0.0, )"
         }
       },
       "wally.rommaster.fileservice.contracts": {
@@ -197,6 +198,12 @@
         "type": "Project",
         "dependencies": {
           "Wally.Lib.DDD.Abstractions": "[1.2.0, )"
+        }
+      },
+      "wally.rommaster.fileservice.messages": {
+        "type": "Project",
+        "dependencies": {
+          "FluentValidation": "[11.4.0, )"
         }
       }
     }

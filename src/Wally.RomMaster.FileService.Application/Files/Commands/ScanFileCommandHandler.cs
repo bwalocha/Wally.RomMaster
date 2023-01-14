@@ -51,6 +51,10 @@ public class ScanFileCommandHandler : CommandHandler<ScanFileCommand>
 				// TODO: file does not exist. Remove entry?
 				// If the file is a Zip Archive then remove also inner files
 				// ...
+				if (file.IsArchivePackage())
+				{
+					System.Diagnostics.Debugger.Break();
+				}
 
 				return;
 			}
