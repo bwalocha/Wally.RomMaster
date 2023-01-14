@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -53,7 +54,7 @@ public class ScanFileCommandHandler : CommandHandler<ScanFileCommand>
 				// ...
 				if (file.IsArchivePackage())
 				{
-					System.Diagnostics.Debugger.Break();
+					Debugger.Break();
 				}
 
 				return;

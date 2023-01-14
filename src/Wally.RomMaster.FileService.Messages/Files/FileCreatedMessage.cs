@@ -4,10 +4,6 @@ namespace Wally.RomMaster.FileService.Messages.Files;
 
 public class FileCreatedMessage
 {
-	public Guid Id { get; }
-
-	public string Location { get; }
-
 	public FileCreatedMessage(Guid id, string location)
 	{
 		Id = id;
@@ -15,4 +11,8 @@ public class FileCreatedMessage
 
 		new FileCreatedMessageValidator().Validate(this);
 	}
+
+	public Guid Id { get; }
+
+	public string Location { get; }
 }

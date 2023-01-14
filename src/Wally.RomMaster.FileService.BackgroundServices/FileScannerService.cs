@@ -109,7 +109,7 @@ public class FileScannerService : BackgroundService
 
 			_logger.LogDebug($"File '{file}' found.");
 
-			var command = new ScanFileCommand(/*sourceType, */FileLocation.Create(new Uri(file)));
+			var command = new ScanFileCommand( /*sourceType, */FileLocation.Create(new Uri(file)));
 			var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
 			try
 			{

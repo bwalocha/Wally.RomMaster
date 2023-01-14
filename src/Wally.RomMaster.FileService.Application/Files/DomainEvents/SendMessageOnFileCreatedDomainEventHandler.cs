@@ -10,8 +10,8 @@ namespace Wally.RomMaster.FileService.Application.Files.DomainEvents;
 
 public class SendMessageOnFileCreatedDomainEventHandler : IDomainEventHandler<FileCreatedDomainEvent>
 {
-	private readonly IPublisher _publisher;
 	private readonly IFileRepository _fileRepository;
+	private readonly IPublisher _publisher;
 
 	public SendMessageOnFileCreatedDomainEventHandler(IPublisher publisher, IFileRepository fileRepository)
 	{

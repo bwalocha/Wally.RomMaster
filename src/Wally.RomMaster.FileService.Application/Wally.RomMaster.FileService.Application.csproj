@@ -7,14 +7,14 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Wally.RomMaster.FileService.Contracts\Wally.RomMaster.FileService.Contracts.csproj" />
-        <ProjectReference Include="..\Wally.RomMaster.FileService.Domain\Wally.RomMaster.FileService.Domain.csproj" />
-        <ProjectReference Include="..\Wally.RomMaster.FileService.Messages\Wally.RomMaster.FileService.Messages.csproj" />
+        <ProjectReference Include="..\Wally.RomMaster.FileService.Contracts\Wally.RomMaster.FileService.Contracts.csproj"/>
+        <ProjectReference Include="..\Wally.RomMaster.FileService.Domain\Wally.RomMaster.FileService.Domain.csproj"/>
+        <ProjectReference Include="..\Wally.RomMaster.FileService.Messages\Wally.RomMaster.FileService.Messages.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.OData" Version="8.0.12" />
-        <PackageReference Include="Wally.Lib.ServiceBus.Abstractions" Version="1.2.7" />
+        <PackageReference Include="Microsoft.AspNetCore.OData" Version="8.0.12"/>
+        <PackageReference Include="Wally.Lib.ServiceBus.Abstractions" Version="1.2.7"/>
     </ItemGroup>
 
 </Project>

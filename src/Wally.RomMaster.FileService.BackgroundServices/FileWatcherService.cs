@@ -26,14 +26,17 @@ namespace Wally.RomMaster.FileService.BackgroundServices;
 
 public class FileWatcherService : BackgroundService
 {
+	public delegate Task FileSystemEventHandlerAsync(
+		object sender,
+		FileSystemEventArgs e,
+		CancellationToken cancellationToken);
+
 	private readonly ConcurrentQueue<ICommand> _commandQueue = new();
 	private readonly ILogger<FileWatcherService> _logger;
 	private readonly IServiceProvider _serviceProvider;
 	private readonly ISettings _settings;
 	private readonly List<FileSystemWatcher> _watchers = new();
 
-	public delegate Task FileSystemEventHandlerAsync(object sender, FileSystemEventArgs e, CancellationToken cancellationToken);
-	
 	public FileWatcherService(ILogger<FileWatcherService> logger, ISettings settings, IServiceProvider serviceProvider)
 	{
 		_logger = logger;
@@ -50,7 +53,7 @@ public class FileWatcherService : BackgroundService
 		_watchers.AddRange(CreateWatchers(_settings.ToSortRoots, OnToSortFileChanged));*/
 
 		_watchers.AddRange(CreateWatchers(_settings.FolderSettings, OnFileChangedAsync, cancellationToken));
-		
+
 		return base.StartAsync(cancellationToken);
 	}
 
@@ -119,16 +122,37 @@ public class FileWatcherService : BackgroundService
 				watcher.Renamed += async (sender, args) =>
 				{
 					// TODO: remove and add?
-					await OnChangedAsync(onFileChanged, sender, args.ChangeType, args.FullPath, folder, cancellationToken);
+					await OnChangedAsync(
+						onFileChanged,
+						sender,
+						args.ChangeType,
+						args.FullPath,
+						folder,
+						cancellationToken);
 				};
-				watcher.Created += async (sender, args) => { await OnCreatedAsync(onFileChanged, sender, args, folder, cancellationToken); };
+				watcher.Created += async (sender, args) =>
+				{
+					await OnCreatedAsync(onFileChanged, sender, args, folder, cancellationToken);
+				};
 				watcher.Changed += async (sender, args) =>
 				{
-					await OnChangedAsync(onFileChanged, sender, args.ChangeType, args.FullPath, folder, cancellationToken);
+					await OnChangedAsync(
+						onFileChanged,
+						sender,
+						args.ChangeType,
+						args.FullPath,
+						folder,
+						cancellationToken);
 				};
 				watcher.Deleted += async (sender, args) =>
 				{
-					await OnChangedAsync(onFileChanged, sender, args.ChangeType, args.FullPath, folder, cancellationToken);
+					await OnChangedAsync(
+						onFileChanged,
+						sender,
+						args.ChangeType,
+						args.FullPath,
+						folder,
+						cancellationToken);
 				};
 			}
 
@@ -149,20 +173,20 @@ public class FileWatcherService : BackgroundService
 		{
 			return;
 		}
-		
-		Func<string, Task>? notify = null;
-		notify = async (dir) =>
-			{
-				foreach (var f in Directory.GetFiles(dir))
-				{
-					await OnChangedAsync(onFileChanged, sender, args.ChangeType, f, folder, cancellationToken);
-				}
 
-				foreach (var d in Directory.GetDirectories(dir))
-				{
-					await notify!(d);
-				}
-			};
+		Func<string, Task>? notify = null;
+		notify = async dir =>
+		{
+			foreach (var f in Directory.GetFiles(dir))
+			{
+				await OnChangedAsync(onFileChanged, sender, args.ChangeType, f, folder, cancellationToken);
+			}
+
+			foreach (var d in Directory.GetDirectories(dir))
+			{
+				await notify!(d);
+			}
+		};
 
 		await notify(args.FullPath);
 	}
@@ -191,7 +215,8 @@ public class FileWatcherService : BackgroundService
 				changeType,
 				Path.GetDirectoryName(filePathName) ??
 				throw new ArgumentException($"Wrong directory name for {filePathName}"),
-				Path.GetFileName(filePathName)), cancellationToken);
+				Path.GetFileName(filePathName)),
+			cancellationToken);
 	}
 
 	private bool IsExcluded(string file, List<ExcludeSettings> excludes)
@@ -214,6 +239,7 @@ public class FileWatcherService : BackgroundService
 	private async Task OnFileChangedAsync(object sender, FileSystemEventArgs e, CancellationToken cancellationToken)
 	{
 		var command = new ScanFileCommand(FileLocation.Create(new Uri(e.FullPath)));
+
 		// _commandQueue.Enqueue(command);
 		using var scope = _serviceProvider.CreateScope();
 		var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
@@ -231,7 +257,7 @@ public class FileWatcherService : BackgroundService
 			((FileSystemWatcher)sender).EnableRaisingEvents = true;
 		}
 	}
-	
+
 	/*private void OnDatFileChanged(object sender, FileSystemEventArgs e)
 	{
 		/*var command = new ScanFileCommand(SourceType.DatRoot, FileLocation.Create(new Uri(e.FullPath)));

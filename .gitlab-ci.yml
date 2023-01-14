@@ -6,6 +6,7 @@ variables:
   #
   FILE_SLN_NAME: "Wally.RomMaster.FileService"
   FILE_API_NAME: "Wally.RomMaster.FileService.WebApi"
+  FILE_PKG_NAME: "Wally.RomMaster.FileService.Messages"
   #
   #USER_SLN_NAME: "Wally.RomMaster.UserService"
   #USER_API_NAME: "Wally.RomMaster.UserService.WebApi"
@@ -94,6 +95,14 @@ publish:file_api:
   variables:
     PROJECT_NAME: ${FILE_API_NAME}
 
+publish:file_pkg:
+  extends:
+    - .publish:nuget
+  needs:
+    - test:file_sln
+  variables:
+    PROJECT_NAME: ${FILE_PKG_NAME}
+
 # publish:user_api:
   # extends:
     # - .publish:dotnet
@@ -134,6 +143,17 @@ publish:docker:storybook_web:
     - build:storybook_web
   variables:
     PROJECT_NAME: ${STORYBOOK_WEB_NAME}
+
+deploy:file_pkg:
+  extends:
+    - .deploy:nuget
+  needs:
+    - publish:file_pkg
+  variables:
+    PROJECT_NAME: ${FILE_PKG_NAME}
+  environment:
+    name: ${ENV}_${FILE_PKG_NAME}
+    url: https://www.nuget.org/packages/${FILE_PKG_NAME}
 
 deploy:container-station:
   extends:
