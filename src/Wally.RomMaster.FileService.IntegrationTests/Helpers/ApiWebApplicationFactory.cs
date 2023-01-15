@@ -14,6 +14,7 @@ using Microsoft.Extensions.Hosting;
 
 using Wally.Lib.DDD.Abstractions.DomainNotifications;
 using Wally.Lib.ServiceBus.Abstractions;
+using Wally.RomMaster.FileService.Domain.Abstractions;
 using Wally.RomMaster.FileService.Persistence;
 
 namespace Wally.RomMaster.FileService.IntegrationTests.Helpers;
@@ -80,6 +81,8 @@ public class ApiWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup
 				database.Database.EnsureCreated();
 
 				services.AddTransient<IPublisher, PublisherStub>();
+				services.AddTransient<IUserProvider, HttpUserProviderStub>();
+				services.AddSingleton<IClockService>(_ => new ClockServiceStub(() => DateTime.UtcNow));
 			});
 	}
 
