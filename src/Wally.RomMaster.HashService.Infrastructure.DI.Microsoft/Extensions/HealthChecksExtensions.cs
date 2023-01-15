@@ -20,11 +20,11 @@ public static class HealthChecksExtensions
 	public static IServiceCollection AddHealthChecks(this IServiceCollection services, AppSettings settings)
 	{
 		var healthChecksBuilder = services.AddHealthChecks()
-			.AddSqlServer(
+			/*.AddSqlServer(
 				settings.ConnectionStrings.Database,
 				name: "DB",
 				failureStatus: HealthStatus.Degraded,
-				tags: new[] { "DB", "Database", "MSSQL", })
+				tags: new[] { "DB", "Database", "MSSQL", })*/
 			.AddVersionHealthCheck();
 
 		switch (settings.MessageBroker)

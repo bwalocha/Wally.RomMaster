@@ -170,6 +170,14 @@
           "System.Memory.Data": "1.0.2"
         }
       },
+      "Crc32.NET": {
+        "type": "Transitive",
+        "resolved": "1.2.0",
+        "contentHash": "wNW/huzolu8MNKUnwCVKxjfAlCFpeI8AZVfF46iAWJ1+P6bTU1AZct7VAkDDEjgeeTJCVTkGZaD6jSd/fOiUkA==",
+        "dependencies": {
+          "NETStandard.Library": "2.0.0"
+        }
+      },
       "EasyNetQ": {
         "type": "Transitive",
         "resolved": "7.0.0",
@@ -745,11 +753,6 @@
         "resolved": "1.2.3",
         "contentHash": "Nug3rO+7Kl5/SBAadzSMAVgqDlfGjJZ0GenQrLywJ84XGKO0uRqkunz5Wyl0SDwcR71bAATXvSdbdzPrYRYKGw=="
       },
-      "Microsoft.Packaging.Tools": {
-        "type": "Transitive",
-        "resolved": "1.0.0-preview1-25301-01",
-        "contentHash": "i0gGYp5lCB3NVx3FglfIXsRZ0kld4e+Wr++svzMOB1g21mos0yOFmohLujdb/HqkjaJfENdH5/CCV5rfhb2RWw=="
-      },
       "Microsoft.Rest.ClientRuntime": {
         "type": "Transitive",
         "resolved": "2.3.10",
@@ -788,11 +791,10 @@
       },
       "NETStandard.Library": {
         "type": "Transitive",
-        "resolved": "2.0.0-preview1-25301-01",
-        "contentHash": "JgI5IsPMAkYqYeahc+T1G20qqE2qu/P0ZyW2GUPUxxfiT2nQGNDDPq9KHCPUODA3AMSHOp1Vnp6Sxa6jgVYfkg==",
+        "resolved": "2.0.0",
+        "contentHash": "7jnbRU+L08FXKMxqUflxEXtVymWvNOrS8yHgu9s6EM8Anr6T/wIX4nZ08j/u3Asz+tCufp3YVwFSEvFTPYmBPA==",
         "dependencies": {
-          "Microsoft.NETCore.Platforms": "1.1.0",
-          "Microsoft.Packaging.Tools": "1.0.0-preview1-25301-01"
+          "Microsoft.NETCore.Platforms": "1.1.0"
         }
       },
       "Newtonsoft.Json": {
@@ -1461,6 +1463,14 @@
           "Wally.Lib.ServiceBus.Abstractions": "1.2.5"
         }
       },
+      "Wally.RomMaster.FileService.Messages": {
+        "type": "Transitive",
+        "resolved": "0.1.1765",
+        "contentHash": "J9vtUiMFnhICngjW8XKyGiLi3Il/Lf+WXpmA1kqzpxT5Rkxr1qDCNmsqMhLNS1LCb26Es7Q5lXpdpotn9vAV8Q==",
+        "dependencies": {
+          "FluentValidation": "11.4.0"
+        }
+      },
       "YamlDotNet": {
         "type": "Transitive",
         "resolved": "8.1.2",
@@ -1499,6 +1509,7 @@
           "AspNetCore.HealthChecks.UI.InMemory.Storage": "[6.0.5, )",
           "AutoMapper.Extensions.ExpressionMapping": "[6.0.2, )",
           "AutoMapper.Extensions.Microsoft.DependencyInjection": "[12.0.0, )",
+          "Crc32.NET": "[1.2.0, )",
           "FluentValidation.AspNetCore": "[11.2.2, )",
           "MediatR": "[11.1.0, )",
           "MediatR.Extensions.Microsoft.DependencyInjection": "[11.0.0, )",
@@ -1535,6 +1546,7 @@
           "Wally.IdentityProvider.Contracts": "[1.1.0, )",
           "Wally.Lib.DDD.Abstractions": "[1.2.0, )",
           "Wally.Lib.ServiceBus.Abstractions": "[1.2.7, )",
+          "Wally.RomMaster.FileService.Messages": "[0.1.1765, )",
           "Wally.RomMaster.HashService.Application": "[1.0.0, )"
         }
       },

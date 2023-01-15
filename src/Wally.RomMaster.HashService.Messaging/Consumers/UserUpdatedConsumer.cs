@@ -2,10 +2,10 @@ using MediatR;
 
 using Microsoft.Extensions.Logging;
 
-using Wally.RomMaster.HashService.Application.Users.Commands;
 using Wally.IdentityProvider.Contracts.Messages;
 using Wally.Lib.DDD.Abstractions.Commands;
 using Wally.Lib.ServiceBus.Abstractions;
+using Wally.RomMaster.HashService.Application.Users.Commands;
 
 namespace Wally.RomMaster.HashService.Messaging.Consumers;
 

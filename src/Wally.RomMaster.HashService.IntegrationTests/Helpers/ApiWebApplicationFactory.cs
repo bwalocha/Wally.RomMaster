@@ -12,9 +12,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using Wally.RomMaster.HashService.Persistence;
 using Wally.Lib.DDD.Abstractions.DomainNotifications;
 using Wally.Lib.ServiceBus.Abstractions;
+using Wally.RomMaster.HashService.Persistence;
 
 namespace Wally.RomMaster.HashService.IntegrationTests.Helpers;
 

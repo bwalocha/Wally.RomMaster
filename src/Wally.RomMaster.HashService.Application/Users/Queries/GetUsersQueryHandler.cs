@@ -1,10 +1,10 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-using Wally.RomMaster.HashService.Contracts.Requests.Users;
-using Wally.RomMaster.HashService.Contracts.Responses.Users;
 using Wally.Lib.DDD.Abstractions.Queries;
 using Wally.Lib.DDD.Abstractions.Responses;
+using Wally.RomMaster.HashService.Contracts.Requests.Users;
+using Wally.RomMaster.HashService.Contracts.Responses.Users;
 
 namespace Wally.RomMaster.HashService.Application.Users.Queries;
 

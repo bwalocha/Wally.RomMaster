@@ -1,9 +1,9 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-using Wally.RomMaster.HashService.Domain.Users;
 using Wally.Lib.DDD.Abstractions.DomainEvents;
 using Wally.Lib.ServiceBus.Abstractions;
+using Wally.RomMaster.HashService.Domain.Users;
 
 namespace Wally.RomMaster.HashService.Application.Users;
 

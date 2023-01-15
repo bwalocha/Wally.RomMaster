@@ -5,8 +5,8 @@ using FluentAssertions;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 
-using Wally.RomMaster.HashService.ConventionTests.Helpers;
 using Wally.Lib.DDD.Abstractions.DomainModels;
+using Wally.RomMaster.HashService.ConventionTests.Helpers;
 
 using Xunit;
 

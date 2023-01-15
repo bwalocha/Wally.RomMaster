@@ -1,4 +1,6 @@
-﻿using System.Reflection;
+﻿using System.Security.Cryptography;
+
+using Force.Crc32;
 
 using Microsoft.Extensions.DependencyInjection;
 
@@ -11,14 +13,18 @@ public static class ServiceCollectionExtensions
 {
 	public static IServiceCollection AddInfrastructure(this IServiceCollection services, AppSettings settings)
 	{
-		services.AddWebApi();
+		// services.AddWebApi();
 		services.AddCqrs();
-		services.AddSwagger(Assembly.GetCallingAssembly());
+
+		// services.AddSwagger(Assembly.GetCallingAssembly());
 		services.AddHealthChecks(settings);
-		services.AddDbContext(settings);
-		services.AddMapper();
+
+		// services.AddDbContext(settings);
+		// services.AddMapper();
 		services.AddMessaging(settings);
 		services.AddEventHub();
+
+		services.AddSingleton<HashAlgorithm, Crc32Algorithm>();
 
 		return services;
 	}

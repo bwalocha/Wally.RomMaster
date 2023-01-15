@@ -4,8 +4,8 @@ using System.Linq;
 using FluentAssertions;
 using FluentAssertions.Execution;
 
-using Wally.RomMaster.HashService.ConventionTests.Helpers;
 using Wally.Lib.DDD.Abstractions.Commands;
+using Wally.RomMaster.HashService.ConventionTests.Helpers;
 
 using Xunit;
 

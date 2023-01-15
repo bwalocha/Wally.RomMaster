@@ -7,7 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Newtonsoft.Json;
 
-using Wally.RomMaster.HashService.Application.Users.Commands;
 using Wally.RomMaster.HashService.Contracts.Requests.Users;
 using Wally.RomMaster.HashService.Infrastructure.DI.Microsoft.Filters;
 
@@ -30,7 +29,8 @@ public static class WebApiExtensions
 				options => { options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore; });
 
 		services.AddValidatorsFromAssemblyContaining<UpdateUserRequestValidator>();
-		services.AddValidatorsFromAssemblyContaining<UpdateUserCommandValidator>();
+
+		// services.AddValidatorsFromAssemblyContaining<UpdateUserCommandValidator>();
 		services.AddFluentValidationAutoValidation(config => config.DisableDataAnnotationsValidation = true);
 		services.AddFluentValidationClientsideAdapters(); // TODO: consider config => config.ClientValidatorFactories
 

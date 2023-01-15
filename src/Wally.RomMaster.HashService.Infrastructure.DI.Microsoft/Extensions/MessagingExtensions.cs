@@ -3,10 +3,10 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 
-using Wally.RomMaster.HashService.Infrastructure.DI.Microsoft.Models;
-using Wally.RomMaster.HashService.Messaging.Consumers;
 using Wally.Lib.ServiceBus.Abstractions;
 using Wally.Lib.ServiceBus.DI.Microsoft;
+using Wally.RomMaster.HashService.Infrastructure.DI.Microsoft.Models;
+using Wally.RomMaster.HashService.Messaging.Consumers;
 
 using MessageBroker_AzureServiceBus = Wally.Lib.ServiceBus.Azure;
 using MessageBroker_RabbitMQ = Wally.Lib.ServiceBus.RabbitMQ;

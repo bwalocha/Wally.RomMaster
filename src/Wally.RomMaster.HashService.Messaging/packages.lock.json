@@ -52,6 +52,15 @@
           "Wally.Lib.DDD.Abstractions": "1.2.0"
         }
       },
+      "Wally.RomMaster.FileService.Messages": {
+        "type": "Direct",
+        "requested": "[0.1.1765, )",
+        "resolved": "0.1.1765",
+        "contentHash": "J9vtUiMFnhICngjW8XKyGiLi3Il/Lf+WXpmA1kqzpxT5Rkxr1qDCNmsqMhLNS1LCb26Es7Q5lXpdpotn9vAV8Q==",
+        "dependencies": {
+          "FluentValidation": "11.4.0"
+        }
+      },
       "FluentValidation": {
         "type": "Transitive",
         "resolved": "11.4.0",

@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -10,6 +9,8 @@ using Wally.RomMaster.HashService.Infrastructure.DI.Microsoft;
 using Wally.RomMaster.HashService.Infrastructure.DI.Microsoft.Extensions;
 using Wally.RomMaster.HashService.Infrastructure.DI.Microsoft.Models;
 using Wally.RomMaster.HashService.WebApi.Hubs;
+
+// using Microsoft.EntityFrameworkCore;
 
 namespace Wally.RomMaster.HashService.WebApi;
 
@@ -42,8 +43,8 @@ public class Startup
 		IApplicationBuilder app,
 		IWebHostEnvironment env,
 		IHostApplicationLifetime appLifetime,
-		ILogger<Startup> logger,
-		DbContext dbContext)
+		ILogger<Startup> logger /*,
+		DbContext dbContext*/)
 	{
 		appLifetime.ApplicationStarted.Register(
 			() => logger.LogInformation("The 'Wally.RomMaster.HashService' is started"));
@@ -56,7 +57,8 @@ public class Startup
 		if (env.IsDevelopment())
 		{
 			app.UseDeveloperExceptionPage();
-			app.UseSwagger(AppSettings.SwaggerAuthentication);
+
+			// app.UseSwagger(AppSettings.SwaggerAuthentication);
 		}
 
 		// If the App is hosted by Docker, HTTPS is not required inside container
@@ -68,9 +70,9 @@ public class Startup
 		app.UseAuthorization();
 		app.UseHealthChecks();
 
-		app.UseWebApi();
+		// app.UseWebApi();
 
-		app.UseDbContext(dbContext, AppSettings.Database);
+		// app.UseDbContext(dbContext, AppSettings.Database);
 		app.UseMessaging();
 		app.UseEventHub<EventHub>();
 	}

@@ -169,26 +169,28 @@ public class FileWatcherService : BackgroundService
 		FolderSettings folder,
 		CancellationToken cancellationToken)
 	{
-		if (!Directory.Exists(args.FullPath))
+		if (Directory.Exists(args.FullPath))
 		{
-			return;
+			Func<string, Task>? notify = null;
+			notify = async dir =>
+			{
+				foreach (var f in Directory.GetFiles(dir))
+				{
+					await OnChangedAsync(onFileChanged, sender, args.ChangeType, f, folder, cancellationToken);
+				}
+
+				foreach (var d in Directory.GetDirectories(dir))
+				{
+					await notify!(d);
+				}
+			};
+
+			await notify(args.FullPath);
 		}
-
-		Func<string, Task>? notify = null;
-		notify = async dir =>
+		else
 		{
-			foreach (var f in Directory.GetFiles(dir))
-			{
-				await OnChangedAsync(onFileChanged, sender, args.ChangeType, f, folder, cancellationToken);
-			}
-
-			foreach (var d in Directory.GetDirectories(dir))
-			{
-				await notify!(d);
-			}
-		};
-
-		await notify(args.FullPath);
+			await OnChangedAsync(onFileChanged, sender, args.ChangeType, args.FullPath, folder, cancellationToken);
+		}
 	}
 
 	private async Task OnChangedAsync(
@@ -199,8 +201,11 @@ public class FileWatcherService : BackgroundService
 		FolderSettings folder,
 		CancellationToken cancellationToken)
 	{
-		// if directory: return or notify;
-		// ...
+		if (Directory.Exists(filePathName))
+		{
+			// is a directory
+			return;
+		}
 
 		if (IsExcluded(filePathName, folder.Excludes))
 		{
@@ -245,7 +250,7 @@ public class FileWatcherService : BackgroundService
 		var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
 		try
 		{
-			((FileSystemWatcher)sender).EnableRaisingEvents = false;
+			// ((FileSystemWatcher)sender).EnableRaisingEvents = false;
 			await mediator.Send(command, cancellationToken);
 		}
 		catch (Exception exception)
@@ -254,7 +259,7 @@ public class FileWatcherService : BackgroundService
 		}
 		finally
 		{
-			((FileSystemWatcher)sender).EnableRaisingEvents = true;
+			// ((FileSystemWatcher)sender).EnableRaisingEvents = true;
 		}
 	}
 

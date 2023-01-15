@@ -3,8 +3,8 @@
 using FluentAssertions;
 using FluentAssertions.Execution;
 
-using Wally.RomMaster.HashService.ConventionTests.Helpers;
 using Wally.Lib.DDD.Abstractions.DomainEvents;
+using Wally.RomMaster.HashService.ConventionTests.Helpers;
 
 using Xunit;
 

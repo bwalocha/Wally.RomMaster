@@ -8,9 +8,9 @@ using Microsoft.Extensions.Logging;
 
 using Moq;
 
+using Wally.IdentityProvider.Contracts.Messages;
 using Wally.RomMaster.HashService.Application.Users.Commands;
 using Wally.RomMaster.HashService.Messaging.Consumers;
-using Wally.IdentityProvider.Contracts.Messages;
 
 using Xunit;
 

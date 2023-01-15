@@ -8,9 +8,9 @@ using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Types;
 
+using Wally.Lib.DDD.Abstractions.Responses;
 using Wally.RomMaster.HashService.Contracts.Responses.Users;
 using Wally.RomMaster.HashService.ConventionTests.Helpers;
-using Wally.Lib.DDD.Abstractions.Responses;
 
 using Xunit;
 

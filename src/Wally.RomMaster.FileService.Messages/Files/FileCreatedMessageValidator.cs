@@ -9,6 +9,7 @@ public class FileCreatedMessageValidator : AbstractValidator<FileCreatedMessage>
 		RuleFor(a => a.Id)
 			.NotEmpty();
 		RuleFor(a => a.Location)
-			.NotEmpty();
+			.NotEmpty()
+			.MaximumLength(3000);
 	}
 }
