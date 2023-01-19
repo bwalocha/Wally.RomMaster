@@ -1,4 +1,3 @@
-/*
 using MediatR;
 
 using Microsoft.Extensions.Logging;
@@ -10,9 +9,9 @@ using Wally.RomMaster.FileService.Application.Users.Commands;
 
 namespace Wally.RomMaster.FileService.Messaging.Consumers;
 
-public class HashComputedMessageConsumer : Consumer<HashComputedMessage>
+public class UserCreatedMessageConsumer : Consumer<UserCreatedMessage>
 {
-	public UserCreatedConsumer(IMediator mediator, ILogger<UserCreatedConsumer> logger)
+	public UserCreatedMessageConsumer(IMediator mediator, ILogger<UserCreatedMessageConsumer> logger)
 		: base(mediator, logger)
 	{
 	}
@@ -22,4 +21,3 @@ public class HashComputedMessageConsumer : Consumer<HashComputedMessage>
 		return new CreateUserCommand(message.UserId, message.UserName);
 	}
 }
-*/

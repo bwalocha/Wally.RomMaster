@@ -16,15 +16,15 @@ using Xunit;
 
 namespace Wally.RomMaster.HashService.UnitTests.Users;
 
-public class UserCreatedConsumerTests
+public class UserCreatedMessageConsumerTests
 {
-	private readonly UserCreatedConsumer _consumer;
+	private readonly UserCreatedMessageConsumer _consumer;
 	private readonly Mock<IMediator> _mediatorMock;
 
-	public UserCreatedConsumerTests()
+	public UserCreatedMessageConsumerTests()
 	{
 		_mediatorMock = new Mock<IMediator>();
-		_consumer = new UserCreatedConsumer(_mediatorMock.Object, new Mock<ILogger<UserCreatedConsumer>>().Object);
+		_consumer = new UserCreatedMessageConsumer(_mediatorMock.Object, new Mock<ILogger<UserCreatedMessageConsumer>>().Object);
 	}
 
 	[Fact]

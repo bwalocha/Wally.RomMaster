@@ -9,9 +9,9 @@ using Wally.RomMaster.HashService.Application.Hashes.Commands;
 
 namespace Wally.RomMaster.HashService.Messaging.Consumers;
 
-public class FileCreatedConsumer : Consumer<FileCreatedMessage>
+public class FileCreatedMessageConsumer : Consumer<FileCreatedMessage>
 {
-	public FileCreatedConsumer(IMediator mediator, ILogger<FileCreatedConsumer> logger)
+	public FileCreatedMessageConsumer(IMediator mediator, ILogger<FileCreatedMessageConsumer> logger)
 		: base(mediator, logger)
 	{
 	}
