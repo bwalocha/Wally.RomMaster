@@ -153,6 +153,12 @@
         "dependencies": {
           "Wally.Lib.DDD.Abstractions": "[1.2.0, )"
         }
+      },
+      "wally.rommaster.hashservice.messages": {
+        "type": "Project",
+        "dependencies": {
+          "FluentValidation": "[11.4.0, )"
+        }
       }
     }
   }

@@ -1373,7 +1373,8 @@
           "Microsoft.AspNetCore.OData": "[8.0.12, )",
           "Wally.Lib.ServiceBus.Abstractions": "[1.2.7, )",
           "Wally.RomMaster.HashService.Contracts": "[1.0.0, )",
-          "Wally.RomMaster.HashService.Domain": "[1.0.0, )"
+          "Wally.RomMaster.HashService.Domain": "[1.0.0, )",
+          "Wally.RomMaster.HashService.Messages": "[1.0.0, )"
         }
       },
       "wally.rommaster.hashservice.contracts": {
@@ -1396,6 +1397,12 @@
           "AutoMapper": "[12.0.0, )",
           "Wally.RomMaster.HashService.Contracts": "[1.0.0, )",
           "Wally.RomMaster.HashService.Domain": "[1.0.0, )"
+        }
+      },
+      "wally.rommaster.hashservice.messages": {
+        "type": "Project",
+        "dependencies": {
+          "FluentValidation": "[11.4.0, )"
         }
       },
       "wally.rommaster.hashservice.messaging": {

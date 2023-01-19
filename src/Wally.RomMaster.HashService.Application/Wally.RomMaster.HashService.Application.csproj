@@ -9,6 +9,7 @@
     <ItemGroup>
         <ProjectReference Include="..\Wally.RomMaster.HashService.Contracts\Wally.RomMaster.HashService.Contracts.csproj"/>
         <ProjectReference Include="..\Wally.RomMaster.HashService.Domain\Wally.RomMaster.HashService.Domain.csproj"/>
+        <ProjectReference Include="..\Wally.RomMaster.HashService.Messages\Wally.RomMaster.HashService.Messages.csproj"/>
     </ItemGroup>
 
     <ItemGroup>

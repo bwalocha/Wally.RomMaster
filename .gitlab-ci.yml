@@ -8,6 +8,10 @@ variables:
   FILE_API_NAME: "Wally.RomMaster.FileService.WebApi"
   FILE_PKG_NAME: "Wally.RomMaster.FileService.Messages"
   #
+  HASH_SLN_NAME: "Wally.RomMaster.HashService"
+  HASH_API_NAME: "Wally.RomMaster.HashService.WebApi"
+  HASH_PKG_NAME: "Wally.RomMaster.HashService.Messages"
+  #
   #USER_SLN_NAME: "Wally.RomMaster.UserService"
   #USER_API_NAME: "Wally.RomMaster.UserService.WebApi"
   #
@@ -33,6 +37,12 @@ build:file_sln:
     - .build:dotnet
   variables:
     SOLUTION_NAME: ${FILE_SLN_NAME}
+
+build:hash_sln:
+  extends:
+    - .build:dotnet
+  variables:
+    SOLUTION_NAME: ${HASH_SLN_NAME}
 
 # build:user_sln:
   # extends:
@@ -62,6 +72,14 @@ test:file_sln:
     - build:file_sln
   variables:
     SOLUTION_NAME: ${FILE_SLN_NAME}
+
+test:hash_sln:
+  extends:
+    - .test:dotnet
+  needs:
+    - build:hash_sln
+  variables:
+    SOLUTION_NAME: ${HASH_SLN_NAME}
 
 # test:user_sln:
   # extends:
@@ -95,6 +113,14 @@ publish:file_api:
   variables:
     PROJECT_NAME: ${FILE_API_NAME}
 
+publish:hash_api:
+  extends:
+    - .publish:dotnet
+  needs:
+    - test:hash_sln
+  variables:
+    PROJECT_NAME: ${HASH_API_NAME}
+
 publish:file_pkg:
   extends:
     - .publish:nuget
@@ -102,6 +128,14 @@ publish:file_pkg:
     - test:file_sln
   variables:
     PROJECT_NAME: ${FILE_PKG_NAME}
+
+publish:hash_pkg:
+  extends:
+    - .publish:nuget
+  needs:
+    - test:hash_sln
+  variables:
+    PROJECT_NAME: ${HASH_PKG_NAME}
 
 # publish:user_api:
   # extends:
@@ -126,6 +160,14 @@ publish:docker:file_api:
     - publish:file_api
   variables:
     PROJECT_NAME: ${FILE_API_NAME}
+
+publish:docker:hash_api:
+  extends:
+    - .publish:docker
+  needs:
+    - publish:hash_api
+  variables:
+    PROJECT_NAME: ${HASH_API_NAME}
 
 # publish:docker:user_api:
   # extends:
@@ -155,12 +197,24 @@ deploy:file_pkg:
     name: ${ENV}_${FILE_PKG_NAME}
     url: https://www.nuget.org/packages/${FILE_PKG_NAME}
 
+deploy:hash_pkg:
+  extends:
+    - .deploy:nuget
+  needs:
+    - publish:hash_pkg
+  variables:
+    PROJECT_NAME: ${HASH_PKG_NAME}
+  environment:
+    name: ${ENV}_${HASH_PKG_NAME}
+    url: https://www.nuget.org/packages/${HASH_PKG_NAME}
+
 deploy:container-station:
   extends:
     - .deploy:container-station
   needs:
     - publish:docker:proxy_api
     - publish:docker:file_api
+    - publish:docker:hash_api
     # - publish:docker:user_api
     - publish:docker:storybook_web
   variables:

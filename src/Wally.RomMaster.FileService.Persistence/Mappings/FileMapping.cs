@@ -28,9 +28,10 @@ internal class FileMapping : IEntityTypeConfiguration<File>
 
 		builder.Property(a => a.Length)
 			.IsRequired();
-		/*builder.Property(a => a.Crc)
+		builder.Property(a => a.Crc32)
 			.IsRequired()
 			.HasMaxLength(16);
+		/*
 		builder.Property(a => a.Md5)
 			.IsRequired(false)
 			.HasMaxLength(32);
@@ -44,7 +45,7 @@ internal class FileMapping : IEntityTypeConfiguration<File>
 			.IsRequired(false);*/
 
 		// builder.HasIndex(a => new { a.Crc, a.Length }).IsUnique(false); // Length 0 files has the same Crc
-		/*builder.HasIndex(a => a.Crc)
-			.IsUnique(false); // Length 0 files has the same Crc*/
+		builder.HasIndex(a => a.Crc32)
+			.IsUnique(false); // Length 0 files has the same Crc
 	}
 }

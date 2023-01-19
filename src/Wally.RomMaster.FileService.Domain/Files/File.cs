@@ -49,8 +49,8 @@ public class File : AggregateRoot
 
 	public long Length { get; private set; }
 
-	// public string Crc { get; private set; }
-	//
+	public string Crc32 { get; private set; }
+
 	// public string? Sha1 { get; private set; }
 	//
 	// public string? Md5 { get; private set; }
@@ -171,4 +171,9 @@ public class File : AggregateRoot
 		DataFile = dataFile;
 		DataFileId = dataFile.Id;
 	}*/
+
+	public void SetCrc32(string crc32)
+	{
+		Crc32 = crc32;
+	}
 }
