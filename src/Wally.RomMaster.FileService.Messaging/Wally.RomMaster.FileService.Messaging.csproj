@@ -12,6 +12,7 @@
         <PackageReference Include="Wally.IdentityProvider.Contracts" Version="1.1.0"/>
         <PackageReference Include="Wally.Lib.DDD.Abstractions" Version="1.2.0"/>
         <PackageReference Include="Wally.Lib.ServiceBus.Abstractions" Version="1.2.7"/>
+        <PackageReference Include="Wally.RomMaster.HashService.Messages" Version="0.1.1769"/>
     </ItemGroup>
 
     <ItemGroup>

@@ -29,8 +29,7 @@ internal class FileMapping : IEntityTypeConfiguration<File>
 		builder.Property(a => a.Length)
 			.IsRequired();
 		builder.Property(a => a.Crc32)
-			.IsRequired()
-			.HasMaxLength(16);
+			.HasMaxLength(8);
 		/*
 		builder.Property(a => a.Md5)
 			.IsRequired(false)

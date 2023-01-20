@@ -49,7 +49,7 @@ public class File : AggregateRoot
 
 	public long Length { get; private set; }
 
-	public string Crc32 { get; private set; }
+	public string? Crc32 { get; private set; }
 
 	// public string? Sha1 { get; private set; }
 	//

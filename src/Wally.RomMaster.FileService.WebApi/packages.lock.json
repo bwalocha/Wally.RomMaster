@@ -1470,6 +1470,14 @@
           "Wally.Lib.ServiceBus.Abstractions": "1.2.5"
         }
       },
+      "Wally.RomMaster.HashService.Messages": {
+        "type": "Transitive",
+        "resolved": "0.1.1769",
+        "contentHash": "88YzSsCE4DIQeULCUAFfSnH4CAlRaErJII4Mthe5TkPeKRSsFjR079DesUnwNsL5VEt8NSIkbDxbkpzXgpcmdQ==",
+        "dependencies": {
+          "FluentValidation": "11.4.0"
+        }
+      },
       "YamlDotNet": {
         "type": "Transitive",
         "resolved": "8.1.2",
@@ -1560,7 +1568,8 @@
           "Wally.IdentityProvider.Contracts": "[1.1.0, )",
           "Wally.Lib.DDD.Abstractions": "[1.2.0, )",
           "Wally.Lib.ServiceBus.Abstractions": "[1.2.7, )",
-          "Wally.RomMaster.FileService.Application": "[1.0.0, )"
+          "Wally.RomMaster.FileService.Application": "[1.0.0, )",
+          "Wally.RomMaster.HashService.Messages": "[0.1.1769, )"
         }
       },
       "wally.rommaster.fileservice.persistence": {

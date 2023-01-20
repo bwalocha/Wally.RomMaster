@@ -1,25 +1,23 @@
-/*
 using MediatR;
 
 using Microsoft.Extensions.Logging;
 
-using Wally.IdentityProvider.Contracts.Messages;
 using Wally.Lib.DDD.Abstractions.Commands;
 using Wally.Lib.ServiceBus.Abstractions;
-using Wally.RomMaster.FileService.Application.Users.Commands;
+using Wally.RomMaster.FileService.Application.Files.Commands;
+using Wally.RomMaster.HashService.Messages.Hashes;
 
 namespace Wally.RomMaster.FileService.Messaging.Consumers;
 
 public class HashComputedMessageConsumer : Consumer<HashComputedMessage>
 {
-	public UserCreatedConsumer(IMediator mediator, ILogger<UserCreatedConsumer> logger)
+	public HashComputedMessageConsumer(IMediator mediator, ILogger<HashComputedMessageConsumer> logger)
 		: base(mediator, logger)
 	{
 	}
 
-	protected override ICommand CreateCommand(UserCreatedMessage message)
+	protected override ICommand CreateCommand(HashComputedMessage message)
 	{
-		return new CreateUserCommand(message.UserId, message.UserName);
+		return new UpdateHashCommand(message.FileId, message.Crc32);
 	}
 }
-*/
