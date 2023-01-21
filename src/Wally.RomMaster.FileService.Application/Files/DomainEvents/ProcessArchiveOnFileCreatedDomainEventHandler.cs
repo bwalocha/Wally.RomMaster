@@ -1,7 +1,10 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.IO.Compression;
 using System.Threading;
 using System.Threading.Tasks;
+
+using Microsoft.Extensions.Logging;
 
 using Wally.Lib.DDD.Abstractions.DomainEvents;
 using Wally.RomMaster.FileService.Domain.Abstractions;
@@ -14,12 +17,14 @@ namespace Wally.RomMaster.FileService.Application.Files.DomainEvents;
 public class ProcessArchiveOnFileCreatedDomainEventHandler : IDomainEventHandler<FileCreatedDomainEvent>
 {
 	private readonly IClockService _clockService;
+	private readonly ILogger<ProcessArchiveOnFileCreatedDomainEventHandler> _logger;
 	private readonly IFileRepository _fileRepository;
 
-	public ProcessArchiveOnFileCreatedDomainEventHandler(IFileRepository fileRepository, IClockService clockService)
+	public ProcessArchiveOnFileCreatedDomainEventHandler(IFileRepository fileRepository, IClockService clockService, ILogger<ProcessArchiveOnFileCreatedDomainEventHandler> logger)
 	{
 		_fileRepository = fileRepository;
 		_clockService = clockService;
+		_logger = logger;
 	}
 
 	public async Task HandleAsync(FileCreatedDomainEvent domainEvent, CancellationToken cancellationToken)
@@ -33,12 +38,20 @@ public class ProcessArchiveOnFileCreatedDomainEventHandler : IDomainEventHandler
 							FileMode.Open,
 							FileAccess.Read))
 			{
-				using var archive = new ZipArchive(zipToOpen, ZipArchiveMode.Read);
-				foreach (var entry in archive.Entries)
+				try
 				{
-					var file = File.Create(_clockService, model.Path, model, entry);
+					using var archive = new ZipArchive(zipToOpen, ZipArchiveMode.Read);
+					foreach (var entry in archive.Entries)
+					{
+						var file = File.Create(_clockService, model.Path, model, entry);
 
-					_fileRepository.Add(file);
+						_fileRepository.Add(file);
+					}
+				}
+				catch (Exception e)
+				{
+					// model.Error
+					_logger.LogError("Error: '{0}'", e);
 				}
 			}
 		}

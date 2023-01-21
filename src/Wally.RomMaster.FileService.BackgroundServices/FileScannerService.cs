@@ -92,7 +92,6 @@ public class FileScannerService : BackgroundService
 			return;
 		}
 
-		using var scope = _serviceProvider.CreateScope();
 		foreach (var file in Directory.EnumerateFiles(folder.Path.LocalPath, "*.*", folder.SearchOptions))
 		{
 			if (cancellationToken.IsCancellationRequested)
@@ -110,6 +109,7 @@ public class FileScannerService : BackgroundService
 			_logger.LogDebug($"File '{file}' found.");
 
 			var command = new ScanFileCommand( /*sourceType, */FileLocation.Create(new Uri(file)));
+			using var scope = _serviceProvider.CreateScope();
 			var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
 			try
 			{
