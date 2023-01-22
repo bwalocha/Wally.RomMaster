@@ -7,5 +7,5 @@ ARG PROJECT_NAME \
 EXPOSE 80
 EXPOSE 443
 
-#COPY ./src/${PROJECT_NAME}/nginx.conf /etc/nginx/conf.d/default.conf
+COPY ./src/${PROJECT_NAME}/nginx.conf /etc/nginx/conf.d/extended_default.conf
 COPY ./src/${PROJECT_NAME}/dist /usr/share/nginx/html
