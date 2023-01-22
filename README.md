@@ -18,7 +18,7 @@ Vite + Vue + Storybook
 ```
 npm create vite@latest wally.rommaster.storybook.webapp -- --template vue-ts
 cd ./wally.rommaster.storybook.webapp
-npx storybook init
+npx storybook@next init --package-manager npm --parser ts --builder vite --disable-telemetry
 ```
 
 ### Frontend
