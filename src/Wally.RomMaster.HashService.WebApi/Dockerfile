@@ -20,7 +20,7 @@ ENV PROJECT_NAME ${PROJECT_NAME}
 WORKDIR /app
 COPY ./packages/${PROJECT_NAME} .
 
-ENTRYPOINT ["${PROJECT_NAME}"]
+ENTRYPOINT dotnet ${PROJECT_NAME}.dll
 
 # See: https://github.com/dotnet/announcements/issues/20
 # Uncomment to enable globalization APIs (or delete)
