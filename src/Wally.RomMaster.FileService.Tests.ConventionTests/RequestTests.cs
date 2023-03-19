@@ -55,7 +55,7 @@ public class RequestTests
 		var assemblies = Configuration.Assemblies.GetAllAssemblies();
 		var applicationNamespace = Regex.Match(
 				typeof(GetUsersRequest).Namespace!,
-				@"Wally.RomMaster.FileService\.Contracts\.Requests(?=[\.$])")
+				@"Wally.RomMaster.FileService\.Application\.Contracts\.Requests(?=[\.$])")
 			.Value;
 
 		using (new AssertionScope(new AssertionStrategy()))

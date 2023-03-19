@@ -92,7 +92,7 @@ public class ResponseTests
 		var assemblies = Configuration.Assemblies.GetAllAssemblies();
 		var applicationNamespace = Regex.Match(
 				typeof(GetUserResponse).Namespace!,
-				@"Wally.RomMaster.FileService\.Contracts\.Responses(?=[\.$])")
+				@"Wally.RomMaster.FileService\.Application\.Contracts\.Responses(?=[\.$])")
 			.Value;
 
 		using (new AssertionScope(new AssertionStrategy()))
