@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Wally.Lib.DDD.Abstractions.DomainEvents;
 using Wally.RomMaster.FileService.Application.Users;
 using Wally.RomMaster.FileService.Application.Users.Queries;
-using Wally.RomMaster.FileService.PipelineBehaviours;
+using Wally.RomMaster.FileService.Infrastructure.PipelineBehaviours;
 
 namespace Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.Extensions;
 

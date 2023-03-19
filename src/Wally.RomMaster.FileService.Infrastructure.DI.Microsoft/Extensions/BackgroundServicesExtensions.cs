@@ -3,10 +3,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using Wally.RomMaster.FileService.BackgroundServices;
-using Wally.RomMaster.FileService.BackgroundServices.Abstractions;
-using Wally.RomMaster.FileService.BackgroundServices.Services;
 using Wally.RomMaster.FileService.Domain.Abstractions;
+using Wally.RomMaster.FileService.Infrastructure.BackgroundServices;
+using Wally.RomMaster.FileService.Infrastructure.BackgroundServices.Abstractions;
+using Wally.RomMaster.FileService.Infrastructure.BackgroundServices.Services;
 using Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.Models;
 
 namespace Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.Extensions;

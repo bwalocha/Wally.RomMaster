@@ -6,7 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Wally.Lib.ServiceBus.Abstractions;
 using Wally.Lib.ServiceBus.DI.Microsoft;
 using Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.Models;
-using Wally.RomMaster.FileService.Messaging.Consumers;
+using Wally.RomMaster.FileService.Infrastructure.Messaging.Consumers;
 
 using MessageBroker_AzureServiceBus = Wally.Lib.ServiceBus.Azure;
 using MessageBroker_RabbitMQ = Wally.Lib.ServiceBus.RabbitMQ;

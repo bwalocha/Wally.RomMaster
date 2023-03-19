@@ -7,8 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Newtonsoft.Json;
 
+using Wally.RomMaster.FileService.Application.Contracts.Requests.Users;
 using Wally.RomMaster.FileService.Application.Users.Commands;
-using Wally.RomMaster.FileService.Contracts.Requests.Users;
 using Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.Filters;
 
 namespace Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.Extensions;

@@ -2,7 +2,7 @@
 
 using Microsoft.Extensions.DependencyInjection;
 
-using Wally.RomMaster.FileService.MapperProfiles;
+using Wally.RomMaster.FileService.Application.MapperProfiles;
 
 namespace Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.Extensions;
 

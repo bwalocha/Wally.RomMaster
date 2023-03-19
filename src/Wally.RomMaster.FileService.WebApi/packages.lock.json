@@ -1488,20 +1488,12 @@
         "dependencies": {
           "Microsoft.AspNetCore.OData": "[8.0.12, )",
           "Wally.Lib.ServiceBus.Abstractions": "[1.2.7, )",
-          "Wally.RomMaster.FileService.Contracts": "[1.0.0, )",
-          "Wally.RomMaster.FileService.Domain": "[1.0.0, )",
-          "Wally.RomMaster.FileService.Messages": "[1.0.0, )"
+          "Wally.RomMaster.FileService.Application.Contracts": "[1.0.0, )",
+          "Wally.RomMaster.FileService.Application.Messages": "[1.0.0, )",
+          "Wally.RomMaster.FileService.Domain": "[1.0.0, )"
         }
       },
-      "wally.rommaster.fileservice.backgroundservices": {
-        "type": "Project",
-        "dependencies": {
-          "Microsoft.Extensions.Hosting.Abstractions": "[7.0.0, )",
-          "Microsoft.Extensions.Logging.Abstractions": "[6.0.2, )",
-          "Wally.RomMaster.FileService.Application": "[1.0.0, )"
-        }
-      },
-      "wally.rommaster.fileservice.contracts": {
+      "wally.rommaster.fileservice.application.contracts": {
         "type": "Project",
         "dependencies": {
           "FluentValidation": "[11.4.0, )",
@@ -1509,10 +1501,32 @@
           "Wally.Lib.DDD.Abstractions": "[1.2.0, )"
         }
       },
+      "wally.rommaster.fileservice.application.mapperprofiles": {
+        "type": "Project",
+        "dependencies": {
+          "AutoMapper": "[12.0.0, )",
+          "Wally.RomMaster.FileService.Application.Contracts": "[1.0.0, )",
+          "Wally.RomMaster.FileService.Domain": "[1.0.0, )"
+        }
+      },
+      "wally.rommaster.fileservice.application.messages": {
+        "type": "Project",
+        "dependencies": {
+          "FluentValidation": "[11.4.0, )"
+        }
+      },
       "wally.rommaster.fileservice.domain": {
         "type": "Project",
         "dependencies": {
           "Wally.Lib.DDD.Abstractions": "[1.2.0, )"
+        }
+      },
+      "wally.rommaster.fileservice.infrastructure.backgroundservices": {
+        "type": "Project",
+        "dependencies": {
+          "Microsoft.Extensions.Hosting.Abstractions": "[7.0.0, )",
+          "Microsoft.Extensions.Logging.Abstractions": "[6.0.2, )",
+          "Wally.RomMaster.FileService.Application": "[1.0.0, )"
         }
       },
       "wally.rommaster.fileservice.infrastructure.di.microsoft": {
@@ -1538,29 +1552,15 @@
           "Wally.Lib.ServiceBus.Azure": "[1.2.7, )",
           "Wally.Lib.ServiceBus.DI.Microsoft": "[1.2.6, )",
           "Wally.Lib.ServiceBus.RabbitMQ": "[1.2.7, )",
-          "Wally.RomMaster.FileService.BackgroundServices": "[1.0.0, )",
+          "Wally.RomMaster.FileService.Application.MapperProfiles": "[1.0.0, )",
           "Wally.RomMaster.FileService.Domain": "[1.0.0, )",
-          "Wally.RomMaster.FileService.MapperProfiles": "[1.0.0, )",
-          "Wally.RomMaster.FileService.Messaging": "[1.0.0, )",
-          "Wally.RomMaster.FileService.Persistence.SqlServer": "[1.0.0, )",
-          "Wally.RomMaster.FileService.PipelineBehaviours": "[1.0.0, )"
+          "Wally.RomMaster.FileService.Infrastructure.BackgroundServices": "[1.0.0, )",
+          "Wally.RomMaster.FileService.Infrastructure.Messaging": "[1.0.0, )",
+          "Wally.RomMaster.FileService.Infrastructure.Persistence.SqlServer": "[1.0.0, )",
+          "Wally.RomMaster.FileService.Infrastructure.PipelineBehaviours": "[1.0.0, )"
         }
       },
-      "wally.rommaster.fileservice.mapperprofiles": {
-        "type": "Project",
-        "dependencies": {
-          "AutoMapper": "[12.0.0, )",
-          "Wally.RomMaster.FileService.Contracts": "[1.0.0, )",
-          "Wally.RomMaster.FileService.Domain": "[1.0.0, )"
-        }
-      },
-      "wally.rommaster.fileservice.messages": {
-        "type": "Project",
-        "dependencies": {
-          "FluentValidation": "[11.4.0, )"
-        }
-      },
-      "wally.rommaster.fileservice.messaging": {
+      "wally.rommaster.fileservice.infrastructure.messaging": {
         "type": "Project",
         "dependencies": {
           "MediatR": "[11.1.0, )",
@@ -1572,7 +1572,7 @@
           "Wally.RomMaster.HashService.Messages": "[0.1.1769, )"
         }
       },
-      "wally.rommaster.fileservice.persistence": {
+      "wally.rommaster.fileservice.infrastructure.persistence": {
         "type": "Project",
         "dependencies": {
           "AutoMapper": "[12.0.0, )",
@@ -1583,14 +1583,14 @@
           "Wally.RomMaster.FileService.Domain": "[1.0.0, )"
         }
       },
-      "wally.rommaster.fileservice.persistence.sqlserver": {
+      "wally.rommaster.fileservice.infrastructure.persistence.sqlserver": {
         "type": "Project",
         "dependencies": {
           "Microsoft.EntityFrameworkCore.SqlServer": "[7.0.1, )",
-          "Wally.RomMaster.FileService.Persistence": "[1.0.0, )"
+          "Wally.RomMaster.FileService.Infrastructure.Persistence": "[1.0.0, )"
         }
       },
-      "wally.rommaster.fileservice.pipelinebehaviours": {
+      "wally.rommaster.fileservice.infrastructure.pipelinebehaviours": {
         "type": "Project",
         "dependencies": {
           "FluentValidation": "[11.4.0, )",

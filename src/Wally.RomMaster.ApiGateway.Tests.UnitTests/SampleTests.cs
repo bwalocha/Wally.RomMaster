@@ -2,7 +2,7 @@ using FluentAssertions;
 
 using Xunit;
 
-namespace Wally.RomMaster.ApiGateway.UnitTests;
+namespace Wally.RomMaster.ApiGateway.Tests.UnitTests;
 
 public class SampleTests
 {

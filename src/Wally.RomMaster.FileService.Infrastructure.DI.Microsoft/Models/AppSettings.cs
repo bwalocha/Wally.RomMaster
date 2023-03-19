@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 
-using Wally.RomMaster.FileService.BackgroundServices.Abstractions;
-using Wally.RomMaster.FileService.BackgroundServices.Models;
+using Wally.RomMaster.FileService.Infrastructure.BackgroundServices.Abstractions;
+using Wally.RomMaster.FileService.Infrastructure.BackgroundServices.Models;
 
 namespace Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.Models;
 

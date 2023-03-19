@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AutoMapper" Version="12.0.0" />
+        <PackageReference Include="Moq" Version="4.18.4" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Wally.RomMaster.FileService.Domain\Wally.RomMaster.FileService.Domain.csproj" />
+        <ProjectReference Include="..\Wally.RomMaster.FileService.Application.MapperProfiles\Wally.RomMaster.FileService.Application.MapperProfiles.csproj" />
+        <ProjectReference Include="..\Wally.RomMaster.FileService.Infrastructure.Messaging\Wally.RomMaster.FileService.Infrastructure.Messaging.csproj" />
+    </ItemGroup>
+
+</Project>

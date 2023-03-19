@@ -3,21 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.FileService.UnitTests", "Wally.RomMaster.FileService.UnitTests\Wally.RomMaster.FileService.UnitTests.csproj", "{440D0EDE-D235-43E2-9911-068D9D2ABD0E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.FileService.Tests.UnitTests", "Wally.RomMaster.FileService.Tests.UnitTests\Wally.RomMaster.FileService.Tests.UnitTests.csproj", "{440D0EDE-D235-43E2-9911-068D9D2ABD0E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.FileService.Domain", "Wally.RomMaster.FileService.Domain\Wally.RomMaster.FileService.Domain.csproj", "{146340BA-C579-4B66-BB50-37E99C872FBE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.FileService.Application", "Wally.RomMaster.FileService.Application\Wally.RomMaster.FileService.Application.csproj", "{9FF9D7FE-1071-4260-80BB-2A5D03DFC034}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.FileService.Persistence", "Wally.RomMaster.FileService.Persistence\Wally.RomMaster.FileService.Persistence.csproj", "{82DB1CDF-96E3-488E-8232-2081FFF015E2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.FileService.Infrastructure.Persistence", "Wally.RomMaster.FileService.Infrastructure.Persistence\Wally.RomMaster.FileService.Infrastructure.Persistence.csproj", "{82DB1CDF-96E3-488E-8232-2081FFF015E2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.FileService.ConventionTests", "Wally.RomMaster.FileService.ConventionTests\Wally.RomMaster.FileService.ConventionTests.csproj", "{F5F9D956-9583-4DC1-81B2-7AB3D609F317}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.FileService.Tests.ConventionTests", "Wally.RomMaster.FileService.Tests.ConventionTests\Wally.RomMaster.FileService.Tests.ConventionTests.csproj", "{F5F9D956-9583-4DC1-81B2-7AB3D609F317}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.FileService.WebApi", "Wally.RomMaster.FileService.WebApi\Wally.RomMaster.FileService.WebApi.csproj", "{7B96C6FD-2A55-4A6E-8919-EC72433D1632}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.FileService.Persistence.SqlServer", "Wally.RomMaster.FileService.Persistence.SqlServer\Wally.RomMaster.FileService.Persistence.SqlServer.csproj", "{FE83FCC3-96B7-4519-A616-A7D34BD44102}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.FileService.Infrastructure.Persistence.SqlServer", "Wally.RomMaster.FileService.Infrastructure.Persistence.SqlServer\Wally.RomMaster.FileService.Infrastructure.Persistence.SqlServer.csproj", "{FE83FCC3-96B7-4519-A616-A7D34BD44102}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.FileService.IntegrationTests", "Wally.RomMaster.FileService.IntegrationTests\Wally.RomMaster.FileService.IntegrationTests.csproj", "{B2E2503D-4063-41EA-A853-DEAC6A157EB5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.FileService.Tests.IntegrationTests", "Wally.RomMaster.FileService.Tests.IntegrationTests\Wally.RomMaster.FileService.Tests.IntegrationTests.csproj", "{B2E2503D-4063-41EA-A853-DEAC6A157EB5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{03AB62EE-C213-4671-92FC-5E31AC6A8FE8}"
 ProjectSection(SolutionItems) = preProject
@@ -35,19 +35,19 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{48EB53A9-9741-48C7-8B9A-0BC298B3CFEF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.FileService.Contracts", "Wally.RomMaster.FileService.Contracts\Wally.RomMaster.FileService.Contracts.csproj", "{04DB5C2B-9BE5-4613-B5CE-CD9BF1BD6672}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.FileService.Application.Contracts", "Wally.RomMaster.FileService.Application.Contracts\Wally.RomMaster.FileService.Application.Contracts.csproj", "{04DB5C2B-9BE5-4613-B5CE-CD9BF1BD6672}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.FileService.MapperProfiles", "Wally.RomMaster.FileService.MapperProfiles\Wally.RomMaster.FileService.MapperProfiles.csproj", "{F9368D93-A4FA-4D5D-95FF-7ED94A7788C1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.FileService.Application.MapperProfiles", "Wally.RomMaster.FileService.Application.MapperProfiles\Wally.RomMaster.FileService.Application.MapperProfiles.csproj", "{F9368D93-A4FA-4D5D-95FF-7ED94A7788C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.FileService.PipelineBehaviours", "Wally.RomMaster.FileService.PipelineBehaviours\Wally.RomMaster.FileService.PipelineBehaviours.csproj", "{28CA81E6-66BA-4EF7-9E08-D5060148673C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.FileService.Infrastructure.PipelineBehaviours", "Wally.RomMaster.FileService.Infrastructure.PipelineBehaviours\Wally.RomMaster.FileService.Infrastructure.PipelineBehaviours.csproj", "{28CA81E6-66BA-4EF7-9E08-D5060148673C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.FileService.Messaging", "Wally.RomMaster.FileService.Messaging\Wally.RomMaster.FileService.Messaging.csproj", "{6D6D89AC-DF34-4733-90B4-50FF1C4326C4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.FileService.Infrastructure.Messaging", "Wally.RomMaster.FileService.Infrastructure.Messaging\Wally.RomMaster.FileService.Infrastructure.Messaging.csproj", "{6D6D89AC-DF34-4733-90B4-50FF1C4326C4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.FileService.Infrastructure.DI.Microsoft", "Wally.RomMaster.FileService.Infrastructure.DI.Microsoft\Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.csproj", "{1A740842-AD9A-4246-9C0E-E51EB9606229}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.FileService.BackgroundServices", "Wally.RomMaster.FileService.BackgroundServices\Wally.RomMaster.FileService.BackgroundServices.csproj", "{E61F3074-7FC2-488D-9DF2-82B11DC476C2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.FileService.Infrastructure.BackgroundServices", "Wally.RomMaster.FileService.Infrastructure.BackgroundServices\Wally.RomMaster.FileService.Infrastructure.BackgroundServices.csproj", "{E61F3074-7FC2-488D-9DF2-82B11DC476C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.FileService.Messages", "Wally.RomMaster.FileService.Messages\Wally.RomMaster.FileService.Messages.csproj", "{051096F3-022B-4B1E-98C5-D44E474D331F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.FileService.Application.Messages", "Wally.RomMaster.FileService.Application.Messages\Wally.RomMaster.FileService.Application.Messages.csproj", "{051096F3-022B-4B1E-98C5-D44E474D331F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

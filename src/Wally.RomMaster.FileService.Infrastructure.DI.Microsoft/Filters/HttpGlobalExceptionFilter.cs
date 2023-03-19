@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 
-using Wally.RomMaster.FileService.Persistence.Exceptions;
+using Wally.RomMaster.FileService.Infrastructure.Persistence.Exceptions;
 
 namespace Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.Filters;
 

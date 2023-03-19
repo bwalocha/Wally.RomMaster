@@ -12,18 +12,18 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Serilog.AspNetCore" Version="6.1.0"/>
-        <PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="4.0.0"/>
+        <PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
+        <PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="4.0.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Wally.RomMaster.FileService.Application\Wally.RomMaster.FileService.Application.csproj"/>
-        <ProjectReference Include="..\Wally.RomMaster.FileService.Contracts\Wally.RomMaster.FileService.Contracts.csproj"/>
-        <ProjectReference Include="..\Wally.RomMaster.FileService.Infrastructure.DI.Microsoft\Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.csproj"/>
+        <ProjectReference Include="..\Wally.RomMaster.FileService.Application\Wally.RomMaster.FileService.Application.csproj" />
+        <ProjectReference Include="..\Wally.RomMaster.FileService.Application.Contracts\Wally.RomMaster.FileService.Application.Contracts.csproj" />
+        <ProjectReference Include="..\Wally.RomMaster.FileService.Infrastructure.DI.Microsoft\Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="wwwroot"/>
+        <Folder Include="wwwroot" />
     </ItemGroup>
 
 </Project>

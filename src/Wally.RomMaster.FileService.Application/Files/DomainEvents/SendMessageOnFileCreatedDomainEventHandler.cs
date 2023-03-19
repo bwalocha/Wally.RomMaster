@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 using Wally.Lib.DDD.Abstractions.DomainEvents;
 using Wally.Lib.ServiceBus.Abstractions;
+using Wally.RomMaster.FileService.Application.Messages.Files;
 using Wally.RomMaster.FileService.Domain.Files;
-using Wally.RomMaster.FileService.Messages.Files;
 
 namespace Wally.RomMaster.FileService.Application.Files.DomainEvents;
 

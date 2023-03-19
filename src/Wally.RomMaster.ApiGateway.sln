@@ -3,23 +3,23 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.ApiGateway.WebApi", "Wally.RomMaster.ApiGateway.WebApi\Wally.RomMaster.ApiGateway.WebApi.csproj", "{0C717812-1F88-415D-9CA0-C8217C86AB32}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.ApiGateway.WebApi", "Wally.RomMaster.ApiGateway.WebApi\Wally.RomMaster.ApiGateway.WebApi.csproj", "{FEFC554B-BB53-4B08-9B13-E5AD30818455}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E0C9BA14-250E-4517-8438-1375B754841A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{18776CDD-6DE2-4F83-B604-5D2E9E7B59F6}"
 	ProjectSection(SolutionItems) = preProject
 		AssemblyInfo.cs = AssemblyInfo.cs
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.ApiGateway.Tests.UnitTests", "Wally.RomMaster.ApiGateway.Tests.UnitTests\Wally.RomMaster.ApiGateway.Tests.UnitTests.csproj", "{E7D1FD7E-2105-4EAA-A1C8-0B4E81E17105}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.ApiGateway.Tests.UnitTests", "Wally.RomMaster.ApiGateway.Tests.UnitTests\Wally.RomMaster.ApiGateway.Tests.UnitTests.csproj", "{544CFB99-C0B6-4613-B96A-6FB8C3A05160}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.ApiGateway.Infrastructure.DI.Microsoft", "Wally.RomMaster.ApiGateway.Infrastructure.DI.Microsoft\Wally.RomMaster.ApiGateway.Infrastructure.DI.Microsoft.csproj", "{D4325D6A-E773-4072-84D4-42CB3ED09B37}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.ApiGateway.Infrastructure.DI.Microsoft", "Wally.RomMaster.ApiGateway.Infrastructure.DI.Microsoft\Wally.RomMaster.ApiGateway.Infrastructure.DI.Microsoft.csproj", "{89656D7D-B69E-4EF8-BDCC-380A7787ED88}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{EAC9C353-4F7C-43E9-92A6-226F43D221D8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{8FE9277B-D1FB-4EAA-B2C9-628CFABC3584}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{54C7EE7B-ABBE-47BF-9872-4C5973304A44}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{34C2D7CC-6675-4EAC-AC06-712FB3F23FF4}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{C911A92B-E0AE-4965-AB10-5BCEF246CD78}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{44751D40-74AF-49CF-AFA1-95F180845CE6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -30,22 +30,22 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{0C717812-1F88-415D-9CA0-C8217C86AB32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0C717812-1F88-415D-9CA0-C8217C86AB32}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0C717812-1F88-415D-9CA0-C8217C86AB32}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0C717812-1F88-415D-9CA0-C8217C86AB32}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E7D1FD7E-2105-4EAA-A1C8-0B4E81E17105}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E7D1FD7E-2105-4EAA-A1C8-0B4E81E17105}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E7D1FD7E-2105-4EAA-A1C8-0B4E81E17105}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E7D1FD7E-2105-4EAA-A1C8-0B4E81E17105}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D4325D6A-E773-4072-84D4-42CB3ED09B37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D4325D6A-E773-4072-84D4-42CB3ED09B37}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D4325D6A-E773-4072-84D4-42CB3ED09B37}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D4325D6A-E773-4072-84D4-42CB3ED09B37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEFC554B-BB53-4B08-9B13-E5AD30818455}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEFC554B-BB53-4B08-9B13-E5AD30818455}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEFC554B-BB53-4B08-9B13-E5AD30818455}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEFC554B-BB53-4B08-9B13-E5AD30818455}.Release|Any CPU.Build.0 = Release|Any CPU
+		{544CFB99-C0B6-4613-B96A-6FB8C3A05160}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{544CFB99-C0B6-4613-B96A-6FB8C3A05160}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{544CFB99-C0B6-4613-B96A-6FB8C3A05160}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{544CFB99-C0B6-4613-B96A-6FB8C3A05160}.Release|Any CPU.Build.0 = Release|Any CPU
+		{89656D7D-B69E-4EF8-BDCC-380A7787ED88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89656D7D-B69E-4EF8-BDCC-380A7787ED88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89656D7D-B69E-4EF8-BDCC-380A7787ED88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89656D7D-B69E-4EF8-BDCC-380A7787ED88}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{E7D1FD7E-2105-4EAA-A1C8-0B4E81E17105} = {EAC9C353-4F7C-43E9-92A6-226F43D221D8}
-		{D4325D6A-E773-4072-84D4-42CB3ED09B37} = {54C7EE7B-ABBE-47BF-9872-4C5973304A44}
-		{0C717812-1F88-415D-9CA0-C8217C86AB32} = {C911A92B-E0AE-4965-AB10-5BCEF246CD78}
+		{544CFB99-C0B6-4613-B96A-6FB8C3A05160} = {8FE9277B-D1FB-4EAA-B2C9-628CFABC3584}
+		{89656D7D-B69E-4EF8-BDCC-380A7787ED88} = {34C2D7CC-6675-4EAC-AC06-712FB3F23FF4}
+		{FEFC554B-BB53-4B08-9B13-E5AD30818455} = {44751D40-74AF-49CF-AFA1-95F180845CE6}
 	EndGlobalSection
 EndGlobal

@@ -140,7 +140,7 @@
           "Newtonsoft.Json": "13.0.1"
         }
       },
-      "wally.rommaster.fileservice.contracts": {
+      "wally.rommaster.fileservice.application.contracts": {
         "type": "Project",
         "dependencies": {
           "FluentValidation": "[11.4.0, )",
@@ -148,16 +148,16 @@
           "Wally.Lib.DDD.Abstractions": "[1.2.0, )"
         }
       },
+      "wally.rommaster.fileservice.application.messages": {
+        "type": "Project",
+        "dependencies": {
+          "FluentValidation": "[11.4.0, )"
+        }
+      },
       "wally.rommaster.fileservice.domain": {
         "type": "Project",
         "dependencies": {
           "Wally.Lib.DDD.Abstractions": "[1.2.0, )"
-        }
-      },
-      "wally.rommaster.fileservice.messages": {
-        "type": "Project",
-        "dependencies": {
-          "FluentValidation": "[11.4.0, )"
         }
       }
     }

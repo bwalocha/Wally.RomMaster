@@ -7,8 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Wally.RomMaster.FileService.Domain.Abstractions;
 using Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.Models;
-using Wally.RomMaster.FileService.Persistence;
-using Wally.RomMaster.FileService.Persistence.SqlServer;
+using Wally.RomMaster.FileService.Infrastructure.Persistence;
+using Wally.RomMaster.FileService.Infrastructure.Persistence.SqlServer;
 
 namespace Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.Extensions;
 
