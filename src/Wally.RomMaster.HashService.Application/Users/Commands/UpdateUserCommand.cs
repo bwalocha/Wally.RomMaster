@@ -6,7 +6,7 @@ using Wally.Lib.DDD.Abstractions.Commands;
 namespace Wally.RomMaster.HashService.Application.Users.Commands;
 
 [ExcludeFromCodeCoverage]
-public class UpdateUserCommand : ICommand
+public sealed class UpdateUserCommand : ICommand
 {
 	public UpdateUserCommand(Guid id, string name)
 	{

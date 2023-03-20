@@ -1,11 +1,14 @@
-﻿using Wally.RomMaster.HashService.Application.Contracts.Requests.Users;
+﻿using Wally.RomMaster.HashService.Application;
+using Wally.RomMaster.HashService.Application.Contracts;
 using Wally.RomMaster.HashService.Application.MapperProfiles;
-using Wally.RomMaster.HashService.Application.Users.Commands;
-using Wally.RomMaster.HashService.Domain.Users;
+using Wally.RomMaster.HashService.Application.Messages;
+using Wally.RomMaster.HashService.Domain;
 using Wally.RomMaster.HashService.Infrastructure.DI.Microsoft;
 using Wally.RomMaster.HashService.Infrastructure.DI.Microsoft.Models;
-using Wally.RomMaster.HashService.Infrastructure.Messaging.Consumers;
+using Wally.RomMaster.HashService.Infrastructure.Messaging;
 using Wally.RomMaster.HashService.Infrastructure.Persistence;
+using Wally.RomMaster.HashService.Infrastructure.Persistence.MySql;
+using Wally.RomMaster.HashService.Infrastructure.Persistence.PostgreSQL;
 using Wally.RomMaster.HashService.Infrastructure.Persistence.SqlServer;
 using Wally.RomMaster.HashService.Infrastructure.PipelineBehaviours;
 using Wally.RomMaster.HashService.Tests.ConventionTests.Helpers;
@@ -23,15 +26,22 @@ public static class Configuration
 			Application =
 				new[]
 				{
-					typeof(CreateUserCommand).Assembly, typeof(CreateUserRequest).Assembly,
-					typeof(UserProfile).Assembly,
+					typeof(IApplicationAssemblyMarker).Assembly,
+					typeof(IApplicationContractsAssemblyMarker).Assembly,
+					typeof(IApplicationMapperProfilesAssemblyMarker).Assembly,
+					typeof(IApplicationMessagesAssemblyMarker).Assembly,
 				},
-			Domain = new[] { typeof(User).Assembly, },
+			Domain = new[] { typeof(IDomainAssemblyMarker).Assembly, },
 			Infrastructure = new[]
 			{
-				typeof(ServiceCollectionExtensions).Assembly, typeof(UserCreatedMessageConsumer).Assembly,
-				typeof(ApplicationDbContext).Assembly, typeof(Helper).Assembly, typeof(LogBehavior<,>).Assembly,
+				typeof(IInfrastructureDIMicrosoftAssemblyMarker).Assembly,
+				typeof(IInfrastructureMessagingAssemblyMarker).Assembly,
+				typeof(IInfrastructurePersistenceAssemblyMarker).Assembly,
+				typeof(IInfrastructureSqlServerAssemblyMarker).Assembly,
+				typeof(IInfrastructurePostgreSQLAssemblyMarker).Assembly,
+				typeof(IInfrastructureMySqlAssemblyMarker).Assembly,
+				typeof(IInfrastructurePipelineBehavioursAssemblyMarker).Assembly,
 			},
-			Presentation = new[] { typeof(Startup).Assembly, },
+			Presentation = new[] { typeof(IPresentationAssemblyMarker).Assembly, },
 		};
 }

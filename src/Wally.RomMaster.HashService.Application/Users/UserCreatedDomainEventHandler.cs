@@ -1,23 +1,27 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-using Wally.Lib.DDD.Abstractions.DomainEvents;
-using Wally.Lib.ServiceBus.Abstractions;
+using MassTransit;
+
+using Wally.RomMaster.HashService.Application.Messages.Users;
 using Wally.RomMaster.HashService.Domain.Users;
+using Wally.Lib.DDD.Abstractions.DomainEvents;
 
 namespace Wally.RomMaster.HashService.Application.Users;
 
 public class UserCreatedDomainEventHandler : IDomainEventHandler<UserCreatedDomainEvent>
 {
-	private readonly IPublisher _publisher;
+	private readonly IBus _bus;
 
-	public UserCreatedDomainEventHandler(IPublisher publisher)
+	public UserCreatedDomainEventHandler(IBus bus)
 	{
-		_publisher = publisher;
+		_bus = bus;
 	}
 
 	public Task HandleAsync(UserCreatedDomainEvent domainEvent, CancellationToken cancellationToken)
 	{
-		return _publisher.PublishAsync(domainEvent, cancellationToken);
+		var message = new UserCreatedMessage(domainEvent.Id, domainEvent.Name);
+
+		return _bus.Publish(message, cancellationToken);
 	}
 }

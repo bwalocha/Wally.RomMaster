@@ -4,8 +4,8 @@ using System.Linq;
 using FluentAssertions;
 using FluentAssertions.Execution;
 
-using Wally.Lib.DDD.Abstractions.Commands;
 using Wally.RomMaster.HashService.Tests.ConventionTests.Helpers;
+using Wally.Lib.DDD.Abstractions.Commands;
 
 using Xunit;
 
@@ -74,5 +74,16 @@ public class CommandTests
 				}
 			}
 		}
+	}
+
+	[Fact]
+	public void Application_Command_ShouldBeSealed()
+	{
+		var applicationTypes = Configuration.Assemblies.Application.GetAllTypes();
+
+		applicationTypes.ThatImplement<ICommand>()
+			.ThatAreNotSealed()
+			.Should()
+			.BeSealed("commands should be sealed");
 	}
 }

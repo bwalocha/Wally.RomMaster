@@ -7,26 +7,28 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AutoMapper.Extensions.ExpressionMapping" Version="6.0.2" />
+        <PackageReference Include="AspNetCore.HealthChecks.AzureServiceBus" Version="6.1.0" />
+        <PackageReference Include="AspNetCore.HealthChecks.MySql" Version="6.0.2" />
+        <PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="6.0.2" />
+        <PackageReference Include="AutoMapper.Extensions.ExpressionMapping" Version="6.0.3" />
         <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
         <PackageReference Include="Crc32.NET" Version="1.2.0" />
+        <PackageReference Include="MassTransit" Version="8.0.14" />
+        <PackageReference Include="MassTransit.Azure.ServiceBus.Core" Version="8.0.14" />
+        <PackageReference Include="MassTransit.RabbitMQ" Version="8.0.14" />
         <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="7.0.0" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
-        <PackageReference Include="Scrutor" Version="4.2.0" />
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
-        <PackageReference Include="Wally.Lib.ServiceBus.Azure" Version="1.2.7" />
-        <PackageReference Include="Wally.Lib.ServiceBus.DI.Microsoft" Version="1.2.6" />
-        <PackageReference Include="Wally.Lib.ServiceBus.RabbitMQ" Version="1.2.7" />
-        <PackageReference Include="MediatR" Version="11.1.0" />
-        <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+        <PackageReference Include="Scrutor" Version="4.2.1" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
+        <PackageReference Include="MediatR" Version="12.0.1" />
         <PackageReference Include="AspNetCore.HealthChecks.Rabbitmq" Version="6.0.2" />
         <PackageReference Include="AspNetCore.HealthChecks.SqlServer" Version="6.0.2" />
         <PackageReference Include="AspNetCore.HealthChecks.UI" Version="6.0.5" />
         <PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="6.0.5" />
         <PackageReference Include="AspNetCore.HealthChecks.UI.InMemory.Storage" Version="6.0.5" />
         <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.1" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="7.0.4" />
         <PackageReference Include="Microsoft.AspNetCore.OData" Version="8.0.12" />
     </ItemGroup>
 
@@ -34,6 +36,8 @@
         <ProjectReference Include="..\Wally.RomMaster.HashService.Domain\Wally.RomMaster.HashService.Domain.csproj" />
         <ProjectReference Include="..\Wally.RomMaster.HashService.Application.MapperProfiles\Wally.RomMaster.HashService.Application.MapperProfiles.csproj" />
         <ProjectReference Include="..\Wally.RomMaster.HashService.Infrastructure.Messaging\Wally.RomMaster.HashService.Infrastructure.Messaging.csproj" />
+        <ProjectReference Include="..\Wally.RomMaster.HashService.Infrastructure.Persistence.MySql\Wally.RomMaster.HashService.Infrastructure.Persistence.MySql.csproj" />
+        <ProjectReference Include="..\Wally.RomMaster.HashService.Infrastructure.Persistence.PostgreSQL\Wally.RomMaster.HashService.Infrastructure.Persistence.PostgreSQL.csproj" />
         <ProjectReference Include="..\Wally.RomMaster.HashService.Infrastructure.Persistence.SqlServer\Wally.RomMaster.HashService.Infrastructure.Persistence.SqlServer.csproj" />
         <ProjectReference Include="..\Wally.RomMaster.HashService.Infrastructure.PipelineBehaviours\Wally.RomMaster.HashService.Infrastructure.PipelineBehaviours.csproj" />
     </ItemGroup>

@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Text.RegularExpressions;
 
 using FluentAssertions;
 using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Types;
 
-using Wally.Lib.DDD.Abstractions.Responses;
-using Wally.RomMaster.HashService.Application.Contracts.Responses.Users;
+using Wally.RomMaster.HashService.Application.Contracts;
 using Wally.RomMaster.HashService.Tests.ConventionTests.Helpers;
+using Wally.Lib.DDD.Abstractions.Responses;
 
 using Xunit;
 
@@ -87,13 +86,10 @@ public class ResponseTests
 	}
 
 	[Fact]
-	public void Application_ClassesWhichImplementsIResponse_ShouldBeInApplicationProject()
+	public void Application_ClassesWhichImplementsIResponse_ShouldBeInApplicationContractsProject()
 	{
 		var assemblies = Configuration.Assemblies.GetAllAssemblies();
-		var applicationNamespace = Regex.Match(
-				typeof(GetUserResponse).Namespace!,
-				@"Wally.RomMaster.HashService\.Application\.Contracts\.Responses(?=[\.$])")
-			.Value;
+		var applicationNamespace = $"{typeof(IApplicationContractsAssemblyMarker).Namespace}.Responses";
 
 		using (new AssertionScope(new AssertionStrategy()))
 		{

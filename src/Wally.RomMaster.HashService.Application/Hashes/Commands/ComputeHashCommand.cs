@@ -6,7 +6,7 @@ using Wally.Lib.DDD.Abstractions.Commands;
 namespace Wally.RomMaster.HashService.Application.Hashes.Commands;
 
 [ExcludeFromCodeCoverage]
-public class ComputeHashCommand : ICommand
+public sealed class ComputeHashCommand : ICommand
 {
 	public ComputeHashCommand(Guid fileId, string fileLocation)
 	{

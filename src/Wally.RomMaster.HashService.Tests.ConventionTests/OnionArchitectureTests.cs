@@ -3,6 +3,8 @@ using System.Linq;
 using FluentAssertions;
 using FluentAssertions.Execution;
 
+using Wally.RomMaster.HashService.Tests.ConventionTests.Helpers;
+
 using Xunit;
 
 namespace Wally.RomMaster.HashService.Tests.ConventionTests;
@@ -69,6 +71,19 @@ public class OnionArchitectureTests
 								.NotReference(type.Assembly);
 						}
 					});
+		}
+	}
+
+	[Fact]
+	public void OnionArchitecture_AllNamespaces_ShouldBeConsistent()
+	{
+		var applicationNamespace = "Wally.RomMaster.HashService";
+		var assemblies = Configuration.Assemblies.GetAllAssemblies();
+		var types = assemblies.GetAllExportedTypes();
+
+		using (new AssertionScope())
+		{
+			types.Should().BeUnderNamespace(applicationNamespace);
 		}
 	}
 }

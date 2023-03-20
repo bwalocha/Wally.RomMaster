@@ -1,15 +1,14 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 
-using Microsoft.AspNetCore.Builder;
+using MassTransit;
+
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
-using Wally.Lib.ServiceBus.Abstractions;
-using Wally.Lib.ServiceBus.DI.Microsoft;
 using Wally.RomMaster.HashService.Infrastructure.DI.Microsoft.Models;
-using Wally.RomMaster.HashService.Infrastructure.Messaging.Consumers;
-
-using MessageBroker_AzureServiceBus = Wally.Lib.ServiceBus.Azure;
-using MessageBroker_RabbitMQ = Wally.Lib.ServiceBus.RabbitMQ;
+using Wally.RomMaster.HashService.Infrastructure.Messaging;
 
 namespace Wally.RomMaster.HashService.Infrastructure.DI.Microsoft.Extensions;
 
@@ -17,39 +16,185 @@ public static class MessagingExtensions
 {
 	public static IServiceCollection AddMessaging(this IServiceCollection services, AppSettings settings)
 	{
-		services.AddPublisher();
+		services.AddMassTransit(
+			a =>
+			{
+				a.AddConsumers(typeof(IInfrastructureMessagingAssemblyMarker).Assembly);
 
-		services.Scan(
-			a => a.FromAssemblyOf<UserCreatedMessageConsumer>()
-				.AddClasses(c => c.AssignableTo(typeof(Consumer<>)))
-				.AsImplementedInterfaces()
-				.WithScopedLifetime());
-
-		switch (settings.MessageBroker)
-		{
-			case MessageBrokerType.AzureServiceBus:
-				services.AddSingleton(
-					_ => MessageBroker_AzureServiceBus.Factory.Create(
-						new MessageBroker_AzureServiceBus.Settings(settings.ConnectionStrings.ServiceBus)));
-				break;
-			case MessageBrokerType.RabbitMQ:
-				services.AddSingleton(
-					_ => MessageBroker_RabbitMQ.Factory.Create(
-						new MessageBroker_RabbitMQ.Settings(settings.ConnectionStrings.ServiceBus)));
-				break;
-			default:
-				throw new ArgumentOutOfRangeException(nameof(settings.MessageBroker), "Unknown Message Broker");
-		}
-
-		services.AddServiceBus();
+				switch (settings.MessageBroker)
+				{
+					case MessageBrokerType.None:
+						services.AddSingleton<IBus, BusStub>();
+						break;
+					case MessageBrokerType.AzureServiceBus:
+						a.UsingAzureServiceBus(
+							(host, cfg) =>
+							{
+								cfg.Host(settings.ConnectionStrings.ServiceBus);
+								cfg.ConfigureEndpoints(host, new DefaultEndpointNameFormatter(".", "", true));
+							});
+						break;
+					case MessageBrokerType.RabbitMQ:
+						a.UsingRabbitMq(
+							(host, cfg) =>
+							{
+								cfg.Host(new Uri(settings.ConnectionStrings.ServiceBus));
+								cfg.ConfigureEndpoints(host, new DefaultEndpointNameFormatter(".", "", true));
+							});
+						break;
+					default:
+						throw new ArgumentOutOfRangeException(nameof(settings.MessageBroker), "Unknown Message Broker");
+				}
+			});
 
 		return services;
 	}
 
-	public static IApplicationBuilder UseMessaging(this IApplicationBuilder app)
+	private class BusStub : IBus
 	{
-		app.UseServiceBus();
+		private readonly ILogger<BusStub> _logger;
 
-		return app;
+		public BusStub(ILogger<BusStub> logger)
+		{
+			_logger = logger;
+		}
+		
+		public ConnectHandle ConnectPublishObserver(IPublishObserver observer)
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task<ISendEndpoint> GetPublishSendEndpoint<T>() where T : class
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task Publish<T>(T message, CancellationToken cancellationToken = new CancellationToken()) where T : class
+		{
+			_logger.LogWarning($"Message Bus is not enabled. The message '{typeof(T)}' has not been sent.");
+			
+			return Task.CompletedTask;
+		}
+
+		public Task Publish<T>(T message, IPipe<PublishContext<T>> publishPipe, CancellationToken cancellationToken = new CancellationToken()) where T : class
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task Publish<T>(T message, IPipe<PublishContext> publishPipe, CancellationToken cancellationToken = new CancellationToken()) where T : class
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task Publish(object message, CancellationToken cancellationToken = new CancellationToken())
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task Publish(object message, IPipe<PublishContext> publishPipe, CancellationToken cancellationToken = new CancellationToken())
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task Publish(object message, Type messageType, CancellationToken cancellationToken = new CancellationToken())
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task Publish(
+			object message,
+			Type messageType,
+			IPipe<PublishContext> publishPipe,
+			CancellationToken cancellationToken = new CancellationToken())
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task Publish<T>(object values, CancellationToken cancellationToken = new CancellationToken()) where T : class
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task Publish<T>(object values, IPipe<PublishContext<T>> publishPipe, CancellationToken cancellationToken = new CancellationToken()) where T : class
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task Publish<T>(object values, IPipe<PublishContext> publishPipe, CancellationToken cancellationToken = new CancellationToken()) where T : class
+		{
+			throw new NotImplementedException();
+		}
+
+		public ConnectHandle ConnectSendObserver(ISendObserver observer)
+		{
+			throw new NotImplementedException();
+		}
+
+		public Task<ISendEndpoint> GetSendEndpoint(Uri address)
+		{
+			throw new NotImplementedException();
+		}
+
+		public ConnectHandle ConnectConsumePipe<T>(IPipe<ConsumeContext<T>> pipe) where T : class
+		{
+			throw new NotImplementedException();
+		}
+
+		public ConnectHandle ConnectConsumePipe<T>(IPipe<ConsumeContext<T>> pipe, ConnectPipeOptions options) where T : class
+		{
+			throw new NotImplementedException();
+		}
+
+		public ConnectHandle ConnectRequestPipe<T>(Guid requestId, IPipe<ConsumeContext<T>> pipe) where T : class
+		{
+			throw new NotImplementedException();
+		}
+
+		public ConnectHandle ConnectConsumeMessageObserver<T>(IConsumeMessageObserver<T> observer) where T : class
+		{
+			throw new NotImplementedException();
+		}
+
+		public ConnectHandle ConnectConsumeObserver(IConsumeObserver observer)
+		{
+			throw new NotImplementedException();
+		}
+
+		public ConnectHandle ConnectReceiveObserver(IReceiveObserver observer)
+		{
+			throw new NotImplementedException();
+		}
+
+		public ConnectHandle ConnectReceiveEndpointObserver(IReceiveEndpointObserver observer)
+		{
+			throw new NotImplementedException();
+		}
+
+		public ConnectHandle ConnectEndpointConfigurationObserver(IEndpointConfigurationObserver observer)
+		{
+			throw new NotImplementedException();
+		}
+
+		public HostReceiveEndpointHandle ConnectReceiveEndpoint(
+			IEndpointDefinition definition,
+			IEndpointNameFormatter? endpointNameFormatter = null,
+			Action<IReceiveEndpointConfigurator>? configureEndpoint = null)
+		{
+			throw new NotImplementedException();
+		}
+
+		public HostReceiveEndpointHandle ConnectReceiveEndpoint(string queueName, Action<IReceiveEndpointConfigurator>? configureEndpoint = null)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void Probe(ProbeContext context)
+		{
+			throw new NotImplementedException();
+		}
+
+		public Uri Address { get; }
+
+		public IBusTopology Topology { get; }
 	}
 }

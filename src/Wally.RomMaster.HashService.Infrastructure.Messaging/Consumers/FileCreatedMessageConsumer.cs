@@ -1,23 +1,28 @@
+using System.Threading.Tasks;
+
+using MassTransit;
+
 using MediatR;
 
-using Microsoft.Extensions.Logging;
-
-using Wally.Lib.DDD.Abstractions.Commands;
-using Wally.Lib.ServiceBus.Abstractions;
 using Wally.RomMaster.FileService.Messages.Files;
 using Wally.RomMaster.HashService.Application.Hashes.Commands;
 
 namespace Wally.RomMaster.HashService.Infrastructure.Messaging.Consumers;
 
-public class FileCreatedMessageConsumer : Consumer<FileCreatedMessage>
+public class FileCreatedMessageConsumer : IConsumer<FileCreatedMessage>
 {
-	public FileCreatedMessageConsumer(IMediator mediator, ILogger<FileCreatedMessageConsumer> logger)
-		: base(mediator, logger)
+	private readonly IMediator _mediator;
+
+	public FileCreatedMessageConsumer(IMediator mediator)
 	{
+		_mediator = mediator;
 	}
 
-	protected override ICommand CreateCommand(FileCreatedMessage message)
+	public Task Consume(ConsumeContext<FileCreatedMessage> context)
 	{
-		return new ComputeHashCommand(message.Id, message.Location);
+		var message = context.Message;
+		var command = new ComputeHashCommand(message.Id, message.Location);
+
+		return _mediator.Send(command);
 	}
 }

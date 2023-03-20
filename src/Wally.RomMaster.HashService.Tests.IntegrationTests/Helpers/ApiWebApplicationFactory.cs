@@ -4,6 +4,8 @@ using System.Linq;
 
 using HealthChecks.UI.Core.Data;
 
+using MassTransit;
+
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
@@ -12,9 +14,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using Wally.Lib.DDD.Abstractions.DomainNotifications;
-using Wally.Lib.ServiceBus.Abstractions;
 using Wally.RomMaster.HashService.Infrastructure.Persistence;
+using Wally.Lib.DDD.Abstractions.DomainNotifications;
+
+using Xunit;
+
+[assembly: CollectionBehavior(DisableTestParallelization = true)]
 
 namespace Wally.RomMaster.HashService.Tests.IntegrationTests.Helpers;
 
@@ -79,7 +84,7 @@ public class ApiWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup
 				var database = scopedServices.GetRequiredService<DbContext>();
 				database.Database.EnsureCreated();
 
-				services.AddTransient<IPublisher, PublisherStub>();
+				services.AddTransient<IBus, BusStub>();
 			});
 	}
 

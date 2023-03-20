@@ -7,11 +7,11 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 
-using Wally.Lib.DDD.Abstractions.Responses;
 using Wally.RomMaster.HashService.Application.Contracts.Requests.Users;
 using Wally.RomMaster.HashService.Application.Contracts.Responses.Users;
 using Wally.RomMaster.HashService.Application.Users.Commands;
 using Wally.RomMaster.HashService.Application.Users.Queries;
+using Wally.Lib.DDD.Abstractions.Responses;
 
 namespace Wally.RomMaster.HashService.WebApi.Controllers;
 
@@ -83,7 +83,9 @@ public class UsersController : ControllerBase
 	public async Task<ActionResult<object>> CreateAsync(CreateUserRequest request, CancellationToken cancellationToken)
 	{
 		var command = new CreateUserCommand(request.Name);
-		return Ok(await _mediator.Send(command, cancellationToken));
+		await _mediator.Send(command, cancellationToken);
+
+		return Ok();
 	}
 
 	/// <summary>
@@ -107,6 +109,8 @@ public class UsersController : ControllerBase
 		CancellationToken cancellationToken)
 	{
 		var command = new UpdateUserCommand(id, request.Name);
-		return Ok(await _mediator.Send(command, cancellationToken));
+		await _mediator.Send(command, cancellationToken);
+
+		return Ok();
 	}
 }

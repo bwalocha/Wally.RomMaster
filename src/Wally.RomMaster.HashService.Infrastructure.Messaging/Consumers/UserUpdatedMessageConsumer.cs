@@ -1,23 +1,28 @@
+using System.Threading.Tasks;
+
+using MassTransit;
+
 using MediatR;
 
-using Microsoft.Extensions.Logging;
-
-using Wally.IdentityProvider.Contracts.Messages;
-using Wally.Lib.DDD.Abstractions.Commands;
-using Wally.Lib.ServiceBus.Abstractions;
 using Wally.RomMaster.HashService.Application.Users.Commands;
+using Wally.Identity.Messages.Users;
 
 namespace Wally.RomMaster.HashService.Infrastructure.Messaging.Consumers;
 
-public class UserUpdatedMessageConsumer : Consumer<UserUpdatedMessage>
+public class UserUpdatedMessageConsumer : IConsumer<UserUpdatedMessage>
 {
-	public UserUpdatedMessageConsumer(IMediator mediator, ILogger<UserUpdatedMessageConsumer> logger)
-		: base(mediator, logger)
+	private readonly IMediator _mediator;
+
+	public UserUpdatedMessageConsumer(IMediator mediator)
 	{
+		_mediator = mediator;
 	}
 
-	protected override ICommand CreateCommand(UserUpdatedMessage message)
+	public Task Consume(ConsumeContext<UserUpdatedMessage> context)
 	{
-		return new UpdateUserCommand(message.UserId, message.UserName);
+		var message = context.Message;
+		var command = new UpdateUserCommand(message.UserId, message.UserName);
+
+		return _mediator.Send(command);
 	}
 }
