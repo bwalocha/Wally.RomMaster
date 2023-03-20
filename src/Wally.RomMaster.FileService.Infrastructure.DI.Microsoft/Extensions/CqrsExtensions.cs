@@ -1,10 +1,7 @@
-﻿using MediatR;
-
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 
 using Wally.Lib.DDD.Abstractions.DomainEvents;
-using Wally.RomMaster.FileService.Application.Users;
-using Wally.RomMaster.FileService.Application.Users.Queries;
+using Wally.RomMaster.FileService.Application;
 using Wally.RomMaster.FileService.Infrastructure.PipelineBehaviours;
 
 namespace Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.Extensions;
@@ -13,17 +10,22 @@ public static class CqrsExtensions
 {
 	public static IServiceCollection AddCqrs(this IServiceCollection services)
 	{
-		services.AddMediatR(typeof(GetUserQuery));
+		services.AddMediatR(
+			a =>
+			{
+				a.RegisterServicesFromAssemblyContaining<IApplicationAssemblyMarker>();
 
-		services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LogBehavior<,>));
-		services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
-		services.AddTransient(typeof(IPipelineBehavior<,>), typeof(DomainEventHandlerBehavior<,>));
-		services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UpdateMetadataHandlerBehavior<,>));
-		services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CommandHandlerValidatorBehavior<,>));
-		services.AddTransient(typeof(IPipelineBehavior<,>), typeof(QueryHandlerValidatorBehavior<,>));
+				a.AddOpenBehavior(typeof(LogBehavior<,>));
+				a.AddOpenBehavior(typeof(TransactionBehavior<,>));
+				a.AddOpenBehavior(typeof(UpdateMetadataHandlerBehavior<,>));
+				a.AddOpenBehavior(typeof(DomainEventHandlerBehavior<,>));
+				a.AddOpenBehavior(typeof(UpdateMetadataHandlerBehavior<,>));
+				a.AddOpenBehavior(typeof(CommandHandlerValidatorBehavior<,>));
+				a.AddOpenBehavior(typeof(QueryHandlerValidatorBehavior<,>));
+			});
 
 		services.Scan(
-			a => a.FromAssemblyOf<UserCreatedDomainEventHandler>()
+			a => a.FromAssemblyOf<IApplicationAssemblyMarker>()
 				.AddClasses(c => c.AssignableTo(typeof(IDomainEventHandler<>)))
 				.AsImplementedInterfaces()
 				.WithScopedLifetime());

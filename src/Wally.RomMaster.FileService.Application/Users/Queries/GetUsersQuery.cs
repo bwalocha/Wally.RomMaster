@@ -9,7 +9,7 @@ using Wally.RomMaster.FileService.Application.Contracts.Responses.Users;
 namespace Wally.RomMaster.FileService.Application.Users.Queries;
 
 [ExcludeFromCodeCoverage]
-public class GetUsersQuery : PagedQuery<GetUsersRequest, GetUsersResponse>
+public sealed class GetUsersQuery : PagedQuery<GetUsersRequest, GetUsersResponse>
 {
 	public GetUsersQuery(ODataQueryOptions<GetUsersRequest> queryOptions)
 		: base(queryOptions)

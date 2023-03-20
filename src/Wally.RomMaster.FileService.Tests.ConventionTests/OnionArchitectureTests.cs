@@ -3,6 +3,8 @@ using System.Linq;
 using FluentAssertions;
 using FluentAssertions.Execution;
 
+using Wally.RomMaster.FileService.Tests.ConventionTests.Helpers;
+
 using Xunit;
 
 namespace Wally.RomMaster.FileService.Tests.ConventionTests;
@@ -69,6 +71,20 @@ public class OnionArchitectureTests
 								.NotReference(type.Assembly);
 						}
 					});
+		}
+	}
+
+	[Fact]
+	public void OnionArchitecture_AllNamespaces_ShouldBeConsistent()
+	{
+		var applicationNamespace = "Wally.RomMaster.FileService";
+		var assemblies = Configuration.Assemblies.GetAllAssemblies();
+		var types = assemblies.GetAllExportedTypes();
+
+		using (new AssertionScope())
+		{
+			types.Should()
+				.BeUnderNamespace(applicationNamespace);
 		}
 	}
 }

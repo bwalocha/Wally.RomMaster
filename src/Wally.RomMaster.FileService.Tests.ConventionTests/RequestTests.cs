@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Text.RegularExpressions;
 
 using FluentAssertions;
 using FluentAssertions.Common;
@@ -7,7 +6,7 @@ using FluentAssertions.Execution;
 using FluentAssertions.Types;
 
 using Wally.Lib.DDD.Abstractions.Requests;
-using Wally.RomMaster.FileService.Application.Contracts.Requests.Users;
+using Wally.RomMaster.FileService.Application.Contracts;
 using Wally.RomMaster.FileService.Tests.ConventionTests.Helpers;
 
 using Xunit;
@@ -53,10 +52,7 @@ public class RequestTests
 	public void Application_ClassesWhichImplementsIRequest_ShouldBeInTheSameProject()
 	{
 		var assemblies = Configuration.Assemblies.GetAllAssemblies();
-		var applicationNamespace = Regex.Match(
-				typeof(GetUsersRequest).Namespace!,
-				@"Wally.RomMaster.FileService\.Application\.Contracts\.Requests(?=[\.$])")
-			.Value;
+		var applicationNamespace = $"{typeof(IApplicationContractsAssemblyMarker).Namespace}.Requests";
 
 		using (new AssertionScope(new AssertionStrategy()))
 		{
@@ -72,7 +68,7 @@ public class RequestTests
 	}
 
 	[Fact]
-	public void Application_AllClassessEndsWithRequest_ShouldImplementIRequest()
+	public void Application_AllClassesEndsWithRequest_ShouldImplementIRequest()
 	{
 		var assemblies = Configuration.Assemblies.GetAllAssemblies();
 		var types = assemblies.GetAllTypes();
@@ -88,7 +84,7 @@ public class RequestTests
 	}
 
 	[Fact]
-	public void Application_AllClassessImplementsIRequest_ShouldHaveRequestSuffix()
+	public void Application_AllClassesImplementsIRequest_ShouldHaveRequestSuffix()
 	{
 		var assemblies = Configuration.Assemblies.GetAllAssemblies();
 		var types = assemblies.GetAllTypes();
@@ -104,7 +100,7 @@ public class RequestTests
 	}
 
 	[Fact]
-	public void Application_AllClassessImplementsIRequest_ShouldHaveCorrespondingValidator()
+	public void Application_AllClassesImplementsIRequest_ShouldHaveCorrespondingValidator()
 	{
 		var assemblies = Configuration.Assemblies.GetAllAssemblies();
 

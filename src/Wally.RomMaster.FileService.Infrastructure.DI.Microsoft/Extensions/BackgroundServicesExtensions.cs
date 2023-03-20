@@ -1,7 +1,6 @@
 ﻿using System;
 
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 using Wally.RomMaster.FileService.Domain.Abstractions;
 using Wally.RomMaster.FileService.Infrastructure.BackgroundServices;
@@ -18,15 +17,6 @@ public static class BackgroundServicesExtensions
 		services.AddSingleton<IUserProvider, ServiceUserProvider>();
 		services.AddSingleton<ISettings>(settings);
 		services.AddSingleton<IClockService>(new ClockService(() => DateTime.UtcNow));
-
-		// services.AddHostedService<FileScannerService>();
-		// services.AddHostedService<FileWatcherService>();
-
-		services.Scan(
-			a => a.FromAssemblyOf<FileScannerService>()
-				.AddClasses(c => c.AssignableTo(typeof(BackgroundService)))
-				.As<IHostedService>()
-				.WithSingletonLifetime());
 
 		return services;
 	}

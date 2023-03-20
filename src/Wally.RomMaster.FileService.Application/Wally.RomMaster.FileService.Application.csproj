@@ -7,14 +7,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Wally.RomMaster.FileService.Application.Contracts\Wally.RomMaster.FileService.Application.Contracts.csproj" />
-        <ProjectReference Include="..\Wally.RomMaster.FileService.Domain\Wally.RomMaster.FileService.Domain.csproj" />
-        <ProjectReference Include="..\Wally.RomMaster.FileService.Application.Messages\Wally.RomMaster.FileService.Application.Messages.csproj" />
+        <PackageReference Include="MassTransit.Abstractions" Version="8.0.14" />
+        <PackageReference Include="Microsoft.AspNetCore.OData" Version="8.0.12" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.OData" Version="8.0.12" />
-        <PackageReference Include="Wally.Lib.ServiceBus.Abstractions" Version="1.2.7" />
+        <ProjectReference Include="..\Wally.RomMaster.FileService.Application.Contracts\Wally.RomMaster.FileService.Application.Contracts.csproj" />
+        <ProjectReference Include="..\Wally.RomMaster.FileService.Domain\Wally.RomMaster.FileService.Domain.csproj" />
+        <ProjectReference Include="..\Wally.RomMaster.FileService.Application.Messages\Wally.RomMaster.FileService.Application.Messages.csproj" />
     </ItemGroup>
 
 </Project>

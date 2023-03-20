@@ -9,7 +9,7 @@ namespace Wally.RomMaster.FileService.Application.Files.Commands;
 // [DebuggerDisplay("{SourceType}: {Location}")]
 [DebuggerDisplay("{Location}")]
 [ExcludeFromCodeCoverage]
-public class ScanFileCommand : ICommand
+public sealed class ScanFileCommand : ICommand
 {
 	public ScanFileCommand( /*SourceType sourceType,*/ FileLocation location)
 	{

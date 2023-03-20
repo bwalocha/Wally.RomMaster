@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 
+using Wally.RomMaster.FileService.Domain.Abstractions;
 using Wally.RomMaster.FileService.Infrastructure.Persistence.Exceptions;
 
 namespace Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.Filters;
@@ -38,10 +39,10 @@ public class HttpGlobalExceptionFilter : IExceptionFilter
 
 		switch (context.Exception)
 		{
-			/*case DomainValidationException _:
+			case DomainException _:
 				HandleDomainValidationException(context);
 
-				break;*/
+				break;
 			case UnauthorizedAccessException _:
 				HandleUnauthorizedAccessException(context);
 

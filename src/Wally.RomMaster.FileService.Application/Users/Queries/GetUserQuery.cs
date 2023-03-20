@@ -7,7 +7,7 @@ using Wally.RomMaster.FileService.Application.Contracts.Responses.Users;
 namespace Wally.RomMaster.FileService.Application.Users.Queries;
 
 [ExcludeFromCodeCoverage]
-public class GetUserQuery : IQuery<GetUserResponse>
+public sealed class GetUserQuery : IQuery<GetUserResponse>
 {
 	public GetUserQuery(Guid id)
 	{

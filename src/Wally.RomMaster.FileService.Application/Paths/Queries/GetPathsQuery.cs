@@ -10,7 +10,7 @@ using Wally.RomMaster.FileService.Application.Contracts.Responses.Paths;
 namespace Wally.RomMaster.FileService.Application.Paths.Queries;
 
 [ExcludeFromCodeCoverage]
-public class GetPathsQuery : PagedQuery<GetPathsRequest, GetPathsResponse>
+public sealed class GetPathsQuery : PagedQuery<GetPathsRequest, GetPathsResponse>
 {
 	public GetPathsQuery(Guid? parentId, ODataQueryOptions<GetPathsRequest> queryOptions)
 		: base(queryOptions)

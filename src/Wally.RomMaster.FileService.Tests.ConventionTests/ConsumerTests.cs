@@ -3,7 +3,8 @@ using System.Linq;
 using FluentAssertions;
 using FluentAssertions.Execution;
 
-using Wally.Lib.ServiceBus.Abstractions;
+using MassTransit;
+
 using Wally.RomMaster.FileService.Tests.ConventionTests.Helpers;
 
 using Xunit;
@@ -23,13 +24,13 @@ public class ConsumerTests
 			foreach (var type in types.Where(a => a.Name.EndsWith("Consumer")))
 			{
 				type.Should()
-					.BeAssignableTo(typeof(Consumer<>));
+					.BeAssignableTo(typeof(IConsumer<>));
 			}
 		}
 	}
 
 	[Fact]
-	public void Application_AllClassesInheritsConsumer_ShouldHaveConsumerSuffix()
+	public void Infrastructure_AllClassesInheritsConsumer_ShouldHaveConsumerSuffix()
 	{
 		var assemblies = Configuration.Assemblies.GetAllAssemblies();
 		var types = assemblies.GetAllTypes();
@@ -37,7 +38,7 @@ public class ConsumerTests
 		using (new AssertionScope())
 		{
 			foreach (var type in types.Where(a => a.Name.EndsWith("Consumer"))
-						.Where(a => a.InheritsGenericClass(typeof(Consumer<>))))
+						.Where(a => a.ImplementsGenericInterface(typeof(IConsumer<>))))
 			{
 				type.Name.Should()
 					.EndWith("MessageConsumer");
@@ -46,7 +47,7 @@ public class ConsumerTests
 	}
 
 	[Fact]
-	public void Application_AllClassesInheritsConsumer_ShouldHaveMessagePrefix()
+	public void Infrastructure_AllClassesInheritsConsumer_ShouldHaveMessagePrefix()
 	{
 		var assemblies = Configuration.Assemblies.GetAllAssemblies();
 		var types = assemblies.GetAllTypes();
@@ -54,9 +55,9 @@ public class ConsumerTests
 		using (new AssertionScope())
 		{
 			foreach (var type in types.Where(a => a.Name.EndsWith("Consumer"))
-						.Where(a => a.InheritsGenericClass(typeof(Consumer<>))))
+						.Where(a => a.ImplementsGenericInterface(typeof(IConsumer<>))))
 			{
-				var genericType = type.BaseType!.GenericTypeArguments.Single();
+				var genericType = type.GetGenericInterface(typeof(IConsumer<>))!.GenericTypeArguments.Single();
 
 				type.Name.Should()
 					.Be(

@@ -2,7 +2,7 @@
 
 namespace Wally.RomMaster.FileService.Domain.Abstractions;
 
-public abstract class AggregateRoot : Wally.Lib.DDD.Abstractions.DomainModels.AggregateRoot
+public abstract class AggregateRoot : Lib.DDD.Abstractions.DomainModels.AggregateRoot
 {
 	protected AggregateRoot()
 	{

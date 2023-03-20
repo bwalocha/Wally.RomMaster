@@ -6,7 +6,7 @@ using Wally.Lib.DDD.Abstractions.Commands;
 namespace Wally.RomMaster.FileService.Application.Files.Commands;
 
 [ExcludeFromCodeCoverage]
-public class RemoveOutdatedFilesCommand : ICommand
+public sealed class RemoveOutdatedFilesCommand : ICommand
 {
 	public RemoveOutdatedFilesCommand(DateTime timestamp)
 	{

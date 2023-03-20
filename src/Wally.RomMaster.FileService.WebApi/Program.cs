@@ -22,6 +22,8 @@ public static class Program
 	private const string _keyVaultNameConfigName = "KeyVaultName";
 	private const bool _reloadOnChange = false;
 
+	public static IConfiguration Configuration { get; set; }
+
 	public static int Main(string[] args)
 	{
 		var configurationBuilder = new ConfigurationBuilder();
@@ -52,8 +54,6 @@ public static class Program
 		return 0;
 	}
 
-	public static IConfiguration Configuration { get; set; }
-
 	private static IConfigurationBuilder ConfigureDefaultConfiguration(IConfigurationBuilder configurationBuilder)
 	{
 		var env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production";
@@ -71,8 +71,8 @@ public static class Program
 	/// <summary>
 	///     https://learn.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/tutorial-windows-vm-access-nonaad#grant-access
 	/// </summary>
-	/// <param name="configurationBuilder"></param>
-	/// <returns></returns>
+	/// <param name="configurationBuilder">The ConfigurationBuilder</param>
+	/// <returns>The ConfigurationBuilder.</returns>
 	private static IConfigurationBuilder ConfigureAppConfiguration(IConfigurationBuilder configurationBuilder)
 	{
 		/*var configuration = configurationBuilder.Build();

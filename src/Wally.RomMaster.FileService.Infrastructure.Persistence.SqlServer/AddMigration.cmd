@@ -12,5 +12,6 @@ ECHO %MIGRATION_NAME%
 
 SET "STARTUP_PROJECT=./../Wally.RomMaster.FileService.WebApi/Wally.RomMaster.FileService.WebApi.csproj"
 SET "PROJECT=./Wally.RomMaster.FileService.Persistence.SqlServer.csproj"
+SET "Database__ProviderType=SqlServer"
 
 dotnet ef migrations add %MIGRATION_NAME% --context ApplicationDbContext --startup-project %STARTUP_PROJECT% --project %PROJECT% --verbose

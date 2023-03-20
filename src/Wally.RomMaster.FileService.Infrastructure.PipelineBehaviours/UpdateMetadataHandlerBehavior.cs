@@ -15,18 +15,18 @@ namespace Wally.RomMaster.FileService.Infrastructure.PipelineBehaviours;
 public class UpdateMetadataHandlerBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
 	where TRequest : ICommand, IRequest<TResponse>
 {
-	private readonly IClockService _clockService;
+	private readonly IDateTimeProvider _dateTimeProvider;
 	private readonly DbContext _dbContext;
 	private readonly IUserProvider _userProvider;
 
 	public UpdateMetadataHandlerBehavior(
 		DbContext dbContext,
 		IUserProvider userProvider,
-		IClockService dateTimeProvider)
+		IDateTimeProvider dateTimeProvider)
 	{
 		_dbContext = dbContext;
 		_userProvider = userProvider;
-		_clockService = dateTimeProvider;
+		_dateTimeProvider = dateTimeProvider;
 	}
 
 	public async Task<TResponse> Handle(
@@ -43,7 +43,7 @@ public class UpdateMetadataHandlerBehavior<TRequest, TResponse> : IPipelineBehav
 
 	private void UpdateAggregateMetadata(IEnumerable<EntityEntry<AggregateRoot>> entries)
 	{
-		var now = _clockService.GetTimestamp();
+		var now = _dateTimeProvider.GetDateTime();
 
 		foreach (var entry in entries)
 		{

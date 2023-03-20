@@ -7,7 +7,10 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Wally.RomMaster.FileService.Domain.Abstractions;
 using Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.Models;
+using Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.Providers;
 using Wally.RomMaster.FileService.Infrastructure.Persistence;
+using Wally.RomMaster.FileService.Infrastructure.Persistence.MySql;
+using Wally.RomMaster.FileService.Infrastructure.Persistence.PostgreSQL;
 using Wally.RomMaster.FileService.Infrastructure.Persistence.SqlServer;
 
 namespace Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.Extensions;
@@ -19,15 +22,47 @@ public static class DbContextExtensions
 		Action<DbContextOptionsBuilder> dbContextOptions;
 		dbContextOptions = options =>
 		{
-			options.UseSqlServer(
-				settings.ConnectionStrings.Database,
-				builder =>
-				{
-					builder.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);
-					builder.MigrationsAssembly(
-						typeof(Helper).Assembly.GetName()
-							.Name);
-				});
+			switch (settings.Database.ProviderType)
+			{
+				case DatabaseProviderType.MySql:
+					options.UseMySql(
+						settings.ConnectionStrings.Database,
+						MySqlServerVersion.LatestSupportedServerVersion,
+						builder =>
+						{
+							builder.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);
+							builder.MigrationsAssembly(
+								typeof(IInfrastructureMySqlAssemblyMarker).Assembly.GetName()
+									.Name);
+						});
+					break;
+				case DatabaseProviderType.PostgreSQL:
+					options.UseNpgsql(
+						settings.ConnectionStrings.Database,
+						builder =>
+						{
+							builder.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);
+							builder.MigrationsAssembly(
+								typeof(IInfrastructurePostgreSQLAssemblyMarker).Assembly.GetName()
+									.Name);
+						});
+					break;
+				case DatabaseProviderType.SqlServer:
+					options.UseSqlServer(
+						settings.ConnectionStrings.Database,
+						builder =>
+						{
+							builder.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);
+							builder.MigrationsAssembly(
+								typeof(IInfrastructureSqlServerAssemblyMarker).Assembly.GetName()
+									.Name);
+						});
+					break;
+				default:
+					throw new ArgumentOutOfRangeException(
+						nameof(settings.Database.ProviderType),
+						"Unknown Database Provider Type");
+			}
 
 			options.ConfigureWarnings(
 				builder =>
@@ -47,6 +82,9 @@ public static class DbContextExtensions
 				.AddClasses(c => c.AssignableTo(typeof(IReadOnlyRepository<>)))
 				.AsImplementedInterfaces()
 				.WithScopedLifetime());
+
+		services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+		services.AddScoped<IUserProvider, HttpUserProvider>();
 
 		return services;
 	}

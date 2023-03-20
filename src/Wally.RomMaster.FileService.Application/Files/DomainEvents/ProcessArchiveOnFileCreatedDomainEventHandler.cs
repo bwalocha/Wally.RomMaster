@@ -17,10 +17,13 @@ namespace Wally.RomMaster.FileService.Application.Files.DomainEvents;
 public class ProcessArchiveOnFileCreatedDomainEventHandler : IDomainEventHandler<FileCreatedDomainEvent>
 {
 	private readonly IClockService _clockService;
-	private readonly ILogger<ProcessArchiveOnFileCreatedDomainEventHandler> _logger;
 	private readonly IFileRepository _fileRepository;
+	private readonly ILogger<ProcessArchiveOnFileCreatedDomainEventHandler> _logger;
 
-	public ProcessArchiveOnFileCreatedDomainEventHandler(IFileRepository fileRepository, IClockService clockService, ILogger<ProcessArchiveOnFileCreatedDomainEventHandler> logger)
+	public ProcessArchiveOnFileCreatedDomainEventHandler(
+		IFileRepository fileRepository,
+		IClockService clockService,
+		ILogger<ProcessArchiveOnFileCreatedDomainEventHandler> logger)
 	{
 		_fileRepository = fileRepository;
 		_clockService = clockService;
