@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 
 using Wally.Lib.DDD.Abstractions.Commands;
 using Wally.Lib.ServiceBus.Abstractions;
-using Wally.RomMaster.HashService.Messages.Hashes;
+using Wally.RomMaster.HashService.Application.Messages.Hashes;
 
 namespace Wally.RomMaster.HashService.Application.Hashes.Commands;
 

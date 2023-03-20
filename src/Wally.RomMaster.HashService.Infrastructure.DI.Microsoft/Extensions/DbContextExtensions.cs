@@ -7,8 +7,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Wally.RomMaster.HashService.Domain.Abstractions;
 using Wally.RomMaster.HashService.Infrastructure.DI.Microsoft.Models;
-using Wally.RomMaster.HashService.Persistence;
-using Wally.RomMaster.HashService.Persistence.SqlServer;
+using Wally.RomMaster.HashService.Infrastructure.Persistence;
+using Wally.RomMaster.HashService.Infrastructure.Persistence.SqlServer;
 
 namespace Wally.RomMaster.HashService.Infrastructure.DI.Microsoft.Extensions;
 

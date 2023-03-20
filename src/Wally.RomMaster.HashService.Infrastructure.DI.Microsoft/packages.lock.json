@@ -1372,17 +1372,31 @@
         "dependencies": {
           "Microsoft.AspNetCore.OData": "[8.0.12, )",
           "Wally.Lib.ServiceBus.Abstractions": "[1.2.7, )",
-          "Wally.RomMaster.HashService.Contracts": "[1.0.0, )",
-          "Wally.RomMaster.HashService.Domain": "[1.0.0, )",
-          "Wally.RomMaster.HashService.Messages": "[1.0.0, )"
+          "Wally.RomMaster.HashService.Application.Contracts": "[1.0.0, )",
+          "Wally.RomMaster.HashService.Application.Messages": "[1.0.0, )",
+          "Wally.RomMaster.HashService.Domain": "[1.0.0, )"
         }
       },
-      "wally.rommaster.hashservice.contracts": {
+      "wally.rommaster.hashservice.application.contracts": {
         "type": "Project",
         "dependencies": {
           "FluentValidation": "[11.4.0, )",
           "Reinforced.Typings": "[1.6.1, )",
           "Wally.Lib.DDD.Abstractions": "[1.2.0, )"
+        }
+      },
+      "wally.rommaster.hashservice.application.mapperprofiles": {
+        "type": "Project",
+        "dependencies": {
+          "AutoMapper": "[12.0.0, )",
+          "Wally.RomMaster.HashService.Application.Contracts": "[1.0.0, )",
+          "Wally.RomMaster.HashService.Domain": "[1.0.0, )"
+        }
+      },
+      "wally.rommaster.hashservice.application.messages": {
+        "type": "Project",
+        "dependencies": {
+          "FluentValidation": "[11.4.0, )"
         }
       },
       "wally.rommaster.hashservice.domain": {
@@ -1391,21 +1405,7 @@
           "Wally.Lib.DDD.Abstractions": "[1.2.0, )"
         }
       },
-      "wally.rommaster.hashservice.mapperprofiles": {
-        "type": "Project",
-        "dependencies": {
-          "AutoMapper": "[12.0.0, )",
-          "Wally.RomMaster.HashService.Contracts": "[1.0.0, )",
-          "Wally.RomMaster.HashService.Domain": "[1.0.0, )"
-        }
-      },
-      "wally.rommaster.hashservice.messages": {
-        "type": "Project",
-        "dependencies": {
-          "FluentValidation": "[11.4.0, )"
-        }
-      },
-      "wally.rommaster.hashservice.messaging": {
+      "wally.rommaster.hashservice.infrastructure.messaging": {
         "type": "Project",
         "dependencies": {
           "MediatR": "[11.1.0, )",
@@ -1417,7 +1417,7 @@
           "Wally.RomMaster.HashService.Application": "[1.0.0, )"
         }
       },
-      "wally.rommaster.hashservice.persistence": {
+      "wally.rommaster.hashservice.infrastructure.persistence": {
         "type": "Project",
         "dependencies": {
           "AutoMapper": "[12.0.0, )",
@@ -1428,14 +1428,14 @@
           "Wally.RomMaster.HashService.Domain": "[1.0.0, )"
         }
       },
-      "wally.rommaster.hashservice.persistence.sqlserver": {
+      "wally.rommaster.hashservice.infrastructure.persistence.sqlserver": {
         "type": "Project",
         "dependencies": {
           "Microsoft.EntityFrameworkCore.SqlServer": "[7.0.1, )",
-          "Wally.RomMaster.HashService.Persistence": "[1.0.0, )"
+          "Wally.RomMaster.HashService.Infrastructure.Persistence": "[1.0.0, )"
         }
       },
-      "wally.rommaster.hashservice.pipelinebehaviours": {
+      "wally.rommaster.hashservice.infrastructure.pipelinebehaviours": {
         "type": "Project",
         "dependencies": {
           "FluentValidation": "[11.4.0, )",

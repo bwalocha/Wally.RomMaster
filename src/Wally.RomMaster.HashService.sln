@@ -3,21 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.HashService.UnitTests", "Wally.RomMaster.HashService.UnitTests\Wally.RomMaster.HashService.UnitTests.csproj", "{91874A57-1A6B-4523-A823-75614ADBAF45}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.HashService.Tests.UnitTests", "Wally.RomMaster.HashService.Tests.UnitTests\Wally.RomMaster.HashService.Tests.UnitTests.csproj", "{91874A57-1A6B-4523-A823-75614ADBAF45}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.HashService.Domain", "Wally.RomMaster.HashService.Domain\Wally.RomMaster.HashService.Domain.csproj", "{395EBBA8-8814-45C8-BDEF-CC07278950B7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.HashService.Application", "Wally.RomMaster.HashService.Application\Wally.RomMaster.HashService.Application.csproj", "{2384CC00-8657-4AC9-8B30-E61C1011631F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.HashService.Persistence", "Wally.RomMaster.HashService.Persistence\Wally.RomMaster.HashService.Persistence.csproj", "{4175B011-EA1D-45C2-A6BF-03DA20DDA5C3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.HashService.Infrastructure.Persistence", "Wally.RomMaster.HashService.Infrastructure.Persistence\Wally.RomMaster.HashService.Infrastructure.Persistence.csproj", "{4175B011-EA1D-45C2-A6BF-03DA20DDA5C3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.HashService.ConventionTests", "Wally.RomMaster.HashService.ConventionTests\Wally.RomMaster.HashService.ConventionTests.csproj", "{0D09FCF4-58C5-4DC8-91F3-D3B5578C32E7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.HashService.Tests.ConventionTests", "Wally.RomMaster.HashService.Tests.ConventionTests\Wally.RomMaster.HashService.Tests.ConventionTests.csproj", "{0D09FCF4-58C5-4DC8-91F3-D3B5578C32E7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.HashService.WebApi", "Wally.RomMaster.HashService.WebApi\Wally.RomMaster.HashService.WebApi.csproj", "{058F7B11-FD72-4D5F-AA37-0FB7BB294D42}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.HashService.Persistence.SqlServer", "Wally.RomMaster.HashService.Persistence.SqlServer\Wally.RomMaster.HashService.Persistence.SqlServer.csproj", "{412CAEE2-90EE-4B3D-AD8D-3E4DCCEE62DE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.HashService.Infrastructure.Persistence.SqlServer", "Wally.RomMaster.HashService.Infrastructure.Persistence.SqlServer\Wally.RomMaster.HashService.Infrastructure.Persistence.SqlServer.csproj", "{412CAEE2-90EE-4B3D-AD8D-3E4DCCEE62DE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.HashService.IntegrationTests", "Wally.RomMaster.HashService.IntegrationTests\Wally.RomMaster.HashService.IntegrationTests.csproj", "{A7434CCA-A68C-4074-9C74-36E1082193CF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.HashService.Tests.IntegrationTests", "Wally.RomMaster.HashService.Tests.IntegrationTests\Wally.RomMaster.HashService.Tests.IntegrationTests.csproj", "{A7434CCA-A68C-4074-9C74-36E1082193CF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D156F18D-7CC1-4AFA-A7A8-4860798138CB}"
 ProjectSection(SolutionItems) = preProject
@@ -35,17 +35,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastru
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{F267421C-5671-46F2-ACB6-05C54D547C3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.HashService.Contracts", "Wally.RomMaster.HashService.Contracts\Wally.RomMaster.HashService.Contracts.csproj", "{F1A1FC6E-2392-4380-BC8A-C7DEA9D144D7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.HashService.Application.Contracts", "Wally.RomMaster.HashService.Application.Contracts\Wally.RomMaster.HashService.Application.Contracts.csproj", "{F1A1FC6E-2392-4380-BC8A-C7DEA9D144D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.HashService.MapperProfiles", "Wally.RomMaster.HashService.MapperProfiles\Wally.RomMaster.HashService.MapperProfiles.csproj", "{1D2E0A99-A307-4C5E-AA77-45327794C33A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.HashService.Application.MapperProfiles", "Wally.RomMaster.HashService.Application.MapperProfiles\Wally.RomMaster.HashService.Application.MapperProfiles.csproj", "{1D2E0A99-A307-4C5E-AA77-45327794C33A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.HashService.PipelineBehaviours", "Wally.RomMaster.HashService.PipelineBehaviours\Wally.RomMaster.HashService.PipelineBehaviours.csproj", "{EC5826C1-A8CB-4F6A-AF74-AA97605C0543}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.HashService.Infrastructure.PipelineBehaviours", "Wally.RomMaster.HashService.Infrastructure.PipelineBehaviours\Wally.RomMaster.HashService.Infrastructure.PipelineBehaviours.csproj", "{EC5826C1-A8CB-4F6A-AF74-AA97605C0543}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.HashService.Messaging", "Wally.RomMaster.HashService.Messaging\Wally.RomMaster.HashService.Messaging.csproj", "{9AAC85A8-4DFF-47C9-8FA8-04C1D4B4F437}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.HashService.Infrastructure.Messaging", "Wally.RomMaster.HashService.Infrastructure.Messaging\Wally.RomMaster.HashService.Infrastructure.Messaging.csproj", "{9AAC85A8-4DFF-47C9-8FA8-04C1D4B4F437}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.HashService.Infrastructure.DI.Microsoft", "Wally.RomMaster.HashService.Infrastructure.DI.Microsoft\Wally.RomMaster.HashService.Infrastructure.DI.Microsoft.csproj", "{CAAC8A24-D340-4406-BCE0-F5B2B3AD2B58}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.HashService.Messages", "Wally.RomMaster.HashService.Messages\Wally.RomMaster.HashService.Messages.csproj", "{0708CEB4-B5DE-4205-873B-525D159DD513}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.HashService.Application.Messages", "Wally.RomMaster.HashService.Application.Messages\Wally.RomMaster.HashService.Application.Messages.csproj", "{0708CEB4-B5DE-4205-873B-525D159DD513}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Extensions.Logging;
 
-using Wally.RomMaster.HashService.Persistence.Exceptions;
+using Wally.RomMaster.HashService.Infrastructure.Persistence.Exceptions;
 
 namespace Wally.RomMaster.HashService.Infrastructure.DI.Microsoft.Filters;
 

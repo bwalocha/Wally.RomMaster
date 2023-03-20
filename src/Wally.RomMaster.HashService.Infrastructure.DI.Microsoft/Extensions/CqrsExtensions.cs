@@ -8,7 +8,7 @@ using Wally.Lib.DDD.Abstractions.DomainEvents;
 using Wally.RomMaster.HashService.Application.Users;
 using Wally.RomMaster.HashService.Application.Users.Commands;
 using Wally.RomMaster.HashService.Application.Users.Queries;
-using Wally.RomMaster.HashService.PipelineBehaviours;
+using Wally.RomMaster.HashService.Infrastructure.PipelineBehaviours;
 
 namespace Wally.RomMaster.HashService.Infrastructure.DI.Microsoft.Extensions;
 

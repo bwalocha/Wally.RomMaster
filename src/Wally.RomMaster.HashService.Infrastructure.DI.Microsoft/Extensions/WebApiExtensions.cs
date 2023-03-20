@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Newtonsoft.Json;
 
-using Wally.RomMaster.HashService.Contracts.Requests.Users;
+using Wally.RomMaster.HashService.Application.Contracts.Requests.Users;
 using Wally.RomMaster.HashService.Infrastructure.DI.Microsoft.Filters;
 
 namespace Wally.RomMaster.HashService.Infrastructure.DI.Microsoft.Extensions;
