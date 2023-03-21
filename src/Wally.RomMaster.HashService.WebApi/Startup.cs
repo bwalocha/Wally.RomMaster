@@ -57,8 +57,7 @@ public class Startup
 		if (env.IsDevelopment())
 		{
 			app.UseDeveloperExceptionPage();
-
-			// app.UseSwagger(AppSettings.SwaggerAuthentication);
+			app.UseSwagger(AppSettings.SwaggerAuthentication);
 		}
 
 		// If the App is hosted by Docker, HTTPS is not required inside container
@@ -70,7 +69,7 @@ public class Startup
 		app.UseAuthorization();
 		app.UseHealthChecks();
 
-		// app.UseWebApi();
+		app.UseWebApi();
 
 		// app.UseDbContext(dbContext, AppSettings.Database);
 		app.UseEventHub<EventHub>();
