@@ -4,8 +4,8 @@ using System.Linq;
 using FluentAssertions;
 using FluentAssertions.Execution;
 
-using Wally.RomMaster.HashService.Tests.ConventionTests.Helpers;
 using Wally.Lib.DDD.Abstractions.DomainEvents;
+using Wally.RomMaster.HashService.Tests.ConventionTests.Helpers;
 
 using Xunit;
 
@@ -82,12 +82,12 @@ public class DomainEventTests
 			}
 		}
 	}
-	
+
 	[Fact]
 	public void Domain_DomainEvent_ShouldBeExcludedFromCodeCoverage()
 	{
 		var assemblies = Configuration.Assemblies.Domain;
-		
+
 		using (new AssertionScope(new AssertionStrategy()))
 		{
 			foreach (var assembly in assemblies)

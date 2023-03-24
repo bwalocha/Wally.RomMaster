@@ -14,8 +14,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using Wally.RomMaster.HashService.Infrastructure.Persistence;
 using Wally.Lib.DDD.Abstractions.DomainNotifications;
+using Wally.RomMaster.HashService.Infrastructure.Persistence;
 
 using Xunit;
 

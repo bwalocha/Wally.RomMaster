@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 
 using MassTransit;
 
+using Wally.Lib.DDD.Abstractions.DomainEvents;
 using Wally.RomMaster.HashService.Application.Messages.Users;
 using Wally.RomMaster.HashService.Domain.Users;
-using Wally.Lib.DDD.Abstractions.DomainEvents;
 
 namespace Wally.RomMaster.HashService.Application.Users;
 

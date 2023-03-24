@@ -2,7 +2,9 @@
 using System.Security.Cryptography;
 
 using Force.Crc32;
+
 using Microsoft.Extensions.DependencyInjection;
+
 using Wally.RomMaster.HashService.Infrastructure.DI.Microsoft.Extensions;
 using Wally.RomMaster.HashService.Infrastructure.DI.Microsoft.Models;
 
@@ -16,7 +18,7 @@ public static class ServiceCollectionExtensions
 		services.AddCqrs();
 		services.AddSwagger(Assembly.GetCallingAssembly());
 		services.AddHealthChecks(settings);
-		services.AddDbContext(settings);
+		// services.AddDbContext(settings);
 		services.AddMapper();
 		services.AddMessaging(settings);
 		services.AddEventHub();

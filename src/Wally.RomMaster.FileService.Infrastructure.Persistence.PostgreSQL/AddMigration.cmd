@@ -11,7 +11,7 @@ ELSE (
 ECHO %MIGRATION_NAME%
 
 SET "STARTUP_PROJECT=./../Wally.RomMaster.FileService.WebApi/Wally.RomMaster.FileService.WebApi.csproj"
-SET "PROJECT=./Wally.RomMaster.FileService.Persistence.PostgreSQL.csproj"
+SET "PROJECT=./Wally.RomMaster.FileService.Infrastructure.Persistence.PostgreSQL.csproj"
 SET "Database__ProviderType=PostgreSQL"
 
 dotnet ef migrations add %MIGRATION_NAME% --context ApplicationDbContext --startup-project %STARTUP_PROJECT% --project %PROJECT% --verbose

@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -91,14 +91,31 @@ public abstract class ReadOnlyRepository<TEntity> : IReadOnlyRepository<TEntity>
 		return (Expression<Func<T, bool>>)quote.Operand;
 	}
 
-	private static LambdaExpression GetOrderByExpression<T>(OrderByQueryOption order)
+	private static IEnumerable<LambdaExpression> GetOrderByExpression<T>(OrderByQueryOption order)
 	{
 		var enumerable = Enumerable.Empty<T>()
 			.AsQueryable();
 		enumerable = order.ApplyTo(enumerable, new ODataQuerySettings());
 		var mce = (MethodCallExpression)enumerable.Expression;
-		var quote = (UnaryExpression)mce.Arguments[1];
-		return (LambdaExpression)quote.Operand;
+
+		foreach (var argument in mce.Arguments)
+		{
+			switch (argument)
+			{
+				case UnaryExpression unaryExpression:
+					yield return (LambdaExpression)unaryExpression.Operand;
+					break;
+				case MethodCallExpression callExpression:
+					yield return (LambdaExpression)((UnaryExpression)callExpression.Arguments[1]).Operand;
+					break;
+
+				// TODO:
+				/*else
+				{
+					throw new NotSupportedException($"The Sort Order '{order.RawValue}' is not supported");
+				}*/
+			}
+		}
 	}
 
 	protected async Task<PagedResponse<TResponse>> GetAsync<TRequest, TResponse>(
@@ -106,56 +123,13 @@ public abstract class ReadOnlyRepository<TEntity> : IReadOnlyRepository<TEntity>
 		ODataQueryOptions<TRequest> queryOptions,
 		CancellationToken cancellationToken) where TRequest : class, IRequest where TResponse : class, IResponse
 	{
-		if (queryOptions.Filter != null)
-		{
-			var queryFunc = GetFilterExpression<TRequest>(queryOptions.Filter);
-			var mappedQueryFunc = _mapper.MapExpression<Expression<Func<TEntity, bool>>>(queryFunc);
-
-			query = query.Where(mappedQueryFunc);
-		}
+		query = ApplyFilter<TRequest, TResponse>(query, queryOptions);
 
 		var totalItems = await query.CountAsync(cancellationToken);
 
-		if (queryOptions.OrderBy != null)
-		{
-			// TODO: support for multiple OrderBy, ThenBy, desc, asc combination
-			var queryFunc = GetOrderByExpression<TRequest>(queryOptions.OrderBy);
-			var destExpressionType = typeof(Expression<>).MakeGenericType(
-				typeof(Func<,>).MakeGenericType(typeof(TEntity), queryFunc.ReturnType));
-			var mappedQueryFunc = _mapper.MapExpression(queryFunc, queryFunc.GetType(), destExpressionType);
-			MethodInfo[] methodInfo;
-			if (queryOptions.OrderBy.OrderByClause.Direction == OrderByDirection.Ascending)
-			{
-				methodInfo = typeof(Queryable).GetMethods()
-					.Where(a => a.Name == nameof(Queryable.OrderBy))
-					.ToArray();
-			}
-			else
-			{
-				methodInfo = typeof(Queryable).GetMethods()
-					.Where(a => a.Name == nameof(Queryable.OrderByDescending))
-					.ToArray();
-			}
-
-			var mi = methodInfo.First()
-				.MakeGenericMethod(typeof(TEntity), mappedQueryFunc.ReturnType); // TODO: get rid of First
-
-			query = (IOrderedQueryable<TEntity>)mi.Invoke(null, new object[] { query, mappedQueryFunc, })!;
-		}
-		else
-		{
-			query = query.OrderBy(a => a.Id);
-		}
-
-		if (queryOptions.Skip != null)
-		{
-			query = query.Skip(queryOptions.Skip.Value);
-		}
-
-		if (queryOptions.Top != null)
-		{
-			query = query.Take(queryOptions.Top.Value);
-		}
+		query = ApplyOrderBy<TRequest, TResponse>(query, queryOptions);
+		query = ApplySkip<TRequest, TResponse>(query, queryOptions);
+		query = ApplyTop<TRequest, TResponse>(query, queryOptions);
 
 		var items = await _mapper.ProjectTo<TResponse>(query)
 			.ToArrayAsync(cancellationToken);
@@ -168,6 +142,96 @@ public abstract class ReadOnlyRepository<TEntity> : IReadOnlyRepository<TEntity>
 				queryOptions.Skip?.Value > 0 && pageSize != 0 ? queryOptions.Skip.Value / pageSize : 0,
 				pageSize,
 				totalItems));
+	}
+
+	private static IQueryable<TEntity> ApplyTop
+		<TRequest, TResponse>(IQueryable<TEntity> query, ODataQueryOptions<TRequest> queryOptions)
+		where TRequest : class, IRequest where TResponse : class, IResponse
+	{
+		if (queryOptions.Top == null)
+		{
+			return query;
+		}
+
+		return query.Take(queryOptions.Top.Value);
+	}
+
+	private static IQueryable<TEntity> ApplySkip
+		<TRequest, TResponse>(IQueryable<TEntity> query, ODataQueryOptions<TRequest> queryOptions)
+		where TRequest : class, IRequest where TResponse : class, IResponse
+	{
+		if (queryOptions.Skip == null)
+		{
+			return query;
+		}
+
+		return query.Skip(queryOptions.Skip.Value);
+	}
+
+	private IQueryable<TEntity> ApplyOrderBy
+		<TRequest, TResponse>(IQueryable<TEntity> query, ODataQueryOptions<TRequest> queryOptions)
+		where TRequest : class, IRequest where TResponse : class, IResponse
+	{
+		if (queryOptions.OrderBy != null)
+		{
+			var queryFuncs = GetOrderByExpression<TRequest>(queryOptions.OrderBy);
+
+			foreach (var queryFunc in queryFuncs.Select((a, i) => new { Expression = a, Index = i, }))
+			{
+				var destExpressionType = typeof(Expression<>).MakeGenericType(
+					typeof(Func<,>).MakeGenericType(typeof(TEntity), queryFunc.Expression.ReturnType));
+				var mappedQueryFunc = _mapper.MapExpression(
+					queryFunc.Expression,
+					queryFunc.Expression.GetType(),
+					destExpressionType);
+				string orderMethodName;
+				if (queryOptions.OrderBy.OrderByNodes[queryFunc.Index]
+						.Direction == OrderByDirection.Ascending)
+				{
+					orderMethodName = queryFunc.Index == 0 ? nameof(Queryable.OrderBy) : nameof(Queryable.ThenBy);
+				}
+				else
+				{
+					orderMethodName = queryFunc.Index == 0
+						? nameof(Queryable.OrderByDescending)
+						: nameof(Queryable.ThenByDescending);
+				}
+
+				var methodInfo = typeof(Queryable).GetMethods()
+					.Where(a => a.Name == orderMethodName)
+					.ToArray();
+				var mi = methodInfo.First()
+					.MakeGenericMethod(typeof(TEntity), mappedQueryFunc.ReturnType); // TODO: get rid of First
+
+				query = (IOrderedQueryable<TEntity>)mi.Invoke(null, new object[] { query, mappedQueryFunc, }) !;
+			}
+		}
+		else
+		{
+			query = ApplyDefaultOrderBy(query);
+		}
+
+		return query;
+	}
+
+	private IQueryable<TEntity> ApplyFilter
+		<TRequest, TResponse>(IQueryable<TEntity> query, ODataQueryOptions<TRequest> queryOptions)
+		where TRequest : class, IRequest where TResponse : class, IResponse
+	{
+		if (queryOptions.Filter != null)
+		{
+			var queryFunc = GetFilterExpression<TRequest>(queryOptions.Filter);
+			var mappedQueryFunc = _mapper.MapExpression<Expression<Func<TEntity, bool>>>(queryFunc);
+
+			query = query.Where(mappedQueryFunc);
+		}
+
+		return query;
+	}
+
+	protected virtual IQueryable<TEntity> ApplyDefaultOrderBy(IQueryable<TEntity> query)
+	{
+		return query.OrderBy(a => a.Id);
 	}
 
 	protected Task<TResult> MapExceptionAsync<TResult>(

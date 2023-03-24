@@ -16,14 +16,11 @@ namespace Wally.RomMaster.HashService.Application.Hashes.Commands;
 
 public class ComputeHashCommandHandler : CommandHandler<ComputeHashCommand>
 {
+	private readonly IBus _bus;
 	private readonly HashAlgorithm _hashAlgorithm;
 	private readonly ILogger<ComputeHashCommandHandler> _logger;
-	private readonly IBus _bus;
 
-	public ComputeHashCommandHandler(
-		HashAlgorithm hashAlgorithm,
-		IBus bus,
-		ILogger<ComputeHashCommandHandler> logger)
+	public ComputeHashCommandHandler(HashAlgorithm hashAlgorithm, IBus bus, ILogger<ComputeHashCommandHandler> logger)
 	{
 		_hashAlgorithm = hashAlgorithm;
 		_bus = bus;

@@ -11,7 +11,7 @@ ELSE (
 ECHO %MIGRATION_NAME%
 
 SET "STARTUP_PROJECT=./../Wally.RomMaster.HashService.WebApi/Wally.RomMaster.HashService.WebApi.csproj"
-SET "PROJECT=./Wally.RomMaster.HashService.Persistence.SqlServer.csproj"
+SET "PROJECT=./Wally.RomMaster.HashService.Infrastructure.Persistence.SqlServer.csproj"
 SET "Database__ProviderType=SqlServer"
 
 dotnet ef migrations add %MIGRATION_NAME% --context ApplicationDbContext --startup-project %STARTUP_PROJECT% --project %PROJECT% --verbose

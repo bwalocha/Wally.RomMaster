@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -9,8 +10,6 @@ using Wally.RomMaster.HashService.Infrastructure.DI.Microsoft;
 using Wally.RomMaster.HashService.Infrastructure.DI.Microsoft.Extensions;
 using Wally.RomMaster.HashService.Infrastructure.DI.Microsoft.Models;
 using Wally.RomMaster.HashService.WebApi.Hubs;
-
-// using Microsoft.EntityFrameworkCore;
 
 namespace Wally.RomMaster.HashService.WebApi;
 
@@ -43,7 +42,7 @@ public class Startup
 		IApplicationBuilder app,
 		IWebHostEnvironment env,
 		IHostApplicationLifetime appLifetime,
-		ILogger<Startup> logger /*,
+		ILogger<Startup> logger/*,
 		DbContext dbContext*/)
 	{
 		appLifetime.ApplicationStarted.Register(
