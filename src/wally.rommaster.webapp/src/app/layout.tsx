@@ -1,12 +1,14 @@
+"use client"
 import '@/assets/globals.scss'
 import Header from "@/components/header";
 import Menu from "@/components/menu";
 import Footer from "@/components/footer";
+import { FluentProvider, teamsLightTheme } from '@fluentui/react-components';
 
-export const metadata = {
+/*export const metadata = {
     title: 'Wally.RomMaster',
     description: 'by Wally',
-}
+}*/
 
 export default function RootLayout({
   children,
@@ -22,13 +24,16 @@ export default function RootLayout({
   return (
       <html lang="en">
           <body>
+          <FluentProvider theme={teamsLightTheme}>
               <Header />
-              {/*<main style={styles}>*/}
               <main>
-                  <Menu />
+                  <aside>
+                      <Menu />
+                  </aside>
                   <section style={{ width: "1024px" }}>{children}</section>
               </main>
               <Footer />
+          </FluentProvider>,
           </body>
       </html>
   )

@@ -5,6 +5,7 @@ import Tree from "@/components/tree";
 import { useEffect, useState } from "react";
 import {GetPathsResponse} from "@/models/generated/Contracts/GetPathsResponse";
 import {PagedResponse} from "@/models/generated/Abstractions/PagedResponse";
+import {DefaultButton, IStackTokens, PrimaryButton, Stack} from "@fluentui/react";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -43,9 +44,19 @@ const Home = () => {
             // on unmount
         }
     }, [])
-    
-  return (
+
+    function _alertClicked(): void {
+        alert('Clicked');
+    }
+
+    const stackTokens: IStackTokens = { childrenGap: 40 };
+
+    return (
       <div className={styles.center}>
+          <Stack horizontal tokens={stackTokens}>
+              <DefaultButton text="Standard" onClick={_alertClicked} allowDisabledFocus disabled={false} checked={false} />
+              <PrimaryButton text="Primary" onClick={_alertClicked} allowDisabledFocus disabled={false} checked={false} />
+          </Stack>
          <Tree model={paths.items} isLoading={isLoading} fetchPaths={fetchPaths}></Tree>
       </div>
   )
