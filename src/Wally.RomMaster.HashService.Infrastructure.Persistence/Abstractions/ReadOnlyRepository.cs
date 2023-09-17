@@ -12,11 +12,11 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OData.UriParser;
 
+using Wally.RomMaster.HashService.Domain.Abstractions;
+using Wally.RomMaster.HashService.Infrastructure.Persistence.Exceptions;
 using Wally.Lib.DDD.Abstractions.DomainModels;
 using Wally.Lib.DDD.Abstractions.Requests;
 using Wally.Lib.DDD.Abstractions.Responses;
-using Wally.RomMaster.HashService.Domain.Abstractions;
-using Wally.RomMaster.HashService.Infrastructure.Persistence.Exceptions;
 
 namespace Wally.RomMaster.HashService.Infrastructure.Persistence.Abstractions;
 
@@ -39,11 +39,11 @@ public abstract class ReadOnlyRepository<TEntity> : IReadOnlyRepository<TEntity>
 			.AnyAsync(a => a.Id.Equals(id), cancellationToken);
 	}
 
-	public Task<TResult> GetAsync<TResult>(Guid id, CancellationToken cancellationToken) where TResult : IResponse
+	public Task<TResponse> GetAsync<TResponse>(Guid id, CancellationToken cancellationToken) where TResponse : IResponse
 	{
 		var query = GetReadOnlyEntitySet()
 			.Where(a => a.Id.Equals(id));
-		var task = _mapper.ProjectTo<TResult>(query)
+		var task = _mapper.ProjectTo<TResponse>(query)
 			.SingleAsync(cancellationToken);
 
 		return MapExceptionAsync(task, id, cancellationToken);
@@ -57,7 +57,7 @@ public abstract class ReadOnlyRepository<TEntity> : IReadOnlyRepository<TEntity>
 		return GetAsync<TRequest, TResponse>(query, queryOptions, cancellationToken);
 	}
 
-	protected IQueryable<TEntity> GetReadOnlyEntitySet()
+	protected virtual IQueryable<TEntity> GetReadOnlyEntitySet()
 	{
 		return _context.Set<TEntity>()
 			.AsNoTracking();
@@ -120,10 +120,22 @@ public abstract class ReadOnlyRepository<TEntity> : IReadOnlyRepository<TEntity>
 
 	protected async Task<PagedResponse<TResponse>> GetAsync<TRequest, TResponse>(
 		IQueryable<TEntity> query,
+		CancellationToken cancellationToken) where TRequest : class, IRequest where TResponse : class, IResponse
+	{
+		var totalItems = await query.CountAsync(cancellationToken);
+		var items = await _mapper.ProjectTo<TResponse>(query)
+			.ToArrayAsync(cancellationToken);
+
+		return new PagedResponse<TResponse>(items, new PageInfoResponse(0, items.Length, totalItems));
+	}
+
+	protected async Task<PagedResponse<TResponse>> GetAsync<TRequest, TResponse>(
+		IQueryable<TEntity> query,
 		ODataQueryOptions<TRequest> queryOptions,
 		CancellationToken cancellationToken) where TRequest : class, IRequest where TResponse : class, IResponse
 	{
 		query = ApplyFilter<TRequest, TResponse>(query, queryOptions);
+		query = ApplySearch<TRequest, TResponse>(query, queryOptions);
 
 		var totalItems = await query.CountAsync(cancellationToken);
 
@@ -185,8 +197,7 @@ public abstract class ReadOnlyRepository<TEntity> : IReadOnlyRepository<TEntity>
 					queryFunc.Expression.GetType(),
 					destExpressionType);
 				string orderMethodName;
-				if (queryOptions.OrderBy.OrderByNodes[queryFunc.Index]
-						.Direction == OrderByDirection.Ascending)
+				if (queryOptions.OrderBy.OrderByNodes[queryFunc.Index].Direction == OrderByDirection.Ascending)
 				{
 					orderMethodName = queryFunc.Index == 0 ? nameof(Queryable.OrderBy) : nameof(Queryable.ThenBy);
 				}
@@ -218,15 +229,37 @@ public abstract class ReadOnlyRepository<TEntity> : IReadOnlyRepository<TEntity>
 		<TRequest, TResponse>(IQueryable<TEntity> query, ODataQueryOptions<TRequest> queryOptions)
 		where TRequest : class, IRequest where TResponse : class, IResponse
 	{
-		if (queryOptions.Filter != null)
+		if (queryOptions.Filter == null)
 		{
-			var queryFunc = GetFilterExpression<TRequest>(queryOptions.Filter);
-			var mappedQueryFunc = _mapper.MapExpression<Expression<Func<TEntity, bool>>>(queryFunc);
-
-			query = query.Where(mappedQueryFunc);
+			return query;
 		}
 
-		return query;
+		var queryFunc = GetFilterExpression<TRequest>(queryOptions.Filter);
+		var mappedQueryFunc = _mapper.MapExpression<Expression<Func<TEntity, bool>>>(queryFunc);
+
+		return query.Where(mappedQueryFunc);
+	}
+
+	private IQueryable<TEntity> ApplySearch
+		<TRequest, TResponse>(IQueryable<TEntity> query, ODataQueryOptions<TRequest>? queryOptions)
+		where TRequest : class, IRequest where TResponse : class, IResponse
+	{
+		if (queryOptions?.Search == null)
+		{
+			return query;
+		}
+
+		if (queryOptions.Search.SearchClause.Expression is not SearchTermNode searchTermNode)
+		{
+			throw new NotSupportedException($"Advanced Search on {typeof(TEntity).Name} is not supported");
+		}
+
+		return ApplySearch(query, searchTermNode.Text);
+	}
+
+	protected virtual IQueryable<TEntity> ApplySearch(IQueryable<TEntity> query, string term)
+	{
+		throw new NotSupportedException($"Search on {typeof(TEntity).Name} is not supported");
 	}
 
 	protected virtual IQueryable<TEntity> ApplyDefaultOrderBy(IQueryable<TEntity> query)
@@ -234,8 +267,8 @@ public abstract class ReadOnlyRepository<TEntity> : IReadOnlyRepository<TEntity>
 		return query.OrderBy(a => a.Id);
 	}
 
-	protected Task<TResult> MapExceptionAsync<TResult>(
-		Task<TResult> task,
+	protected Task<TResponse> MapExceptionAsync<TResponse>(
+		Task<TResponse> task,
 		Guid id = default,
 		CancellationToken cancellationToken = default)
 	{
@@ -244,7 +277,7 @@ public abstract class ReadOnlyRepository<TEntity> : IReadOnlyRepository<TEntity>
 			throw new ArgumentNullException(nameof(task));
 		}
 
-		var tcs = new TaskCompletionSource<TResult>();
+		var tcs = new TaskCompletionSource<TResponse>();
 
 		task.ContinueWith(
 			t => tcs.TrySetCanceled(),
@@ -265,7 +298,7 @@ public abstract class ReadOnlyRepository<TEntity> : IReadOnlyRepository<TEntity>
 					{
 						case "ThrowNoElementsException":
 						case "MoveNext":
-							var message = $"The '{typeof(TResult).Name}' could not be found";
+							var message = $"The '{typeof(TResponse).Name}' could not be found";
 							if (id != Guid.Empty)
 							{
 								message += $" for Id: '{id}'";

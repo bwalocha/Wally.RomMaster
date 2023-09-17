@@ -68,6 +68,25 @@ public static class TypeHelpers
 				.FirstOrDefault(t => t.IsGenericType(genericInterface));
 	}
 
+	public static bool ImplementsInterface(this Type type, Type interfaceType)
+	{
+		if (!interfaceType.IsInterface)
+		{
+			throw new ArgumentException($"Parameter '{nameof(interfaceType)}' is not an Interface");
+		}
+
+		foreach (var @interface in type.GetTypeInfo()
+					.ImplementedInterfaces)
+		{
+			if (@interface == interfaceType)
+			{
+				return true;
+			}
+		}
+
+		return false;
+	}
+
 	public static bool ImplementsGenericInterface(this Type type, Type interfaceType)
 	{
 		if (!interfaceType.IsInterface)

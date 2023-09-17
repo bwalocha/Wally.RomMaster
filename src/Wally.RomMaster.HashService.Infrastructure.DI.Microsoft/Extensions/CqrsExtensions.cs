@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-using Wally.Lib.DDD.Abstractions.DomainEvents;
 using Wally.RomMaster.HashService.Application;
 using Wally.RomMaster.HashService.Infrastructure.PipelineBehaviours;
+using Wally.Lib.DDD.Abstractions.DomainEvents;
 
 namespace Wally.RomMaster.HashService.Infrastructure.DI.Microsoft.Extensions;
 
@@ -20,7 +20,9 @@ public static class CqrsExtensions
 				a.AddOpenBehavior(typeof(UpdateMetadataHandlerBehavior<,>));
 				a.AddOpenBehavior(typeof(DomainEventHandlerBehavior<,>));
 				a.AddOpenBehavior(typeof(UpdateMetadataHandlerBehavior<,>));
-				a.AddOpenBehavior(typeof(CommandHandlerValidatorBehavior<,>));
+
+				// a.AddOpenBehavior(typeof(CommandHandlerValidatorBehavior<,>));
+				a.AddOpenBehavior(typeof(CommandHandlerValidatorsBehavior<,>));
 				a.AddOpenBehavior(typeof(QueryHandlerValidatorBehavior<,>));
 			});
 

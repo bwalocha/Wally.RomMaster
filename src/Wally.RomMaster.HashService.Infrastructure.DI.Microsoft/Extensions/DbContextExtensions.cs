@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 using Wally.RomMaster.HashService.Domain.Abstractions;
 using Wally.RomMaster.HashService.Infrastructure.DI.Microsoft.Models;
@@ -11,6 +12,7 @@ using Wally.RomMaster.HashService.Infrastructure.DI.Microsoft.Providers;
 using Wally.RomMaster.HashService.Infrastructure.Persistence;
 using Wally.RomMaster.HashService.Infrastructure.Persistence.MySql;
 using Wally.RomMaster.HashService.Infrastructure.Persistence.PostgreSQL;
+using Wally.RomMaster.HashService.Infrastructure.Persistence.SQLite;
 using Wally.RomMaster.HashService.Infrastructure.Persistence.SqlServer;
 
 namespace Wally.RomMaster.HashService.Infrastructure.DI.Microsoft.Extensions;
@@ -35,6 +37,7 @@ public static class DbContextExtensions
 								typeof(IInfrastructureMySqlAssemblyMarker).Assembly.GetName()
 									.Name);
 						});
+					EntityFramework.Exceptions.MySQL.Pomelo.ExceptionProcessorExtensions.UseExceptionProcessor(options);
 					break;
 				case DatabaseProviderType.PostgreSQL:
 					options.UseNpgsql(
@@ -46,6 +49,19 @@ public static class DbContextExtensions
 								typeof(IInfrastructurePostgreSQLAssemblyMarker).Assembly.GetName()
 									.Name);
 						});
+					EntityFramework.Exceptions.PostgreSQL.ExceptionProcessorExtensions.UseExceptionProcessor(options);
+					break;
+				case DatabaseProviderType.SQLite:
+					options.UseSqlite(
+						settings.ConnectionStrings.Database,
+						builder =>
+						{
+							builder.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);
+							builder.MigrationsAssembly(
+								typeof(IInfrastructureSQLiteAssemblyMarker).Assembly.GetName()
+									.Name);
+						});
+					EntityFramework.Exceptions.Sqlite.ExceptionProcessorExtensions.UseExceptionProcessor(options);
 					break;
 				case DatabaseProviderType.SqlServer:
 					options.UseSqlServer(
@@ -57,6 +73,7 @@ public static class DbContextExtensions
 								typeof(IInfrastructureSqlServerAssemblyMarker).Assembly.GetName()
 									.Name);
 						});
+					EntityFramework.Exceptions.SqlServer.ExceptionProcessorExtensions.UseExceptionProcessor(options);
 					break;
 				default:
 					throw new ArgumentOutOfRangeException(
@@ -89,15 +106,18 @@ public static class DbContextExtensions
 		return services;
 	}
 
-	public static IApplicationBuilder UseDbContext(
-		this IApplicationBuilder app,
-		DbContext dbContext,
-		DbContextSettings settings)
+	public static IApplicationBuilder UseDbContext(this IApplicationBuilder app)
 	{
-		if (settings.IsMigrationEnabled)
+		var settings = app.ApplicationServices.GetRequiredService<IOptions<AppSettings>>();
+
+		if (!settings.Value.Database.IsMigrationEnabled)
 		{
-			dbContext.Database.Migrate();
+			return app;
 		}
+
+		using var scope = app.ApplicationServices.CreateScope();
+		var dbContext = scope.ServiceProvider.GetRequiredService<DbContext>();
+		dbContext.Database.Migrate();
 
 		return app;
 	}

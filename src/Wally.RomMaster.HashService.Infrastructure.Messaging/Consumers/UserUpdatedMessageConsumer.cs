@@ -4,16 +4,16 @@ using MassTransit;
 
 using MediatR;
 
-using Wally.Identity.Messages.Users;
 using Wally.RomMaster.HashService.Application.Users.Commands;
+using Wally.Identity.Messages.Users;
 
 namespace Wally.RomMaster.HashService.Infrastructure.Messaging.Consumers;
 
 public class UserUpdatedMessageConsumer : IConsumer<UserUpdatedMessage>
 {
-	private readonly IMediator _mediator;
+	private readonly ISender _mediator;
 
-	public UserUpdatedMessageConsumer(IMediator mediator)
+	public UserUpdatedMessageConsumer(ISender mediator)
 	{
 		_mediator = mediator;
 	}
