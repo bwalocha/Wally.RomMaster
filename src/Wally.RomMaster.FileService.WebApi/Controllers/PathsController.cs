@@ -20,11 +20,11 @@ namespace Wally.RomMaster.FileService.WebApi.Controllers;
 [ProducesResponseType(typeof(int), 200, "application/json")]
 public class PathsController : ControllerBase
 {
-	private readonly IMediator _mediator;
+	private readonly ISender _sender;
 
-	public PathsController(IMediator mediator)
+	public PathsController(ISender sender)
 	{
-		_mediator = mediator;
+		_sender = sender;
 	}
 
 	/// <summary>
@@ -43,7 +43,7 @@ public class PathsController : ControllerBase
 		CancellationToken cancellationToken)
 	{
 		var query = new GetPathsQuery(null, queryOptions);
-		var response = await _mediator.Send(query, cancellationToken);
+		var response = await _sender.Send(query, cancellationToken);
 		return Ok(response);
 	}
 
@@ -65,7 +65,7 @@ public class PathsController : ControllerBase
 		CancellationToken cancellationToken)
 	{
 		var query = new GetPathsQuery(parentId, queryOptions);
-		var response = await _mediator.Send(query, cancellationToken);
+		var response = await _sender.Send(query, cancellationToken);
 		return Ok(response);
 	}
 }

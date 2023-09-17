@@ -8,9 +8,9 @@ using MediatR;
 
 using Moq;
 
-using Wally.Identity.Messages.Users;
 using Wally.RomMaster.FileService.Application.Users.Commands;
 using Wally.RomMaster.FileService.Infrastructure.Messaging.Consumers;
+using Wally.Identity.Messages.Users;
 
 using Xunit;
 
@@ -19,11 +19,11 @@ namespace Wally.RomMaster.FileService.Tests.UnitTests.Users;
 public class UserCreatedConsumerTests
 {
 	private readonly UserCreatedMessageConsumer _consumer;
-	private readonly Mock<IMediator> _mediatorMock;
+	private readonly Mock<ISender> _mediatorMock;
 
 	public UserCreatedConsumerTests()
 	{
-		_mediatorMock = new Mock<IMediator>();
+		_mediatorMock = new Mock<ISender>();
 		_consumer = new UserCreatedMessageConsumer(_mediatorMock.Object);
 	}
 

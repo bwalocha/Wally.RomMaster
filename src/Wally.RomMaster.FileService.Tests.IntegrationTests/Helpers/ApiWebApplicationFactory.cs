@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Linq;
 
-using HealthChecks.UI.Core.Data;
+using HealthChecks.UI.Data;
 
 using MassTransit;
 
@@ -14,12 +14,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using Wally.Lib.DDD.Abstractions.DomainNotifications;
 using Wally.RomMaster.FileService.Infrastructure.Persistence;
-
-using Xunit;
-
-[assembly: CollectionBehavior(DisableTestParallelization = true)]
+using Wally.Lib.DDD.Abstractions.DomainNotifications;
 
 namespace Wally.RomMaster.FileService.Tests.IntegrationTests.Helpers;
 
@@ -27,7 +23,7 @@ public class ApiWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup
 {
 	protected override IHostBuilder CreateHostBuilder()
 	{
-		return base.CreateHostBuilder()!.ConfigureAppConfiguration(
+		return base.CreateHostBuilder() !.ConfigureAppConfiguration(
 			configurationBuilder =>
 			{
 				configurationBuilder.SetBasePath(Directory.GetCurrentDirectory())
@@ -63,9 +59,10 @@ public class ApiWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup
 				}
 
 				// Add ApplicationDbContext using an in-memory database for testing.
+				var databaseName = $"InMemoryDbForTesting_{Guid.NewGuid()}";
 				Action<DbContextOptionsBuilder> options = optionsAction =>
 				{
-					optionsAction.UseInMemoryDatabase("InMemoryDbForTesting");
+					optionsAction.UseInMemoryDatabase(databaseName);
 					optionsAction.ConfigureWarnings(a => { a.Ignore(InMemoryEventId.TransactionIgnoredWarning); });
 					optionsAction.EnableSensitiveDataLogging();
 				};

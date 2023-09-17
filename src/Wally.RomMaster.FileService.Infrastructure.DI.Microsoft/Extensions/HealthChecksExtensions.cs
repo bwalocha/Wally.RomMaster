@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
+using HealthChecks.MySql;
 using HealthChecks.UI.Client;
 
 using Microsoft.AspNetCore.Builder;
@@ -26,7 +27,7 @@ public static class HealthChecksExtensions
 		{
 			case DatabaseProviderType.MySql:
 				healthChecksBuilder.AddMySql(
-					settings.ConnectionStrings.Database,
+					new MySqlHealthCheckOptions { ConnectionString = settings.ConnectionStrings.Database, },
 					"DB",
 					HealthStatus.Degraded,
 					new[] { "DB", "Database", nameof(DatabaseProviderType.MySql), });
@@ -37,6 +38,13 @@ public static class HealthChecksExtensions
 					name: "DB",
 					failureStatus: HealthStatus.Degraded,
 					tags: new[] { "DB", "Database", nameof(DatabaseProviderType.PostgreSQL), });
+				break;
+			case DatabaseProviderType.SQLite:
+				healthChecksBuilder.AddSqlite(
+					settings.ConnectionStrings.Database,
+					name: "DB",
+					failureStatus: HealthStatus.Degraded,
+					tags: new[] { "DB", "Database", nameof(DatabaseProviderType.SQLite), });
 				break;
 			case DatabaseProviderType.SqlServer:
 				healthChecksBuilder.AddSqlServer(

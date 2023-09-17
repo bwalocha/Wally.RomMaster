@@ -3,6 +3,8 @@ using System.Runtime.Serialization;
 
 using AutoMapper;
 
+using FluentAssertions;
+
 using Wally.RomMaster.FileService.Application.Contracts.Requests.Users;
 using Wally.RomMaster.FileService.Application.Contracts.Responses.Users;
 using Wally.RomMaster.FileService.Application.MapperProfiles;
@@ -19,7 +21,8 @@ public class MappingTests
 
 	public MappingTests()
 	{
-		_configuration = new MapperConfiguration(config => config.AddProfile<UserProfile>());
+		_configuration = new MapperConfiguration(
+			config => config.AddMaps(typeof(IApplicationMapperProfilesAssemblyMarker).Assembly));
 
 		_mapper = _configuration.CreateMapper();
 	}
@@ -34,7 +37,6 @@ public class MappingTests
 	[InlineData(typeof(User), typeof(GetUsersRequest))]
 	[InlineData(typeof(User), typeof(GetUsersResponse))]
 	[InlineData(typeof(User), typeof(GetUserResponse))]
-	[InlineData(typeof(GetUsersRequest), typeof(GetUsersResponse))]
 	public void ShouldSupportMappingFromSourceToDestination(Type source, Type destination)
 	{
 		var instance = GetInstanceOf(source);
@@ -42,11 +44,24 @@ public class MappingTests
 		_mapper.Map(instance, source, destination);
 	}
 
-	private object GetInstanceOf(Type type)
+	[Theory]
+	[InlineData(typeof(GetUsersRequest), typeof(GetUsersResponse))]
+	[InlineData(typeof(GetUsersResponse), typeof(GetUsersRequest))]
+	public void ShouldNotSupportMappingFromSourceToDestination(Type source, Type destination)
+	{
+		var instance = GetInstanceOf(source);
+
+		var act = () => _mapper.Map(instance, source, destination);
+
+		act.Should()
+			.ThrowExactly<AutoMapperMappingException>();
+	}
+
+	private static object GetInstanceOf(Type type)
 	{
 		if (type.GetConstructor(Type.EmptyTypes) != null)
 		{
-			return Activator.CreateInstance(type)!;
+			return Activator.CreateInstance(type) !;
 		}
 
 		// Type without parameterless constructor
