@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.ApiGateway.WebApi", "Wally.RomMaster.ApiGateway.WebApi\Wally.RomMaster.ApiGateway.WebApi.csproj", "{44561AA8-CF11-4D3F-A87B-255D2D526275}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.ApiGateway.WebApi", "Wally.RomMaster.ApiGateway.WebApi\Wally.RomMaster.ApiGateway.WebApi.csproj", "{5D394477-C5D8-42F4-B841-3CE525F5DE24}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{DF72A7C9-1FFD-446A-BC80-45AF47984304}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AC7282D1-F3F3-426A-95BE-8576F85E306E}"
 	ProjectSection(SolutionItems) = preProject
 		AssemblyInfo.cs = AssemblyInfo.cs
 		README.md = README.md
@@ -13,17 +13,18 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		NuGet.config = NuGet.config
 		Directory.Build.props = Directory.Build.props
 		Directory.BuildTests.props = Directory.BuildTests.props
+		.config\dotnet-tools.json = .config\dotnet-tools.json
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.ApiGateway.Tests.UnitTests", "Wally.RomMaster.ApiGateway.Tests.UnitTests\Wally.RomMaster.ApiGateway.Tests.UnitTests.csproj", "{BD6EF90C-5146-4297-B7AB-F5D035027649}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.ApiGateway.Tests.UnitTests", "Wally.RomMaster.ApiGateway.Tests.UnitTests\Wally.RomMaster.ApiGateway.Tests.UnitTests.csproj", "{988A8559-5B44-4DC1-AD47-0B605759192B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.ApiGateway.Infrastructure.DI.Microsoft", "Wally.RomMaster.ApiGateway.Infrastructure.DI.Microsoft\Wally.RomMaster.ApiGateway.Infrastructure.DI.Microsoft.csproj", "{E14CE4D7-A575-41FA-8A0E-C9324572DCCF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.ApiGateway.Infrastructure.DI.Microsoft", "Wally.RomMaster.ApiGateway.Infrastructure.DI.Microsoft\Wally.RomMaster.ApiGateway.Infrastructure.DI.Microsoft.csproj", "{B2A94114-5F17-4708-BE2D-37DC0A0CDDCA}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{39281D64-2AFF-4866-998C-2999CED2DFD0}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{47725090-9FB8-4B4D-89CC-D8C567F45E0C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{14163C06-504D-4C90-9D94-A7A04CF60EF8}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{AD4A681C-68D5-4FD8-81D9-5DDF17773342}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{F1D3CA76-CEAE-4372-9929-3A40965FD8D5}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{8589DE09-EC50-490F-8DE2-CFD877BD6119}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,22 +35,22 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{44561AA8-CF11-4D3F-A87B-255D2D526275}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{44561AA8-CF11-4D3F-A87B-255D2D526275}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{44561AA8-CF11-4D3F-A87B-255D2D526275}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{44561AA8-CF11-4D3F-A87B-255D2D526275}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BD6EF90C-5146-4297-B7AB-F5D035027649}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BD6EF90C-5146-4297-B7AB-F5D035027649}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BD6EF90C-5146-4297-B7AB-F5D035027649}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BD6EF90C-5146-4297-B7AB-F5D035027649}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E14CE4D7-A575-41FA-8A0E-C9324572DCCF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E14CE4D7-A575-41FA-8A0E-C9324572DCCF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E14CE4D7-A575-41FA-8A0E-C9324572DCCF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E14CE4D7-A575-41FA-8A0E-C9324572DCCF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D394477-C5D8-42F4-B841-3CE525F5DE24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D394477-C5D8-42F4-B841-3CE525F5DE24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D394477-C5D8-42F4-B841-3CE525F5DE24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D394477-C5D8-42F4-B841-3CE525F5DE24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{988A8559-5B44-4DC1-AD47-0B605759192B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{988A8559-5B44-4DC1-AD47-0B605759192B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{988A8559-5B44-4DC1-AD47-0B605759192B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{988A8559-5B44-4DC1-AD47-0B605759192B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B2A94114-5F17-4708-BE2D-37DC0A0CDDCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B2A94114-5F17-4708-BE2D-37DC0A0CDDCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B2A94114-5F17-4708-BE2D-37DC0A0CDDCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B2A94114-5F17-4708-BE2D-37DC0A0CDDCA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{BD6EF90C-5146-4297-B7AB-F5D035027649} = {39281D64-2AFF-4866-998C-2999CED2DFD0}
-		{E14CE4D7-A575-41FA-8A0E-C9324572DCCF} = {14163C06-504D-4C90-9D94-A7A04CF60EF8}
-		{44561AA8-CF11-4D3F-A87B-255D2D526275} = {F1D3CA76-CEAE-4372-9929-3A40965FD8D5}
+		{988A8559-5B44-4DC1-AD47-0B605759192B} = {47725090-9FB8-4B4D-89CC-D8C567F45E0C}
+		{B2A94114-5F17-4708-BE2D-37DC0A0CDDCA} = {AD4A681C-68D5-4FD8-81D9-5DDF17773342}
+		{5D394477-C5D8-42F4-B841-3CE525F5DE24} = {8589DE09-EC50-490F-8DE2-CFD877BD6119}
 	EndGlobalSection
 EndGlobal
