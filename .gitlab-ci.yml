@@ -138,7 +138,7 @@ publish:file_pkg:
   needs:
     - test:file_sln
   variables:
-    PROJECT_NAME: ${FILE_PKG_NAME}
+    PROJECT_NAME: ${FILE_PKG_PROJECT_NAME}
 
 publish:hash_pkg:
   extends:
@@ -146,7 +146,7 @@ publish:hash_pkg:
   needs:
     - test:hash_sln
   variables:
-    PROJECT_NAME: ${HASH_PKG_NAME}
+    PROJECT_NAME: ${HASH_PKG_PROJECT_NAME}
 
 publish:docker:api:
   extends:
@@ -198,7 +198,7 @@ deploy:file_pkg:
     PROJECT_NAME: ${FILE_PKG_NAME}
   environment:
     name: ${ENV}_${FILE_PKG_NAME}
-    url: https://www.nuget.org/packages/${FILE_PKG_NAME}
+    url: https://www.nuget.org/packages/${FILE_PKG_PROJECT_NAME}
 
 deploy:hash_pkg:
   extends:
@@ -209,7 +209,7 @@ deploy:hash_pkg:
     PROJECT_NAME: ${HASH_PKG_NAME}
   environment:
     name: ${ENV}_${HASH_PKG_NAME}
-    url: https://www.nuget.org/packages/${HASH_PKG_NAME}
+    url: https://www.nuget.org/packages/${HASH_PKG_PROJECT_NAME}
 
 deploy:node:file_npm:
   extends:
