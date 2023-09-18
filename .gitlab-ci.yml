@@ -6,11 +6,11 @@ variables:
   #
   FILE_SLN_NAME: "Wally.RomMaster.FileService"
   FILE_API_NAME: "Wally.RomMaster.FileService.WebApi"
-  FILE_PKG_NAME: "Wally.RomMaster.FileService.Messages"
+  FILE_PKG_NAME: "Wally.RomMaster.FileService.Application.Messages"
   #
   HASH_SLN_NAME: "Wally.RomMaster.HashService"
   HASH_API_NAME: "Wally.RomMaster.HashService.WebApi"
-  HASH_PKG_NAME: "Wally.RomMaster.HashService.Messages"
+  HASH_PKG_NAME: "Wally.RomMaster.HashService.Application.Messages"
   #
   #USER_SLN_NAME: "Wally.RomMaster.UserService"
   #USER_API_NAME: "Wally.RomMaster.UserService.WebApi"
