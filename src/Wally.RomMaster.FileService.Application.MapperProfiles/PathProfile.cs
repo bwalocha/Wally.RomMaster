@@ -12,8 +12,5 @@ public class PathProfile : Profile
 	{
 		CreateMap<Path, GetPathsRequest>();
 		CreateMap<Path, GetPathsResponse>();
-
-		// OData
-		CreateMap<GetPathsRequest, GetPathsResponse>();
 	}
 }

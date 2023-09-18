@@ -9,7 +9,10 @@ using AutoMapper;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.EntityFrameworkCore;
 
+using Wally.Lib.DDD.Abstractions.DomainModels;
 using Wally.RomMaster.FileService.Domain.Abstractions;
+
+using AggregateRoot = Wally.RomMaster.FileService.Domain.Abstractions.AggregateRoot;
 
 namespace Wally.RomMaster.FileService.Infrastructure.Persistence.Abstractions;
 
@@ -53,7 +56,7 @@ public abstract class Repository<TAggregateRoot> : ReadOnlyRepository<TAggregate
 	}
 
 	[Obsolete("Workaround")]
-	public TEntity Attach<TEntity>(TEntity entity) where TEntity : Wally.Lib.DDD.Abstractions.DomainModels.Entity
+	public TEntity Attach<TEntity>(TEntity entity) where TEntity : Entity
 	{
 		_context.Attach(entity)
 			.State = EntityState.Unchanged;

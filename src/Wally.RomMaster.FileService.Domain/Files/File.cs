@@ -20,6 +20,7 @@ public class File : AggregateRoot
 	private File(DateTime timestamp, Path path, FileInfo fileInfo /*, string crc32*/)
 	{
 		// ModifiedAt = timestamp;
+		PathId = path.Id;
 		Path = path;
 		Location = FileLocation.Create(new Uri(fileInfo.FullName));
 		Length = fileInfo.Length;
@@ -34,6 +35,7 @@ public class File : AggregateRoot
 	private File(DateTime timestamp, Path path, Uri fullName, long length, File archivePackage /*, string crc32*/)
 	{
 		// ModifiedAt = timestamp;
+		PathId = path.Id;
 		Path = path;
 		Location = FileLocation.Create(fullName);
 		Length = length;
@@ -65,8 +67,10 @@ public class File : AggregateRoot
 
 	// public DateTime ModifiedAt { get; private set; }
 
+	public Guid PathId { get; private set; }
+	
 	public Path Path { get; private set; }
-
+	
 	// public DataFile DataFile { get; private set; }
 
 	// public Guid? DataFileId { get; private set; }

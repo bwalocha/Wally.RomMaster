@@ -257,10 +257,6 @@ public class FileWatcherService : BackgroundService
 		{
 			_logger.LogError("OnFileChangedAsync error: {0}", exception);
 		}
-		finally
-		{
-			// ((FileSystemWatcher)sender).EnableRaisingEvents = true;
-		}
 	}
 
 	/*private void OnDatFileChanged(object sender, FileSystemEventArgs e)

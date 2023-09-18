@@ -44,6 +44,7 @@ public class PathsController : ControllerBase
 	{
 		var query = new GetPathsQuery(null, queryOptions);
 		var response = await _sender.Send(query, cancellationToken);
+
 		return Ok(response);
 	}
 
@@ -66,6 +67,7 @@ public class PathsController : ControllerBase
 	{
 		var query = new GetPathsQuery(parentId, queryOptions);
 		var response = await _sender.Send(query, cancellationToken);
+
 		return Ok(response);
 	}
 }

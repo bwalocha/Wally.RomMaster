@@ -4,8 +4,8 @@ using MassTransit;
 
 using MediatR;
 
-using Wally.RomMaster.FileService.Application.Users.Commands;
 using Wally.Identity.Messages.Users;
+using Wally.RomMaster.FileService.Application.Users.Commands;
 
 namespace Wally.RomMaster.FileService.Infrastructure.Messaging.Consumers;
 

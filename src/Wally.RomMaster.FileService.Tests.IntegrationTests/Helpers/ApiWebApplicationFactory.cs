@@ -14,8 +14,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using Wally.RomMaster.FileService.Infrastructure.Persistence;
 using Wally.Lib.DDD.Abstractions.DomainNotifications;
+using Wally.RomMaster.FileService.Infrastructure.Persistence;
 
 namespace Wally.RomMaster.FileService.Tests.IntegrationTests.Helpers;
 

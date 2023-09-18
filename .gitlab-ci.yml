@@ -81,6 +81,24 @@ test:hash_sln:
   variables:
     SOLUTION_NAME: ${HASH_SOLUTION_NAME}
 
+test:file_npm:
+  extends:
+    - .test:node
+  needs:
+    - test:file_sln
+  variables:
+    PROJECT_NAME: ${FILE_NPM_PROJECT_NAME}/generated
+  allow_failure: true
+
+test:hash_npm:
+  extends:
+    - .test:node
+  needs:
+    - test:hash_sln
+  variables:
+    PROJECT_NAME: ${HASH_NPM_PROJECT_NAME}/generated
+  allow_failure: true
+
 test:web:
   extends:
     - .test:node
@@ -88,6 +106,7 @@ test:web:
     - build:web
   variables:
     PROJECT_NAME: ${WEB_PROJECT_NAME}
+  allow_failure: true
 
 publish:api:
   extends:

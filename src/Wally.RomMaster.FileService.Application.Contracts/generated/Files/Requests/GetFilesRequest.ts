@@ -2,8 +2,9 @@
 //     Changes to this file may cause incorrect behavior and will be lost if
 //     the code is regenerated.
 
-export interface PageInfoResponse {
-    index: number;
-    size: number;
-    totalItems: number;
+import { Dayjs } from 'dayjs';
+
+export interface GetFilesRequest
+{
+	id: string;
 }
