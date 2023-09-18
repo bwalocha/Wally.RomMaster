@@ -1,21 +1,21 @@
 variables:
   STACK: RomMaster
   #
-  PROXY_SLN_NAME: "Wally.RomMaster.ApiGateway"
-  PROXY_API_NAME: "Wally.RomMaster.ApiGateway.WebApi"
+  SLN_SOLUTION_NAME: "Wally.RomMaster.ApiGateway"
+  API_PROJECT_NAME: "Wally.RomMaster.ApiGateway.WebApi"
   #
-  FILE_SLN_NAME: "Wally.RomMaster.FileService"
-  FILE_API_NAME: "Wally.RomMaster.FileService.WebApi"
-  FILE_PKG_NAME: "Wally.RomMaster.FileService.Application.Messages"
+  FILE_SOLUTION_NAME: "Wally.RomMaster.FileService"
+  FILE_API_PROJECT_NAME: "Wally.RomMaster.FileService.WebApi"
+  FILE_PKG_PROJECT_NAME: "Wally.RomMaster.FileService.Application.Messages"
+  FILE_NPM_PROJECT_NAME: "Wally.RomMaster.FileService.Application.Contracts"
   #
-  HASH_SLN_NAME: "Wally.RomMaster.HashService"
-  HASH_API_NAME: "Wally.RomMaster.HashService.WebApi"
-  HASH_PKG_NAME: "Wally.RomMaster.HashService.Application.Messages"
-  #
-  #USER_SLN_NAME: "Wally.RomMaster.UserService"
-  #USER_API_NAME: "Wally.RomMaster.UserService.WebApi"
+  HASH_SOLUTION_NAME: "Wally.RomMaster.HashService"
+  HASH_API_PROJECT_NAME: "Wally.RomMaster.HashService.WebApi"
+  HASH_PKG_PROJECT_NAME: "Wally.RomMaster.HashService.Application.Messages"
+  HASH_NPM_PROJECT_NAME: "Wally.RomMaster.HashService.Application.Contracts"
   #
   STORYBOOK_WEB_NAME: "wally.rommaster.storybook.webapp"
+  WEB_PROJECT_NAME: "wally.rommaster.webapp"
   #
   VERSION: "0.1.${CI_PIPELINE_ID}"
   #CI_DEBUG_TRACE: "true"
@@ -26,29 +26,23 @@ stages:
   - publish
   - deploy
 
-build:proxy_sln:
+build:sln:
   extends:
     - .build:dotnet
   variables:
-    SOLUTION_NAME: ${PROXY_SLN_NAME}
+    SOLUTION_NAME: ${SLN_SOLUTION_NAME}
 
 build:file_sln:
   extends:
     - .build:dotnet
   variables:
-    SOLUTION_NAME: ${FILE_SLN_NAME}
+    SOLUTION_NAME: ${FILE_SOLUTION_NAME}
 
 build:hash_sln:
   extends:
     - .build:dotnet
   variables:
-    SOLUTION_NAME: ${HASH_SLN_NAME}
-
-# build:user_sln:
-  # extends:
-    # - .build:dotnet
-  # variables:
-    # SOLUTION_NAME: ${USER_SOLUTION_NAME}
+    SOLUTION_NAME: ${HASH_SOLUTION_NAME}
 
 build:storybook_web:
   extends:
@@ -57,13 +51,19 @@ build:storybook_web:
     PROJECT_NAME: ${STORYBOOK_WEB_NAME}
     LEGACY_PEER_DEPS: "true"
 
-test:proxy_sln:
+build:web:
+  extends:
+    - .build:node
+  variables:
+    PROJECT_NAME: ${WEB_PROJECT_NAME}
+
+test:sln:
   extends:
     - .test:dotnet
   needs:
-    - build:proxy_sln
+    - build:sln
   variables:
-    SOLUTION_NAME: ${PROXY_SLN_NAME}
+    SOLUTION_NAME: ${SLN_SOLUTION_NAME}
 
 test:file_sln:
   extends:
@@ -71,7 +71,7 @@ test:file_sln:
   needs:
     - build:file_sln
   variables:
-    SOLUTION_NAME: ${FILE_SLN_NAME}
+    SOLUTION_NAME: ${FILE_SOLUTION_NAME}
 
 test:hash_sln:
   extends:
@@ -79,31 +79,23 @@ test:hash_sln:
   needs:
     - build:hash_sln
   variables:
-    SOLUTION_NAME: ${HASH_SLN_NAME}
+    SOLUTION_NAME: ${HASH_SOLUTION_NAME}
 
-# test:user_sln:
-  # extends:
-    # - .test:dotnet
-  # needs:
-    # - build:user_sln
-  # variables:
-    # SOLUTION_NAME: ${USER_SOLUTION_NAME}
+test:web:
+  extends:
+    - .test:node
+  needs:
+    - build:web
+  variables:
+    PROJECT_NAME: ${WEB_PROJECT_NAME}
 
-# test:web:
-  # extends:
-    # - .test:node
-  # needs:
-    # - build:web
-  # variables:
-    # PROJECT_NAME: ${WEB_PROJECT_NAME}
-
-publish:proxy_api:
+publish:api:
   extends:
     - .publish:dotnet
   needs:
-    - test:proxy_sln
+    - test:sln
   variables:
-    PROJECT_NAME: ${PROXY_API_NAME}
+    PROJECT_NAME: ${API_PROJECT_NAME}
 
 publish:file_api:
   extends:
@@ -111,7 +103,7 @@ publish:file_api:
   needs:
     - test:file_sln
   variables:
-    PROJECT_NAME: ${FILE_API_NAME}
+    PROJECT_NAME: ${FILE_API_PROJECT_NAME}
 
 publish:hash_api:
   extends:
@@ -119,7 +111,7 @@ publish:hash_api:
   needs:
     - test:hash_sln
   variables:
-    PROJECT_NAME: ${HASH_API_NAME}
+    PROJECT_NAME: ${HASH_API_PROJECT_NAME}
 
 publish:file_pkg:
   extends:
@@ -137,21 +129,13 @@ publish:hash_pkg:
   variables:
     PROJECT_NAME: ${HASH_PKG_NAME}
 
-# publish:user_api:
-  # extends:
-    # - .publish:dotnet
-  # needs:
-    # - test:user_sln
-  # variables:
-    # PROJECT_NAME: ${USER_API_PROJECT_NAME}
-
-publish:docker:proxy_api:
+publish:docker:api:
   extends:
     - .publish:docker
   needs:
-    - publish:proxy_api
+    - publish:api
   variables:
-    PROJECT_NAME: ${PROXY_API_NAME}
+    PROJECT_NAME: ${API_PROJECT_NAME}
 
 publish:docker:file_api:
   extends:
@@ -159,7 +143,7 @@ publish:docker:file_api:
   needs:
     - publish:file_api
   variables:
-    PROJECT_NAME: ${FILE_API_NAME}
+    PROJECT_NAME: ${FILE_API_PROJECT_NAME}
 
 publish:docker:hash_api:
   extends:
@@ -167,15 +151,7 @@ publish:docker:hash_api:
   needs:
     - publish:hash_api
   variables:
-    PROJECT_NAME: ${HASH_API_NAME}
-
-# publish:docker:user_api:
-  # extends:
-    # - .publish:docker
-  # needs:
-    # - publish:user_api
-  # variables:
-    # PROJECT_NAME: ${USER_API_PROJECT_NAME}
+    PROJECT_NAME: ${HASH_API_PROJECT_NAME}
 
 publish:docker:storybook_web:
   extends:
@@ -185,6 +161,14 @@ publish:docker:storybook_web:
     - build:storybook_web
   variables:
     PROJECT_NAME: ${STORYBOOK_WEB_NAME}
+
+publish:docker:web:
+  extends:
+    - .publish:docker
+  needs:
+    - test:web
+  variables:
+    PROJECT_NAME: ${WEB_PROJECT_NAME}
 
 deploy:file_pkg:
   extends:
@@ -208,15 +192,37 @@ deploy:hash_pkg:
     name: ${ENV}_${HASH_PKG_NAME}
     url: https://www.nuget.org/packages/${HASH_PKG_NAME}
 
+deploy:node:file_npm:
+  extends:
+    - .deploy:node
+  needs:
+    - test:file_npm
+  variables:
+    PROJECT_NAME: ${FILE_NPM_PROJECT_NAME}/generated
+  environment:
+    name: ${ENV}_${FILE_NPM_PROJECT_NAME}
+    url: https://www.npmjs.com/package/${FILE_NPM_PROJECT_NAME}/v/${VERSION}
+
+deploy:node:hash_npm:
+  extends:
+    - .deploy:node
+  needs:
+    - test:hash_npm
+  variables:
+    PROJECT_NAME: ${HASH_NPM_PROJECT_NAME}/generated
+  environment:
+    name: ${ENV}_${HASH_NPM_PROJECT_NAME}
+    url: https://www.npmjs.com/package/${HASH_NPM_PROJECT_NAME}/v/${VERSION}
+
 deploy:container-station:
   extends:
     - .deploy:container-station
   needs:
-    - publish:docker:proxy_api
+    - publish:docker:api
     - publish:docker:file_api
     - publish:docker:hash_api
-    # - publish:docker:user_api
     - publish:docker:storybook_web
+    - publish:docker:web
   variables:
     ENV: PROD
 
