@@ -196,7 +196,8 @@ deploy:node:file_npm:
   extends:
     - .deploy:node
   needs:
-    - test:file_npm
+    - test:file_sln
+    # - test:file_npm
   variables:
     PROJECT_NAME: ${FILE_NPM_PROJECT_NAME}/generated
   environment:
@@ -207,7 +208,8 @@ deploy:node:hash_npm:
   extends:
     - .deploy:node
   needs:
-    - test:hash_npm
+    - test:hash_sln
+    # - test:hash_npm
   variables:
     PROJECT_NAME: ${HASH_NPM_PROJECT_NAME}/generated
   environment:
