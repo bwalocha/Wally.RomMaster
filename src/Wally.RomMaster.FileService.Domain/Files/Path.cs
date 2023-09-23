@@ -39,4 +39,11 @@ public class Path : AggregateRoot
 
 		return model;
 	}
+
+	public Path Update(IClockService clockService)
+	{
+		ModifiedAt = clockService.GetTimestamp();
+		
+		return this;
+	}
 }

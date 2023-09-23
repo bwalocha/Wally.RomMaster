@@ -75,7 +75,7 @@ public class FileScannerService : BackgroundService
 		var command = new RemoveOutdatedFilesCommand(_clockService.StartTimestamp);
 		using var scope = _serviceProvider.CreateScope();
 		var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
-		await mediator.Send(command);
+		await mediator.Send(command, cancellationToken);
 	}
 
 	private async Task ScanAsync(FolderSettings folder, CancellationToken cancellationToken)
@@ -90,6 +90,35 @@ public class FileScannerService : BackgroundService
 		{
 			_logger.LogWarning($"Folder '{folder.Path}' does not exist. Skipping.");
 			return;
+		}
+
+		foreach (var path in Directory.EnumerateDirectories(folder.Path.LocalPath, "*.*", folder.SearchOptions))
+		{
+			if (cancellationToken.IsCancellationRequested)
+			{
+				_logger.LogDebug("ScanAsync cancelled.");
+				return;
+			}
+			
+			if (IsExcluded(path, folder.Excludes))
+			{
+				_logger.LogDebug($"Path '{path}' excluded from scanning.");
+				continue;
+			}
+			
+			_logger.LogDebug($"Path '{path}' found.");
+			
+			var command = new ScanPathCommand(FileLocation.Create(new Uri(path)));
+			using var scope = _serviceProvider.CreateScope();
+			var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+			try
+			{
+				await mediator.Send(command, cancellationToken);
+			}
+			catch (Exception exception)
+			{
+				_logger.LogError("Error: '{0}'", exception);
+			}
 		}
 
 		foreach (var file in Directory.EnumerateFiles(folder.Path.LocalPath, "*.*", folder.SearchOptions))

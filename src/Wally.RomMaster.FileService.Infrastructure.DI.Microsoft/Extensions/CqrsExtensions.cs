@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using MediatR;
+
+using Microsoft.Extensions.DependencyInjection;
 
 using Wally.Lib.DDD.Abstractions.DomainEvents;
 using Wally.RomMaster.FileService.Application;
@@ -15,16 +17,23 @@ public static class CqrsExtensions
 			{
 				a.RegisterServicesFromAssemblyContaining<IApplicationAssemblyMarker>();
 
-				a.AddOpenBehavior(typeof(LogBehavior<,>));
+				/*a.AddOpenBehavior(typeof(LogBehavior<,>));
 				a.AddOpenBehavior(typeof(TransactionBehavior<,>));
 				a.AddOpenBehavior(typeof(UpdateMetadataHandlerBehavior<,>));
 				a.AddOpenBehavior(typeof(DomainEventHandlerBehavior<,>));
 				a.AddOpenBehavior(typeof(UpdateMetadataHandlerBehavior<,>));
-
 				// a.AddOpenBehavior(typeof(CommandHandlerValidatorBehavior<,>));
 				a.AddOpenBehavior(typeof(CommandHandlerValidatorsBehavior<,>));
-				a.AddOpenBehavior(typeof(QueryHandlerValidatorBehavior<,>));
+				a.AddOpenBehavior(typeof(QueryHandlerValidatorBehavior<,>));*/
 			});
+		
+		services.AddTransient(typeof(IPipelineBehavior<,>), typeof(LogBehavior<,>));
+		services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBehavior<,>));
+		services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UpdateMetadataHandlerBehavior<,>));
+		services.AddTransient(typeof(IPipelineBehavior<,>), typeof(DomainEventHandlerBehavior<,>));
+		services.AddTransient(typeof(IPipelineBehavior<,>), typeof(UpdateMetadataHandlerBehavior<,>));
+		services.AddTransient(typeof(IPipelineBehavior<,>), typeof(CommandHandlerValidatorBehavior<,>));
+		services.AddTransient(typeof(IPipelineBehavior<,>), typeof(QueryHandlerValidatorBehavior<,>));
 
 		services.Scan(
 			a => a.FromAssemblyOf<IApplicationAssemblyMarker>()

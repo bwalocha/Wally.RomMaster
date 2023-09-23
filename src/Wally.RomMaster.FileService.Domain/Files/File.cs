@@ -68,9 +68,9 @@ public class File : AggregateRoot
 	// public DateTime ModifiedAt { get; private set; }
 
 	public Guid PathId { get; private set; }
-	
+
 	public Path Path { get; private set; }
-	
+
 	// public DataFile DataFile { get; private set; }
 
 	// public Guid? DataFileId { get; private set; }

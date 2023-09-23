@@ -7,14 +7,12 @@ using MediatR;
 
 using Microsoft.Extensions.Logging;
 
-using Wally.Lib.DDD.Abstractions.Responses;
-
 // using Newtonsoft.Json;
 
 namespace Wally.RomMaster.FileService.Infrastructure.PipelineBehaviours;
 
 public class LogBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-	where TRequest : IRequest<TResponse> where TResponse : IResponse
+	where TRequest : IRequest<TResponse> // where TResponse : IResponse
 {
 	// TODO: move static field to base abstract class
 	/*private static readonly JsonSerializerSettings _jsonSettings = new()

@@ -204,6 +204,7 @@ public class FileWatcherService : BackgroundService
 		if (Directory.Exists(filePathName))
 		{
 			// is a directory
+			await ReScanPathAsync(filePathName, folder, cancellationToken);
 			return;
 		}
 
@@ -309,5 +310,37 @@ public class FileWatcherService : BackgroundService
 		}
 
 		base.Dispose();
+	}
+
+	private async Task ReScanPathAsync(string folderPath, FolderSettings folder, CancellationToken cancellationToken)
+	{
+		foreach (var path in Directory.EnumerateDirectories(folderPath, "*.*", folder.SearchOptions))
+		{
+			if (cancellationToken.IsCancellationRequested)
+			{
+				_logger.LogDebug("ScanAsync cancelled.");
+				return;
+			}
+			
+			if (IsExcluded(path, folder.Excludes))
+			{
+				_logger.LogDebug($"Path '{path}' excluded from scanning.");
+				continue;
+			}
+			
+			_logger.LogDebug($"Path '{path}' found.");
+			
+			var command = new ScanPathCommand(FileLocation.Create(new Uri(path)));
+			using var scope = _serviceProvider.CreateScope();
+			var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+			try
+			{
+				await mediator.Send(command, cancellationToken);
+			}
+			catch (Exception exception)
+			{
+				_logger.LogError("Error: '{0}'", exception);
+			}
+		}
 	}
 }
