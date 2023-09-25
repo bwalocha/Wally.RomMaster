@@ -5,22 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="89ceaba3-055c-4f46-8d14-3240f09b682e" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Application.Contracts/Reinforced.Typings.settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Application.Contracts/Reinforced.Typings.settings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Application/Files/Commands/ScanPathCommand.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Application/Files/Commands/ScanPathCommandHandler.cs" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Application/Files/Commands/ScanPathCommandValidator.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Application.Contracts/Responses/Files/GetPathsResponse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Application.Contracts/Responses/Files/GetPathsResponse.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Application.Contracts/generated/Files/Requests/GetFilesRequest.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Application.Contracts/generated/Files/Requests/GetFilesRequest.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Application.Contracts/generated/Files/Responses/GetFilesResponse.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Application.Contracts/generated/Files/Responses/GetFilesResponse.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Application.Contracts/generated/Paths/Requests/GetPathsRequest.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Application.Contracts/generated/Paths/Requests/GetPathsRequest.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Application.Contracts/generated/Paths/Responses/GetPathsResponse.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Application.Contracts/generated/Paths/Responses/GetPathsResponse.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Application.Contracts/generated/Responses/Abstractions/PageInfoResponse.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Application.Contracts/generated/Responses/Abstractions/PageInfoResponse.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Application.Contracts/generated/Responses/Abstractions/PagedResponse.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Application.Contracts/generated/Responses/Abstractions/PagedResponse.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Application.Contracts/generated/Users/Requests/CreateUserRequest.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Application.Contracts/generated/Users/Requests/CreateUserRequest.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Application.Contracts/generated/Users/Requests/GetUsersRequest.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Application.Contracts/generated/Users/Requests/GetUsersRequest.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Application.Contracts/generated/Users/Requests/UpdateUserRequest.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Application.Contracts/generated/Users/Requests/UpdateUserRequest.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Application.Contracts/generated/Users/Responses/GetUserResponse.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Application.Contracts/generated/Users/Responses/GetUserResponse.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Application.Contracts/generated/Users/Responses/GetUsersResponse.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Application.Contracts/generated/Users/Responses/GetUsersResponse.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Domain/Abstractions/AggregateRoot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Domain/Abstractions/AggregateRoot.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Domain/Files/File.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Domain/Files/File.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Domain/Files/Path.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Domain/Files/Path.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Infrastructure.BackgroundServices/FileScannerService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Infrastructure.BackgroundServices/FileScannerService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Infrastructure.BackgroundServices/FileWatcherService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Infrastructure.BackgroundServices/FileWatcherService.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Infrastructure.DI.Microsoft/Extensions/CqrsExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Infrastructure.DI.Microsoft/Extensions/CqrsExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Infrastructure.PipelineBehaviours/LogBehavior.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Infrastructure.PipelineBehaviours/LogBehavior.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService.WebApi/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService.WebApi/appsettings.Development.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.HashService.WebApi/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.HashService.WebApi/appsettings.Development.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -93,7 +91,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1694958886919</updated>
-      <workItem from="1694958889243" duration="1742000" />
+      <workItem from="1694958889243" duration="1757000" />
     </task>
     <servers />
   </component>
