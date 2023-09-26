@@ -195,9 +195,9 @@ deploy:file_pkg:
   needs:
     - publish:file_pkg
   variables:
-    PROJECT_NAME: ${FILE_PKG_NAME}
+    PROJECT_NAME: ${FILE_SOLUTION_NAME}/${FILE_PKG_PROJECT_NAME}
   environment:
-    name: ${ENV}_${FILE_PKG_NAME}
+    name: ${ENV}_${FILE_PKG_PROJECT_NAME}
     url: https://www.nuget.org/packages/${FILE_PKG_PROJECT_NAME}
 
 deploy:hash_pkg:
@@ -206,9 +206,9 @@ deploy:hash_pkg:
   needs:
     - publish:hash_pkg
   variables:
-    PROJECT_NAME: ${HASH_PKG_NAME}
+    PROJECT_NAME: ${HASH_SOLUTION_NAME}/${HASH_PKG_PROJECT_NAME}
   environment:
-    name: ${ENV}_${HASH_PKG_NAME}
+    name: ${ENV}_${HASH_PKG_PROJECT_NAME}
     url: https://www.nuget.org/packages/${HASH_PKG_PROJECT_NAME}
 
 deploy:node:file_npm:
