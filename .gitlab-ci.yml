@@ -1,8 +1,8 @@
 variables:
   STACK: RomMaster
   #
-  SLN_SOLUTION_NAME: "Wally.RomMaster.ApiGateway"
-  API_PROJECT_NAME: "Wally.RomMaster.ApiGateway.WebApi"
+  GATE_SOLUTION_NAME: "Wally.RomMaster.ApiGateway"
+  GATE_API_PROJECT_NAME: "Wally.RomMaster.ApiGateway.WebApi"
   #
   FILE_SOLUTION_NAME: "Wally.RomMaster.FileService"
   FILE_API_PROJECT_NAME: "Wally.RomMaster.FileService.WebApi"
@@ -26,11 +26,11 @@ stages:
   - publish
   - deploy
 
-build:sln:
+build:gate_sln:
   extends:
     - .build:dotnet
   variables:
-    SOLUTION_NAME: ${SLN_SOLUTION_NAME}
+    SOLUTION_NAME: ${GATE_SOLUTION_NAME}
 
 build:file_sln:
   extends:
@@ -57,13 +57,13 @@ build:web:
   variables:
     PROJECT_NAME: ${WEB_PROJECT_NAME}
 
-test:sln:
+test:gate_sln:
   extends:
     - .test:dotnet
   needs:
-    - build:sln
+    - build:gate_sln
   variables:
-    SOLUTION_NAME: ${SLN_SOLUTION_NAME}
+    SOLUTION_NAME: ${GATE_SOLUTION_NAME}
 
 test:file_sln:
   extends:
@@ -87,7 +87,7 @@ test:file_npm:
   needs:
     - test:file_sln
   variables:
-    PROJECT_NAME: ${FILE_NPM_PROJECT_NAME}/generated
+    PROJECT_NAME: ${FILE_SOLUTION_NAME}/${FILE_NPM_PROJECT_NAME}/generated
   allow_failure: true
 
 test:hash_npm:
@@ -96,7 +96,7 @@ test:hash_npm:
   needs:
     - test:hash_sln
   variables:
-    PROJECT_NAME: ${HASH_NPM_PROJECT_NAME}/generated
+    PROJECT_NAME: ${HASH_SOLUTION_NAME}/${HASH_NPM_PROJECT_NAME}/generated
   allow_failure: true
 
 test:web:
@@ -108,13 +108,13 @@ test:web:
     PROJECT_NAME: ${WEB_PROJECT_NAME}
   allow_failure: true
 
-publish:api:
+publish:gate_api:
   extends:
     - .publish:dotnet
   needs:
-    - test:sln
+    - test:gate_sln
   variables:
-    PROJECT_NAME: ${API_PROJECT_NAME}
+    PROJECT_NAME: ${GATE_SOLUTION_NAME}/${GATE_API_PROJECT_NAME}
 
 publish:file_api:
   extends:
@@ -122,7 +122,7 @@ publish:file_api:
   needs:
     - test:file_sln
   variables:
-    PROJECT_NAME: ${FILE_API_PROJECT_NAME}
+    PROJECT_NAME: ${FILE_SOLUTION_NAME}/${FILE_API_PROJECT_NAME}
 
 publish:hash_api:
   extends:
@@ -130,7 +130,7 @@ publish:hash_api:
   needs:
     - test:hash_sln
   variables:
-    PROJECT_NAME: ${HASH_API_PROJECT_NAME}
+    PROJECT_NAME: ${HASH_SOLUTION_NAME}/${HASH_API_PROJECT_NAME}
 
 publish:file_pkg:
   extends:
@@ -148,13 +148,13 @@ publish:hash_pkg:
   variables:
     PROJECT_NAME: ${HASH_PKG_PROJECT_NAME}
 
-publish:docker:api:
+publish:docker:gate_api:
   extends:
     - .publish:docker
   needs:
-    - publish:api
+    - publish:gate_api
   variables:
-    PROJECT_NAME: ${API_PROJECT_NAME}
+    PROJECT_NAME: ${GATE_API_PROJECT_NAME}
 
 publish:docker:file_api:
   extends:
@@ -239,7 +239,7 @@ deploy:container-station:
   extends:
     - .deploy:container-station
   needs:
-    - publish:docker:api
+    - publish:docker:gate_api
     - publish:docker:file_api
     - publish:docker:hash_api
     - publish:docker:storybook_web
