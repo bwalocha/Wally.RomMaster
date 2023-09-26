@@ -17,7 +17,12 @@ public abstract class AggregateRoot : Lib.DDD.Abstractions.DomainModels.Aggregat
 
 	public Guid CreatedById { get; private set; }
 
-	public DateTime? ModifiedAt { get; protected set; }
+	public DateTime? ModifiedAt { get; private set; }
 
 	public Guid? ModifiedById { get; private set; }
+	
+	protected void SetModifiedAt(DateTime modifiedAt)
+	{
+		ModifiedAt = modifiedAt;
+	}
 }

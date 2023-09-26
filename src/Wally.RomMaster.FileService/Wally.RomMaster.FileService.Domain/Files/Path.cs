@@ -42,7 +42,7 @@ public class Path : AggregateRoot
 
 	public Path Update(IClockService clockService)
 	{
-		ModifiedAt = clockService.GetTimestamp();
+		SetModifiedAt(clockService.GetTimestamp());
 		
 		return this;
 	}
