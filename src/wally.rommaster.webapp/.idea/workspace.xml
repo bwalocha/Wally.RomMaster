@@ -5,24 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="89ceaba3-055c-4f46-8d14-3240f09b682e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/Header.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/components/Provider.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hooks/useDebounce.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/hooks/useGlobalStyles.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/store/fileApi.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/store/index.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.WebApi/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.WebApi/appsettings.Development.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.HashService/Wally.RomMaster.HashService.Infrastructure.DI.Microsoft/Extensions/DbContextExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.HashService/Wally.RomMaster.HashService.Infrastructure.DI.Microsoft/Extensions/DbContextExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.HashService/Wally.RomMaster.HashService.Infrastructure.DI.Microsoft/Extensions/HealthChecksExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.HashService/Wally.RomMaster.HashService.Infrastructure.DI.Microsoft/Extensions/HealthChecksExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.HashService/Wally.RomMaster.HashService.Infrastructure.DI.Microsoft/Models/DatabaseProviderType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.HashService/Wally.RomMaster.HashService.Infrastructure.DI.Microsoft/Models/DatabaseProviderType.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.HashService/Wally.RomMaster.HashService.WebApi/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.HashService/Wally.RomMaster.HashService.WebApi/appsettings.Development.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/page.module.css" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -53,7 +38,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/repo/wally/wally.rommaster/src/wally.rommaster.webapp/store",
+    "last_opened_file_path": "C:/repo/wally/wally.rommaster/src/wally.rommaster.webapp",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -65,6 +50,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\repo\wally\wally.rommaster\src\wally.rommaster.webapp" />
       <recent name="C:\repo\wally\wally.rommaster\src\wally.rommaster.webapp\store" />
       <recent name="C:\repo\wally\wally.rommaster\src\wally.rommaster.webapp\components" />
       <recent name="C:\repo\wally\wally.rommaster\src\wally.rommaster.webapp\hooks" />
@@ -107,7 +93,7 @@
       <option name="presentableId" value="Default" />
       <updated>1694958886919</updated>
       <workItem from="1694958889243" duration="1757000" />
-      <workItem from="1696159631186" duration="4209000" />
+      <workItem from="1696159631186" duration="5655000" />
     </task>
     <servers />
   </component>
