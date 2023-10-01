@@ -5,20 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="89ceaba3-055c-4f46-8d14-3240f09b682e" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Application/Files/Commands/ScanPathCommand.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Application/Files/Commands/ScanPathCommandHandler.cs" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Application/Files/Commands/ScanPathCommandValidator.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Application.Contracts/Responses/Files/GetPathsResponse.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Application.Contracts/Responses/Files/GetPathsResponse.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Domain/Abstractions/AggregateRoot.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Domain/Abstractions/AggregateRoot.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Domain/Files/File.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Domain/Files/File.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Domain/Files/Path.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Domain/Files/Path.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Infrastructure.BackgroundServices/FileScannerService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Infrastructure.BackgroundServices/FileScannerService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Infrastructure.BackgroundServices/FileWatcherService.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Infrastructure.BackgroundServices/FileWatcherService.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Infrastructure.DI.Microsoft/Extensions/CqrsExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Infrastructure.DI.Microsoft/Extensions/CqrsExtensions.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Infrastructure.PipelineBehaviours/LogBehavior.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService.Infrastructure.PipelineBehaviours/LogBehavior.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService.WebApi/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService.WebApi/appsettings.Development.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.HashService.WebApi/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.HashService.WebApi/appsettings.Development.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/Header.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/components/Provider.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hooks/useDebounce.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hooks/useGlobalStyles.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/store/fileApi.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/store/index.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.WebApi/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.WebApi/appsettings.Development.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.HashService/Wally.RomMaster.HashService.Infrastructure.DI.Microsoft/Extensions/DbContextExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.HashService/Wally.RomMaster.HashService.Infrastructure.DI.Microsoft/Extensions/DbContextExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.HashService/Wally.RomMaster.HashService.Infrastructure.DI.Microsoft/Extensions/HealthChecksExtensions.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.HashService/Wally.RomMaster.HashService.Infrastructure.DI.Microsoft/Extensions/HealthChecksExtensions.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.HashService/Wally.RomMaster.HashService.Infrastructure.DI.Microsoft/Models/DatabaseProviderType.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.HashService/Wally.RomMaster.HashService.Infrastructure.DI.Microsoft/Models/DatabaseProviderType.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.HashService/Wally.RomMaster.HashService.WebApi/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.HashService/Wally.RomMaster.HashService.WebApi/appsettings.Development.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/page.module.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/app/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -31,11 +35,14 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 7
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 7
+}</component>
   <component name="ProjectId" id="2VWjm00RfbAC1YxTHRXLEqTR2ua" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="autoscrollFromSource" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -46,6 +53,7 @@
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/repo/wally/wally.rommaster/src/wally.rommaster.webapp/store",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -55,7 +63,14 @@
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="RunManager">
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\repo\wally\wally.rommaster\src\wally.rommaster.webapp\store" />
+      <recent name="C:\repo\wally\wally.rommaster\src\wally.rommaster.webapp\components" />
+      <recent name="C:\repo\wally\wally.rommaster\src\wally.rommaster.webapp\hooks" />
+    </key>
+  </component>
+  <component name="RunManager" selected="npm.build">
     <configuration name="build" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
       <package-json value="$PROJECT_DIR$/package.json" />
       <command value="run" />
@@ -78,8 +93,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="npm.build" />
         <item itemvalue="npm.dev" />
+        <item itemvalue="npm.build" />
       </list>
     </recent_temporary>
   </component>
@@ -92,6 +107,7 @@
       <option name="presentableId" value="Default" />
       <updated>1694958886919</updated>
       <workItem from="1694958889243" duration="1757000" />
+      <workItem from="1696159631186" duration="4209000" />
     </task>
     <servers />
   </component>
