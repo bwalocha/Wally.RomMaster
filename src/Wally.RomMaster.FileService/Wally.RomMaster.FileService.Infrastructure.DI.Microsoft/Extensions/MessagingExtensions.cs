@@ -10,6 +10,8 @@ using Microsoft.Extensions.Logging;
 using Wally.RomMaster.FileService.Application.Messages.Files;
 using Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.Models;
 using Wally.RomMaster.FileService.Infrastructure.Messaging;
+using Wally.RomMaster.FileService.Infrastructure.Messaging.Consumers;
+using Wally.RomMaster.HashService.Application.Messages.Hashes;
 
 namespace Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.Extensions;
 
@@ -41,19 +43,21 @@ public static class MessagingExtensions
 						
 						a.AddRider(rider =>
 						{
-							// rider.AddConsumer<KafkaMessageConsumer>();
-							rider.AddProducer<FileCreatedMessage>(nameof(FileCreatedMessage));
-							rider.AddProducer<FileModifiedMessage>(nameof(FileModifiedMessage));
+							rider.AddConsumersFromNamespaceContaining<IInfrastructureMessagingAssemblyMarker>();
+							// TODO: auto-register
+							rider.AddProducer<FileCreatedMessage>(typeof(FileCreatedMessage).FullName);
+							rider.AddProducer<FileModifiedMessage>(typeof(FileModifiedMessage).FullName);
 
 							rider.UsingKafka((context, k) =>
 							{
 								k.ClientId = typeof(IInfrastructureMessagingAssemblyMarker).Namespace;
 								k.Host(settings.ConnectionStrings.ServiceBus);
 
-								/*k.TopicEndpoint<KafkaMessage>(typeof(IInfrastructureMessagingAssemblyMarker).Namespace, typeof(IInfrastructureMessagingAssemblyMarker).Namespace, e =>
+								// TODO: auto-register
+								k.TopicEndpoint<HashComputedMessage>(typeof(HashComputedMessage).FullName, typeof(IInfrastructureMessagingAssemblyMarker).Namespace, e =>
 								{
-									e.ConfigureConsumer<KafkaMessageConsumer>(context);
-								});*/
+									e.ConfigureConsumer<HashComputedMessageConsumer>(context);
+								});
 							});
 							
 							services.AddScoped<IBus, KafkaBus>();

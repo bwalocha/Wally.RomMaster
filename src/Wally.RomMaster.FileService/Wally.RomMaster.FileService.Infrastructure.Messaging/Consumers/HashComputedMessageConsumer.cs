@@ -5,7 +5,7 @@ using MassTransit;
 using MediatR;
 
 using Wally.RomMaster.FileService.Application.Files.Commands;
-using Wally.RomMaster.HashService.Messages.Hashes;
+using Wally.RomMaster.HashService.Application.Messages.Hashes;
 
 namespace Wally.RomMaster.FileService.Infrastructure.Messaging.Consumers;
 

@@ -9,16 +9,16 @@ using Wally.RomMaster.HashService.Application.Hashes.Commands;
 
 namespace Wally.RomMaster.HashService.Infrastructure.Messaging.Consumers;
 
-public class FileCreatedMessageConsumer : IConsumer<FileCreatedMessage>
+public class FileModifiedMessageConsumer : IConsumer<FileModifiedMessage>
 {
 	private readonly IMediator _mediator;
 
-	public FileCreatedMessageConsumer(IMediator mediator)
+	public FileModifiedMessageConsumer(IMediator mediator)
 	{
 		_mediator = mediator;
 	}
 
-	public Task Consume(ConsumeContext<FileCreatedMessage> context)
+	public Task Consume(ConsumeContext<FileModifiedMessage> context)
 	{
 		var message = context.Message;
 		var command = new ComputeHashCommand(message.Id, message.Location);

@@ -63,13 +63,13 @@
           "Newtonsoft.Json": "13.0.3"
         }
       },
-      "Wally.RomMaster.HashService.Messages": {
+      "Wally.RomMaster.HashService.Application.Messages": {
         "type": "Direct",
-        "requested": "[0.1.1770, )",
-        "resolved": "0.1.1770",
-        "contentHash": "bZCXQy4599nzcbdtpXx8xLTBMJDtCBVvMGyOEyTtMJ08UyiMzaiQHhvT/GtfTwqE3agflMK5zCXTs08BT+SE6A==",
+        "requested": "[0.1.2131, )",
+        "resolved": "0.1.2131",
+        "contentHash": "d3EZjTzb2/JhHoCuIJ7eGD+zLGyV32gyy7y1U+jJixoE0Vl9Q1hbCTXCroREhwu38mQtsFRovSsEvMCcE6yrFA==",
         "dependencies": {
-          "FluentValidation": "11.4.0"
+          "FluentValidation": "11.7.1"
         }
       },
       "FluentValidation": {

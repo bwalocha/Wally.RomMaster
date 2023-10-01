@@ -38,6 +38,7 @@ public class ComputeHashCommandHandler : CommandHandler<ComputeHashCommand>
 		_logger.LogInformation("CRC32 for '{0}': {1}", command.FileLocation, computedCrc32);
 
 		var message = new HashComputedMessage(command.FileId, computedCrc32);
+		
 		await _bus.Publish(message, cancellationToken);
 	}
 }

@@ -2,6 +2,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 
+using Confluent.Kafka;
+
+using HealthChecks.Kafka;
 using HealthChecks.MySql;
 using HealthChecks.UI.Client;
 
@@ -68,6 +71,19 @@ public static class HealthChecksExtensions
 				// healthChecksBuilder.AddAzureServiceBusQueue()
 				// ...
 
+				break;
+			case MessageBrokerType.Kafka:
+				healthChecksBuilder.AddKafka(
+					new KafkaHealthCheckOptions
+					{
+						Configuration = new ProducerConfig(new ClientConfig
+						{
+							BootstrapServers = settings.ConnectionStrings.ServiceBus,
+						}),
+					},
+					name: "MQ",
+					failureStatus: HealthStatus.Degraded,
+					tags: new[] { "MQ", "Messaging", nameof(MessageBrokerType.Kafka), });
 				break;
 			case MessageBrokerType.RabbitMQ:
 				healthChecksBuilder.AddRabbitMQ(

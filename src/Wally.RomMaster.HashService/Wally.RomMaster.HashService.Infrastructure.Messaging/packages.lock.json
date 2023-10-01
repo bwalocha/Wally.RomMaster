@@ -63,13 +63,13 @@
           "Newtonsoft.Json": "13.0.3"
         }
       },
-      "Wally.RomMaster.FileService.Messages": {
+      "Wally.RomMaster.FileService.Application.Messages": {
         "type": "Direct",
-        "requested": "[0.1.1770, )",
-        "resolved": "0.1.1770",
-        "contentHash": "b6Q72YZF/MOVCOqjZfTrhtZOHP8Kl42kRAhkYHHddhgeIJFhRi2mh09JpifvJwcH9XZ16hmgNZZVHbktXfJEWg==",
+        "requested": "[0.1.2131, )",
+        "resolved": "0.1.2131",
+        "contentHash": "yOIVU6pxKuRAb3nytJUKKVuWAivaEo9fMNatJLZ9JpahUUZY4eRgl7Sy6vXhfXHcU+si6KXIxuIxJLEmwI9dLA==",
         "dependencies": {
-          "FluentValidation": "11.4.0"
+          "FluentValidation": "11.7.1"
         }
       },
       "FluentValidation": {
@@ -79,8 +79,8 @@
       },
       "MassTransit.Abstractions": {
         "type": "Transitive",
-        "resolved": "8.1.0",
-        "contentHash": "sOj80wU5B0MFtlY6cdobQqqzllLGs3diAVK0fSRvfgm1q49LkxZ23JqDyfb2AthVBLyzYsi78I/iKK3O3GRLQA=="
+        "resolved": "8.1.1",
+        "contentHash": "fe6isUE0S87Px/Qkg5fkg8ymhax87SNdcOgOtOxo5ZUm8Er9VgmUBwHGYg8fHywDri6xGCJtLucFSaUIu2Urrw=="
       },
       "MediatR.Contracts": {
         "type": "Transitive",
@@ -255,7 +255,7 @@
       "wally.rommaster.hashservice.application": {
         "type": "Project",
         "dependencies": {
-          "MassTransit.Abstractions": "[8.1.0, )",
+          "MassTransit.Abstractions": "[8.1.1, )",
           "Microsoft.AspNetCore.OData": "[8.2.3, )",
           "Microsoft.Extensions.Logging.Abstractions": "[7.0.1, )",
           "Wally.RomMaster.HashService.Application.Contracts": "[1.0.0, )",
