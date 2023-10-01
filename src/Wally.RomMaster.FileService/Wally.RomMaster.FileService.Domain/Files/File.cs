@@ -108,7 +108,8 @@ public class File : AggregateRoot
 		// var crc32 = entry.Crc32.ToString("X2", CultureInfo.InvariantCulture); // TODO: move to another service
 		var fullName = new Uri($"{archivePackage.Location.Location.LocalPath}#{entry.FullName}");
 		var model = new File(clockService.GetTimestamp(), path, fullName, entry.Length, archivePackage /*, crc32*/);
-
+		// model.AddDomainEvent(new FileCreatedDomainEvent(model.Id));
+		
 		return model;
 	}
 
@@ -144,6 +145,8 @@ public class File : AggregateRoot
 			/*Crc = fileInfo.IsArchivePackage()
 				? "-"
 				: await ComputeHashAsync(fileInfo, hashAlgorithm, cancellationToken);*/
+			
+			AddDomainEvent(new FileModifiedDomainEvent(Id));
 		}
 
 		// ModifiedAt = clockService.GetTimestamp();
@@ -169,12 +172,6 @@ public class File : AggregateRoot
 					".7zip",
 					StringComparison.InvariantCultureIgnoreCase);
 	}
-
-	/*public void SetDataFile(DataFile dataFile)
-	{
-		DataFile = dataFile;
-		DataFileId = dataFile.Id;
-	}*/
 
 	public void SetCrc32(string crc32)
 	{
