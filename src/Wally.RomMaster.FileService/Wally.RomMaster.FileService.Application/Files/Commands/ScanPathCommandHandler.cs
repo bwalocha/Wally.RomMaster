@@ -27,17 +27,9 @@ public class ScanPathCommandHandler : CommandHandler<ScanPathCommand>
 		var path = await _pathRepository.GetOrDefaultAsync(command.Location, cancellationToken);
 		if (path == null)
 		{
-			var parentLocation = System.IO.Path.GetDirectoryName(command.Location.Location.LocalPath);
-			if (string.IsNullOrEmpty(parentLocation))
-			{
-				path = Path.Create(null, command.Location.Location.LocalPath);
-			}
-			else
-			{
-				var parent = await _pathRepository.GetOrDefaultAsync(FileLocation.Create(new Uri(parentLocation)), cancellationToken);
-				path = Path.Create(parent, command.Location.Location.LocalPath);
-			}
-
+			var parentPath = await GetOrCreatePathAsync(command.Location.Location.LocalPath, cancellationToken);
+			path = Path.Create(parentPath, command.Location.Location.LocalPath);
+	
 			_pathRepository.Add(path);
 		}
 		else
@@ -45,5 +37,24 @@ public class ScanPathCommandHandler : CommandHandler<ScanPathCommand>
 			path.Update(_clockService);
 			_pathRepository.Update(path);
 		}
+	}
+	
+	private async Task<Path?> GetOrCreatePathAsync(string pathName, CancellationToken cancellationToken)
+	{
+		var name = System.IO.Path.GetDirectoryName(pathName);
+		if (string.IsNullOrEmpty(name))
+		{
+			return null;
+		}
+
+		var path = await _pathRepository.GetOrDefaultAsync(FileLocation.Create(new Uri(name)), cancellationToken);
+		if (path == null)
+		{
+			var parent = await GetOrCreatePathAsync(name, cancellationToken);
+
+			path = Path.Create(parent, name);
+		}
+
+		return path;
 	}
 }
