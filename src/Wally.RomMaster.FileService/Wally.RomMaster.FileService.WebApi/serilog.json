@@ -1,8 +1,9 @@
 {
   "Serilog": {
     "Using": [
-      "Serilog.Sinks.Console",
-      "Serilog.Sinks.ApplicationInsights"
+      "Serilog.Sinks.Console"
+      // "Serilog.Sinks.ApplicationInsights",
+      // "Serilog.Expressions",
     ],
     "MinimumLevel": {
       "Default": "Debug",
@@ -18,7 +19,7 @@
         "Name": "Console",
         "Args": {
           "theme": "Serilog.Sinks.SystemConsole.Themes.AnsiConsoleTheme::Code, Serilog.Sinks.Console",
-          "outputTemplate": "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Properties:j}{NewLine}{Exception}{NewLine}"
+          "outputTemplate": "[{Timestamp:HH:mm:ss} <{EnvironmentUserName}@{MachineName} [{EnvironmentName}] {ProcessId}:{ThreadId}:{ThreadName}> {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Properties:j}{NewLine}{Exception}{NewLine}"
         }
       },
       //      {
@@ -48,7 +49,11 @@
     "Enrich": [
       "FromLogContext",
       "WithMachineName",
-      "WithThreadId"
+      "WithEnvironmentUserName",
+      "WithEnvironmentName",
+      "WithProcessId",
+      "WithThreadId",
+      "WithThreadName"
     ],
     "Properties": {
       "Application": "Wally.RomMaster.FileService"

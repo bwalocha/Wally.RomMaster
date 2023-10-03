@@ -109,6 +109,7 @@ public class FileWatcherService : BackgroundService
 
 			var watcher = new FileSystemWatcher(folder.Path.LocalPath, "*.*")
 			{
+				InternalBufferSize = 8192 * 8,
 				IncludeSubdirectories = folder.SearchOptions == SearchOption.AllDirectories,
 				NotifyFilter =
 

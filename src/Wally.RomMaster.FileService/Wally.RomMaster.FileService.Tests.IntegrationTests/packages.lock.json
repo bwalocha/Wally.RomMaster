@@ -1481,6 +1481,30 @@
           "Serilog.Sinks.File": "5.0.0"
         }
       },
+      "Serilog.Enrichers.Environment": {
+        "type": "Transitive",
+        "resolved": "2.3.0",
+        "contentHash": "AdZXURQ0dQCCjst3Jn3lwFtGicWjGE4wov9E5BPc4N5cruGmd2y9wprCYEjFteU84QMbxk35fpeTuHs6M4VGYw==",
+        "dependencies": {
+          "Serilog": "2.3.0"
+        }
+      },
+      "Serilog.Enrichers.Process": {
+        "type": "Transitive",
+        "resolved": "2.0.2",
+        "contentHash": "T9EjKKLsL6qC/3eOLUAKEPBLEqPDmt5BLXaQdPMaxJzuex+MeXA8DuAiPboUaftp3kbnCN4ZgZpDvs+Fa7OHuw==",
+        "dependencies": {
+          "Serilog": "2.3.0"
+        }
+      },
+      "Serilog.Enrichers.Thread": {
+        "type": "Transitive",
+        "resolved": "3.1.0",
+        "contentHash": "85lWsGRJpRxvKT6j/H67no55SUBsBIvp556TKuBTGhjtoPeq+L7j/sDWbgAtvT0p7u7/phJyX6j35PQ4Vtqw0g==",
+        "dependencies": {
+          "Serilog": "2.3.0"
+        }
+      },
       "Serilog.Extensions.Hosting": {
         "type": "Transitive",
         "resolved": "7.0.0",
@@ -2672,6 +2696,9 @@
         "type": "Project",
         "dependencies": {
           "Serilog.AspNetCore": "[7.0.0, )",
+          "Serilog.Enrichers.Environment": "[2.3.0, )",
+          "Serilog.Enrichers.Process": "[2.0.2, )",
+          "Serilog.Enrichers.Thread": "[3.1.0, )",
           "Serilog.Sinks.ApplicationInsights": "[4.0.0, )",
           "Wally.RomMaster.FileService.Application": "[1.0.0, )",
           "Wally.RomMaster.FileService.Application.Contracts": "[1.0.0, )",

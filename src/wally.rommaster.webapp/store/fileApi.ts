@@ -23,8 +23,8 @@ export const api = createApi({
     }),
     tagTypes: ["files", "paths"],
     endpoints: (builder) => ({
-        getPaths: builder.query<PagedResponse<GetPathsResponse>, GetPathsRequest | void>({
-            query: (request) => {
+        getPaths: builder.query<PagedResponse<GetPathsResponse>, { pathId?: string, request: GetPathsRequest | void}>({
+            query: ({pathId, request}) => {
                 const query = request ? buildQuery({
                     orderBy: 'Name asc',
                     filter: [`startswith(Name, '${request.name}')`]
@@ -32,7 +32,7 @@ export const api = createApi({
                     orderBy: 'Name asc',
                 })
                 
-                return `/paths${query}`
+                return pathId ? `/paths/${pathId}/${query}` : `/paths${query}`
             },
             providesTags: (result, error, _) => [{
                 type: "paths"

@@ -49,7 +49,7 @@ public class LogBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TRes
 		{
 			stopWatch.Stop();
 
-			if (stopWatch.ElapsedMilliseconds > 500)
+			if (stopWatch.ElapsedMilliseconds > 2000)
 			{
 				_logger.LogWarning($"[{correlationId}] Executed in {stopWatch.ElapsedMilliseconds} ms.");
 			}

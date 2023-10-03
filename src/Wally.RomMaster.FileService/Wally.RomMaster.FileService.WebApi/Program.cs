@@ -8,6 +8,9 @@ using Microsoft.Extensions.Hosting;
 
 using Serilog;
 
+using Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.Extensions;
+using Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.Models;
+
 // using Azure.Identity;
 
 namespace Wally.RomMaster.FileService.WebApi;
@@ -19,13 +22,15 @@ public static class Program
 	private const string _keyVaultNameConfigName = "KeyVaultName";
 	private const bool _reloadOnChange = false;
 
+	public static IConfiguration Configuration { get; set; }
+
 	public static int Main(string[] args)
 	{
 		var configurationBuilder = new ConfigurationBuilder();
-		var configuration = ConfigureDefaultConfiguration(configurationBuilder)
+		Configuration = ConfigureDefaultConfiguration(configurationBuilder)
 			.Build();
 
-		Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(configuration)
+		Log.Logger = new LoggerConfiguration().ReadFrom.Configuration(Configuration)
 			.CreateLogger();
 
 		try
@@ -88,6 +93,13 @@ public static class Program
 			.ConfigureAppConfiguration(a => ConfigureAppConfiguration(ConfigureDefaultConfiguration(a)))
 			.UseSerilog()
 			.UseDefaultServiceProvider(opt => { opt.ValidateScopes = true; })
-			.ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); });
+			.ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); })
+			.ConfigureServices(
+				services =>
+				{
+					var settings = new AppSettings();
+					Configuration?.Bind(settings);
+					services.AddBackgroundServices(settings);
+				});
 	}
 }
