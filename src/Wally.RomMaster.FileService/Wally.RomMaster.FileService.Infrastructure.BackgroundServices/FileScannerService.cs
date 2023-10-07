@@ -82,7 +82,9 @@ public class FileScannerService : BackgroundService
 			return;
 		}
 
-		foreach (var path in Directory.EnumerateDirectories(folder.Path.LocalPath, "*.*", folder.SearchOptions))
+		using var scope = _serviceProvider.CreateScope();
+		var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+		foreach (var paths in GetPartitions(GetDeepestDirectoryInfos(folder, new DirectoryInfo(folder.Path.LocalPath), cancellationToken)))
 		{
 			if (cancellationToken.IsCancellationRequested)
 			{
@@ -90,17 +92,7 @@ public class FileScannerService : BackgroundService
 				return;
 			}
 			
-			if (IsExcluded(path, folder.Excludes))
-			{
-				_logger.LogDebug($"Path '{path}' excluded from scanning.");
-				continue;
-			}
-			
-			_logger.LogDebug($"Path '{path}' found.");
-			
-			var command = new ScanPathCommand(FileLocation.Create(new Uri(path)));
-			using var scope = _serviceProvider.CreateScope();
-			var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+			var command = new ScanPathsCommand(paths.Select(a => FileLocation.Create(new Uri(a.FullName))).ToArray());
 			try
 			{
 				await mediator.Send(command, cancellationToken);
@@ -128,8 +120,10 @@ public class FileScannerService : BackgroundService
 			_logger.LogDebug($"File '{file}' found.");
 
 			var command = new ScanFileCommand(FileLocation.Create(new Uri(file)));
+			/*
 			using var scope = _serviceProvider.CreateScope();
 			var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+			*/
 			try
 			{
 				await mediator.Send(command, cancellationToken);
@@ -149,5 +143,53 @@ public class FileScannerService : BackgroundService
 	private static bool IsExcluded(string file, ExcludeSettings exclude)
 	{
 		return exclude.Match(file);
+	}
+
+	private IEnumerable<DirectoryInfo> GetDeepestDirectoryInfos(FolderSettings folder, DirectoryInfo directoryInfo, CancellationToken cancellationToken)
+	{
+		_logger.LogDebug("Path '{DirectoryInfoFullName}' scanning...", directoryInfo.FullName);
+		
+		var children = directoryInfo
+			.EnumerateDirectories("*.*", SearchOption.TopDirectoryOnly)
+			.Where(a => !IsExcluded(a.FullName, folder.Excludes))
+			.ToList();
+
+		if (!children.Any() || folder.SearchOptions == SearchOption.TopDirectoryOnly)
+		{
+			yield return directoryInfo;
+		}
+
+		foreach (var path in children)
+		{
+			if (cancellationToken.IsCancellationRequested)
+			{
+				_logger.LogDebug("ScanAsync cancelled.");
+				yield break;
+			}
+
+			foreach (var child in GetDeepestDirectoryInfos(folder, path, cancellationToken))
+			{
+				yield return child;
+			}
+		}
+	}
+
+	private IEnumerable<IEnumerable<T>> GetPartitions<T>(IEnumerable<T> items, int partitionSize = 100)
+	{
+		var partitionIndex = 0;
+		var partition = items.ToList();
+		do
+		{
+			partition = partition.Skip(partitionSize * partitionIndex).ToList();
+			if (!partition.Any())
+			{
+				yield break;
+			}
+			
+			yield return partition.Take(partitionSize);
+
+			partitionIndex++;
+		}
+		while (true);
 	}
 }

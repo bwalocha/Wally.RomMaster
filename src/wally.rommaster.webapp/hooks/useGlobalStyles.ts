@@ -12,8 +12,8 @@ const useGlobalStyles = makeStyles({
         display: "flex",
         flexDirection: "row",
         // width: "100%",
-        rowGap: "15px",
-        columnGap: "15px",
+        // rowGap: "15px",
+        // columnGap: "15px",
     },
     flexColumn: {
         display: "flex",

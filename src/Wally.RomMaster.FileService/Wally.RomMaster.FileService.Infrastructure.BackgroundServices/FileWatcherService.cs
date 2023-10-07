@@ -48,10 +48,6 @@ public class FileWatcherService : BackgroundService
 	{
 		_logger.LogInformation("Starting...");
 
-		/*_watchers.AddRange(CreateWatchers(_settings.DatRoots, OnDatFileChanged));
-		_watchers.AddRange(CreateWatchers(_settings.RomRoots, OnRomFileChanged));
-		_watchers.AddRange(CreateWatchers(_settings.ToSortRoots, OnToSortFileChanged));*/
-
 		_watchers.AddRange(CreateWatchers(_settings.FolderSettings, OnFileChangedAsync, cancellationToken));
 
 		return base.StartAsync(cancellationToken);
@@ -68,17 +64,11 @@ public class FileWatcherService : BackgroundService
 
 	protected override Task ExecuteAsync(CancellationToken cancellationToken)
 	{
-		/*var processCommandQueue = new Task(
-			() => ProcessCommandQueueAsync(cancellationToken)
-				.Wait(cancellationToken));
-		processCommandQueue.Start();*/
-
 		foreach (var watcher in _watchers)
 		{
 			watcher.EnableRaisingEvents = true;
 		}
 
-		// return processCommandQueue.WaitAsync(cancellationToken);
 		return Task.CompletedTask;
 	}
 
@@ -245,14 +235,11 @@ public class FileWatcherService : BackgroundService
 
 	private async Task OnFileChangedAsync(object sender, FileSystemEventArgs e, CancellationToken cancellationToken)
 	{
-		var command = new ScanFileCommand(FileLocation.Create(new Uri(e.FullPath)));
-
-		// _commandQueue.Enqueue(command);
 		using var scope = _serviceProvider.CreateScope();
 		var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
+		var command = new ScanFileCommand(FileLocation.Create(new Uri(e.FullPath)));
 		try
 		{
-			// ((FileSystemWatcher)sender).EnableRaisingEvents = false;
 			await mediator.Send(command, cancellationToken);
 		}
 		catch (Exception exception)
@@ -260,47 +247,6 @@ public class FileWatcherService : BackgroundService
 			_logger.LogError("OnFileChangedAsync error: {0}", exception);
 		}
 	}
-
-	/*private void OnDatFileChanged(object sender, FileSystemEventArgs e)
-	{
-		/*var command = new ScanFileCommand(SourceType.DatRoot, FileLocation.Create(new Uri(e.FullPath)));
-		_commandQueue.Enqueue(command);#1#
-	}
-
-	private void OnRomFileChanged(object sender, FileSystemEventArgs e)
-	{
-		/*var command = new ScanFileCommand(SourceType.Output, FileLocation.Create(new Uri(e.FullPath)));
-		_commandQueue.Enqueue(command);#1#
-	}
-
-	private void OnToSortFileChanged(object sender, FileSystemEventArgs e)
-	{
-		/*var command = new ScanFileCommand(SourceType.Input, FileLocation.Create(new Uri(e.FullPath)));
-		_commandQueue.Enqueue(command);#1#
-	}*/
-
-	/*private async Task ProcessCommandQueueAsync(CancellationToken cancellationToken)
-	{
-		do
-		{
-			while (_commandQueue.TryDequeue(out var command))
-			{
-				using var scope = _serviceProvider.CreateScope();
-				var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
-				try
-				{
-					await mediator.Send(command, cancellationToken);
-				}
-				catch (Exception exception)
-				{
-					_logger.LogError("ProcessCommandQueueAsync error: {0}", exception);
-				}
-			}
-
-			await Task.Delay(1000);
-		}
-		while (!cancellationToken.IsCancellationRequested);
-	}*/
 
 	public override void Dispose()
 	{
