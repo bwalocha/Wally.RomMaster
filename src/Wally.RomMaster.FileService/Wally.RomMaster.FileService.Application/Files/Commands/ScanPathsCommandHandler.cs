@@ -55,7 +55,7 @@ public class ScanPathsCommandHandler : CommandHandler<ScanPathsCommand>
 			return null;
 		}
 
-		var path = createdPaths.FirstOrDefault(a => a.Name == pathName) ?? await _pathRepository.GetOrDefaultAsync(FileLocation.Create(new Uri(name)), cancellationToken);
+		var path = createdPaths.FirstOrDefault(a => a.Name == name) ?? await _pathRepository.GetOrDefaultAsync(FileLocation.Create(new Uri(name)), cancellationToken);
 		if (path == null)
 		{
 			var parent = await GetOrCreatePathAsync(name, createdPaths, cancellationToken);

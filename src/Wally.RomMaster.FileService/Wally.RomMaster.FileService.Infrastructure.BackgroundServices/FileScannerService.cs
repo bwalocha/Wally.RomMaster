@@ -84,7 +84,7 @@ public class FileScannerService : BackgroundService
 
 		using var scope = _serviceProvider.CreateScope();
 		var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
-		foreach (var paths in GetPartitions(GetDeepestDirectoryInfos(folder, new DirectoryInfo(folder.Path.LocalPath), cancellationToken)))
+		foreach (var paths in GetPartitions(GetDeepestDirectoryInfos(folder, folder.Path.LocalPath, cancellationToken)))
 		{
 			if (cancellationToken.IsCancellationRequested)
 			{
@@ -92,7 +92,7 @@ public class FileScannerService : BackgroundService
 				return;
 			}
 			
-			var command = new ScanPathsCommand(paths.Select(a => FileLocation.Create(new Uri(a.FullName))).ToArray());
+			var command = new ScanPathsCommand(paths.Select(a => FileLocation.Create(new Uri(a))).ToArray());
 			try
 			{
 				await mediator.Send(command, cancellationToken);
@@ -145,13 +145,13 @@ public class FileScannerService : BackgroundService
 		return exclude.Match(file);
 	}
 
-	private IEnumerable<DirectoryInfo> GetDeepestDirectoryInfos(FolderSettings folder, DirectoryInfo directoryInfo, CancellationToken cancellationToken)
+	private IEnumerable<string> GetDeepestDirectoryInfos(FolderSettings folder, string directoryInfo, CancellationToken cancellationToken)
 	{
-		_logger.LogDebug("Path '{DirectoryInfoFullName}' scanning...", directoryInfo.FullName);
+		_logger.LogDebug("Path '{DirectoryInfo}' scanning...", directoryInfo);
 		
-		var children = directoryInfo
-			.EnumerateDirectories("*.*", SearchOption.TopDirectoryOnly)
-			.Where(a => !IsExcluded(a.FullName, folder.Excludes))
+		var children = Directory
+			.EnumerateDirectories(directoryInfo, "*.*", SearchOption.TopDirectoryOnly)
+			.Where(a => !IsExcluded(a, folder.Excludes))
 			.ToList();
 
 		if (!children.Any() || folder.SearchOptions == SearchOption.TopDirectoryOnly)

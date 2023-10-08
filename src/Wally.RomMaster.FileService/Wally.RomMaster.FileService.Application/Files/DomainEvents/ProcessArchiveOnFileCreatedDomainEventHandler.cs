@@ -47,8 +47,15 @@ public class ProcessArchiveOnFileCreatedDomainEventHandler : IDomainEventHandler
 					foreach (var entry in archive.Entries)
 					{
 						var file = File.Create(_clockService, model.Path, model, entry);
-
-						_fileRepository.Add(file);
+						if (await _fileRepository.GetOrDefaultAsync(file.Location, cancellationToken) != null)
+						{
+							// TODO: update
+							continue;
+						}
+						else
+						{
+							_fileRepository.Add(file);
+						}
 					}
 				}
 				catch (Exception e)
