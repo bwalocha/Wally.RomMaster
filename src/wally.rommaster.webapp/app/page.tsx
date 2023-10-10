@@ -7,7 +7,7 @@ const Page: NextPage = () => {
   return (
       <>
         <h1>Paths</h1>
-        <Paths />
+        <Paths pathName="root" />
       </>
   )
 }
