@@ -3,6 +3,6 @@ using Wally.RomMaster.FileService.Domain.Users;
 
 namespace Wally.RomMaster.FileService.Application.Users;
 
-public interface IUserReadOnlyRepository : IReadOnlyRepository<User>
+public interface IUserReadOnlyRepository : IReadOnlyRepository<User, UserId>
 {
 }

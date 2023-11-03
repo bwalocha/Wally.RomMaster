@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -16,7 +15,7 @@ using Wally.RomMaster.FileService.Infrastructure.Persistence.Abstractions;
 
 namespace Wally.RomMaster.FileService.Infrastructure.Persistence;
 
-public class FileReadOnlyRepository : ReadOnlyRepository<File>, IFileReadOnlyRepository
+public class FileReadOnlyRepository : ReadOnlyRepository<File, FileId>, IFileReadOnlyRepository
 {
 	public FileReadOnlyRepository(DbContext context, IMapper mapper)
 		: base(context, mapper)
@@ -24,7 +23,7 @@ public class FileReadOnlyRepository : ReadOnlyRepository<File>, IFileReadOnlyRep
 	}
 
 	public Task<PagedResponse<TResponse>> GetByPathIdAsync<TRequest, TResponse>(
-		Guid pathId,
+		PathId pathId,
 		ODataQueryOptions<TRequest> queryOptions,
 		CancellationToken cancellationToken) where TRequest : class, IRequest where TResponse : class, IResponse
 	{

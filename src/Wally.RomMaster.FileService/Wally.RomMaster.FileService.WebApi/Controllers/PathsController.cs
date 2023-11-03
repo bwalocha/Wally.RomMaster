@@ -11,6 +11,7 @@ using Wally.Lib.DDD.Abstractions.Responses;
 using Wally.RomMaster.FileService.Application.Contracts.Requests.Paths;
 using Wally.RomMaster.FileService.Application.Contracts.Responses.Paths;
 using Wally.RomMaster.FileService.Application.Paths.Queries;
+using Wally.RomMaster.FileService.Domain.Files;
 
 namespace Wally.RomMaster.FileService.WebApi.Controllers;
 
@@ -18,7 +19,7 @@ namespace Wally.RomMaster.FileService.WebApi.Controllers;
 [Route("[controller]")]
 [Produces("application/json")]
 [ProducesResponseType(typeof(int), 200, "application/json")]
-public class PathsController : ControllerBase
+public partial class PathsController : ControllerBase
 {
 	private readonly ISender _sender;
 
@@ -49,23 +50,23 @@ public class PathsController : ControllerBase
 	}
 
 	/// <summary>
-	///     Gets Paths.
+	///     Gets Children of the Path.
 	/// </summary>
-	/// <param name="parentId">Path parent Id.</param>
+	/// <param name="id">Path Id.</param>
 	/// <param name="queryOptions">OData query.</param>
 	/// <param name="cancellationToken">Cancellation token.</param>
 	/// <returns>Paths.</returns>
 	/// <remarks>
 	///     Sample request:
-	///     GET /Paths
+	///     GET /Paths/{id}
 	/// </remarks>
-	[HttpGet("{parentId:guid}")]
+	[HttpGet("{id:guid}")]
 	public async Task<ActionResult<PagedResponse<GetPathsResponse>>> GetAsync(
-		Guid? parentId,
+		Guid? id,
 		ODataQueryOptions<GetPathsRequest> queryOptions,
 		CancellationToken cancellationToken)
 	{
-		var query = new GetPathsQuery(parentId, queryOptions);
+		var query = new GetPathsQuery(id.HasValue ? new PathId(id.Value) : null, queryOptions);
 		var response = await _sender.Send(query, cancellationToken);
 
 		return Ok(response);

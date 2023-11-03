@@ -4,8 +4,9 @@ using MassTransit;
 
 using MediatR;
 
-using Wally.Identity.Messages.Users;
 using Wally.RomMaster.FileService.Application.Users.Commands;
+using Wally.RomMaster.FileService.Domain.Users;
+using Wally.Identity.Messages.Users;
 
 namespace Wally.RomMaster.FileService.Infrastructure.Messaging.Consumers;
 
@@ -21,7 +22,7 @@ public class UserCreatedMessageConsumer : IConsumer<UserCreatedMessage>
 	public Task Consume(ConsumeContext<UserCreatedMessage> context)
 	{
 		var message = context.Message;
-		var command = new CreateUserCommand(message.UserId, message.UserName);
+		var command = new CreateUserCommand(new UserId(message.UserId), message.UserName);
 
 		return _mediator.Send(command);
 	}

@@ -8,7 +8,7 @@ using Wally.RomMaster.FileService.Infrastructure.Persistence.Abstractions;
 
 namespace Wally.RomMaster.FileService.Infrastructure.Persistence;
 
-public class UserRepository : Repository<User>, IUserRepository
+public class UserRepository : Repository<User, UserId>, IUserRepository
 {
 	public UserRepository(DbContext context, IMapper mapper)
 		: base(context, mapper)

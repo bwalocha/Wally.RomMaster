@@ -7,7 +7,7 @@ using Wally.RomMaster.FileService.Domain.Files;
 
 namespace Wally.RomMaster.FileService.Application.Files;
 
-public interface IFileRepository : IRepository<File>
+public interface IFileRepository : IRepository<File, FileId>
 {
 	void RemoveOutdatedFiles(DateTime timestamp);
 

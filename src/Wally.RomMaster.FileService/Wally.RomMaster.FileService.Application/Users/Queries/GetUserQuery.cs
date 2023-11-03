@@ -1,18 +1,18 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 
-using Wally.Lib.DDD.Abstractions.Queries;
 using Wally.RomMaster.FileService.Application.Contracts.Responses.Users;
+using Wally.RomMaster.FileService.Domain.Users;
+using Wally.Lib.DDD.Abstractions.Queries;
 
 namespace Wally.RomMaster.FileService.Application.Users.Queries;
 
 [ExcludeFromCodeCoverage]
 public sealed class GetUserQuery : IQuery<GetUserResponse>
 {
-	public GetUserQuery(Guid id)
+	public GetUserQuery(UserId userId)
 	{
-		Id = id;
+		UserId = userId;
 	}
 
-	public Guid Id { get; }
+	public UserId UserId { get; }
 }

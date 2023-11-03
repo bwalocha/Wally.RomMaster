@@ -13,7 +13,7 @@ using Wally.RomMaster.FileService.Infrastructure.Persistence.Abstractions;
 
 namespace Wally.RomMaster.FileService.Infrastructure.Persistence;
 
-public class FileRepository : Repository<File>, IFileRepository
+public class FileRepository : Repository<File, FileId>, IFileRepository
 {
 	public FileRepository(DbContext context, IMapper mapper)
 		: base(context, mapper)

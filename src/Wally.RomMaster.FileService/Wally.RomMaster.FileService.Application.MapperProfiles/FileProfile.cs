@@ -15,6 +15,12 @@ public class FileProfile : Profile
 		CreateMap<File, GetFilesRequest>();
 		CreateMap<File, GetFilesResponse>();
 
+		CreateMap<FileId, Guid>()
+			.ConvertUsing(a => a.Value);
+
+		CreateMap<Guid, FileId>()
+			.ConvertUsing(a => new FileId(a));
+		
 		CreateMap<FileLocation, Uri>()
 			.ConvertUsing(a => a.Location);
 	}

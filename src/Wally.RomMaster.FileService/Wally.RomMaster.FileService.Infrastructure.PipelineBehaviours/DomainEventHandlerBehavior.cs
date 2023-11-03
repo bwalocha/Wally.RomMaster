@@ -10,7 +10,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Wally.Lib.DDD.Abstractions.Commands;
 using Wally.Lib.DDD.Abstractions.DomainEvents;
-using Wally.Lib.DDD.Abstractions.DomainModels;
+using Wally.RomMaster.FileService.Domain.Abstractions;
+
+// using Wally.Lib.DDD.Abstractions.DomainModels;
 
 namespace Wally.RomMaster.FileService.Infrastructure.PipelineBehaviours;
 
@@ -33,7 +35,7 @@ public class DomainEventHandlerBehavior<TRequest, TResponse> : IPipelineBehavior
 	{
 		var response = await next();
 
-		var domainEntities = _dbContext.ChangeTracker.Entries<Entity>()
+		var domainEntities = _dbContext.ChangeTracker.Entries<IEntity>()
 			.Where(
 				e => e.Entity.GetDomainEvents()
 					.Any())

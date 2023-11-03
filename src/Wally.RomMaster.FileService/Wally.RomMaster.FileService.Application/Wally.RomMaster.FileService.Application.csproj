@@ -18,5 +18,4 @@
         <ProjectReference Include="..\Wally.RomMaster.FileService.Application.Messages\Wally.RomMaster.FileService.Application.Messages.csproj" />
     </ItemGroup>
 
-
 </Project>

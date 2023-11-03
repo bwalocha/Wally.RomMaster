@@ -8,9 +8,9 @@ using MediatR;
 
 using Moq;
 
-using Wally.Identity.Messages.Users;
 using Wally.RomMaster.FileService.Application.Users.Commands;
 using Wally.RomMaster.FileService.Infrastructure.Messaging.Consumers;
+using Wally.Identity.Messages.Users;
 
 using Xunit;
 
@@ -42,7 +42,7 @@ public class UserCreatedConsumerTests
 		// Assert
 		_mediatorMock.Verify(
 			a => a.Send(
-				It.Is<CreateUserCommand>(a => a.Id == message.UserId && a.Name == message.UserName),
+				It.Is<CreateUserCommand>(a => a.UserId.Value == message.UserId && a.Name == message.UserName),
 				CancellationToken.None),
 			Times.Once());
 	}

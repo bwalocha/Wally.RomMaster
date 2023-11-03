@@ -22,8 +22,8 @@ public class SendMessageOnFileCreatedDomainEventHandler : IDomainEventHandler<Fi
 
 	public async Task HandleAsync(FileCreatedDomainEvent domainEvent, CancellationToken cancellationToken)
 	{
-		var model = await _fileRepository.GetAsync(domainEvent.Id, cancellationToken);
-		var message = new FileCreatedMessage(model.Id, model.Location.Location.LocalPath);
+		var model = await _fileRepository.GetAsync(domainEvent.FileId, cancellationToken);
+		var message = new FileCreatedMessage(model.Id.Value, model.Location.Location.LocalPath);
 
 		await _bus.Publish(message, cancellationToken);
 	}

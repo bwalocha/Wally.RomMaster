@@ -1,10 +1,8 @@
-﻿using System;
-
-using Wally.RomMaster.FileService.Domain.Abstractions;
+﻿using Wally.RomMaster.FileService.Domain.Abstractions;
 
 namespace Wally.RomMaster.FileService.Domain.Users;
 
-public class User : AggregateRoot
+public class User : AggregateRoot<User, UserId>
 {
 	// Hide public .ctor
 #pragma warning disable CS8618
@@ -13,7 +11,7 @@ public class User : AggregateRoot
 	{
 	}
 
-	private User(Guid id, string name)
+	private User(UserId id, string name)
 		: base(id)
 	{
 		Name = name;
@@ -34,7 +32,7 @@ public class User : AggregateRoot
 		return model;
 	}
 
-	public static User Create(Guid id, string name)
+	public static User Create(UserId id, string name)
 	{
 		var model = new User(id, name);
 		model.AddDomainEvent(new UserCreatedDomainEvent(model.Id, model.Name));

@@ -39,29 +39,38 @@ public static class MessagingExtensions
 						break;
 					case MessageBrokerType.Kafka:
 						a.UsingInMemory((context, config) => config.ConfigureEndpoints(context));
+
 						// a.UsingRabbitMq((context, cfg) => cfg.ConfigureEndpoints(context));
-						
+
 						a.AddRider(rider =>
-						{
-							rider.AddConsumersFromNamespaceContaining<IInfrastructureMessagingAssemblyMarker>();
-							// TODO: auto-register
-							rider.AddProducer<FileCreatedMessage>(typeof(FileCreatedMessage).FullName);
-							rider.AddProducer<FileModifiedMessage>(typeof(FileModifiedMessage).FullName);
-
-							rider.UsingKafka((context, k) =>
 							{
-								k.ClientId = typeof(IInfrastructureMessagingAssemblyMarker).Namespace;
-								k.Host(settings.ConnectionStrings.ServiceBus);
-
+								rider.AddConsumersFromNamespaceContaining<IInfrastructureMessagingAssemblyMarker>();
 								// TODO: auto-register
-								k.TopicEndpoint<HashComputedMessage>(typeof(HashComputedMessage).FullName, typeof(IInfrastructureMessagingAssemblyMarker).Namespace, e =>
-								{
-									e.ConfigureConsumer<HashComputedMessageConsumer>(context);
-								});
+								// rider.AddConsumer<KafkaMessageConsumer>();
+								// rider.AddProducer<FileCreatedMessage>(nameof(FileCreatedMessage));
+								// rider.AddProducer<FileModifiedMessage>(nameof(FileModifiedMessage));
+								rider.AddProducer<FileCreatedMessage>(typeof(FileCreatedMessage).FullName);
+								rider.AddProducer<FileModifiedMessage>(typeof(FileModifiedMessage).FullName);
+
+								rider.UsingKafka(
+									(context, k) =>
+									{
+										k.ClientId = typeof(IInfrastructureMessagingAssemblyMarker).Namespace;
+										k.Host(settings.ConnectionStrings.ServiceBus);
+
+										// TODO: auto-register
+										/*k.TopicEndpoint<KafkaMessage>(typeof(IInfrastructureMessagingAssemblyMarker).Namespace, typeof(IInfrastructureMessagingAssemblyMarker).Namespace, e =>
+										{
+											e.ConfigureConsumer<KafkaMessageConsumer>(context);
+										});*/
+										k.TopicEndpoint<HashComputedMessage>(typeof(HashComputedMessage).FullName, typeof(IInfrastructureMessagingAssemblyMarker).Namespace, e =>
+										{
+											e.ConfigureConsumer<HashComputedMessageConsumer>(context);
+										});
+									});
+
+								services.AddScoped<IBus, KafkaBus>();
 							});
-							
-							services.AddScoped<IBus, KafkaBus>();
-						});
 						break;
 					case MessageBrokerType.RabbitMQ:
 						a.UsingRabbitMq(
@@ -72,7 +81,9 @@ public static class MessagingExtensions
 							});
 						break;
 					default:
-						throw new ArgumentOutOfRangeException(nameof(settings.MessageBroker), $"Unknown Message Broker: '{settings.MessageBroker}'");
+						throw new ArgumentOutOfRangeException(
+							nameof(settings.MessageBroker),
+							$"Unknown Message Broker: '{settings.MessageBroker}'");
 				}
 			});
 
@@ -81,12 +92,10 @@ public static class MessagingExtensions
 
 	private class BusStub : IBus
 	{
-		private readonly IServiceProvider _serviceProvider;
 		private readonly ILogger<BusStub> _logger;
 
-		public BusStub(IServiceProvider serviceProvider, ILogger<BusStub> logger)
+		public BusStub(ILogger<BusStub> logger)
 		{
-			_serviceProvider = serviceProvider;
 			_logger = logger;
 		}
 
@@ -246,11 +255,11 @@ public static class MessagingExtensions
 
 		public IBusTopology Topology { get; }
 	}
-	
+
 	private class KafkaBus : IBus
 	{
-		private readonly IServiceProvider _serviceProvider;
 		private readonly ILogger<KafkaBus> _logger;
+		private readonly IServiceProvider _serviceProvider;
 
 		public KafkaBus(IServiceProvider serviceProvider, ILogger<KafkaBus> logger)
 		{

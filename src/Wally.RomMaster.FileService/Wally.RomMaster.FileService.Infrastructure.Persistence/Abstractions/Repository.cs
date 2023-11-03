@@ -9,15 +9,14 @@ using AutoMapper;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.EntityFrameworkCore;
 
-using Wally.Lib.DDD.Abstractions.DomainModels;
 using Wally.RomMaster.FileService.Domain.Abstractions;
-
-using AggregateRoot = Wally.RomMaster.FileService.Domain.Abstractions.AggregateRoot;
 
 namespace Wally.RomMaster.FileService.Infrastructure.Persistence.Abstractions;
 
-public abstract class Repository<TAggregateRoot> : ReadOnlyRepository<TAggregateRoot>, IRepository<TAggregateRoot>
-	where TAggregateRoot : AggregateRoot
+public abstract class Repository
+	<TAggregateRoot, TKey> : ReadOnlyRepository<TAggregateRoot, TKey>, IRepository<TAggregateRoot, TKey>
+	where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
+	where TKey : notnull, IComparable<TKey>, IEquatable<TKey>, IStronglyTypedId<TKey, Guid>, new()
 {
 	private readonly DbContext _context;
 
@@ -27,7 +26,7 @@ public abstract class Repository<TAggregateRoot> : ReadOnlyRepository<TAggregate
 		_context = context;
 	}
 
-	public Task<TAggregateRoot> GetAsync(Guid id, CancellationToken cancellationToken)
+	public Task<TAggregateRoot> GetAsync(TKey id, CancellationToken cancellationToken)
 	{
 		var task = GetReadWriteEntitySet()
 			.SingleAsync(a => a.Id.Equals(id), cancellationToken);
@@ -55,14 +54,14 @@ public abstract class Repository<TAggregateRoot> : ReadOnlyRepository<TAggregate
 		return aggregateRoot;
 	}
 
-	[Obsolete("Workaround")]
-	public TEntity Attach<TEntity>(TEntity entity) where TEntity : Entity
+	/*[Obsolete("Workaround")]
+	public TEntity Attach<TEntity>(TEntity entity) where TEntity : Wally.Lib.DDD.Abstractions.DomainModels.Entity
 	{
 		_context.Attach(entity)
 			.State = EntityState.Unchanged;
 
 		return entity;
-	}
+	}*/
 
 	protected IQueryable<TAggregateRoot> GetReadWriteEntitySet()
 	{

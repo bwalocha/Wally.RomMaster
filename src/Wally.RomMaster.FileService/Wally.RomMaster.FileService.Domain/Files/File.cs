@@ -8,7 +8,7 @@ using Wally.RomMaster.FileService.Domain.Abstractions;
 namespace Wally.RomMaster.FileService.Domain.Files;
 
 [DebuggerDisplay("Location = {Location}")]
-public class File : AggregateRoot
+public class File : AggregateRoot<File, FileId>
 {
 	// Hide public .ctor
 #pragma warning disable CS8618
@@ -67,7 +67,7 @@ public class File : AggregateRoot
 
 	// public DateTime ModifiedAt { get; private set; }
 
-	public Guid PathId { get; private set; }
+	public PathId PathId { get; private set; }
 
 	public Path Path { get; private set; }
 

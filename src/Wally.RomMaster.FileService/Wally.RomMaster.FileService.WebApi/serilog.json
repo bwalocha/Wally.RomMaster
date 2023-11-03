@@ -2,8 +2,7 @@
   "Serilog": {
     "Using": [
       "Serilog.Sinks.Console"
-      // "Serilog.Sinks.ApplicationInsights",
-      // "Serilog.Expressions",
+//      "Serilog.Sinks.ApplicationInsights"
     ],
     "MinimumLevel": {
       "Default": "Debug",

@@ -1,4 +1,3 @@
-using System;
 using System.Diagnostics.CodeAnalysis;
 
 using Wally.Lib.DDD.Abstractions.DomainEvents;
@@ -8,10 +7,10 @@ namespace Wally.RomMaster.FileService.Domain.Files;
 [ExcludeFromCodeCoverage]
 public class FileCreatedDomainEvent : DomainEvent
 {
-	public FileCreatedDomainEvent(Guid id)
+	public FileCreatedDomainEvent(FileId fileId)
 	{
-		Id = id;
+		FileId = fileId;
 	}
 
-	public Guid Id { get; }
+	public FileId FileId { get; }
 }

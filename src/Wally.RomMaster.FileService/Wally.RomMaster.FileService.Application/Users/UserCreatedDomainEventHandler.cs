@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 
 using MassTransit;
 
-using Wally.Lib.DDD.Abstractions.DomainEvents;
 using Wally.RomMaster.FileService.Application.Messages.Users;
 using Wally.RomMaster.FileService.Domain.Users;
+using Wally.Lib.DDD.Abstractions.DomainEvents;
 
 namespace Wally.RomMaster.FileService.Application.Users;
 
@@ -20,7 +20,7 @@ public class UserCreatedDomainEventHandler : IDomainEventHandler<UserCreatedDoma
 
 	public Task HandleAsync(UserCreatedDomainEvent domainEvent, CancellationToken cancellationToken)
 	{
-		var message = new UserCreatedMessage(domainEvent.Id, domainEvent.Name);
+		var message = new UserCreatedMessage(domainEvent.Id.Value, domainEvent.Name);
 
 		return _bus.Publish(message, cancellationToken);
 	}

@@ -32,7 +32,7 @@ public class ProcessArchiveOnFileCreatedDomainEventHandler : IDomainEventHandler
 
 	public async Task HandleAsync(FileCreatedDomainEvent domainEvent, CancellationToken cancellationToken)
 	{
-		var model = await _fileRepository.GetAsync(domainEvent.Id, cancellationToken);
+		var model = await _fileRepository.GetAsync(domainEvent.FileId, cancellationToken);
 
 		if (model.IsArchivePackage())
 		{

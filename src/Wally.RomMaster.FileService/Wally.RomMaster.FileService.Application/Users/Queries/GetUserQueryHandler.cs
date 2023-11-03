@@ -1,8 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-using Wally.Lib.DDD.Abstractions.Queries;
 using Wally.RomMaster.FileService.Application.Contracts.Responses.Users;
+using Wally.Lib.DDD.Abstractions.Queries;
 
 namespace Wally.RomMaster.FileService.Application.Users.Queries;
 
@@ -17,6 +17,6 @@ public class GetUserQueryHandler : QueryHandler<GetUserQuery, GetUserResponse>
 
 	public override Task<GetUserResponse> HandleAsync(GetUserQuery query, CancellationToken cancellationToken)
 	{
-		return _userRepository.GetAsync<GetUserResponse>(query.Id, cancellationToken);
+		return _userRepository.GetAsync<GetUserResponse>(query.UserId, cancellationToken);
 	}
 }

@@ -1,4 +1,6 @@
-﻿using AutoMapper;
+﻿using System;
+
+using AutoMapper;
 
 using Wally.RomMaster.FileService.Application.Contracts.Requests.Paths;
 using Wally.RomMaster.FileService.Application.Contracts.Responses.Paths;
@@ -12,5 +14,11 @@ public class PathProfile : Profile
 	{
 		CreateMap<Path, GetPathsRequest>();
 		CreateMap<Path, GetPathsResponse>();
+		
+		CreateMap<PathId, Guid>()
+			.ConvertUsing(a => a.Value);
+
+		CreateMap<Guid, PathId>()
+			.ConvertUsing(a => new PathId(a));
 	}
 }

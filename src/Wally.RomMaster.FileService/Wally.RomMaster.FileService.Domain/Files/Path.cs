@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 
 using Wally.RomMaster.FileService.Domain.Abstractions;
@@ -7,7 +6,7 @@ using Wally.RomMaster.FileService.Domain.Abstractions;
 namespace Wally.RomMaster.FileService.Domain.Files;
 
 [DebuggerDisplay("{Name}")]
-public class Path : AggregateRoot
+public class Path : AggregateRoot<Path, PathId>
 {
 	private readonly List<File> _files = new();
 
@@ -25,7 +24,7 @@ public class Path : AggregateRoot
 		Name = name;
 	}
 
-	public Guid? ParentId { get; private set; }
+	public PathId? ParentId { get; private set; }
 
 	public string Name { get; private set; }
 

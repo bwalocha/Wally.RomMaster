@@ -1,4 +1,3 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -11,11 +10,11 @@ using Wally.RomMaster.FileService.Domain.Files;
 
 namespace Wally.RomMaster.FileService.Application.Paths;
 
-public interface IPathReadOnlyRepository : IReadOnlyRepository<Path>
+public interface IPathReadOnlyRepository : IReadOnlyRepository<Path, PathId>
 {
 	Task<PagedResponse<TResponse>> GetByParentIdAsync
 		<TRequest, TResponse>(
-			Guid? parentId,
+			PathId? parentId,
 			ODataQueryOptions<TRequest> queryOptions,
 			CancellationToken cancellationToken) where TRequest : class, IRequest where TResponse : class, IResponse;
 }

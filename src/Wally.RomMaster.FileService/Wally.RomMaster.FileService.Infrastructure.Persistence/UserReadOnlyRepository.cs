@@ -10,7 +10,7 @@ using Wally.RomMaster.FileService.Infrastructure.Persistence.Abstractions;
 
 namespace Wally.RomMaster.FileService.Infrastructure.Persistence;
 
-public class UserReadOnlyRepository : ReadOnlyRepository<User>, IUserReadOnlyRepository
+public class UserReadOnlyRepository : ReadOnlyRepository<User, UserId>, IUserReadOnlyRepository
 {
 	public UserReadOnlyRepository(DbContext context, IMapper mapper)
 		: base(context, mapper)

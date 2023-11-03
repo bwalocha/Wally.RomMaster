@@ -11,7 +11,7 @@ using Wally.RomMaster.FileService.Infrastructure.Persistence.Abstractions;
 
 namespace Wally.RomMaster.FileService.Infrastructure.Persistence;
 
-public class PathRepository : Repository<Path>, IPathRepository
+public class PathRepository : Repository<Path, PathId>, IPathRepository
 {
 	public PathRepository(DbContext context, IMapper mapper)
 		: base(context, mapper)

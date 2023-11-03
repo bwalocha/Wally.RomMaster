@@ -1,15 +1,16 @@
 ﻿using System;
 
 using Wally.RomMaster.FileService.Domain.Abstractions;
+using Wally.RomMaster.FileService.Domain.Users;
 
 namespace Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.Providers;
 
 // TODO: use userId form JWT Token
 public class HttpUserProvider : IUserProvider
 {
-	private readonly Guid _userId = Guid.Parse("AAAAAAAA-0000-0000-0000-ADD702D3016B");
+	private readonly UserId _userId = new(Guid.Parse("AAAAAAAA-0000-0000-0000-ADD702D3016B"));
 
-	public Guid GetCurrentUserId()
+	public UserId GetCurrentUserId()
 	{
 		return _userId;
 	}

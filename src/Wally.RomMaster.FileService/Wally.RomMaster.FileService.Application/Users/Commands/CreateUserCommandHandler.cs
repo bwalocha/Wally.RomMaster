@@ -1,8 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 
-using Wally.Lib.DDD.Abstractions.Commands;
 using Wally.RomMaster.FileService.Domain.Users;
+using Wally.Lib.DDD.Abstractions.Commands;
 
 namespace Wally.RomMaster.FileService.Application.Users.Commands;
 
@@ -17,7 +17,7 @@ public class CreateUserCommandHandler : CommandHandler<CreateUserCommand>
 
 	public override Task HandleAsync(CreateUserCommand command, CancellationToken cancellationToken)
 	{
-		var model = User.Create(command.Id, command.Name);
+		var model = User.Create(command.UserId, command.Name);
 
 		_userRepository.Add(model);
 

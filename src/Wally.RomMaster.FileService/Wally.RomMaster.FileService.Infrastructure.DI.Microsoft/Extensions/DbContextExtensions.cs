@@ -1,7 +1,5 @@
 ﻿using System;
 
-using EntityFramework.Exceptions.MySQL.Pomelo;
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
@@ -28,6 +26,8 @@ public static class DbContextExtensions
 		{
 			switch (settings.Database.ProviderType)
 			{
+				case DatabaseProviderType.None:
+					break;
 				case DatabaseProviderType.MySql:
 					options.UseMySql(
 						settings.ConnectionStrings.Database,
@@ -39,7 +39,7 @@ public static class DbContextExtensions
 								typeof(IInfrastructureMySqlAssemblyMarker).Assembly.GetName()
 									.Name);
 						});
-					ExceptionProcessorExtensions.UseExceptionProcessor(options);
+					EntityFramework.Exceptions.MySQL.Pomelo.ExceptionProcessorExtensions.UseExceptionProcessor(options);
 					break;
 				case DatabaseProviderType.PostgreSQL:
 					options.UseNpgsql(
@@ -96,10 +96,9 @@ public static class DbContextExtensions
 		};
 		services.AddDbContext<DbContext, ApplicationDbContext>(dbContextOptions);
 
-		// TODO: use IInfrastructurePersistenceAssemblyMarker
 		services.Scan(
-			a => a.FromApplicationDependencies(b => b.FullName!.StartsWith("Wally.RomMaster.FileService."))
-				.AddClasses(c => c.AssignableTo(typeof(IReadOnlyRepository<>)))
+			a => a.FromAssemblyOf<IInfrastructurePersistenceAssemblyMarker>()
+				.AddClasses(c => c.AssignableTo(typeof(IReadOnlyRepository<,>)))
 				.AsImplementedInterfaces()
 				.WithScopedLifetime());
 

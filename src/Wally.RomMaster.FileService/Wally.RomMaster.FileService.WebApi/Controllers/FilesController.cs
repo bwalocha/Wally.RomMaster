@@ -2,8 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-using MediatR;
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 
@@ -11,24 +9,14 @@ using Wally.Lib.DDD.Abstractions.Responses;
 using Wally.RomMaster.FileService.Application.Contracts.Requests.Files;
 using Wally.RomMaster.FileService.Application.Contracts.Responses.Files;
 using Wally.RomMaster.FileService.Application.Files.Queries;
+using Wally.RomMaster.FileService.Domain.Files;
 
 namespace Wally.RomMaster.FileService.WebApi.Controllers;
 
-[ApiController]
-[Route("[controller]")]
-[Produces("application/json")]
-[ProducesResponseType(typeof(int), 200, "application/json")]
-public class FilesController : ControllerBase
+public partial class PathsController
 {
-	private readonly ISender _sender;
-
-	public FilesController(ISender sender)
-	{
-		_sender = sender;
-	}
-
 	/// <summary>
-	///     Gets File.
+	///     Gets Files of the Path.
 	/// </summary>
 	/// <param name="pathId">Path Id.</param>
 	/// <param name="queryOptions">OData query.</param>
@@ -38,13 +26,13 @@ public class FilesController : ControllerBase
 	///     Sample request:
 	///     GET /Paths/{id}/Files
 	/// </remarks>
-	[HttpGet("{pathId:guid}")]
+	[HttpGet("/Paths/{pathId:guid}/Files")]
 	public async Task<ActionResult<PagedResponse<GetFilesResponse>>> GetAsync(
 		Guid pathId,
 		ODataQueryOptions<GetFilesRequest> queryOptions,
 		CancellationToken cancellationToken)
 	{
-		var query = new GetFilesQuery(pathId, queryOptions);
+		var query = new GetFilesQuery(new PathId(pathId), queryOptions);
 		var response = await _sender.Send(query, cancellationToken);
 
 		return Ok(response);

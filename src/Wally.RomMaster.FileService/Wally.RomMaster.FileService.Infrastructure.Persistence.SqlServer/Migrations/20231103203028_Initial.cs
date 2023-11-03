@@ -3,36 +3,14 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Wally.RomMaster.FileService.Persistence.SqlServer.Migrations
+namespace Wally.RomMaster.FileService.Infrastructure.Persistence.SqlServer.Migrations
 {
 	/// <inheritdoc />
-	public partial class File : Migration
+	public partial class Initial : Migration
 	{
 		/// <inheritdoc />
 		protected override void Up(MigrationBuilder migrationBuilder)
 		{
-			migrationBuilder.AddColumn<DateTime>(
-				name: "CreatedAt",
-				table: "User",
-				type: "datetime2",
-				nullable: false,
-				defaultValue: new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified));
-
-			migrationBuilder.AddColumn<Guid>(
-				name: "CreatedById",
-				table: "User",
-				type: "uniqueidentifier",
-				nullable: false,
-				defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
-
-			migrationBuilder.AddColumn<DateTime>(name: "ModifiedAt", table: "User", type: "datetime2", nullable: true);
-
-			migrationBuilder.AddColumn<Guid>(
-				name: "ModifiedById",
-				table: "User",
-				type: "uniqueidentifier",
-				nullable: true);
-
 			migrationBuilder.CreateTable(
 				name: "Path",
 				columns: table => new
@@ -40,9 +18,9 @@ namespace Wally.RomMaster.FileService.Persistence.SqlServer.Migrations
 					Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
 					ParentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
 					Name = table.Column<string>(type: "nvarchar(2048)", maxLength: 2048, nullable: false),
-					CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+					CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
 					CreatedById = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-					ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+					ModifiedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
 					ModifiedById = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
 				},
 				constraints: table =>
@@ -56,20 +34,34 @@ namespace Wally.RomMaster.FileService.Persistence.SqlServer.Migrations
 				});
 
 			migrationBuilder.CreateTable(
+				name: "User",
+				columns: table => new
+				{
+					Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+					Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: false),
+					CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+					CreatedById = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+					ModifiedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+					ModifiedById = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+				},
+				constraints: table => { table.PrimaryKey("PK_User", x => x.Id); });
+
+			migrationBuilder.CreateTable(
 				name: "\"File\"",
 				columns: table => new
 				{
 					Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
 					Location = table.Column<string>(type: "nvarchar(3000)", maxLength: 3000, nullable: false),
 					Length = table.Column<long>(type: "bigint", nullable: false),
+					Crc32 = table.Column<string>(type: "nvarchar(8)", maxLength: 8, nullable: true),
 					Attributes = table.Column<int>(type: "int", nullable: false),
 					CreationTimeUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
 					LastAccessTimeUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
 					LastWriteTimeUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
-					ModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
 					PathId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-					CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+					CreatedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
 					CreatedById = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+					ModifiedAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
 					ModifiedById = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
 				},
 				constraints: table =>
@@ -83,6 +75,8 @@ namespace Wally.RomMaster.FileService.Persistence.SqlServer.Migrations
 						onDelete: ReferentialAction.Cascade);
 				});
 
+			migrationBuilder.CreateIndex(name: "IX_\"File\"_Crc32", table: "\"File\"", column: "Crc32");
+
 			migrationBuilder.CreateIndex(
 				name: "IX_\"File\"_Location",
 				table: "\"File\"",
@@ -94,6 +88,8 @@ namespace Wally.RomMaster.FileService.Persistence.SqlServer.Migrations
 			migrationBuilder.CreateIndex(name: "IX_Path_Name", table: "Path", column: "Name", unique: true);
 
 			migrationBuilder.CreateIndex(name: "IX_Path_ParentId", table: "Path", column: "ParentId");
+
+			migrationBuilder.CreateIndex(name: "IX_User_Name", table: "User", column: "Name", unique: true);
 		}
 
 		/// <inheritdoc />
@@ -101,15 +97,9 @@ namespace Wally.RomMaster.FileService.Persistence.SqlServer.Migrations
 		{
 			migrationBuilder.DropTable(name: "\"File\"");
 
+			migrationBuilder.DropTable(name: "User");
+
 			migrationBuilder.DropTable(name: "Path");
-
-			migrationBuilder.DropColumn(name: "CreatedAt", table: "User");
-
-			migrationBuilder.DropColumn(name: "CreatedById", table: "User");
-
-			migrationBuilder.DropColumn(name: "ModifiedAt", table: "User");
-
-			migrationBuilder.DropColumn(name: "ModifiedById", table: "User");
 		}
 	}
 }

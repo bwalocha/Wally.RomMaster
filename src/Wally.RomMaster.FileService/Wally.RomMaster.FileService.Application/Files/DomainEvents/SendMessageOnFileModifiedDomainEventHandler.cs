@@ -23,7 +23,7 @@ public class SendMessageOnFileModifiedDomainEventHandler : IDomainEventHandler<F
 
 	public async Task HandleAsync(FileModifiedDomainEvent domainEvent, CancellationToken cancellationToken)
 	{
-		var model = await _fileRepository.GetAsync<GetFilesResponse>(domainEvent.Id, cancellationToken);
+		var model = await _fileRepository.GetAsync<GetFilesResponse>(domainEvent.FileId, cancellationToken);
 		var message = new FileModifiedMessage(model.Id, model.Location.LocalPath);
 
 		await _bus.Publish(message, cancellationToken);
