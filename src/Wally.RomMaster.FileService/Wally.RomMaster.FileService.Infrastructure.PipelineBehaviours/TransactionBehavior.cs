@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 
 using MediatR;
@@ -38,10 +37,7 @@ public class TransactionBehavior<TRequest, TResponse> : IPipelineBehavior<TReque
 		catch
 		{
 			await transaction.RollbackAsync(cancellationToken);
-			_dbContext.ChangeTracker
-				.Entries()
-				.ToList()
-				.ForEach(e => e.State = EntityState.Detached);
+			_dbContext.ChangeTracker.Clear();
 
 			throw;
 		}

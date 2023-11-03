@@ -5,7 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="89ceaba3-055c-4f46-8d14-3240f09b682e" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../Directory.BuildTests.props" beforeDir="false" afterPath="$PROJECT_DIR$/../Directory.BuildTests.props" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Infrastructure.DI.Microsoft/Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Infrastructure.DI.Microsoft/Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Infrastructure.DI.Microsoft/packages.lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Infrastructure.DI.Microsoft/packages.lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Infrastructure.Persistence.MySql/packages.lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Infrastructure.Persistence.MySql/packages.lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Infrastructure.Persistence.PostgreSQL/packages.lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Infrastructure.Persistence.PostgreSQL/packages.lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Infrastructure.Persistence.SQLite/Wally.RomMaster.FileService.Infrastructure.Persistence.SQLite.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Infrastructure.Persistence.SQLite/Wally.RomMaster.FileService.Infrastructure.Persistence.SQLite.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Infrastructure.Persistence.SQLite/packages.lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Infrastructure.Persistence.SQLite/packages.lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Infrastructure.Persistence.SqlServer/Wally.RomMaster.FileService.Infrastructure.Persistence.SqlServer.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Infrastructure.Persistence.SqlServer/Wally.RomMaster.FileService.Infrastructure.Persistence.SqlServer.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Infrastructure.Persistence.SqlServer/packages.lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Infrastructure.Persistence.SqlServer/packages.lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Infrastructure.Persistence/Wally.RomMaster.FileService.Infrastructure.Persistence.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Infrastructure.Persistence/Wally.RomMaster.FileService.Infrastructure.Persistence.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Infrastructure.Persistence/packages.lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Infrastructure.Persistence/packages.lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Infrastructure.PipelineBehaviours/TransactionBehavior.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Infrastructure.PipelineBehaviours/TransactionBehavior.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Infrastructure.PipelineBehaviours/Wally.RomMaster.FileService.Infrastructure.PipelineBehaviours.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Infrastructure.PipelineBehaviours/Wally.RomMaster.FileService.Infrastructure.PipelineBehaviours.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Infrastructure.PipelineBehaviours/packages.lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Infrastructure.PipelineBehaviours/packages.lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Tests.ConventionTests/packages.lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Tests.ConventionTests/packages.lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Tests.IntegrationTests/Wally.RomMaster.FileService.Tests.IntegrationTests.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Tests.IntegrationTests/Wally.RomMaster.FileService.Tests.IntegrationTests.csproj" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Tests.IntegrationTests/packages.lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Tests.IntegrationTests/packages.lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Tests.UnitTests/packages.lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Tests.UnitTests/packages.lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.WebApi/Wally.RomMaster.FileService.WebApi.csproj" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.WebApi/Wally.RomMaster.FileService.WebApi.csproj" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.WebApi/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.WebApi/appsettings.Development.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.WebApi/packages.lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.WebApi/packages.lock.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.HashService/Wally.RomMaster.HashService.WebApi/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.HashService/Wally.RomMaster.HashService.WebApi/appsettings.Development.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
@@ -38,7 +58,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/repo/wally/wally.rommaster/src/wally.rommaster.webapp&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/repo/wally/wally.rommaster/src/wally.rommaster.webapp/components&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -50,9 +70,9 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\repo\wally\wally.rommaster\src\wally.rommaster.webapp\components" />
       <recent name="C:\repo\wally\wally.rommaster\src\wally.rommaster.webapp" />
       <recent name="C:\repo\wally\wally.rommaster\src\wally.rommaster.webapp\store" />
-      <recent name="C:\repo\wally\wally.rommaster\src\wally.rommaster.webapp\components" />
       <recent name="C:\repo\wally\wally.rommaster\src\wally.rommaster.webapp\hooks" />
     </key>
   </component>
@@ -79,8 +99,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="npm.dev" />
         <item itemvalue="npm.build" />
+        <item itemvalue="npm.dev" />
       </list>
     </recent_temporary>
   </component>
@@ -94,7 +114,11 @@
       <updated>1694958886919</updated>
       <workItem from="1694958889243" duration="1757000" />
       <workItem from="1696159631186" duration="5668000" />
-      <workItem from="1696267758025" duration="2319000" />
+      <workItem from="1696267758025" duration="5392000" />
+      <workItem from="1696683875858" duration="5989000" />
+      <workItem from="1696955677703" duration="454000" />
+      <workItem from="1697880269668" duration="6000" />
+      <workItem from="1697890996240" duration="710000" />
     </task>
     <servers />
   </component>
