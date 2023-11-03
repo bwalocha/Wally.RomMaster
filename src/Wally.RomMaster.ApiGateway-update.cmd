@@ -1,2 +1,5 @@
-git diff --exit-code && dotnet new wally.cleanarchitecture --output . --name Wally.RomMaster -proxy=true --force
+SET "NAME=Wally.RomMaster"
+SET "SERVICE_NAME=ApiGatevay"
+
+git diff --exit-code && dotnet new wally.cleanarchitecture --output . --name %NAME% --serviceName %SERVICE_NAME% -proxy=true --force
 pause

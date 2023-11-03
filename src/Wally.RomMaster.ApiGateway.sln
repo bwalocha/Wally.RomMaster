@@ -3,9 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30114.105
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.ApiGateway.WebApi", "Wally.RomMaster.ApiGateway\Wally.RomMaster.ApiGateway.WebApi\Wally.RomMaster.ApiGateway.WebApi.csproj", "{5D394477-C5D8-42F4-B841-3CE525F5DE24}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.ApiGateway.WebApi", "Wally.RomMaster.ApiGateway\Wally.RomMaster.ApiGateway.WebApi\Wally.RomMaster.ApiGateway.WebApi.csproj", "{2063FDB3-ED03-4EF9-AF3A-2FC1C5E8B695}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{AC7282D1-F3F3-426A-95BE-8576F85E306E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.ApiGateway.Infrastructure.DI.Microsoft", "Wally.RomMaster.ApiGateway\Wally.RomMaster.ApiGateway.Infrastructure.DI.Microsoft\Wally.RomMaster.ApiGateway.Infrastructure.DI.Microsoft.csproj", "{D4325D6A-E773-4072-84D4-42CB3ED09B37}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.ApiGateway.Tests.IntegrationTests", "Wally.RomMaster.ApiGateway\Wally.RomMaster.ApiGateway.Tests.IntegrationTests\Wally.RomMaster.ApiGateway.Tests.IntegrationTests.csproj", "{6373CA55-3529-4DA3-B920-1F7D48967014}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.ApiGateway.Tests.UnitTests", "Wally.RomMaster.ApiGateway\Wally.RomMaster.ApiGateway.Tests.UnitTests\Wally.RomMaster.ApiGateway.Tests.UnitTests.csproj", "{E7D1FD7E-2105-4EAA-A1C8-0B4E81E17105}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{C911A92B-E0AE-4965-AB10-5BCEF246CD78}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{54C7EE7B-ABBE-47BF-9872-4C5973304A44}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{EAC9C353-4F7C-43E9-92A6-226F43D221D8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0AC225DA-9D8C-47EB-A4E1-9FA629332ABB}"
 	ProjectSection(SolutionItems) = preProject
 		AssemblyInfo.cs = AssemblyInfo.cs
 		README.md = README.md
@@ -16,16 +28,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.config\dotnet-tools.json = .config\dotnet-tools.json
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.ApiGateway.Tests.UnitTests", "Wally.RomMaster.ApiGateway\Wally.RomMaster.ApiGateway.Tests.UnitTests\Wally.RomMaster.ApiGateway.Tests.UnitTests.csproj", "{988A8559-5B44-4DC1-AD47-0B605759192B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.ApiGateway.Infrastructure.DI.Microsoft", "Wally.RomMaster.ApiGateway\Wally.RomMaster.ApiGateway.Infrastructure.DI.Microsoft\Wally.RomMaster.ApiGateway.Infrastructure.DI.Microsoft.csproj", "{B2A94114-5F17-4708-BE2D-37DC0A0CDDCA}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{47725090-9FB8-4B4D-89CC-D8C567F45E0C}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{AD4A681C-68D5-4FD8-81D9-5DDF17773342}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{8589DE09-EC50-490F-8DE2-CFD877BD6119}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,22 +37,27 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{5D394477-C5D8-42F4-B841-3CE525F5DE24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5D394477-C5D8-42F4-B841-3CE525F5DE24}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5D394477-C5D8-42F4-B841-3CE525F5DE24}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5D394477-C5D8-42F4-B841-3CE525F5DE24}.Release|Any CPU.Build.0 = Release|Any CPU
-		{988A8559-5B44-4DC1-AD47-0B605759192B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{988A8559-5B44-4DC1-AD47-0B605759192B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{988A8559-5B44-4DC1-AD47-0B605759192B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{988A8559-5B44-4DC1-AD47-0B605759192B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B2A94114-5F17-4708-BE2D-37DC0A0CDDCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B2A94114-5F17-4708-BE2D-37DC0A0CDDCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B2A94114-5F17-4708-BE2D-37DC0A0CDDCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B2A94114-5F17-4708-BE2D-37DC0A0CDDCA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2063FDB3-ED03-4EF9-AF3A-2FC1C5E8B695}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2063FDB3-ED03-4EF9-AF3A-2FC1C5E8B695}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2063FDB3-ED03-4EF9-AF3A-2FC1C5E8B695}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2063FDB3-ED03-4EF9-AF3A-2FC1C5E8B695}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E7D1FD7E-2105-4EAA-A1C8-0B4E81E17105}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7D1FD7E-2105-4EAA-A1C8-0B4E81E17105}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7D1FD7E-2105-4EAA-A1C8-0B4E81E17105}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7D1FD7E-2105-4EAA-A1C8-0B4E81E17105}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D4325D6A-E773-4072-84D4-42CB3ED09B37}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D4325D6A-E773-4072-84D4-42CB3ED09B37}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D4325D6A-E773-4072-84D4-42CB3ED09B37}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D4325D6A-E773-4072-84D4-42CB3ED09B37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6373CA55-3529-4DA3-B920-1F7D48967014}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6373CA55-3529-4DA3-B920-1F7D48967014}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6373CA55-3529-4DA3-B920-1F7D48967014}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6373CA55-3529-4DA3-B920-1F7D48967014}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{988A8559-5B44-4DC1-AD47-0B605759192B} = {47725090-9FB8-4B4D-89CC-D8C567F45E0C}
-		{B2A94114-5F17-4708-BE2D-37DC0A0CDDCA} = {AD4A681C-68D5-4FD8-81D9-5DDF17773342}
-		{5D394477-C5D8-42F4-B841-3CE525F5DE24} = {8589DE09-EC50-490F-8DE2-CFD877BD6119}
+		{E7D1FD7E-2105-4EAA-A1C8-0B4E81E17105} = {EAC9C353-4F7C-43E9-92A6-226F43D221D8}
+		{D4325D6A-E773-4072-84D4-42CB3ED09B37} = {54C7EE7B-ABBE-47BF-9872-4C5973304A44}
+		{2063FDB3-ED03-4EF9-AF3A-2FC1C5E8B695} = {C911A92B-E0AE-4965-AB10-5BCEF246CD78}
+		{6373CA55-3529-4DA3-B920-1F7D48967014} = {EAC9C353-4F7C-43E9-92A6-226F43D221D8}
 	EndGlobalSection
 EndGlobal
