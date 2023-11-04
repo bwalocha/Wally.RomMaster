@@ -1,6 +1,6 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 
+using Wally.RomMaster.HashService.Domain.Users;
 using Wally.Lib.DDD.Abstractions.Commands;
 
 namespace Wally.RomMaster.HashService.Application.Users.Commands;
@@ -8,10 +8,10 @@ namespace Wally.RomMaster.HashService.Application.Users.Commands;
 [ExcludeFromCodeCoverage]
 public sealed class DeleteUserCommand : ICommand
 {
-	public DeleteUserCommand(Guid id)
+	public DeleteUserCommand(UserId userId)
 	{
-		Id = id;
+		UserId = userId;
 	}
 
-	public Guid Id { get; }
+	public UserId UserId { get; }
 }

@@ -97,8 +97,8 @@ public static class DbContextExtensions
 		services.AddDbContext<DbContext, ApplicationDbContext>(dbContextOptions);
 
 		services.Scan(
-			a => a.FromApplicationDependencies(b => b.FullName!.StartsWith("Wally.RomMaster.HashService."))
-				.AddClasses(c => c.AssignableTo(typeof(IReadOnlyRepository<>)))
+			a => a.FromAssemblyOf<IInfrastructurePersistenceAssemblyMarker>()
+				.AddClasses(c => c.AssignableTo(typeof(IReadOnlyRepository<,>)))
 				.AsImplementedInterfaces()
 				.WithScopedLifetime());
 

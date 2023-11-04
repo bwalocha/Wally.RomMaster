@@ -1,2 +1,8 @@
-git diff --exit-code && dotnet new wally.cleanarchitecture --output . --name Wally.RomMaster --serviceName=HashService -service=true --force
+SET "NAME=Wally.RomMaster"
+SET "SERVICE_NAME=HashService"
+
+SET "AUTHOR_NAME=wally"
+SET "TEMPLATE_NAME=%AUTHOR_NAME%.cleanarchitecture"
+
+git diff --exit-code && dotnet new %TEMPLATE_NAME% --output . --name %NAME% --serviceName %SERVICE_NAME% -service=true --force
 pause

@@ -4,5 +4,5 @@ namespace Wally.RomMaster.HashService.Domain.Abstractions;
 
 public interface IDateTimeProvider
 {
-	public DateTime GetDateTime();
+	public DateTimeOffset GetDateTime();
 }

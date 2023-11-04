@@ -3,6 +3,6 @@ using Wally.RomMaster.HashService.Domain.Users;
 
 namespace Wally.RomMaster.HashService.Application.Users;
 
-public interface IUserRepository : IRepository<User>
+public interface IUserRepository : IRepository<User, UserId>
 {
 }
