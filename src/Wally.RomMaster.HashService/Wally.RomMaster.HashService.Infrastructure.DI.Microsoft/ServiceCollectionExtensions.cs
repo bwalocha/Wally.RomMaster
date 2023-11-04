@@ -27,7 +27,7 @@ public static class ServiceCollectionExtensions
 		services.AddCqrs();
 		services.AddSwagger(Assembly.GetCallingAssembly());
 		services.AddHealthChecks(settings);
-		// services.AddDbContext(settings);
+		services.AddDbContext(settings);
 		services.AddMapper();
 		services.AddMessaging(settings);
 		services.AddEventHub();
