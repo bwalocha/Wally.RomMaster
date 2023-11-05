@@ -94,7 +94,11 @@ public static class DbContextExtensions
 
 			options.EnableSensitiveDataLogging(); // TODO: get from configuration
 		};
-		services.AddDbContext<DbContext, ApplicationDbContext>(dbContextOptions);
+
+		if (settings.Database.ProviderType != DatabaseProviderType.None)
+		{
+			services.AddDbContext<DbContext, ApplicationDbContext>(dbContextOptions);
+		}
 
 		services.Scan(
 			a => a.FromAssemblyOf<IInfrastructurePersistenceAssemblyMarker>()
