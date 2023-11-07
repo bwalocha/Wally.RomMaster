@@ -370,7 +370,7 @@ public class UsersControllerTests : IClassFixture<ApiWebApplicationFactory<Start
 			.Be("testUser2");
 	}
 
-	[Fact]
+	[Fact(Skip = "Storage not supported")]
 	public async Task Put_ForExistingResource_UpdatesResourceData()
 	{
 		// Arrange
