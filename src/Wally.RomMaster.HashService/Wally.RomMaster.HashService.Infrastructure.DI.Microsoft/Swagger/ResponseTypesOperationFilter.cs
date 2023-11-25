@@ -1,7 +1,5 @@
 using System.Linq;
-
 using Microsoft.OpenApi.Models;
-
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Wally.RomMaster.HashService.Infrastructure.DI.Microsoft.Swagger;

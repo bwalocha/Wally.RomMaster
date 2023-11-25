@@ -1,9 +1,6 @@
 using System.Threading.Tasks;
-
 using MassTransit;
-
 using MediatR;
-
 using Wally.RomMaster.FileService.Application.Messages.Files;
 using Wally.RomMaster.HashService.Application.Hashes.Commands;
 

@@ -9,7 +9,8 @@ namespace Wally.RomMaster.HashService.Domain.Abstractions;
 
 [TypeConverter(typeof(StronglyTypedIdConverter))]
 public abstract class StronglyTypedId<TStronglyTypedId, TValue> : IStronglyTypedId<TStronglyTypedId, TValue>
-	where TStronglyTypedId : StronglyTypedId<TStronglyTypedId, TValue> where TValue : notnull, IComparable
+	where TStronglyTypedId : StronglyTypedId<TStronglyTypedId, TValue>
+	where TValue : notnull, IComparable
 {
 	/// <summary>
 	///     To ensure hashcode uniqueness, a carefully selected random number multiplier
@@ -152,7 +153,7 @@ public abstract class StronglyTypedId<TStronglyTypedId, TValue> : IStronglyTyped
 	/// <param name="value">The value</param>
 	public static explicit operator StronglyTypedId<TStronglyTypedId, TValue>(TValue value)
 	{
-		var instance = Activator.CreateInstance(typeof(TStronglyTypedId), new object[] { value, }) !;
+		var instance = Activator.CreateInstance(typeof(TStronglyTypedId), value) !;
 		return (TStronglyTypedId)instance;
 	}
 
@@ -190,8 +191,8 @@ public static class TypeExtensions
 	{
 		type = type.UnwrapNullableType();
 		return type == typeof(sbyte) || type == typeof(byte) || type == typeof(short) || type == typeof(ushort) ||
-				type == typeof(int) || type == typeof(uint) || type == typeof(long) || type == typeof(ulong) ||
-				type == typeof(decimal) || type == typeof(float) || type == typeof(double);
+			type == typeof(int) || type == typeof(uint) || type == typeof(long) || type == typeof(ulong) ||
+			type == typeof(decimal) || type == typeof(float) || type == typeof(double);
 	}
 
 	/// <summary>

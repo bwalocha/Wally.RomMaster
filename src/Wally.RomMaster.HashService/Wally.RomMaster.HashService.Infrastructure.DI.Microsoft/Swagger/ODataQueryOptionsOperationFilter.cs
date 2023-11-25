@@ -1,8 +1,6 @@
 using System.Linq;
-
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.OpenApi.Models;
-
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace Wally.RomMaster.HashService.Infrastructure.DI.Microsoft.Swagger;

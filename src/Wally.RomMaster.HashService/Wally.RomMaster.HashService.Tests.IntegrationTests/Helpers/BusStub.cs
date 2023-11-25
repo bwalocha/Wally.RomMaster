@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-
 using MassTransit;
 
 namespace Wally.RomMaster.HashService.Tests.IntegrationTests.Helpers;
@@ -13,12 +12,14 @@ public class BusStub : IBus
 		throw new NotImplementedException();
 	}
 
-	public Task<ISendEndpoint> GetPublishSendEndpoint<T>() where T : class
+	public Task<ISendEndpoint> GetPublishSendEndpoint<T>()
+		where T : class
 	{
 		throw new NotImplementedException();
 	}
 
-	public Task Publish<T>(T message, CancellationToken cancellationToken = new()) where T : class
+	public Task Publish<T>(T message, CancellationToken cancellationToken = new())
+		where T : class
 	{
 		return Task.CompletedTask;
 	}
@@ -59,7 +60,8 @@ public class BusStub : IBus
 		throw new NotImplementedException();
 	}
 
-	public Task Publish<T>(object values, CancellationToken cancellationToken = new()) where T : class
+	public Task Publish<T>(object values, CancellationToken cancellationToken = new())
+		where T : class
 	{
 		throw new NotImplementedException();
 	}
@@ -67,7 +69,8 @@ public class BusStub : IBus
 	public Task Publish<T>(
 		object values,
 		IPipe<PublishContext<T>> publishPipe,
-		CancellationToken cancellationToken = new()) where T : class
+		CancellationToken cancellationToken = new())
+		where T : class
 	{
 		throw new NotImplementedException();
 	}
@@ -75,7 +78,8 @@ public class BusStub : IBus
 	public Task Publish<T>(
 		object values,
 		IPipe<PublishContext> publishPipe,
-		CancellationToken cancellationToken = new()) where T : class
+		CancellationToken cancellationToken = new())
+		where T : class
 	{
 		throw new NotImplementedException();
 	}
@@ -90,7 +94,8 @@ public class BusStub : IBus
 		throw new NotImplementedException();
 	}
 
-	public ConnectHandle ConnectConsumePipe<T>(IPipe<ConsumeContext<T>> pipe) where T : class
+	public ConnectHandle ConnectConsumePipe<T>(IPipe<ConsumeContext<T>> pipe)
+		where T : class
 	{
 		throw new NotImplementedException();
 	}
@@ -101,12 +106,14 @@ public class BusStub : IBus
 		throw new NotImplementedException();
 	}
 
-	public ConnectHandle ConnectRequestPipe<T>(Guid requestId, IPipe<ConsumeContext<T>> pipe) where T : class
+	public ConnectHandle ConnectRequestPipe<T>(Guid requestId, IPipe<ConsumeContext<T>> pipe)
+		where T : class
 	{
 		throw new NotImplementedException();
 	}
 
-	public ConnectHandle ConnectConsumeMessageObserver<T>(IConsumeMessageObserver<T> observer) where T : class
+	public ConnectHandle ConnectConsumeMessageObserver<T>(IConsumeMessageObserver<T> observer)
+		where T : class
 	{
 		throw new NotImplementedException();
 	}

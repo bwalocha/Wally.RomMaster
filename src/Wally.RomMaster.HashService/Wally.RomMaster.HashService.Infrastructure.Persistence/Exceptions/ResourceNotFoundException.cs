@@ -1,5 +1,4 @@
 ﻿using System;
-
 using Wally.RomMaster.HashService.Infrastructure.Persistence.Abstractions;
 
 namespace Wally.RomMaster.HashService.Infrastructure.Persistence.Exceptions;

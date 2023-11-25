@@ -4,11 +4,8 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
-
 using MassTransit;
-
 using Microsoft.Extensions.Logging;
-
 using Wally.Lib.DDD.Abstractions.Commands;
 using Wally.RomMaster.HashService.Application.Messages.Hashes;
 
@@ -38,7 +35,7 @@ public class ComputeHashCommandHandler : CommandHandler<ComputeHashCommand>
 		_logger.LogInformation("CRC32 for '{0}': {1}", command.FileLocation, computedCrc32);
 
 		var message = new HashComputedMessage(command.FileId, computedCrc32);
-		
+
 		await _bus.Publish(message, cancellationToken);
 	}
 }

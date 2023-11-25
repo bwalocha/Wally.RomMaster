@@ -1,10 +1,7 @@
 ﻿using System.Linq;
-
 using FluentValidation;
-
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-
 using Wally.RomMaster.HashService.Infrastructure.DI.Microsoft.Models;
 
 namespace Wally.RomMaster.HashService.Infrastructure.DI.Microsoft.Extensions;
@@ -32,7 +29,8 @@ public static class OptionsExtensions
 		return builder;
 	}
 
-	private class ValidateOptions<TOptions> : IValidateOptions<TOptions> where TOptions : class
+	private class ValidateOptions<TOptions> : IValidateOptions<TOptions>
+		where TOptions : class
 	{
 		private readonly string? _name;
 		private readonly IValidator<TOptions> _validator;

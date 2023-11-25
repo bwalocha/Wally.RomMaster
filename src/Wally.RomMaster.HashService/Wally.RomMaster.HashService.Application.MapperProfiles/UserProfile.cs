@@ -1,7 +1,5 @@
 ﻿using System;
-
 using AutoMapper;
-
 using Wally.RomMaster.HashService.Application.Contracts.Requests.Users;
 using Wally.RomMaster.HashService.Application.Contracts.Responses.Users;
 using Wally.RomMaster.HashService.Domain.Users;

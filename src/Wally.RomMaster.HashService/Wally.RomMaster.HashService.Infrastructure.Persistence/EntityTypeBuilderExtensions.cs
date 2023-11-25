@@ -1,7 +1,5 @@
 ﻿using System.Linq;
-
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
 using Wally.RomMaster.HashService.Domain.Abstractions;
 
 namespace Wally.RomMaster.HashService.Infrastructure.Persistence;

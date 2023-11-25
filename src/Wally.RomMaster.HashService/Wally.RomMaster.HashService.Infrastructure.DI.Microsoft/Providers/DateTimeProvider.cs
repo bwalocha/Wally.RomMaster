@@ -1,5 +1,4 @@
 using System;
-
 using Wally.RomMaster.HashService.Domain.Abstractions;
 
 namespace Wally.RomMaster.HashService.Infrastructure.DI.Microsoft.Providers;

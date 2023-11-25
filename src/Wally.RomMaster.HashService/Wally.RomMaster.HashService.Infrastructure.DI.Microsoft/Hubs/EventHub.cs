@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-
 using Microsoft.AspNetCore.SignalR;
 
 namespace Wally.RomMaster.HashService.Infrastructure.DI.Microsoft.Hubs;

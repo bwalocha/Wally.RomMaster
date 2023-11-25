@@ -1,9 +1,6 @@
 using FluentAssertions;
-
 using FluentValidation;
-
 using Wally.RomMaster.HashService.Application.Contracts.Requests.Users;
-
 using Xunit;
 
 namespace Wally.RomMaster.HashService.Tests.UnitTests.Users;

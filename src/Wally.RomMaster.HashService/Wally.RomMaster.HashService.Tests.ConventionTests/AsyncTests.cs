@@ -3,18 +3,12 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using System.Threading.Tasks;
-
 using FluentAssertions;
 using FluentAssertions.Execution;
-
 using MassTransit;
-
 using MediatR;
-
 using Microsoft.AspNetCore.SignalR;
-
 using Wally.RomMaster.HashService.Tests.ConventionTests.Helpers;
-
 using Xunit;
 
 namespace Wally.RomMaster.HashService.Tests.ConventionTests;

@@ -1,13 +1,12 @@
 ﻿using System;
-
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-
 using Wally.RomMaster.HashService.Domain.Abstractions;
 
 namespace Wally.RomMaster.HashService.Infrastructure.Persistence;
 
 public sealed class StronglyTypedIdConverter<TStronglyTypedId, TValue> : ValueConverter<TStronglyTypedId, TValue>
-	where TStronglyTypedId : StronglyTypedId<TStronglyTypedId, TValue> where TValue : notnull, IComparable
+	where TStronglyTypedId : StronglyTypedId<TStronglyTypedId, TValue>
+	where TValue : notnull, IComparable
 {
 	/// <summary>
 	///     Initializes a new instance of the <see cref="StronglyTypedIdConverter{TStronglyTypedId,TValue}" /> type.
@@ -30,7 +29,7 @@ public sealed class StronglyTypedIdConverter<TStronglyTypedId, TValue> : ValueCo
 			return null;
 		}
 
-		var instance = Activator.CreateInstance(typeof(TStronglyTypedId), new object[] { value, });
+		var instance = Activator.CreateInstance(typeof(TStronglyTypedId), value);
 		return (TStronglyTypedId)instance;
 	}
 }

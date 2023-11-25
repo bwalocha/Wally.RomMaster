@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
 using Wally.RomMaster.HashService.Domain.Users;
 
 namespace Wally.RomMaster.HashService.Infrastructure.Persistence.Mappings;

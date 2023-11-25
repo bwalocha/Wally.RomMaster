@@ -1,5 +1,4 @@
 ﻿using System;
-
 using Wally.RomMaster.HashService.Domain.Abstractions;
 using Wally.RomMaster.HashService.Domain.Users;
 

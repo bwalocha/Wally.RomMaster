@@ -1,14 +1,11 @@
 ﻿using System.Reflection;
 using System.Security.Cryptography;
-
 using Force.Crc32;
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
 using Wally.RomMaster.HashService.Infrastructure.DI.Microsoft.Extensions;
 using Wally.RomMaster.HashService.Infrastructure.DI.Microsoft.Hubs;
 using Wally.RomMaster.HashService.Infrastructure.DI.Microsoft.Models;

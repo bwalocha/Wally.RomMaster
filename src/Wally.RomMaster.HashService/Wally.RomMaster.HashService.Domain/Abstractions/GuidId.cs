@@ -2,7 +2,8 @@
 
 namespace Wally.RomMaster.HashService.Domain.Abstractions;
 
-public abstract class GuidId<TId> : StronglyTypedId<TId, Guid> where TId : StronglyTypedId<TId, Guid>
+public abstract class GuidId<TId> : StronglyTypedId<TId, Guid>
+	where TId : StronglyTypedId<TId, Guid>
 {
 	private static readonly long _baseDateTicks = new DateTime(2000, 1, 1).Ticks;
 

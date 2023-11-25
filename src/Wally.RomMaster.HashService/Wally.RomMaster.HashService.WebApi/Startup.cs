@@ -4,7 +4,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-
 using Wally.RomMaster.HashService.Infrastructure.DI.Microsoft;
 
 namespace Wally.RomMaster.HashService.WebApi;

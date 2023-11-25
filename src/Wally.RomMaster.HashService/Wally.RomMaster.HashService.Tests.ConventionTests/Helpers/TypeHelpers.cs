@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
-
 using FluentAssertions;
 using FluentAssertions.Common;
 using FluentAssertions.Types;
-
 using Wally.RomMaster.HashService.WebApi;
 
 namespace Wally.RomMaster.HashService.Tests.ConventionTests.Helpers;

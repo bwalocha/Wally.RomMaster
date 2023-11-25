@@ -1,12 +1,8 @@
 ﻿using System.Linq;
-
 using AutoMapper.Internal;
-
 using FluentAssertions;
 using FluentAssertions.Execution;
-
 using Wally.RomMaster.HashService.Tests.ConventionTests.Helpers;
-
 using Xunit;
 
 namespace Wally.RomMaster.HashService.Tests.ConventionTests;

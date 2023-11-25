@@ -1,16 +1,14 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-
 using FluentValidation;
-
 using MediatR;
-
 using Wally.Lib.DDD.Abstractions.Responses;
 
 namespace Wally.RomMaster.HashService.Infrastructure.PipelineBehaviours;
 
 public class QueryHandlerValidatorBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
-	where TRequest : IRequest<TResponse> where TResponse : IResponse
+	where TRequest : IRequest<TResponse>
+	where TResponse : IResponse
 {
 	private readonly IValidator<TRequest>? _validator;
 

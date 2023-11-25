@@ -1,11 +1,10 @@
 ﻿using System;
-
+using EntityFramework.Exceptions.MySQL.Pomelo;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-
 using Wally.RomMaster.HashService.Domain.Abstractions;
 using Wally.RomMaster.HashService.Infrastructure.DI.Microsoft.Models;
 using Wally.RomMaster.HashService.Infrastructure.DI.Microsoft.Providers;
@@ -39,7 +38,7 @@ public static class DbContextExtensions
 								typeof(IInfrastructureMySqlAssemblyMarker).Assembly.GetName()
 									.Name);
 						});
-					EntityFramework.Exceptions.MySQL.Pomelo.ExceptionProcessorExtensions.UseExceptionProcessor(options);
+					ExceptionProcessorExtensions.UseExceptionProcessor(options);
 					break;
 				case DatabaseProviderType.PostgreSQL:
 					options.UseNpgsql(

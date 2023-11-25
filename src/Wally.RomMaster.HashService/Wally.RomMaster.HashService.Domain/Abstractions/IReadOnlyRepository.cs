@@ -1,9 +1,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-
 using Microsoft.AspNetCore.OData.Query;
-
 using Wally.Lib.DDD.Abstractions.Requests;
 using Wally.Lib.DDD.Abstractions.Responses;
 
@@ -15,9 +13,11 @@ public interface IReadOnlyRepository<TEntity, in TKey>
 {
 	Task<bool> ExistsAsync(TKey id, CancellationToken cancellationToken);
 
-	Task<TResponse> GetAsync<TResponse>(TKey id, CancellationToken cancellationToken) where TResponse : IResponse;
+	Task<TResponse> GetAsync<TResponse>(TKey id, CancellationToken cancellationToken)
+		where TResponse : IResponse;
 
 	Task<PagedResponse<TResponse>> GetAsync
 		<TRequest, TResponse>(ODataQueryOptions<TRequest> queryOptions, CancellationToken cancellationToken)
-		where TRequest : class, IRequest where TResponse : class, IResponse;
+		where TRequest : class, IRequest
+		where TResponse : class, IResponse;
 }

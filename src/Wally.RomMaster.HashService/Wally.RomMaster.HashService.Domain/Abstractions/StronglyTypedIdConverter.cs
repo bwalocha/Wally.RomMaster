@@ -54,7 +54,8 @@ internal sealed class StronglyTypedIdConverter : TypeConverter
 }
 
 internal sealed class StronglyTypedIdConverter<TStronglyTypedId, TValue> : TypeConverter
-	where TStronglyTypedId : StronglyTypedId<TStronglyTypedId, TValue> where TValue : notnull, IComparable
+	where TStronglyTypedId : StronglyTypedId<TStronglyTypedId, TValue>
+	where TValue : notnull, IComparable
 {
 	private static TypeConverter IdValueConverter { get; } = GetIdValueConverter();
 
@@ -81,7 +82,7 @@ internal sealed class StronglyTypedIdConverter<TStronglyTypedId, TValue> : TypeC
 	public override bool CanConvertTo(ITypeDescriptorContext context, Type destinationType)
 	{
 		return destinationType == typeof(string) || destinationType == typeof(TValue) ||
-				base.CanConvertTo(context, destinationType);
+			base.CanConvertTo(context, destinationType);
 	}
 
 	/// <inheritdoc />
@@ -94,7 +95,7 @@ internal sealed class StronglyTypedIdConverter<TStronglyTypedId, TValue> : TypeC
 
 		if (value is TValue idValue)
 		{
-			var instance = Activator.CreateInstance(typeof(TStronglyTypedId), new object[] { idValue, });
+			var instance = Activator.CreateInstance(typeof(TStronglyTypedId), idValue);
 			return instance;
 		}
 

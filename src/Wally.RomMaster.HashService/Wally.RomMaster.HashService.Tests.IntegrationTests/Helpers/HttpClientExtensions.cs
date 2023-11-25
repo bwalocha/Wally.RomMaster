@@ -2,9 +2,7 @@
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-
 using JsonNet.ContractResolvers;
-
 using Newtonsoft.Json;
 
 namespace Wally.RomMaster.HashService.Tests.IntegrationTests.Helpers;
