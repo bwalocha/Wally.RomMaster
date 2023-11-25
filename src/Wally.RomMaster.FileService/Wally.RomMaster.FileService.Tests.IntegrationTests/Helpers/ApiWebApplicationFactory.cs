@@ -1,11 +1,8 @@
 using System;
 using System.IO;
 using System.Linq;
-
 using HealthChecks.UI.Data;
-
 using MassTransit;
-
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
@@ -13,13 +10,13 @@ using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
-using Wally.RomMaster.FileService.Infrastructure.Persistence;
 using Wally.Lib.DDD.Abstractions.DomainNotifications;
+using Wally.RomMaster.FileService.Infrastructure.Persistence;
 
 namespace Wally.RomMaster.FileService.Tests.IntegrationTests.Helpers;
 
-public class ApiWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
+public class ApiWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup>
+	where TStartup : class
 {
 	protected override IHostBuilder CreateHostBuilder()
 	{
@@ -85,7 +82,8 @@ public class ApiWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup
 			});
 	}
 
-	public TService GetRequiredService<TService>() where TService : notnull
+	public TService GetRequiredService<TService>()
+		where TService : notnull
 	{
 		var scopeFactory = Services.GetService<IServiceScopeFactory>();
 		return scopeFactory!.CreateScope()

@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-
 using MassTransit;
-
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-
 using Wally.RomMaster.FileService.Application.Messages.Files;
 using Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.Models;
 using Wally.RomMaster.FileService.Infrastructure.Messaging;
@@ -43,34 +40,33 @@ public static class MessagingExtensions
 						// a.UsingRabbitMq((context, cfg) => cfg.ConfigureEndpoints(context));
 
 						a.AddRider(rider =>
-							{
-								rider.AddConsumersFromNamespaceContaining<IInfrastructureMessagingAssemblyMarker>();
-								// TODO: auto-register
-								// rider.AddConsumer<KafkaMessageConsumer>();
-								// rider.AddProducer<FileCreatedMessage>(nameof(FileCreatedMessage));
-								// rider.AddProducer<FileModifiedMessage>(nameof(FileModifiedMessage));
-								rider.AddProducer<FileCreatedMessage>(typeof(FileCreatedMessage).FullName);
-								rider.AddProducer<FileModifiedMessage>(typeof(FileModifiedMessage).FullName);
+						{
+							rider.AddConsumersFromNamespaceContaining<IInfrastructureMessagingAssemblyMarker>();
+							// TODO: auto-register
+							// rider.AddConsumer<KafkaMessageConsumer>();
+							// rider.AddProducer<FileCreatedMessage>(nameof(FileCreatedMessage));
+							// rider.AddProducer<FileModifiedMessage>(nameof(FileModifiedMessage));
+							rider.AddProducer<FileCreatedMessage>(typeof(FileCreatedMessage).FullName);
+							rider.AddProducer<FileModifiedMessage>(typeof(FileModifiedMessage).FullName);
 
-								rider.UsingKafka(
-									(context, k) =>
+							rider.UsingKafka(
+								(context, k) =>
+								{
+									k.ClientId = typeof(IInfrastructureMessagingAssemblyMarker).Namespace;
+									k.Host(settings.ConnectionStrings.ServiceBus);
+
+									// TODO: auto-register
+									/*k.TopicEndpoint<KafkaMessage>(typeof(IInfrastructureMessagingAssemblyMarker).Namespace, typeof(IInfrastructureMessagingAssemblyMarker).Namespace, e =>
 									{
-										k.ClientId = typeof(IInfrastructureMessagingAssemblyMarker).Namespace;
-										k.Host(settings.ConnectionStrings.ServiceBus);
+										e.ConfigureConsumer<KafkaMessageConsumer>(context);
+									});*/
+									k.TopicEndpoint<HashComputedMessage>(typeof(HashComputedMessage).FullName,
+										typeof(IInfrastructureMessagingAssemblyMarker).Namespace,
+										e => { e.ConfigureConsumer<HashComputedMessageConsumer>(context); });
+								});
 
-										// TODO: auto-register
-										/*k.TopicEndpoint<KafkaMessage>(typeof(IInfrastructureMessagingAssemblyMarker).Namespace, typeof(IInfrastructureMessagingAssemblyMarker).Namespace, e =>
-										{
-											e.ConfigureConsumer<KafkaMessageConsumer>(context);
-										});*/
-										k.TopicEndpoint<HashComputedMessage>(typeof(HashComputedMessage).FullName, typeof(IInfrastructureMessagingAssemblyMarker).Namespace, e =>
-										{
-											e.ConfigureConsumer<HashComputedMessageConsumer>(context);
-										});
-									});
-
-								services.AddScoped<IBus, KafkaBus>();
-							});
+							services.AddScoped<IBus, KafkaBus>();
+						});
 						break;
 					case MessageBrokerType.RabbitMQ:
 						a.UsingRabbitMq(
@@ -104,12 +100,14 @@ public static class MessagingExtensions
 			throw new NotImplementedException();
 		}
 
-		public Task<ISendEndpoint> GetPublishSendEndpoint<T>() where T : class
+		public Task<ISendEndpoint> GetPublishSendEndpoint<T>()
+			where T : class
 		{
 			throw new NotImplementedException();
 		}
 
-		public Task Publish<T>(T message, CancellationToken cancellationToken = new()) where T : class
+		public Task Publish<T>(T message, CancellationToken cancellationToken = new())
+			where T : class
 		{
 			_logger.LogWarning($"Message Bus is not enabled. The message '{typeof(T)}' has not been sent.");
 
@@ -119,7 +117,8 @@ public static class MessagingExtensions
 		public Task Publish<T>(
 			T message,
 			IPipe<PublishContext<T>> publishPipe,
-			CancellationToken cancellationToken = new()) where T : class
+			CancellationToken cancellationToken = new())
+			where T : class
 		{
 			throw new NotImplementedException();
 		}
@@ -127,7 +126,8 @@ public static class MessagingExtensions
 		public Task Publish<T>(
 			T message,
 			IPipe<PublishContext> publishPipe,
-			CancellationToken cancellationToken = new()) where T : class
+			CancellationToken cancellationToken = new())
+			where T : class
 		{
 			throw new NotImplementedException();
 		}
@@ -159,7 +159,8 @@ public static class MessagingExtensions
 			throw new NotImplementedException();
 		}
 
-		public Task Publish<T>(object values, CancellationToken cancellationToken = new()) where T : class
+		public Task Publish<T>(object values, CancellationToken cancellationToken = new())
+			where T : class
 		{
 			throw new NotImplementedException();
 		}
@@ -167,7 +168,8 @@ public static class MessagingExtensions
 		public Task Publish<T>(
 			object values,
 			IPipe<PublishContext<T>> publishPipe,
-			CancellationToken cancellationToken = new()) where T : class
+			CancellationToken cancellationToken = new())
+			where T : class
 		{
 			throw new NotImplementedException();
 		}
@@ -175,7 +177,8 @@ public static class MessagingExtensions
 		public Task Publish<T>(
 			object values,
 			IPipe<PublishContext> publishPipe,
-			CancellationToken cancellationToken = new()) where T : class
+			CancellationToken cancellationToken = new())
+			where T : class
 		{
 			throw new NotImplementedException();
 		}
@@ -190,7 +193,8 @@ public static class MessagingExtensions
 			throw new NotImplementedException();
 		}
 
-		public ConnectHandle ConnectConsumePipe<T>(IPipe<ConsumeContext<T>> pipe) where T : class
+		public ConnectHandle ConnectConsumePipe<T>(IPipe<ConsumeContext<T>> pipe)
+			where T : class
 		{
 			throw new NotImplementedException();
 		}
@@ -201,12 +205,14 @@ public static class MessagingExtensions
 			throw new NotImplementedException();
 		}
 
-		public ConnectHandle ConnectRequestPipe<T>(Guid requestId, IPipe<ConsumeContext<T>> pipe) where T : class
+		public ConnectHandle ConnectRequestPipe<T>(Guid requestId, IPipe<ConsumeContext<T>> pipe)
+			where T : class
 		{
 			throw new NotImplementedException();
 		}
 
-		public ConnectHandle ConnectConsumeMessageObserver<T>(IConsumeMessageObserver<T> observer) where T : class
+		public ConnectHandle ConnectConsumeMessageObserver<T>(IConsumeMessageObserver<T> observer)
+			where T : class
 		{
 			throw new NotImplementedException();
 		}
@@ -272,12 +278,14 @@ public static class MessagingExtensions
 			throw new NotImplementedException();
 		}
 
-		public Task<ISendEndpoint> GetPublishSendEndpoint<T>() where T : class
+		public Task<ISendEndpoint> GetPublishSendEndpoint<T>()
+			where T : class
 		{
 			throw new NotImplementedException();
 		}
 
-		public async Task Publish<T>(T message, CancellationToken cancellationToken = new()) where T : class
+		public async Task Publish<T>(T message, CancellationToken cancellationToken = new())
+			where T : class
 		{
 			var topicProducer = _serviceProvider.GetRequiredService<ITopicProducer<T>>();
 			await topicProducer.Produce(message, cancellationToken);
@@ -286,7 +294,8 @@ public static class MessagingExtensions
 		public Task Publish<T>(
 			T message,
 			IPipe<PublishContext<T>> publishPipe,
-			CancellationToken cancellationToken = new()) where T : class
+			CancellationToken cancellationToken = new())
+			where T : class
 		{
 			throw new NotImplementedException();
 		}
@@ -294,7 +303,8 @@ public static class MessagingExtensions
 		public Task Publish<T>(
 			T message,
 			IPipe<PublishContext> publishPipe,
-			CancellationToken cancellationToken = new()) where T : class
+			CancellationToken cancellationToken = new())
+			where T : class
 		{
 			throw new NotImplementedException();
 		}
@@ -326,7 +336,8 @@ public static class MessagingExtensions
 			throw new NotImplementedException();
 		}
 
-		public Task Publish<T>(object values, CancellationToken cancellationToken = new()) where T : class
+		public Task Publish<T>(object values, CancellationToken cancellationToken = new())
+			where T : class
 		{
 			throw new NotImplementedException();
 		}
@@ -334,7 +345,8 @@ public static class MessagingExtensions
 		public Task Publish<T>(
 			object values,
 			IPipe<PublishContext<T>> publishPipe,
-			CancellationToken cancellationToken = new()) where T : class
+			CancellationToken cancellationToken = new())
+			where T : class
 		{
 			throw new NotImplementedException();
 		}
@@ -342,7 +354,8 @@ public static class MessagingExtensions
 		public Task Publish<T>(
 			object values,
 			IPipe<PublishContext> publishPipe,
-			CancellationToken cancellationToken = new()) where T : class
+			CancellationToken cancellationToken = new())
+			where T : class
 		{
 			throw new NotImplementedException();
 		}
@@ -357,7 +370,8 @@ public static class MessagingExtensions
 			throw new NotImplementedException();
 		}
 
-		public ConnectHandle ConnectConsumePipe<T>(IPipe<ConsumeContext<T>> pipe) where T : class
+		public ConnectHandle ConnectConsumePipe<T>(IPipe<ConsumeContext<T>> pipe)
+			where T : class
 		{
 			throw new NotImplementedException();
 		}
@@ -368,12 +382,14 @@ public static class MessagingExtensions
 			throw new NotImplementedException();
 		}
 
-		public ConnectHandle ConnectRequestPipe<T>(Guid requestId, IPipe<ConsumeContext<T>> pipe) where T : class
+		public ConnectHandle ConnectRequestPipe<T>(Guid requestId, IPipe<ConsumeContext<T>> pipe)
+			where T : class
 		{
 			throw new NotImplementedException();
 		}
 
-		public ConnectHandle ConnectConsumeMessageObserver<T>(IConsumeMessageObserver<T> observer) where T : class
+		public ConnectHandle ConnectConsumeMessageObserver<T>(IConsumeMessageObserver<T> observer)
+			where T : class
 		{
 			throw new NotImplementedException();
 		}

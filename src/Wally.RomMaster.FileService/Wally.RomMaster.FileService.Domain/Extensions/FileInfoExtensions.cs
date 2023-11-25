@@ -1,5 +1,4 @@
 ﻿using System.IO;
-
 using File = Wally.RomMaster.FileService.Domain.Files.File;
 
 namespace Wally.RomMaster.FileService.Domain.Extensions;

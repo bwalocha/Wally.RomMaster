@@ -3,13 +3,10 @@ using System.IO;
 using System.IO.Compression;
 using System.Threading;
 using System.Threading.Tasks;
-
 using Microsoft.Extensions.Logging;
-
 using Wally.Lib.DDD.Abstractions.DomainEvents;
 using Wally.RomMaster.FileService.Domain.Abstractions;
 using Wally.RomMaster.FileService.Domain.Files;
-
 using File = Wally.RomMaster.FileService.Domain.Files.File;
 
 namespace Wally.RomMaster.FileService.Application.Files.DomainEvents;
@@ -52,10 +49,8 @@ public class ProcessArchiveOnFileCreatedDomainEventHandler : IDomainEventHandler
 							// TODO: update
 							continue;
 						}
-						else
-						{
-							_fileRepository.Add(file);
-						}
+
+						_fileRepository.Add(file);
 					}
 				}
 				catch (Exception e)

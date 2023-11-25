@@ -1,5 +1,4 @@
 using System;
-
 using Wally.RomMaster.FileService.Domain.Users;
 
 namespace Wally.RomMaster.FileService.Domain.Abstractions;

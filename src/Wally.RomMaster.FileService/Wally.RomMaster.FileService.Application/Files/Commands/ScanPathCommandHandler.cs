@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-
 using Wally.Lib.DDD.Abstractions.Commands;
 using Wally.RomMaster.FileService.Application.Paths;
 using Wally.RomMaster.FileService.Domain.Abstractions;
@@ -29,7 +28,7 @@ public class ScanPathCommandHandler : CommandHandler<ScanPathCommand>
 		{
 			var parentPath = await GetOrCreatePathAsync(command.Location.Location.LocalPath, cancellationToken);
 			path = Path.Create(parentPath, command.Location.Location.LocalPath);
-	
+
 			_pathRepository.Add(path);
 		}
 		else
@@ -38,7 +37,7 @@ public class ScanPathCommandHandler : CommandHandler<ScanPathCommand>
 			_pathRepository.Update(path);
 		}
 	}
-	
+
 	private async Task<Path?> GetOrCreatePathAsync(string pathName, CancellationToken cancellationToken)
 	{
 		var name = System.IO.Path.GetDirectoryName(pathName);

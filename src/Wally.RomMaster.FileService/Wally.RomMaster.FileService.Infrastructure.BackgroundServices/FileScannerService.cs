@@ -5,13 +5,10 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-
 using MediatR;
-
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-
 using Wally.Lib.DDD.Abstractions.Commands;
 using Wally.RomMaster.FileService.Application.Files.Commands;
 using Wally.RomMaster.FileService.Domain.Abstractions;
@@ -91,8 +88,9 @@ public class FileScannerService : BackgroundService
 				_logger.LogDebug("ScanAsync cancelled.");
 				return;
 			}
-			
-			var command = new ScanPathsCommand(paths.Select(a => FileLocation.Create(new Uri(a))).ToArray());
+
+			var command = new ScanPathsCommand(paths.Select(a => FileLocation.Create(new Uri(a)))
+				.ToArray());
 			try
 			{
 				await mediator.Send(command, cancellationToken);
@@ -145,10 +143,11 @@ public class FileScannerService : BackgroundService
 		return exclude.Match(file);
 	}
 
-	private IEnumerable<string> GetDeepestDirectoryInfos(FolderSettings folder, string directoryInfo, CancellationToken cancellationToken)
+	private IEnumerable<string> GetDeepestDirectoryInfos(FolderSettings folder, string directoryInfo,
+		CancellationToken cancellationToken)
 	{
 		_logger.LogDebug("Path '{DirectoryInfo}' scanning...", directoryInfo);
-		
+
 		var children = Directory
 			.EnumerateDirectories(directoryInfo, "*.*", SearchOption.TopDirectoryOnly)
 			.Where(a => !IsExcluded(a, folder.Excludes))
@@ -180,12 +179,13 @@ public class FileScannerService : BackgroundService
 		var partition = items.ToList();
 		do
 		{
-			partition = partition.Skip(partitionSize * partitionIndex).ToList();
+			partition = partition.Skip(partitionSize * partitionIndex)
+				.ToList();
 			if (!partition.Any())
 			{
 				yield break;
 			}
-			
+
 			yield return partition.Take(partitionSize);
 
 			partitionIndex++;

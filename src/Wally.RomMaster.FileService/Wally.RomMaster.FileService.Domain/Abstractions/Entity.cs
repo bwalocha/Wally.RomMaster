@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-
 using Wally.Lib.DDD.Abstractions.DomainEvents;
 using Wally.Lib.DDD.Abstractions.Validators;
 

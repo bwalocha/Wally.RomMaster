@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
-
 using Wally.Lib.DDD.Abstractions.DomainModels;
 
 namespace Wally.RomMaster.FileService.Domain.Files;

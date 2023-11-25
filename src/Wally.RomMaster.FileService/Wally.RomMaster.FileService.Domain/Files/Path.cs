@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
-
 using Wally.RomMaster.FileService.Domain.Abstractions;
 
 namespace Wally.RomMaster.FileService.Domain.Files;
@@ -42,7 +41,7 @@ public class Path : AggregateRoot<Path, PathId>
 	public Path Update(IClockService clockService)
 	{
 		SetModifiedAt(clockService.GetTimestamp());
-		
+
 		return this;
 	}
 }

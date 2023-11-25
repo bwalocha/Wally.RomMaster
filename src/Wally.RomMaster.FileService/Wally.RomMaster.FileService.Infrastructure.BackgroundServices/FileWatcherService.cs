@@ -6,20 +6,16 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-
 using MediatR;
-
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-
 using Wally.Lib.DDD.Abstractions.Commands;
 using Wally.RomMaster.FileService.Application.Files.Commands;
 using Wally.RomMaster.FileService.Domain.Files;
 using Wally.RomMaster.FileService.Infrastructure.BackgroundServices.Abstractions;
 using Wally.RomMaster.FileService.Infrastructure.BackgroundServices.Extensions;
 using Wally.RomMaster.FileService.Infrastructure.BackgroundServices.Models;
-
 using Path = System.IO.Path;
 
 namespace Wally.RomMaster.FileService.Infrastructure.BackgroundServices;
@@ -268,15 +264,15 @@ public class FileWatcherService : BackgroundService
 				_logger.LogDebug("ScanAsync cancelled.");
 				return;
 			}
-			
+
 			if (IsExcluded(path, folder.Excludes))
 			{
 				_logger.LogDebug($"Path '{path}' excluded from scanning.");
 				continue;
 			}
-			
+
 			_logger.LogDebug($"Path '{path}' found.");
-			
+
 			var command = new ScanPathCommand(FileLocation.Create(new Uri(path)));
 			using var scope = _serviceProvider.CreateScope();
 			var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();

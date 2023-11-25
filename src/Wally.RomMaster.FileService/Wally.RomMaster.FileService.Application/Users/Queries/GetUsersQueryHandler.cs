@@ -1,10 +1,9 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-
-using Wally.RomMaster.FileService.Application.Contracts.Requests.Users;
-using Wally.RomMaster.FileService.Application.Contracts.Responses.Users;
 using Wally.Lib.DDD.Abstractions.Queries;
 using Wally.Lib.DDD.Abstractions.Responses;
+using Wally.RomMaster.FileService.Application.Contracts.Requests.Users;
+using Wally.RomMaster.FileService.Application.Contracts.Responses.Users;
 
 namespace Wally.RomMaster.FileService.Application.Users.Queries;
 

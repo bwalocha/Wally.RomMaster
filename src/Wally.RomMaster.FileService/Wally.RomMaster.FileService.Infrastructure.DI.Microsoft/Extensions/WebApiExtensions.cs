@@ -1,12 +1,9 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.OData;
 using Microsoft.Extensions.DependencyInjection;
-
 using Newtonsoft.Json;
-
 using Wally.RomMaster.FileService.Application;
 using Wally.RomMaster.FileService.Application.Contracts;
 using Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.Filters;

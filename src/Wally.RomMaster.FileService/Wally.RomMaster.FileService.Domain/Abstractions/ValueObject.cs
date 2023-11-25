@@ -1,6 +1,7 @@
 ﻿namespace Wally.RomMaster.FileService.Domain.Abstractions;
 
-public abstract class ValueObject<TValueObject, TValue> where TValueObject : ValueObject<TValueObject, TValue>
+public abstract class ValueObject<TValueObject, TValue>
+	where TValueObject : ValueObject<TValueObject, TValue>
 {
 	protected ValueObject(TValue value)
 	{

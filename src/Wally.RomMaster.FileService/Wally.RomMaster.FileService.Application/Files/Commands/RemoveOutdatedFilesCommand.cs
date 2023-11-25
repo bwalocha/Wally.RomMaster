@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-
 using Wally.Lib.DDD.Abstractions.Commands;
 
 namespace Wally.RomMaster.FileService.Application.Files.Commands;

@@ -1,18 +1,15 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-
 using MediatR;
-
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
-
+using Wally.Lib.DDD.Abstractions.Responses;
 using Wally.RomMaster.FileService.Application.Contracts.Requests.Users;
 using Wally.RomMaster.FileService.Application.Contracts.Responses.Users;
 using Wally.RomMaster.FileService.Application.Users.Commands;
 using Wally.RomMaster.FileService.Application.Users.Queries;
 using Wally.RomMaster.FileService.Domain.Users;
-using Wally.Lib.DDD.Abstractions.Responses;
 
 namespace Wally.RomMaster.FileService.WebApi.Controllers;
 

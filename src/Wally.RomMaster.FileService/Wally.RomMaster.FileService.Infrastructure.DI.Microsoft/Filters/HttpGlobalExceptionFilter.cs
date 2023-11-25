@@ -2,15 +2,12 @@ using System;
 using System.Data.Common;
 using System.Diagnostics;
 using System.Threading.Tasks;
-
 using EntityFramework.Exceptions.Common;
-
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-
 using Wally.RomMaster.FileService.Domain.Abstractions;
 using Wally.RomMaster.FileService.Infrastructure.Persistence.Exceptions;
 
@@ -22,7 +19,6 @@ public class HttpGlobalExceptionFilter : IExceptionFilter
 	private readonly ILogger<HttpGlobalExceptionFilter> _logger;
 
 	public HttpGlobalExceptionFilter(
-
 		// IErrorResultProvider errorResultProvider,
 #pragma warning disable SA1114
 		ILogger<HttpGlobalExceptionFilter> logger)

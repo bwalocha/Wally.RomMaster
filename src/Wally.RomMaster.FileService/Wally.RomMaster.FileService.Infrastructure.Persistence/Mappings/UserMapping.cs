@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
 using Wally.RomMaster.FileService.Domain.Users;
 
 namespace Wally.RomMaster.FileService.Infrastructure.Persistence.Mappings;

@@ -1,12 +1,8 @@
 using System.Linq;
-
 using FluentAssertions;
 using FluentAssertions.Execution;
-
 using MassTransit;
-
 using Wally.RomMaster.FileService.Tests.ConventionTests.Helpers;
-
 using Xunit;
 
 namespace Wally.RomMaster.FileService.Tests.ConventionTests;

@@ -3,12 +3,10 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-
 using Wally.Lib.DDD.Abstractions.Commands;
 using Wally.RomMaster.FileService.Application.Paths;
 using Wally.RomMaster.FileService.Domain.Abstractions;
 using Wally.RomMaster.FileService.Domain.Files;
-
 using File = Wally.RomMaster.FileService.Domain.Files.File;
 using Path = Wally.RomMaster.FileService.Domain.Files.Path;
 

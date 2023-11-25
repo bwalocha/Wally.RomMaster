@@ -1,5 +1,4 @@
 ﻿using System;
-
 using Wally.RomMaster.FileService.Domain.Users;
 
 namespace Wally.RomMaster.FileService.Domain.Abstractions;
@@ -23,10 +22,10 @@ public abstract class AggregateRoot<TAggregateRoot, TKey> : Entity<TAggregateRoo
 
 	public DateTimeOffset? ModifiedAt { get; private set; }
 
+	public UserId? ModifiedById { get; private set; }
+
 	protected void SetModifiedAt(DateTime modifiedAt)
 	{
 		ModifiedAt = modifiedAt;
 	}
-	
-	public UserId? ModifiedById { get; private set; }
 }

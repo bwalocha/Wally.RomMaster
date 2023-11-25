@@ -1,5 +1,4 @@
 using System;
-
 using MassTransit;
 
 namespace Wally.RomMaster.FileService.Infrastructure.Messaging.Consumers;

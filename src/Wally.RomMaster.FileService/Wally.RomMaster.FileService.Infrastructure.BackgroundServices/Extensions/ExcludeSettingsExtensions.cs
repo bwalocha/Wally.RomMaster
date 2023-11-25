@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Text.RegularExpressions;
-
 using Wally.RomMaster.FileService.Infrastructure.BackgroundServices.Models;
 
 namespace Wally.RomMaster.FileService.Infrastructure.BackgroundServices.Extensions;

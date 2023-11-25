@@ -1,8 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-
 using MassTransit;
-
 using Wally.Lib.DDD.Abstractions.DomainEvents;
 using Wally.RomMaster.FileService.Application.Contracts.Responses.Files;
 using Wally.RomMaster.FileService.Application.Messages.Files;
@@ -15,7 +13,8 @@ public class SendMessageOnFileModifiedDomainEventHandler : IDomainEventHandler<F
 	private readonly IBus _bus;
 	private readonly IFileReadOnlyRepository _fileRepository;
 
-	public SendMessageOnFileModifiedDomainEventHandler(IBus bus, /*ITopicProducer<FileModifiedMessage> producer,*/ IFileReadOnlyRepository fileRepository)
+	public SendMessageOnFileModifiedDomainEventHandler(IBus bus, /*ITopicProducer<FileModifiedMessage> producer,*/
+		IFileReadOnlyRepository fileRepository)
 	{
 		_bus = bus;
 		_fileRepository = fileRepository;

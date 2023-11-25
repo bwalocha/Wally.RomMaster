@@ -1,12 +1,9 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-
 using FluentAssertions;
 using FluentAssertions.Execution;
-
-using Wally.RomMaster.FileService.Tests.ConventionTests.Helpers;
 using Wally.Lib.DDD.Abstractions.Queries;
-
+using Wally.RomMaster.FileService.Tests.ConventionTests.Helpers;
 using Xunit;
 
 namespace Wally.RomMaster.FileService.Tests.ConventionTests;

@@ -1,7 +1,5 @@
 ﻿using System;
-
 using AutoMapper;
-
 using Wally.RomMaster.FileService.Application.Contracts.Requests.Users;
 using Wally.RomMaster.FileService.Application.Contracts.Responses.Users;
 using Wally.RomMaster.FileService.Domain.Users;

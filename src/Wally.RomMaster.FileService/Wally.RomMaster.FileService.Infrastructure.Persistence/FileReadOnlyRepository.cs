@@ -1,12 +1,9 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-
 using AutoMapper;
-
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.EntityFrameworkCore;
-
 using Wally.Lib.DDD.Abstractions.Requests;
 using Wally.Lib.DDD.Abstractions.Responses;
 using Wally.RomMaster.FileService.Application.Files;
@@ -25,7 +22,9 @@ public class FileReadOnlyRepository : ReadOnlyRepository<File, FileId>, IFileRea
 	public Task<PagedResponse<TResponse>> GetByPathIdAsync<TRequest, TResponse>(
 		PathId pathId,
 		ODataQueryOptions<TRequest> queryOptions,
-		CancellationToken cancellationToken) where TRequest : class, IRequest where TResponse : class, IResponse
+		CancellationToken cancellationToken)
+		where TRequest : class, IRequest
+		where TResponse : class, IResponse
 	{
 		var query = GetReadOnlyEntitySet()
 			.Where(a => a.PathId == pathId);

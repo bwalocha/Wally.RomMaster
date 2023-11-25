@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-
 using Wally.Lib.DDD.Abstractions.Commands;
 using Wally.RomMaster.FileService.Application.Paths;
 using Wally.RomMaster.FileService.Domain.Abstractions;
@@ -27,15 +26,16 @@ public class ScanPathsCommandHandler : CommandHandler<ScanPathsCommand>
 	public override async Task HandleAsync(ScanPathsCommand command, CancellationToken cancellationToken)
 	{
 		var createdPaths = new List<Path>();
-		
+
 		foreach (var location in command.Locations)
 		{
 			var path = await _pathRepository.GetOrDefaultAsync(location, cancellationToken);
 			if (path == null)
 			{
-				var parentPath = await GetOrCreatePathAsync(location.Location.LocalPath, createdPaths, cancellationToken);
+				var parentPath =
+					await GetOrCreatePathAsync(location.Location.LocalPath, createdPaths, cancellationToken);
 				path = Path.Create(parentPath, location.Location.LocalPath);
-				
+
 				createdPaths.Add(path);
 				_pathRepository.Add(path);
 			}
@@ -46,8 +46,9 @@ public class ScanPathsCommandHandler : CommandHandler<ScanPathsCommand>
 			}*/
 		}
 	}
-	
-	private async Task<Path?> GetOrCreatePathAsync(string pathName, List<Path> createdPaths, CancellationToken cancellationToken)
+
+	private async Task<Path?> GetOrCreatePathAsync(string pathName, List<Path> createdPaths,
+		CancellationToken cancellationToken)
 	{
 		var name = System.IO.Path.GetDirectoryName(pathName);
 		if (string.IsNullOrEmpty(name))
@@ -55,7 +56,8 @@ public class ScanPathsCommandHandler : CommandHandler<ScanPathsCommand>
 			return null;
 		}
 
-		var path = createdPaths.FirstOrDefault(a => a.Name == name) ?? await _pathRepository.GetOrDefaultAsync(FileLocation.Create(new Uri(name)), cancellationToken);
+		var path = createdPaths.FirstOrDefault(a => a.Name == name) ??
+			await _pathRepository.GetOrDefaultAsync(FileLocation.Create(new Uri(name)), cancellationToken);
 		if (path == null)
 		{
 			var parent = await GetOrCreatePathAsync(name, createdPaths, cancellationToken);

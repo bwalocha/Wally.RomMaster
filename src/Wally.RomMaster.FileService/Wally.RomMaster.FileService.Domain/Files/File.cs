@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
-
 using Wally.RomMaster.FileService.Domain.Abstractions;
 
 namespace Wally.RomMaster.FileService.Domain.Files;
@@ -109,7 +108,7 @@ public class File : AggregateRoot<File, FileId>
 		var fullName = new Uri($"{archivePackage.Location.Location.LocalPath}#{entry.FullName}");
 		var model = new File(clockService.GetTimestamp(), path, fullName, entry.Length, archivePackage /*, crc32*/);
 		// model.AddDomainEvent(new FileCreatedDomainEvent(model.Id));
-		
+
 		return model;
 	}
 
@@ -145,7 +144,7 @@ public class File : AggregateRoot<File, FileId>
 			/*Crc = fileInfo.IsArchivePackage()
 				? "-"
 				: await ComputeHashAsync(fileInfo, hashAlgorithm, cancellationToken);*/
-			
+
 			AddDomainEvent(new FileModifiedDomainEvent(Id));
 		}
 
@@ -165,12 +164,12 @@ public class File : AggregateRoot<File, FileId>
 	internal static bool IsArchivePackage(string fileName)
 	{
 		return fileName.EndsWith(".zip", StringComparison.InvariantCultureIgnoreCase) ||
-				fileName.EndsWith(".gzip", StringComparison.InvariantCultureIgnoreCase) ||
-				fileName.EndsWith(".gz", StringComparison.InvariantCultureIgnoreCase) ||
-				fileName.EndsWith(".rar", StringComparison.InvariantCultureIgnoreCase) ||
-				fileName.EndsWith(".7z", StringComparison.InvariantCultureIgnoreCase) || fileName.EndsWith(
-					".7zip",
-					StringComparison.InvariantCultureIgnoreCase);
+			fileName.EndsWith(".gzip", StringComparison.InvariantCultureIgnoreCase) ||
+			fileName.EndsWith(".gz", StringComparison.InvariantCultureIgnoreCase) ||
+			fileName.EndsWith(".rar", StringComparison.InvariantCultureIgnoreCase) ||
+			fileName.EndsWith(".7z", StringComparison.InvariantCultureIgnoreCase) || fileName.EndsWith(
+				".7zip",
+				StringComparison.InvariantCultureIgnoreCase);
 	}
 
 	public void SetCrc32(string crc32)

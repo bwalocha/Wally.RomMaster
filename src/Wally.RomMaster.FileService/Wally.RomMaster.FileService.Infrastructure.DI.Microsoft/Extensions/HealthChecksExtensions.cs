@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-
 using Confluent.Kafka;
-
 using HealthChecks.Kafka;
 using HealthChecks.MySql;
 using HealthChecks.UI.Client;
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-
 using Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.Models;
 
 namespace Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.Extensions;

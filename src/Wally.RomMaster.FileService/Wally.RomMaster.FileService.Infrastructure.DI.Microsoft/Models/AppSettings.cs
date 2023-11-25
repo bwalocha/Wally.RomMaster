@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-
 using Wally.RomMaster.FileService.Infrastructure.BackgroundServices.Abstractions;
 using Wally.RomMaster.FileService.Infrastructure.BackgroundServices.Models;
 
