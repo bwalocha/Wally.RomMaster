@@ -1,8 +1,6 @@
 ﻿using System.Linq;
-
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-
 using Wally.RomMaster.ApiGateway.Infrastructure.DI.Microsoft.Models;
 
 namespace Wally.RomMaster.ApiGateway.Infrastructure.DI.Microsoft.Extensions;
