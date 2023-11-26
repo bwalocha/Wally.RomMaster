@@ -10,8 +10,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace Wally.RomMaster.ApiGateway.Tests.IntegrationTests.Helpers;
 
-public class ApiWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup>
-	where TStartup : class
+public class ApiWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
 {
 	protected override IHostBuilder CreateHostBuilder()
 	{
@@ -43,8 +42,7 @@ public class ApiWebApplicationFactory<TStartup> : WebApplicationFactory<TStartup
 			});
 	}
 
-	public TService GetRequiredService<TService>()
-		where TService : notnull
+	public TService GetRequiredService<TService>() where TService : notnull
 	{
 		var scopeFactory = Services.GetService<IServiceScopeFactory>();
 		return scopeFactory!.CreateScope()

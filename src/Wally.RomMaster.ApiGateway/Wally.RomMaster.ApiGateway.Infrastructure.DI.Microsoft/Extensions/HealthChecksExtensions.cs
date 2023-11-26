@@ -29,7 +29,8 @@ public static class HealthChecksExtensions
 			"/healthChecks",
 			new HealthCheckOptions
 			{
-				Predicate = _ => true, ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
+				Predicate = _ => true,
+				ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse,
 			});
 		app.UseHealthChecksUI();
 
@@ -52,7 +53,12 @@ public static class HealthChecksExtensions
 
 	private static IHealthChecksBuilder AddVersionHealthCheck(this IHealthChecksBuilder builder)
 	{
-		builder.AddCheck<VersionHealthCheck>("VER", tags: new[] { "VER", "Version", });
+		builder.AddCheck<VersionHealthCheck>(
+			"VER",
+			tags: new[]
+			{
+				"VER", "Version",
+			});
 
 		return builder;
 	}
