@@ -153,7 +153,8 @@ public class File : AggregateRoot<File, FileId>
 
 	private bool HasChanged(FileInfo fileInfo)
 	{
-		return Attributes != fileInfo.Attributes || LastWriteTimeUtc != fileInfo.LastWriteTimeUtc;
+		// TODO: add logger
+		return false; // Attributes != fileInfo.Attributes || LastWriteTimeUtc != fileInfo.LastWriteTimeUtc;
 	}
 
 	public bool IsArchivePackage()
