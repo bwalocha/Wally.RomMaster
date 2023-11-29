@@ -5,18 +5,14 @@ using Wally.RomMaster.FileService.Domain.Files;
 
 namespace Wally.RomMaster.FileService.Application.Files.Commands;
 
-// [DebuggerDisplay("{SourceType}: {Location}")]
 [DebuggerDisplay("{Location}")]
 [ExcludeFromCodeCoverage]
 public sealed class ScanFileCommand : ICommand
 {
-	public ScanFileCommand( /*SourceType sourceType,*/ FileLocation location)
+	public ScanFileCommand(FileLocation location)
 	{
-		// SourceType = sourceType;
 		Location = location;
 	}
-
-	// public SourceType SourceType { get; }
 
 	public FileLocation Location { get; }
 }

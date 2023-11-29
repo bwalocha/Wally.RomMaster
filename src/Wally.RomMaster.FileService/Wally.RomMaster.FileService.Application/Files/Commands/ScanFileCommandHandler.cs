@@ -10,8 +10,6 @@ using Wally.RomMaster.FileService.Domain.Files;
 using File = Wally.RomMaster.FileService.Domain.Files.File;
 using Path = Wally.RomMaster.FileService.Domain.Files.Path;
 
-// using Wally.RomMaster.Application.Files.Commands;
-
 namespace Wally.RomMaster.FileService.Application.Files.Commands;
 
 public class ScanFileCommandHandler : CommandHandler<ScanFileCommand>
@@ -20,20 +18,16 @@ public class ScanFileCommandHandler : CommandHandler<ScanFileCommand>
 
 	private readonly IFileRepository _fileRepository;
 
-	// private readonly HashAlgorithm _hashAlgorithm;
 	private readonly IPathRepository _pathRepository;
 
 	public ScanFileCommandHandler(
 		IFileRepository fileRepository,
 		IPathRepository pathRepository,
-		IClockService clockService
-		/*HashAlgorithm hashAlgorithm*/)
+		IClockService clockService)
 	{
 		_fileRepository = fileRepository;
 		_pathRepository = pathRepository;
 		_clockService = clockService;
-
-		// _hashAlgorithm = hashAlgorithm;
 	}
 
 	public override async Task HandleAsync(ScanFileCommand command, CancellationToken cancellationToken)
@@ -68,10 +62,7 @@ public class ScanFileCommandHandler : CommandHandler<ScanFileCommand>
 			file = File.Create(
 				_clockService,
 				path,
-				fileInfo /*,
-				command.SourceType,
-				_hashAlgorithm,
-				cancellationToken*/);
+				fileInfo);
 
 			_fileRepository.Add(file);
 		}

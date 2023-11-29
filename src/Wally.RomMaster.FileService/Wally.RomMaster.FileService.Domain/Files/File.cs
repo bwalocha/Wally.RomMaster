@@ -27,8 +27,6 @@ public class File : AggregateRoot<File, FileId>
 		CreationTimeUtc = fileInfo.CreationTimeUtc;
 		LastAccessTimeUtc = fileInfo.LastAccessTimeUtc;
 		LastWriteTimeUtc = fileInfo.LastWriteTimeUtc;
-
-		// Crc = crc32;
 	}
 
 	private File(DateTime timestamp, Path path, Uri fullName, long length, File archivePackage /*, string crc32*/)
@@ -42,8 +40,6 @@ public class File : AggregateRoot<File, FileId>
 		CreationTimeUtc = archivePackage.CreationTimeUtc;
 		LastAccessTimeUtc = archivePackage.LastAccessTimeUtc;
 		LastWriteTimeUtc = archivePackage.LastWriteTimeUtc;
-
-		// Crc = crc32;
 	}
 
 	public FileLocation Location { get; private set; }
@@ -70,41 +66,19 @@ public class File : AggregateRoot<File, FileId>
 
 	public Path Path { get; private set; }
 
-	// public DataFile DataFile { get; private set; }
-
-	// public Guid? DataFileId { get; private set; }
-
 	public static File Create(
 		IClockService clockService,
 		Path path,
-		FileInfo fileInfo
-		/*SourceType type,
-		HashAlgorithm hashAlgorithm,
-		CancellationToken cancellationToken*/)
+		FileInfo fileInfo)
 	{
-		/*var crc32 = fileInfo.IsArchivePackage()
-			? "-"
-			: await ComputeHashAsync(fileInfo, hashAlgorithm, cancellationToken);*/
-		var model = new File(clockService.GetTimestamp(), path, fileInfo /*, crc32*/);
+		var model = new File(clockService.GetTimestamp(), path, fileInfo);
 		model.AddDomainEvent(new FileCreatedDomainEvent(model.Id));
-
-		/*if (type == SourceType.Output)
-		{
-		}
-		else if (type == SourceType.DatRoot)
-		{
-			model.AddDomainEvent(new DataFileCreatedDomainEvent(model.Id));
-		}
-		else if (type == SourceType.Input)
-		{
-		}*/
 
 		return model;
 	}
 
 	public static File Create(IClockService clockService, Path path, File archivePackage, ZipArchiveEntry entry)
 	{
-		// var crc32 = entry.Crc32.ToString("X2", CultureInfo.InvariantCulture); // TODO: move to another service
 		var fullName = new Uri($"{archivePackage.Location.Location.LocalPath}#{entry.FullName}");
 		var model = new File(clockService.GetTimestamp(), path, fullName, entry.Length, archivePackage /*, crc32*/);
 		// model.AddDomainEvent(new FileCreatedDomainEvent(model.Id));
@@ -112,23 +86,9 @@ public class File : AggregateRoot<File, FileId>
 		return model;
 	}
 
-	/*private static async Task<string> ComputeHashAsync(
-		FileInfo fileInfo,
-		HashAlgorithm hashAlgorithm,
-		CancellationToken cancellationToken)
-	{
-		await using var stream = System.IO.File.Open(fileInfo.FullName, FileMode.Open, FileAccess.Read, FileShare.Read);
-
-		var hash = await hashAlgorithm.ComputeHashAsync(stream, cancellationToken);
-		return BitConverter.ToString(hash)
-			.Replace("-", null, true, CultureInfo.InvariantCulture);
-	}*/
-
 	public void Update(
 		IClockService clockService,
-		FileInfo fileInfo
-		/*HashAlgorithm hashAlgorithm,
-		CancellationToken cancellationToken*/)
+		FileInfo fileInfo)
 	{
 		if (HasChanged(fileInfo))
 		{
@@ -141,10 +101,6 @@ public class File : AggregateRoot<File, FileId>
 			LastAccessTimeUtc = fileInfo.LastAccessTimeUtc;
 			LastWriteTimeUtc = fileInfo.LastWriteTimeUtc;
 
-			/*Crc = fileInfo.IsArchivePackage()
-				? "-"
-				: await ComputeHashAsync(fileInfo, hashAlgorithm, cancellationToken);*/
-
 			AddDomainEvent(new FileModifiedDomainEvent(Id));
 		}
 
@@ -153,8 +109,7 @@ public class File : AggregateRoot<File, FileId>
 
 	private bool HasChanged(FileInfo fileInfo)
 	{
-		// TODO: add logger
-		return false; // Attributes != fileInfo.Attributes || LastWriteTimeUtc != fileInfo.LastWriteTimeUtc;
+		return Attributes != fileInfo.Attributes || LastWriteTimeUtc != fileInfo.LastWriteTimeUtc;
 	}
 
 	public bool IsArchivePackage()

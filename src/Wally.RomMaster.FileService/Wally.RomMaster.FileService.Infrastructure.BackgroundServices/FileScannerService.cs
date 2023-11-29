@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,7 +8,6 @@ using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Wally.Lib.DDD.Abstractions.Commands;
 using Wally.RomMaster.FileService.Application.Files.Commands;
 using Wally.RomMaster.FileService.Domain.Abstractions;
 using Wally.RomMaster.FileService.Domain.Files;
@@ -22,7 +20,6 @@ namespace Wally.RomMaster.FileService.Infrastructure.BackgroundServices;
 public class FileScannerService : BackgroundService
 {
 	private readonly IClockService _clockService;
-	private readonly ConcurrentQueue<ICommand> _commandQueue = new();
 	private readonly ILogger<FileScannerService> _logger;
 	private readonly IServiceProvider _serviceProvider;
 	private readonly ISettings _settings;
@@ -118,10 +115,7 @@ public class FileScannerService : BackgroundService
 			_logger.LogDebug($"File '{file}' found.");
 
 			var command = new ScanFileCommand(FileLocation.Create(new Uri(file)));
-			/*
-			using var scope = _serviceProvider.CreateScope();
-			var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
-			*/
+
 			try
 			{
 				await mediator.Send(command, cancellationToken);
@@ -153,9 +147,11 @@ public class FileScannerService : BackgroundService
 			.Where(a => !IsExcluded(a, folder.Excludes))
 			.ToList();
 
+		yield return directoryInfo;
+		
 		if (!children.Any() || folder.SearchOptions == SearchOption.TopDirectoryOnly)
 		{
-			yield return directoryInfo;
+			yield break;
 		}
 
 		foreach (var path in children)
