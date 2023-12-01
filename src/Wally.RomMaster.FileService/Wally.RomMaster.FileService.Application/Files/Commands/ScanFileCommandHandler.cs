@@ -66,7 +66,7 @@ public class ScanFileCommandHandler : CommandHandler<ScanFileCommand>
 
 			_fileRepository.Add(file);
 		}
-		else
+		else if (file.HasChanged(fileInfo))
 		{
 			file.Update(_clockService, fileInfo);
 

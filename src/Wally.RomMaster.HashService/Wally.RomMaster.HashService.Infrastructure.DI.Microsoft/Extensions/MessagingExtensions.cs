@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Confluent.Kafka;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -62,11 +63,19 @@ public static class MessagingExtensions
 										// TODO: auto-register
 										k.TopicEndpoint<FileCreatedMessage>(typeof(FileCreatedMessage).FullName,
 											typeof(IInfrastructureMessagingAssemblyMarker).Namespace,
-											e => { e.ConfigureConsumer<FileCreatedMessageConsumer>(context); });
+											e =>
+											{
+												e.AutoOffsetReset = AutoOffsetReset.Earliest;
+												e.ConfigureConsumer<FileCreatedMessageConsumer>(context);
+											});
 										// TODO: auto-register
 										k.TopicEndpoint<FileModifiedMessage>(typeof(FileModifiedMessage).FullName,
 											typeof(IInfrastructureMessagingAssemblyMarker).Namespace,
-											e => { e.ConfigureConsumer<FileModifiedMessageConsumer>(context); });
+											e =>
+											{
+												e.AutoOffsetReset = AutoOffsetReset.Earliest;
+												e.ConfigureConsumer<FileModifiedMessageConsumer>(context);
+											});
 									});
 
 								services.AddScoped<IBus, KafkaBus>();
