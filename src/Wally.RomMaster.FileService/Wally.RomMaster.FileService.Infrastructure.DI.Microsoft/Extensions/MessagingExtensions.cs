@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Confluent.Kafka;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -62,7 +63,11 @@ public static class MessagingExtensions
 									});*/
 									k.TopicEndpoint<HashComputedMessage>(typeof(HashComputedMessage).FullName,
 										typeof(IInfrastructureMessagingAssemblyMarker).Namespace,
-										e => { e.ConfigureConsumer<HashComputedMessageConsumer>(context); });
+										e =>
+										{
+											e.AutoOffsetReset = AutoOffsetReset.Earliest;
+											e.ConfigureConsumer<HashComputedMessageConsumer>(context);
+										});
 								});
 
 							services.AddScoped<IBus, KafkaBus>();

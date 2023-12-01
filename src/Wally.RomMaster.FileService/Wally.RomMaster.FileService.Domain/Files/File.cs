@@ -16,7 +16,7 @@ public class File : AggregateRoot<File, FileId>
 	{
 	}
 
-	private File(DateTime timestamp, Path path, FileInfo fileInfo /*, string crc32*/)
+	private File(DateTime timestamp, Path path, FileInfo fileInfo)
 	{
 		// ModifiedAt = timestamp;
 		PathId = path.Id;
@@ -29,7 +29,7 @@ public class File : AggregateRoot<File, FileId>
 		LastWriteTimeUtc = fileInfo.LastWriteTimeUtc;
 	}
 
-	private File(DateTime timestamp, Path path, Uri fullName, long length, File archivePackage /*, string crc32*/)
+	private File(DateTime timestamp, Path path, Uri fullName, long length, File archivePackage)
 	{
 		// ModifiedAt = timestamp;
 		PathId = path.Id;
@@ -107,7 +107,7 @@ public class File : AggregateRoot<File, FileId>
 		// ModifiedAt = clockService.GetTimestamp();
 	}
 
-	private bool HasChanged(FileInfo fileInfo)
+	public bool HasChanged(FileInfo fileInfo)
 	{
 		return Attributes != fileInfo.Attributes || LastWriteTimeUtc != fileInfo.LastWriteTimeUtc;
 	}
