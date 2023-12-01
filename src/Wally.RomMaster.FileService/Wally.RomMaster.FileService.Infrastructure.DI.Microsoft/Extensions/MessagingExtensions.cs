@@ -288,6 +288,9 @@ public static class MessagingExtensions
 			where T : class
 		{
 			var topicProducer = _serviceProvider.GetRequiredService<ITopicProducer<T>>();
+			
+			_logger.LogInformation($"Produce: '{message.GetType().Name}'.");
+			
 			await topicProducer.Produce(message, cancellationToken);
 		}
 

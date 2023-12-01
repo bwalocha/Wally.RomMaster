@@ -1,6 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using MassTransit;
+using Microsoft.Extensions.Logging;
 using Wally.Lib.DDD.Abstractions.DomainEvents;
 using Wally.RomMaster.FileService.Application.Messages.Files;
 using Wally.RomMaster.FileService.Domain.Files;
@@ -11,11 +12,13 @@ public class SendMessageOnFileCreatedDomainEventHandler : IDomainEventHandler<Fi
 {
 	private readonly IBus _bus;
 	private readonly IFileRepository _fileRepository;
+	private readonly ILogger<SendMessageOnFileCreatedDomainEventHandler> _logger;
 
-	public SendMessageOnFileCreatedDomainEventHandler(IBus bus, IFileRepository fileRepository)
+	public SendMessageOnFileCreatedDomainEventHandler(IBus bus, IFileRepository fileRepository, ILogger<SendMessageOnFileCreatedDomainEventHandler> logger)
 	{
 		_bus = bus;
 		_fileRepository = fileRepository;
+		_logger = logger;
 	}
 
 	public async Task HandleAsync(FileCreatedDomainEvent domainEvent, CancellationToken cancellationToken)
@@ -23,6 +26,8 @@ public class SendMessageOnFileCreatedDomainEventHandler : IDomainEventHandler<Fi
 		var model = await _fileRepository.GetAsync(domainEvent.FileId, cancellationToken);
 		var message = new FileCreatedMessage(model.Id.Value, model.Location.Location.LocalPath);
 
+		_logger.LogInformation($"Publishing: {message.GetType().Name}");
+		
 		await _bus.Publish(message, cancellationToken);
 	}
 }
