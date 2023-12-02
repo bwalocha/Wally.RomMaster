@@ -59,6 +59,12 @@ public class DomainEventHandlerBehavior<TRequest, TResponse> : IPipelineBehavior
 				
 				_logger.LogInformation($"[{correlationId}] Executed.");
 			}
+			
+			domainEntities.Single(a => a.Entity
+					.GetDomainEvents()
+					.Contains(domainEvent))
+				.Entity
+				.RemoveDomainEvent(domainEvent);
 		}
 
 		return response;
