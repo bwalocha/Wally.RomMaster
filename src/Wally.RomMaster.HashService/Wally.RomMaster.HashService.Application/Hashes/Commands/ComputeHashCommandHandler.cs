@@ -26,6 +26,8 @@ public class ComputeHashCommandHandler : CommandHandler<ComputeHashCommand>
 
 	public override async Task HandleAsync(ComputeHashCommand command, CancellationToken cancellationToken)
 	{
+		_logger.LogDebug("Computing CRC32 for '{0}'...", command.FileLocation);
+		
 		await using var stream = File.Open(command.FileLocation, FileMode.Open, FileAccess.Read, FileShare.Read);
 		var size = stream.Length;
 		var hash = await _hashAlgorithm.ComputeHashAsync(stream, cancellationToken);

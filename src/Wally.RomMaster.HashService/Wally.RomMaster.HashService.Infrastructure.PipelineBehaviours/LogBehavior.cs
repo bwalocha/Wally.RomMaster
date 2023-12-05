@@ -36,8 +36,6 @@ public class LogBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TRes
 	{
 		var correlationId = Guid.NewGuid();
 
-		// _logger.LogInformation($"[{correlationId}] Executing request handler for request type: '{typeof(TRequest).Name}' and response type: '{typeof(TResponse).Name}' '{JsonConvert.SerializeObject(request, Formatting.Indented, _jsonSettings)}'."); // TODO: add JsonIgnore attribute for ODataOptions
-		// https://stackoverflow.com/questions/56600156/simple-serialize-odataqueryoptions
 		_logger.LogInformation(
 			$"[{correlationId}] Executing request handler for request type: '{typeof(TRequest).Name}' and response type: '{typeof(TResponse).Name}'.");
 		var stopWatch = Stopwatch.StartNew();
