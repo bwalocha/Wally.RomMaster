@@ -8,8 +8,6 @@ using Wally.RomMaster.HashService.Domain.Abstractions;
 using Wally.RomMaster.HashService.Tests.ConventionTests.Helpers;
 using Xunit;
 
-// using Wally.Lib.DDD.Abstractions.DomainModels;
-
 namespace Wally.RomMaster.HashService.Tests.ConventionTests;
 
 public class EntityTests

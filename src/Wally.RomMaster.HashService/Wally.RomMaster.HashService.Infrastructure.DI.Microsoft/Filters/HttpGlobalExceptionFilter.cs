@@ -85,7 +85,12 @@ public class HttpGlobalExceptionFilter : IExceptionFilter
 
 		if (context.Exception.InnerException! is DbException exception)
 		{
-			problemDetails.Errors.Add("Database", new[] { exception.ErrorCode.ToString(), exception.Message, });
+			problemDetails.Errors.Add(
+				"Database",
+				new[]
+				{
+					exception.ErrorCode.ToString(), exception.Message,
+				});
 			context.Result = new ConflictObjectResult(problemDetails);
 		}
 		else
@@ -137,7 +142,7 @@ public class HttpGlobalExceptionFilter : IExceptionFilter
 		context.HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
 	}
 
-	private void HandleUndefinedExceptions(ExceptionContext context)
+	private static void HandleUndefinedExceptions(ExceptionContext context)
 	{
 		// var response = _errorResultProvider.GetResult(context);
 

@@ -16,8 +16,8 @@ public interface IReadOnlyRepository<TEntity, in TKey>
 	Task<TResponse> GetAsync<TResponse>(TKey id, CancellationToken cancellationToken)
 		where TResponse : IResponse;
 
-	Task<PagedResponse<TResponse>> GetAsync
-		<TRequest, TResponse>(ODataQueryOptions<TRequest> queryOptions, CancellationToken cancellationToken)
+	Task<PagedResponse<TResponse>> GetAsync<TRequest, TResponse>(ODataQueryOptions<TRequest> queryOptions,
+		CancellationToken cancellationToken)
 		where TRequest : class, IRequest
 		where TResponse : class, IResponse;
 }

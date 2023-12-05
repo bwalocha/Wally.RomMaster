@@ -23,8 +23,8 @@ public static class OptionsExtensions
 	private static OptionsBuilder<TOptions> ValidateFluently<TOptions>(this OptionsBuilder<TOptions> builder)
 		where TOptions : class
 	{
-		builder.Services.AddSingleton<IValidateOptions<TOptions>>(
-			s => new ValidateOptions<TOptions>(builder.Name, s.GetRequiredService<IValidator<TOptions>>()));
+		builder.Services.AddSingleton<IValidateOptions<TOptions>>(s =>
+			new ValidateOptions<TOptions>(builder.Name, s.GetRequiredService<IValidator<TOptions>>()));
 
 		return builder;
 	}

@@ -12,12 +12,15 @@ namespace Wally.RomMaster.HashService.Tests.ConventionTests.Helpers;
 
 public static class TypeHelpers
 {
-	private static readonly List<string> _prefixes = new() { "Wally.RomMaster.HashService", };
+	private static readonly List<string> _prefixes = new()
+	{
+		"Wally.RomMaster.HashService",
+	};
 
 	public static IEnumerable<Assembly> GetAllInternalAssemblies()
 	{
 		var assemblies = typeof(Startup).Assembly.GetReferencedAssemblies()
-			.Where(a => _prefixes.Any(b => a.FullName.StartsWith(b)));
+			.Where(a => _prefixes.Exists(b => a.FullName.StartsWith(b)));
 
 		foreach (var assembly in assemblies)
 		{

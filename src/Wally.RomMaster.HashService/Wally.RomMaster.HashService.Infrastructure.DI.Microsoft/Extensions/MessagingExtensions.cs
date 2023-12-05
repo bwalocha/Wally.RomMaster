@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
+// using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using Confluent.Kafka;
@@ -37,16 +39,14 @@ public static class MessagingExtensions
 						break;
 					case MessageBrokerType.Kafka:
 						a.UsingInMemory((context, config) => config.ConfigureEndpoints(context));
-
-						// a.UsingRabbitMq((context, cfg) => cfg.ConfigureEndpoints(context));
-
 						a.AddRider(
 							rider =>
 							{
 								rider.AddConsumersFromNamespaceContaining<IInfrastructureMessagingAssemblyMarker>();
-								// rider.AddConsumer<KafkaMessageConsumer>();
-								// rider.AddProducer<FileCreatedMessage>(nameof(FileCreatedMessage));
-								// rider.AddProducer<FileModifiedMessage>(nameof(FileModifiedMessage));
+
+								// TODO: auto-register
+								// rider.AddProducer<UserCreatedMessage>(nameof(UserCreatedMessage));
+								// rider.AddProducer<UserUpdatedMessage>(nameof(FileModifiedMessage));
 								rider.AddProducer<HashComputedMessage>(typeof(HashComputedMessage).FullName);
 
 								rider.UsingKafka(
@@ -56,11 +56,10 @@ public static class MessagingExtensions
 										k.Host(settings.ConnectionStrings.ServiceBus);
 
 										// TODO: auto-register
-										/*k.TopicEndpoint<KafkaMessage>(typeof(IInfrastructureMessagingAssemblyMarker).Namespace, typeof(IInfrastructureMessagingAssemblyMarker).Namespace, e =>
-										{
-											e.ConfigureConsumer<KafkaMessageConsumer>(context);
-										});*/
-										// TODO: auto-register
+										/*k.TopicEndpoint<UserCreatedMessage>(
+											typeof(IInfrastructureMessagingAssemblyMarker).Namespace,
+											typeof(IInfrastructureMessagingAssemblyMarker).Namespace,
+											e => { e.ConfigureConsumer<UserCreatedMessageConsumer>(context); });*/
 										k.TopicEndpoint<FileCreatedMessage>(typeof(FileCreatedMessage).FullName,
 											typeof(IInfrastructureMessagingAssemblyMarker).Namespace,
 											e =>
@@ -68,7 +67,6 @@ public static class MessagingExtensions
 												e.AutoOffsetReset = AutoOffsetReset.Earliest;
 												e.ConfigureConsumer<FileCreatedMessageConsumer>(context);
 											});
-										// TODO: auto-register
 										k.TopicEndpoint<FileModifiedMessage>(typeof(FileModifiedMessage).FullName,
 											typeof(IInfrastructureMessagingAssemblyMarker).Namespace,
 											e =>
@@ -90,8 +88,7 @@ public static class MessagingExtensions
 							});
 						break;
 					default:
-						throw new ArgumentOutOfRangeException(
-							nameof(settings.MessageBroker),
+						throw new ArgumentOutOfRangeException(nameof(settings.MessageBroker),
 							$"Unknown Message Broker: '{settings.MessageBroker}'");
 				}
 			});
@@ -99,7 +96,8 @@ public static class MessagingExtensions
 		return services;
 	}
 
-	private class BusStub : IBus
+	[SuppressMessage("Major Code Smell", "S4017:Method signatures should not contain nested generic types")]
+	private sealed class BusStub : IBus
 	{
 		private readonly ILogger<BusStub> _logger;
 
@@ -110,13 +108,13 @@ public static class MessagingExtensions
 
 		public ConnectHandle ConnectPublishObserver(IPublishObserver observer)
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public Task<ISendEndpoint> GetPublishSendEndpoint<T>()
 			where T : class
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public Task Publish<T>(T message, CancellationToken cancellationToken = new())
@@ -133,7 +131,7 @@ public static class MessagingExtensions
 			CancellationToken cancellationToken = new())
 			where T : class
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public Task Publish<T>(
@@ -142,12 +140,12 @@ public static class MessagingExtensions
 			CancellationToken cancellationToken = new())
 			where T : class
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public Task Publish(object message, CancellationToken cancellationToken = new())
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public Task Publish(
@@ -155,12 +153,12 @@ public static class MessagingExtensions
 			IPipe<PublishContext> publishPipe,
 			CancellationToken cancellationToken = new())
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public Task Publish(object message, Type messageType, CancellationToken cancellationToken = new())
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public Task Publish(
@@ -169,13 +167,13 @@ public static class MessagingExtensions
 			IPipe<PublishContext> publishPipe,
 			CancellationToken cancellationToken = new())
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public Task Publish<T>(object values, CancellationToken cancellationToken = new())
 			where T : class
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public Task Publish<T>(
@@ -184,7 +182,7 @@ public static class MessagingExtensions
 			CancellationToken cancellationToken = new())
 			where T : class
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public Task Publish<T>(
@@ -193,61 +191,61 @@ public static class MessagingExtensions
 			CancellationToken cancellationToken = new())
 			where T : class
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public ConnectHandle ConnectSendObserver(ISendObserver observer)
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public Task<ISendEndpoint> GetSendEndpoint(Uri address)
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public ConnectHandle ConnectConsumePipe<T>(IPipe<ConsumeContext<T>> pipe)
 			where T : class
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public ConnectHandle ConnectConsumePipe<T>(IPipe<ConsumeContext<T>> pipe, ConnectPipeOptions options)
 			where T : class
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public ConnectHandle ConnectRequestPipe<T>(Guid requestId, IPipe<ConsumeContext<T>> pipe)
 			where T : class
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public ConnectHandle ConnectConsumeMessageObserver<T>(IConsumeMessageObserver<T> observer)
 			where T : class
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public ConnectHandle ConnectConsumeObserver(IConsumeObserver observer)
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public ConnectHandle ConnectReceiveObserver(IReceiveObserver observer)
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public ConnectHandle ConnectReceiveEndpointObserver(IReceiveEndpointObserver observer)
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public ConnectHandle ConnectEndpointConfigurationObserver(IEndpointConfigurationObserver observer)
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public HostReceiveEndpointHandle ConnectReceiveEndpoint(
@@ -255,27 +253,28 @@ public static class MessagingExtensions
 			IEndpointNameFormatter? endpointNameFormatter = null,
 			Action<IReceiveEndpointConfigurator>? configureEndpoint = null)
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public HostReceiveEndpointHandle ConnectReceiveEndpoint(
 			string queueName,
 			Action<IReceiveEndpointConfigurator>? configureEndpoint = null)
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public void Probe(ProbeContext context)
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
-		public Uri Address { get; }
+		public Uri Address { get; } = null!;
 
-		public IBusTopology Topology { get; }
+		public IBusTopology Topology { get; } = null!;
 	}
 
-	private class KafkaBus : IBus
+	[SuppressMessage("Major Code Smell", "S4017:Method signatures should not contain nested generic types")]
+	private sealed class KafkaBus : IBus
 	{
 		private readonly ILogger<KafkaBus> _logger;
 		private readonly IServiceProvider _serviceProvider;
@@ -288,18 +287,20 @@ public static class MessagingExtensions
 
 		public ConnectHandle ConnectPublishObserver(IPublishObserver observer)
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public Task<ISendEndpoint> GetPublishSendEndpoint<T>()
 			where T : class
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public async Task Publish<T>(T message, CancellationToken cancellationToken = new())
 			where T : class
 		{
+			_logger.LogDebug("Publishing {FullName}", typeof(T).FullName);
+
 			var topicProducer = _serviceProvider.GetRequiredService<ITopicProducer<T>>();
 			await topicProducer.Produce(message, cancellationToken);
 		}
@@ -310,7 +311,7 @@ public static class MessagingExtensions
 			CancellationToken cancellationToken = new())
 			where T : class
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public Task Publish<T>(
@@ -319,12 +320,12 @@ public static class MessagingExtensions
 			CancellationToken cancellationToken = new())
 			where T : class
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public Task Publish(object message, CancellationToken cancellationToken = new())
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public Task Publish(
@@ -332,12 +333,12 @@ public static class MessagingExtensions
 			IPipe<PublishContext> publishPipe,
 			CancellationToken cancellationToken = new())
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public Task Publish(object message, Type messageType, CancellationToken cancellationToken = new())
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public Task Publish(
@@ -346,13 +347,13 @@ public static class MessagingExtensions
 			IPipe<PublishContext> publishPipe,
 			CancellationToken cancellationToken = new())
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public Task Publish<T>(object values, CancellationToken cancellationToken = new())
 			where T : class
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public Task Publish<T>(
@@ -361,7 +362,7 @@ public static class MessagingExtensions
 			CancellationToken cancellationToken = new())
 			where T : class
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public Task Publish<T>(
@@ -370,61 +371,61 @@ public static class MessagingExtensions
 			CancellationToken cancellationToken = new())
 			where T : class
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public ConnectHandle ConnectSendObserver(ISendObserver observer)
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public Task<ISendEndpoint> GetSendEndpoint(Uri address)
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public ConnectHandle ConnectConsumePipe<T>(IPipe<ConsumeContext<T>> pipe)
 			where T : class
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public ConnectHandle ConnectConsumePipe<T>(IPipe<ConsumeContext<T>> pipe, ConnectPipeOptions options)
 			where T : class
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public ConnectHandle ConnectRequestPipe<T>(Guid requestId, IPipe<ConsumeContext<T>> pipe)
 			where T : class
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public ConnectHandle ConnectConsumeMessageObserver<T>(IConsumeMessageObserver<T> observer)
 			where T : class
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public ConnectHandle ConnectConsumeObserver(IConsumeObserver observer)
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public ConnectHandle ConnectReceiveObserver(IReceiveObserver observer)
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public ConnectHandle ConnectReceiveEndpointObserver(IReceiveEndpointObserver observer)
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public ConnectHandle ConnectEndpointConfigurationObserver(IEndpointConfigurationObserver observer)
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public HostReceiveEndpointHandle ConnectReceiveEndpoint(
@@ -432,23 +433,23 @@ public static class MessagingExtensions
 			IEndpointNameFormatter? endpointNameFormatter = null,
 			Action<IReceiveEndpointConfigurator>? configureEndpoint = null)
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public HostReceiveEndpointHandle ConnectReceiveEndpoint(
 			string queueName,
 			Action<IReceiveEndpointConfigurator>? configureEndpoint = null)
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
 		public void Probe(ProbeContext context)
 		{
-			throw new NotImplementedException();
+			throw new NotSupportedException();
 		}
 
-		public Uri Address { get; }
+		public Uri Address { get; } = null!;
 
-		public IBusTopology Topology { get; }
+		public IBusTopology Topology { get; } = null!;
 	}
 }

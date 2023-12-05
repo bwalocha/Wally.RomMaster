@@ -26,18 +26,15 @@ public class Startup
 		services.AddInfrastructure(Configuration);
 	}
 
-	public void Configure(
-		IApplicationBuilder app,
-		IWebHostEnvironment env,
-		IHostApplicationLifetime appLifetime,
+	public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IHostApplicationLifetime appLifetime,
 		ILogger<Startup> logger)
 	{
-		appLifetime.ApplicationStarted.Register(
-			() => logger.LogInformation("The 'Wally.RomMaster.HashService' is started"));
-		appLifetime.ApplicationStopping.Register(
-			() => logger.LogInformation("The 'Wally.RomMaster.HashService' is stopping"));
-		appLifetime.ApplicationStopped.Register(
-			() => logger.LogInformation("The 'Wally.RomMaster.HashService' is stopped"));
+		appLifetime.ApplicationStarted.Register(() =>
+			logger.LogInformation("The 'Wally.RomMaster.HashService' is started"));
+		appLifetime.ApplicationStopping.Register(() =>
+			logger.LogInformation("The 'Wally.RomMaster.HashService' is stopping"));
+		appLifetime.ApplicationStopped.Register(() =>
+			logger.LogInformation("The 'Wally.RomMaster.HashService' is stopped"));
 
 		app.UseInfrastructure(env);
 	}

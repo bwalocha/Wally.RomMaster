@@ -2,8 +2,8 @@
 using System.Linq;
 using FluentAssertions;
 using FluentAssertions.Execution;
-using Wally.Lib.DDD.Abstractions.Commands;
 using Wally.RomMaster.HashService.Tests.ConventionTests.Helpers;
+using Wally.Lib.DDD.Abstractions.Commands;
 using Xunit;
 
 namespace Wally.RomMaster.HashService.Tests.ConventionTests;

@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
-using Wally.Lib.DDD.Abstractions.Responses;
 using Wally.RomMaster.HashService.Application.Contracts.Requests.Users;
 using Wally.RomMaster.HashService.Application.Contracts.Responses.Users;
 using Wally.RomMaster.HashService.Domain.Users;
 using Wally.RomMaster.HashService.Tests.IntegrationTests.Helpers;
 using Wally.RomMaster.HashService.WebApi;
+using Wally.Lib.DDD.Abstractions.Responses;
 using Xunit;
 
 namespace Wally.RomMaster.HashService.Tests.IntegrationTests;
@@ -27,13 +27,17 @@ public class UsersControllerTests : IClassFixture<ApiWebApplicationFactory<Start
 	public UsersControllerTests(ApiWebApplicationFactory<Startup> factory)
 	{
 		_factory = factory;
-		_httpClient = factory.CreateClient(new WebApplicationFactoryClientOptions { AllowAutoRedirect = false, });
+		_httpClient = factory.CreateClient(
+			new WebApplicationFactoryClientOptions
+			{
+				AllowAutoRedirect = false,
+			});
 		_database = factory.GetRequiredService<DbContext>();
 		_database.RemoveRange(_database.Set<User>());
 		_database.SaveChanges();
 	}
 
-	private User UserCreate(int index)
+	private static User UserCreate(int index)
 	{
 		var resource = User.Create($"testUser{index}");
 		var createdByIdProperty = typeof(User).GetProperty(nameof(User.CreatedById)) !;
@@ -51,7 +55,7 @@ public class UsersControllerTests : IClassFixture<ApiWebApplicationFactory<Start
 		var resourceId = Guid.NewGuid();
 
 		// Act
-		var response = await _httpClient.GetAsync($"Users/{resourceId}");
+		var response = await _httpClient.GetAsync(new Uri($"Users/{resourceId}", UriKind.Relative));
 
 		// Assert
 		response.IsSuccessStatusCode.Should()
@@ -66,7 +70,7 @@ public class UsersControllerTests : IClassFixture<ApiWebApplicationFactory<Start
 		// Arrange
 
 		// Act
-		var response = await _httpClient.GetAsync("Users");
+		var response = await _httpClient.GetAsync(new Uri("Users", UriKind.Relative));
 
 		// Assert
 		response.IsSuccessStatusCode.Should()
@@ -76,7 +80,7 @@ public class UsersControllerTests : IClassFixture<ApiWebApplicationFactory<Start
 		var data = await response.ReadAsync<PagedResponse<GetUsersResponse>>(CancellationToken.None);
 		data.Should()
 			.NotBeNull();
-		data!.Items.Length.Should()
+		data.Items.Length.Should()
 			.Be(0);
 	}
 
@@ -86,7 +90,7 @@ public class UsersControllerTests : IClassFixture<ApiWebApplicationFactory<Start
 		// Arrange
 
 		// Act
-		var response = await _httpClient.GetAsync("Users?$top=1");
+		var response = await _httpClient.GetAsync(new Uri("Users?$top=1", UriKind.Relative));
 
 		// Assert
 		response.IsSuccessStatusCode.Should()
@@ -96,7 +100,7 @@ public class UsersControllerTests : IClassFixture<ApiWebApplicationFactory<Start
 		var data = await response.ReadAsync<PagedResponse<GetUsersResponse>>(CancellationToken.None);
 		data.Should()
 			.NotBeNull();
-		data!.Items.Length.Should()
+		data.Items.Length.Should()
 			.Be(0);
 	}
 
@@ -110,7 +114,7 @@ public class UsersControllerTests : IClassFixture<ApiWebApplicationFactory<Start
 		await _database.SaveChangesAsync();
 
 		// Act
-		var response = await _httpClient.GetAsync("Users?$select=name");
+		var response = await _httpClient.GetAsync(new Uri("Users?$select=name", UriKind.Relative));
 
 		// Assert
 		response.IsSuccessStatusCode.Should()
@@ -120,7 +124,7 @@ public class UsersControllerTests : IClassFixture<ApiWebApplicationFactory<Start
 		var data = await response.ReadAsync<PagedResponse<GetUsersResponse>>(CancellationToken.None);
 		data.Should()
 			.NotBeNull();
-		data!.Items.Length.Should()
+		data.Items.Length.Should()
 			.Be(0);
 	}
 
@@ -134,7 +138,7 @@ public class UsersControllerTests : IClassFixture<ApiWebApplicationFactory<Start
 		await _database.SaveChangesAsync();
 
 		// Act
-		var response = await _httpClient.GetAsync("Users"); // x3
+		var response = await _httpClient.GetAsync(new Uri("Users", UriKind.Relative)); // x3
 
 		// Assert
 		response.IsSuccessStatusCode.Should()
@@ -144,7 +148,7 @@ public class UsersControllerTests : IClassFixture<ApiWebApplicationFactory<Start
 		var data = await response.ReadAsync<PagedResponse<GetUsersResponse>>(CancellationToken.None);
 		data.Should()
 			.NotBeNull();
-		data!.Items.Length.Should()
+		data.Items.Length.Should()
 			.Be(3);
 	}
 
@@ -158,7 +162,7 @@ public class UsersControllerTests : IClassFixture<ApiWebApplicationFactory<Start
 		await _database.SaveChangesAsync();
 
 		// Act
-		var response = await _httpClient.GetAsync("Users?$orderby=Name"); // x3
+		var response = await _httpClient.GetAsync(new Uri("Users?$orderby=Name", UriKind.Relative)); // x3
 
 		// Assert
 		response.IsSuccessStatusCode.Should()
@@ -168,7 +172,7 @@ public class UsersControllerTests : IClassFixture<ApiWebApplicationFactory<Start
 		var data = await response.ReadAsync<PagedResponse<GetUsersResponse>>(CancellationToken.None);
 		data.Should()
 			.NotBeNull();
-		data!.Items.Length.Should()
+		data.Items.Length.Should()
 			.Be(3);
 		data.Items[0]
 			.Name.Should()
@@ -191,7 +195,7 @@ public class UsersControllerTests : IClassFixture<ApiWebApplicationFactory<Start
 		await _database.SaveChangesAsync();
 
 		// Act
-		var response = await _httpClient.GetAsync("Users?$orderby=Name desc"); // x3
+		var response = await _httpClient.GetAsync(new Uri("Users?$orderby=Name desc", UriKind.Relative)); // x3
 
 		// Assert
 		response.IsSuccessStatusCode.Should()
@@ -201,7 +205,7 @@ public class UsersControllerTests : IClassFixture<ApiWebApplicationFactory<Start
 		var data = await response.ReadAsync<PagedResponse<GetUsersResponse>>(CancellationToken.None);
 		data.Should()
 			.NotBeNull();
-		data!.Items.Length.Should()
+		data.Items.Length.Should()
 			.Be(3);
 		data.Items[0]
 			.Name.Should()
@@ -224,7 +228,7 @@ public class UsersControllerTests : IClassFixture<ApiWebApplicationFactory<Start
 		await _database.SaveChangesAsync();
 
 		// Act
-		var response = await _httpClient.GetAsync("Users?$orderby=Name asc, Id desc"); // x3
+		var response = await _httpClient.GetAsync(new Uri("Users?$orderby=Name asc, Id desc", UriKind.Relative)); // x3
 
 		// Assert
 		response.IsSuccessStatusCode.Should()
@@ -261,7 +265,7 @@ public class UsersControllerTests : IClassFixture<ApiWebApplicationFactory<Start
 		await _database.SaveChangesAsync();
 
 		// Act
-		var response = await _httpClient.GetAsync("Users?$orderby=Name&$skip=1"); // x2
+		var response = await _httpClient.GetAsync(new Uri("Users?$orderby=Name&$skip=1", UriKind.Relative)); // x2
 
 		// Assert
 		response.IsSuccessStatusCode.Should()
@@ -271,7 +275,7 @@ public class UsersControllerTests : IClassFixture<ApiWebApplicationFactory<Start
 		var data = await response.ReadAsync<PagedResponse<GetUsersResponse>>(CancellationToken.None);
 		data.Should()
 			.NotBeNull();
-		data!.Items.Length.Should()
+		data.Items.Length.Should()
 			.Be(2);
 		data.Items[0]
 			.Name.Should()
@@ -291,7 +295,7 @@ public class UsersControllerTests : IClassFixture<ApiWebApplicationFactory<Start
 		await _database.SaveChangesAsync();
 
 		// Act
-		var response = await _httpClient.GetAsync("Users?$orderby=Name&$top=2"); // x2
+		var response = await _httpClient.GetAsync(new Uri("Users?$orderby=Name&$top=2", UriKind.Relative)); // x2
 
 		// Assert
 		response.IsSuccessStatusCode.Should()
@@ -301,7 +305,7 @@ public class UsersControllerTests : IClassFixture<ApiWebApplicationFactory<Start
 		var data = await response.ReadAsync<PagedResponse<GetUsersResponse>>(CancellationToken.None);
 		data.Should()
 			.NotBeNull();
-		data!.Items.Length.Should()
+		data.Items.Length.Should()
 			.Be(2);
 		data.Items[0]
 			.Name.Should()
@@ -321,7 +325,7 @@ public class UsersControllerTests : IClassFixture<ApiWebApplicationFactory<Start
 		await _database.SaveChangesAsync();
 
 		// Act
-		var response = await _httpClient.GetAsync("Users?$orderby=Name&$skip=1&$top=2"); // 1
+		var response = await _httpClient.GetAsync(new Uri("Users?$orderby=Name&$skip=1&$top=2", UriKind.Relative)); // 1
 
 		// Assert
 		response.IsSuccessStatusCode.Should()
@@ -331,7 +335,7 @@ public class UsersControllerTests : IClassFixture<ApiWebApplicationFactory<Start
 		var data = await response.ReadAsync<PagedResponse<GetUsersResponse>>(CancellationToken.None);
 		data.Should()
 			.NotBeNull();
-		data!.Items.Length.Should()
+		data.Items.Length.Should()
 			.Be(2);
 		data.Items[0]
 			.Name.Should()
@@ -352,7 +356,8 @@ public class UsersControllerTests : IClassFixture<ApiWebApplicationFactory<Start
 
 		// Act
 		var response =
-			await _httpClient.GetAsync("Users?$orderby=Name&$skip=1&$top=2&$filter=Name ne 'testUser3'"); // x1
+			await _httpClient.GetAsync(new Uri("Users?$orderby=Name&$skip=1&$top=2&$filter=Name ne 'testUser3'",
+				UriKind.Relative)); // x1
 
 		// Assert
 		response.IsSuccessStatusCode.Should()
@@ -362,7 +367,7 @@ public class UsersControllerTests : IClassFixture<ApiWebApplicationFactory<Start
 		var data = await response.ReadAsync<PagedResponse<GetUsersResponse>>(CancellationToken.None);
 		data.Should()
 			.NotBeNull();
-		data!.Items.Length.Should()
+		data.Items.Length.Should()
 			.Be(1);
 		data.Items.Single()
 			.Name.Should()

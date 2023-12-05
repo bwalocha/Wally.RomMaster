@@ -13,8 +13,6 @@ internal class ResponseTypesOperationFilter : IOperationFilter
 	/// <param name="context">The current operation filter context.</param>
 	public void Apply(OpenApiOperation operation, OperationFilterContext context)
 	{
-		// operation.Deprecated |= apiDescription.IsDeprecated();
-
 		// REF: https://github.com/domaindrivendev/Swashbuckle.AspNetCore/issues/1752#issue-663991077
 		foreach (var responseType in context.ApiDescription.SupportedResponseTypes)
 		{
@@ -22,12 +20,10 @@ internal class ResponseTypesOperationFilter : IOperationFilter
 			var responseKey = responseType.IsDefaultResponse ? "default" : responseType.StatusCode.ToString();
 			var response = operation.Responses[responseKey];
 
-			foreach (var contentType in response.Content.Keys)
+			foreach (var contentType in response.Content.Keys
+						.Where(a => responseType.ApiResponseFormats.All(x => x.MediaType != a)))
 			{
-				if (!responseType.ApiResponseFormats.Any(x => x.MediaType == contentType))
-				{
-					response.Content.Remove(contentType);
-				}
+				response.Content.Remove(contentType);
 			}
 		}
 	}

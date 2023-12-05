@@ -28,16 +28,18 @@ public class RepositoryTests
 
 				var notAllowedTypes = new List<Type>
 				{
-					typeof(IEnumerable), typeof(IEnumerable<>), typeof(IQueryable), typeof(IQueryable<>),
+					typeof(IEnumerable),
+					typeof(IEnumerable<>),
+					typeof(IQueryable),
+					typeof(IQueryable<>),
 				};
 
 				foreach (var type in types)
 				{
 					type.Methods()
 						.ThatArePublicOrInternal.ReturnTypes()
-						.ThatSatisfy(
-							a => notAllowedTypes.Contains(a) || notAllowedTypes.Any(
-								n => a.GenericTypeArguments.Any(g => g.GetTypeDefinitionIfGeneric() == n)))
+						.ThatSatisfy(a => notAllowedTypes.Contains(a) || notAllowedTypes.Any(n =>
+							a.GenericTypeArguments.Any(g => g.GetTypeDefinitionIfGeneric() == n)))
 						.ToArray()
 						.Should()
 						.BeEmpty("do not return not materialized collections from Repository '{0}'", type);
@@ -109,7 +111,6 @@ public class RepositoryTests
 					}
 
 					repositories.ThatSatisfy(a => a.ImplementsInterface(type))
-						.ToList()
 						.Should()
 						.NotBeEmpty("all Repositiory Interfaces should be implemented, and '{0}' is not", type);
 				}

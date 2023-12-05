@@ -9,7 +9,7 @@ public sealed class StronglyTypedIdConverter<TStronglyTypedId, TValue> : ValueCo
 	where TValue : notnull, IComparable
 {
 	/// <summary>
-	///     Initializes a new instance of the <see cref="StronglyTypedIdConverter{TStronglyTypedId,TValue}" /> type.
+	///     Initializes a new instance of the <see cref="StronglyTypedIdConverter{TStronglyTypedId, TValue}" /> class.
 	/// </summary>
 	public StronglyTypedIdConverter()
 		: base(valueObject => Serialize(valueObject), value => Deserialize(value))
@@ -24,12 +24,7 @@ public sealed class StronglyTypedIdConverter<TStronglyTypedId, TValue> : ValueCo
 
 	private static TStronglyTypedId Deserialize(TValue value)
 	{
-		if (value is null)
-		{
-			return null;
-		}
-
-		var instance = Activator.CreateInstance(typeof(TStronglyTypedId), value);
+		var instance = Activator.CreateInstance(typeof(TStronglyTypedId), value) !;
 		return (TStronglyTypedId)instance;
 	}
 }

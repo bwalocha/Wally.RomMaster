@@ -4,12 +4,12 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
-using Wally.Lib.DDD.Abstractions.Responses;
 using Wally.RomMaster.HashService.Application.Contracts.Requests.Users;
 using Wally.RomMaster.HashService.Application.Contracts.Responses.Users;
 using Wally.RomMaster.HashService.Application.Users.Commands;
 using Wally.RomMaster.HashService.Application.Users.Queries;
 using Wally.RomMaster.HashService.Domain.Users;
+using Wally.Lib.DDD.Abstractions.Responses;
 
 namespace Wally.RomMaster.HashService.WebApi.Controllers;
 
@@ -38,8 +38,7 @@ public class UsersController : ControllerBase
 	/// </remarks>
 	[HttpGet]
 	public async Task<ActionResult<PagedResponse<GetUsersResponse>>> GetAsync(
-		ODataQueryOptions<GetUsersRequest> queryOptions,
-		CancellationToken cancellationToken)
+		ODataQueryOptions<GetUsersRequest> queryOptions, CancellationToken cancellationToken)
 	{
 		var query = new GetUsersQuery(queryOptions);
 		var response = await _mediator.Send(query, cancellationToken);
@@ -103,9 +102,7 @@ public class UsersController : ControllerBase
 	///     }
 	/// </remarks>
 	[HttpPut("{id:guid}")]
-	public async Task<ActionResult<object>> UpdateAsync(
-		Guid id,
-		UpdateUserRequest request,
+	public async Task<ActionResult<object>> UpdateAsync(Guid id, UpdateUserRequest request,
 		CancellationToken cancellationToken)
 	{
 		var command = new UpdateUserCommand(new UserId(id), request.Name);
