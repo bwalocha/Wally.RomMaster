@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Wally.Lib.DDD.Abstractions.Commands;
 using Wally.Lib.DDD.Abstractions.DomainEvents;
+using Wally.Lib.DDD.Abstractions.DomainModels;
 using Wally.RomMaster.FileService.Domain.Abstractions;
 
 namespace Wally.RomMaster.FileService.Infrastructure.PipelineBehaviours;
@@ -17,13 +17,11 @@ public class DomainEventHandlerBehavior<TRequest, TResponse> : IPipelineBehavior
 {
 	private readonly DbContext _dbContext;
 	private readonly IServiceProvider _serviceProvider;
-	private readonly ILogger<DomainEventHandlerBehavior<TRequest, TResponse>> _logger;
 
-	public DomainEventHandlerBehavior(DbContext dbContext, IServiceProvider serviceProvider, ILogger<DomainEventHandlerBehavior<TRequest, TResponse>> logger)
+	public DomainEventHandlerBehavior(DbContext dbContext, IServiceProvider serviceProvider)
 	{
 		_dbContext = dbContext;
 		_serviceProvider = serviceProvider;
-		_logger = logger;
 	}
 
 	public async Task<TResponse> Handle(
@@ -51,13 +49,7 @@ public class DomainEventHandlerBehavior<TRequest, TResponse> : IPipelineBehavior
 
 			foreach (dynamic? service in _serviceProvider.GetServices(domainEvenHandlerTypeWithGenericType))
 			{
-				var correlationId = Guid.NewGuid();
-
-				_logger.LogInformation($"[{correlationId}] Executing domain event handler: '{service!.ToString()}' for event type: '{domainEvent.GetType().Name}'.");
-
-				await service.HandleAsync((dynamic)domainEvent, cancellationToken);
-				
-				_logger.LogInformation($"[{correlationId}] Executed.");
+				await service!.HandleAsync((dynamic)domainEvent, cancellationToken);
 			}
 			
 			domainEntities.Single(a => a.Entity

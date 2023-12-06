@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using MassTransit;
 using MediatR;
 using Moq;
-using Wally.Identity.Messages.Users;
 using Wally.RomMaster.FileService.Application.Users.Commands;
 using Wally.RomMaster.FileService.Infrastructure.Messaging.Consumers;
+using Wally.Identity.Messages.Users;
 using Xunit;
 
 namespace Wally.RomMaster.FileService.Tests.UnitTests.Users;
@@ -36,9 +36,7 @@ public class UserCreatedConsumerTests
 
 		// Assert
 		_mediatorMock.Verify(
-			a => a.Send(
-				It.Is<CreateUserCommand>(a => a.UserId.Value == message.UserId && a.Name == message.UserName),
-				CancellationToken.None),
-			Times.Once());
+			a => a.Send(It.Is<CreateUserCommand>(a => a.UserId.Value == message.UserId && a.Name == message.UserName),
+				CancellationToken.None), Times.Once());
 	}
 }

@@ -1,8 +1,6 @@
 using System;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.Extensions.Logging;
 using Wally.RomMaster.FileService.Domain.Abstractions;
 
 namespace Wally.RomMaster.FileService.Infrastructure.Persistence;
@@ -11,67 +9,31 @@ public sealed class ApplicationDbContext : DbContext
 {
 	private const string RowVersion = nameof(RowVersion);
 
-	private readonly ILogger<ApplicationDbContext> _logger;
-
-	public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, ILogger<ApplicationDbContext> logger)
+	public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
 		: base(options)
 	{
-		_logger = logger;
 		ChangeTracker.LazyLoadingEnabled = false;
 	}
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
-		// modelBuilder.HasDefaultSchema("users");
-		ConfigureProperties(modelBuilder);
+		modelBuilder.HasDefaultSchema("FileService");
+
+		ConfigureMappings(modelBuilder);
 		ConfigureStronglyTypedId(modelBuilder);
-		ConfigureIdentityProperties(modelBuilder);
-
-		// ConfigureConcurrencyTokens(modelBuilder); // TODO: Fix
 	}
 
-	private void ConfigureProperties(ModelBuilder modelBuilder)
+	private static void ConfigureMappings(ModelBuilder modelBuilder)
 	{
-		modelBuilder.ApplyConfigurationsFromAssembly(
-			GetType()
-				.Assembly,
-			type => type.Namespace!.StartsWith(
-				GetType()
-					.Namespace!));
-	}
-
-	private static void ConfigureIdentityProperties(ModelBuilder modelBuilder)
-	{
-		var allEntities = modelBuilder.Model.GetEntityTypes();
-		foreach (var entity in allEntities)
-		{
-			var idPropertyName = "Id"; // nameof(AggregateRoot<,>.Id); // TODO: "Id"
-			var idProperty = entity.FindProperty(idPropertyName);
-			if (idProperty != null)
-			{
-				idProperty.ValueGenerated = ValueGenerated.Never;
-			}
-		}
-	}
-
-	private static void ConfigureConcurrencyTokens(ModelBuilder modelBuilder)
-	{
-		var allEntities = modelBuilder.Model.GetEntityTypes();
-		foreach (var entity in allEntities.Where(a => a.ClrType.IsSubclassOf(typeof(AggregateRoot<,>)))
-					.Where(a => string.IsNullOrEmpty(a.GetViewName())))
-		{
-			var property = entity.AddProperty(RowVersion, typeof(DateTime));
-			property.IsConcurrencyToken = true;
-			property.ValueGenerated = ValueGenerated.OnAddOrUpdate;
-		}
+		modelBuilder.ApplyConfigurationsFromAssembly(typeof(IInfrastructurePersistenceAssemblyMarker).Assembly);
 	}
 
 	/// <summary>
-	///     Configure the <see cref="EntityTypeBuilder" /> to use the
+	///     Configure the <see cref="ModelBuilder" /> to use the
 	///     <see cref="StronglyTypedIdConverter{TStronglyTypedId,TValue}" />.
 	/// </summary>
-	/// <param name="entityTypeBuilder"></param>
-	public static void ConfigureStronglyTypedId(ModelBuilder modelBuilder)
+	/// <param name="modelBuilder">The ModelBuilder</param>
+	private static void ConfigureStronglyTypedId(ModelBuilder modelBuilder)
 	{
 		var allEntities = modelBuilder.Model.GetEntityTypes();
 		foreach (var entity in allEntities.Where(a => InheritsGenericClass(a.ClrType, typeof(Entity<,>)))
@@ -83,7 +45,7 @@ public sealed class ApplicationDbContext : DbContext
 		}
 	}
 
-	public static bool InheritsGenericClass(Type type, Type classType)
+	private static bool InheritsGenericClass(Type type, Type classType)
 	{
 		if (!classType.IsClass)
 		{

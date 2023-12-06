@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using Wally.Lib.DDD.Abstractions.Commands;
 using Wally.RomMaster.FileService.Domain.Users;
+using Wally.Lib.DDD.Abstractions.Commands;
 
 namespace Wally.RomMaster.FileService.Application.Users.Commands;
 

@@ -1,5 +1,4 @@
-﻿using System;
-using AutoMapper;
+﻿using AutoMapper;
 using Wally.RomMaster.FileService.Application.Contracts.Requests.Users;
 using Wally.RomMaster.FileService.Application.Contracts.Responses.Users;
 using Wally.RomMaster.FileService.Domain.Users;
@@ -14,11 +13,5 @@ public class UserProfile : Profile
 		CreateMap<User, GetUsersResponse>();
 
 		CreateMap<User, GetUserResponse>();
-
-		CreateMap<UserId, Guid>()
-			.ConvertUsing(a => a.Value);
-
-		CreateMap<Guid, UserId>()
-			.ConvertUsing(a => new UserId(a));
 	}
 }

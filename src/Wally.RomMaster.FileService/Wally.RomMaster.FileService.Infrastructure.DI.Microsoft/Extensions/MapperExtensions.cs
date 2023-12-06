@@ -4,12 +4,11 @@ using Wally.RomMaster.FileService.Application.MapperProfiles;
 
 namespace Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.Extensions;
 
-public static class AutoMapperExtensions
+public static class MapperExtensions
 {
 	public static IServiceCollection AddMapper(this IServiceCollection services)
 	{
-		services.AddAutoMapper(
-			cfg => { cfg.AddExpressionMapping(); },
+		services.AddAutoMapper(cfg => { cfg.AddExpressionMapping(); },
 			typeof(IApplicationMapperProfilesAssemblyMarker).Assembly);
 
 		return services;

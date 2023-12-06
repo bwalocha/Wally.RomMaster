@@ -7,7 +7,7 @@
         therefore settings file is basically piece of MSBuild script.
         This file is being imported to your .csproj during each build the same way
         as Reinforced.Typings.targets that is located in its package /build directory.
-
+  
         Reinforced.Typings has completely few parameters. So, here we go.
     -->
 
@@ -43,7 +43,7 @@
             part of TS sources. It could lead to various problems (e.g. monstrous SCM merges).
             So here we have RtDivideTypesAmongFiles parameter that will make Reinforced.Typings
             generate TS sources in C#/Java/somewhat-OO-language-manner (class per file) when set to true.
-
+    
             Important! In case of using this setting, do not forget to add generated files to solution manually.
         -->
         <RtDivideTypesAmongFiles>true</RtDivideTypesAmongFiles>
@@ -77,7 +77,7 @@
             Available values:
                 net45, net461, netcoreapp1.0, netcoreapp1.1, netcoreapp2.0, netcoreapp2.1, netcoreapp2.2
         -->
-        <RtForceTargetFramework>net7.0</RtForceTargetFramework>
+        <RtForceTargetFramework>net8.0</RtForceTargetFramework>
 
     </PropertyGroup>
 
@@ -85,12 +85,12 @@
         If you want Reinforced.Typings to lookup for attributed classes not only current
         project's assembly but also another assembly then you can specify it in RtAdditionalAssembly
         item group.
-
+  
         Reinforced.Typings receives reference assemblies list from CoreCompile task so you
         can specify here assemblies from your project's references (with or without .dll extension).
         If desired assembly is not in references list of current project then you will have
         to specify full path to it.
-
+  
     <ItemGroup>
         <RtAdditionalAssembly Include="My.Project.Assembly"/>
         <RtAdditionalAssembly Include="My.Project.Assembly.dll"/>

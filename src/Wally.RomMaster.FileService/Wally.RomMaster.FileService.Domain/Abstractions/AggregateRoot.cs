@@ -3,9 +3,9 @@ using Wally.RomMaster.FileService.Domain.Users;
 
 namespace Wally.RomMaster.FileService.Domain.Abstractions;
 
-public abstract class AggregateRoot<TAggregateRoot, TKey> : Entity<TAggregateRoot, TKey>, IAggregateRoot
+public class AggregateRoot<TAggregateRoot, TKey> : Entity<TAggregateRoot, TKey>, IAggregateRoot
 	where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
-	where TKey : notnull, IComparable<TKey>, IEquatable<TKey>, IStronglyTypedId<TKey, Guid>, new()
+	where TKey : notnull, IComparable<TKey>, IEquatable<TKey>, new()
 {
 	protected AggregateRoot()
 	{
