@@ -1,5 +1,5 @@
-using System;
 using System.Linq;
+using MassTransit.Internals;
 using Microsoft.EntityFrameworkCore;
 using Wally.RomMaster.FileService.Domain.Abstractions;
 
@@ -7,8 +7,6 @@ namespace Wally.RomMaster.FileService.Infrastructure.Persistence;
 
 public sealed class ApplicationDbContext : DbContext
 {
-	private const string RowVersion = nameof(RowVersion);
-
 	public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
 		: base(options)
 	{
@@ -17,7 +15,7 @@ public sealed class ApplicationDbContext : DbContext
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
-		modelBuilder.HasDefaultSchema("FileService");
+		// modelBuilder.HasDefaultSchema("FileService");
 
 		ConfigureMappings(modelBuilder);
 		ConfigureStronglyTypedId(modelBuilder);
@@ -36,38 +34,12 @@ public sealed class ApplicationDbContext : DbContext
 	private static void ConfigureStronglyTypedId(ModelBuilder modelBuilder)
 	{
 		var allEntities = modelBuilder.Model.GetEntityTypes();
-		foreach (var entity in allEntities.Where(a => InheritsGenericClass(a.ClrType, typeof(Entity<,>)))
+		foreach (var entity in allEntities.Where(a => a.ClrType.HasInterface(typeof(IEntity)))
 					.Where(a => string.IsNullOrEmpty(a.GetViewName()))
 					.ToArray())
 		{
 			var entityBuilder = modelBuilder.Entity(entity.ClrType);
 			entityBuilder.UseStronglyTypedId();
 		}
-	}
-
-	private static bool InheritsGenericClass(Type type, Type classType)
-	{
-		if (!classType.IsClass)
-		{
-			throw new ArgumentException($"Parameter '{nameof(classType)}' is not a Class");
-		}
-
-		while (type != null && type != typeof(object))
-		{
-			var current = type.IsGenericType ? type.GetGenericTypeDefinition() : type;
-			if (classType == current)
-			{
-				return true;
-			}
-
-			if (type.BaseType == null)
-			{
-				break;
-			}
-
-			type = type.BaseType;
-		}
-
-		return false;
 	}
 }
