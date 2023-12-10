@@ -2,13 +2,16 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
+using Confluent.Kafka;
 using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Wally.RomMaster.FileService.Application.Messages.Files;
 using Wally.RomMaster.FileService.Application.Messages.Users;
 using Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.Models;
 using Wally.RomMaster.FileService.Infrastructure.Messaging;
 using Wally.RomMaster.FileService.Infrastructure.Messaging.Consumers;
+using Wally.RomMaster.HashService.Application.Messages.Hashes;
 
 namespace Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.Extensions;
 
@@ -42,10 +45,9 @@ public static class MessagingExtensions
 								rider.AddConsumersFromNamespaceContaining<IInfrastructureMessagingAssemblyMarker>();
 
 								// TODO: auto-register
-								rider.AddProducer<UserCreatedMessage>(nameof(UserCreatedMessage));
-
-								// rider.AddProducer<UserUpdatedMessage>(nameof(FileModifiedMessage));
-
+								rider.AddProducer<FileCreatedMessage>(typeof(FileCreatedMessage).FullName);
+								rider.AddProducer<FileModifiedMessage>(typeof(FileModifiedMessage).FullName);
+								
 								rider.UsingKafka(
 									(context, k) =>
 									{
@@ -53,10 +55,13 @@ public static class MessagingExtensions
 										k.Host(settings.ConnectionStrings.ServiceBus);
 
 										// TODO: auto-register
-										k.TopicEndpoint<UserCreatedMessage>(
+										k.TopicEndpoint<HashComputedMessage>(typeof(HashComputedMessage).FullName,
 											typeof(IInfrastructureMessagingAssemblyMarker).Namespace,
-											typeof(IInfrastructureMessagingAssemblyMarker).Namespace,
-											e => { e.ConfigureConsumer<UserCreatedMessageConsumer>(context); });
+											e =>
+											{
+												e.AutoOffsetReset = AutoOffsetReset.Earliest;
+												e.ConfigureConsumer<HashComputedMessageConsumer>(context);
+											});
 									});
 
 								services.AddScoped<IBus, KafkaBus>();

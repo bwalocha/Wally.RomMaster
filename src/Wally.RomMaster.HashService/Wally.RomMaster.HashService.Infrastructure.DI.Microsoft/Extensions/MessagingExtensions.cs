@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-// using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using Confluent.Kafka;
@@ -45,8 +44,6 @@ public static class MessagingExtensions
 								rider.AddConsumersFromNamespaceContaining<IInfrastructureMessagingAssemblyMarker>();
 
 								// TODO: auto-register
-								// rider.AddProducer<UserCreatedMessage>(nameof(UserCreatedMessage));
-								// rider.AddProducer<UserUpdatedMessage>(nameof(FileModifiedMessage));
 								rider.AddProducer<HashComputedMessage>(typeof(HashComputedMessage).FullName);
 
 								rider.UsingKafka(
@@ -56,10 +53,6 @@ public static class MessagingExtensions
 										k.Host(settings.ConnectionStrings.ServiceBus);
 
 										// TODO: auto-register
-										/*k.TopicEndpoint<UserCreatedMessage>(
-											typeof(IInfrastructureMessagingAssemblyMarker).Namespace,
-											typeof(IInfrastructureMessagingAssemblyMarker).Namespace,
-											e => { e.ConfigureConsumer<UserCreatedMessageConsumer>(context); });*/
 										k.TopicEndpoint<FileCreatedMessage>(typeof(FileCreatedMessage).FullName,
 											typeof(IInfrastructureMessagingAssemblyMarker).Namespace,
 											e =>

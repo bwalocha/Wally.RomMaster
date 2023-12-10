@@ -98,7 +98,7 @@ public class FileScannerService : BackgroundService
 			}
 		}
 
-		foreach (var file in Directory.EnumerateFiles(folder.Path.LocalPath, "*.*", folder.SearchOptions))
+		foreach (var file in Directory.EnumerateFiles(folder.Path.LocalPath, "*.*", folder.SearchOptions).Order())
 		{
 			if (cancellationToken.IsCancellationRequested)
 			{
@@ -145,6 +145,7 @@ public class FileScannerService : BackgroundService
 		var children = Directory
 			.EnumerateDirectories(directoryInfo, "*.*", SearchOption.TopDirectoryOnly)
 			.Where(a => !IsExcluded(a, folder.Excludes))
+			.Order()
 			.ToList();
 
 		yield return directoryInfo;
