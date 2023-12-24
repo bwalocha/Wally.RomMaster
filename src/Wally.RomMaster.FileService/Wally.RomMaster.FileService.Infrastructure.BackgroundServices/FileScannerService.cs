@@ -78,7 +78,7 @@ public class FileScannerService : BackgroundService
 
 		using var scope = _serviceProvider.CreateScope();
 		var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
-		foreach (var paths in GetPartitions(GetDeepestDirectoryInfos(folder, folder.Path.LocalPath, cancellationToken)))
+		foreach (var paths in GetDeepestDirectoryInfos(folder, folder.Path.LocalPath, cancellationToken).Chunk(100))
 		{
 			if (cancellationToken.IsCancellationRequested)
 			{
@@ -98,7 +98,7 @@ public class FileScannerService : BackgroundService
 			}
 		}
 
-		foreach (var file in Directory.EnumerateFiles(folder.Path.LocalPath, "*.*", folder.SearchOptions).Order())
+		foreach (var files in Directory.EnumerateFiles(folder.Path.LocalPath, "*.*", folder.SearchOptions).Chunk(100))
 		{
 			if (cancellationToken.IsCancellationRequested)
 			{
@@ -106,7 +106,7 @@ public class FileScannerService : BackgroundService
 				return;
 			}
 
-			if (IsExcluded(file, folder.Excludes))
+			/*if (IsExcluded(file, folder.Excludes))
 			{
 				_logger.LogDebug($"File '{file}' excluded from scanning.");
 				continue;
@@ -114,7 +114,13 @@ public class FileScannerService : BackgroundService
 
 			_logger.LogDebug($"File '{file}' found.");
 
-			var command = new ScanFileCommand(FileLocation.Create(new Uri(file)));
+			var command = new ScanFileCommand(FileLocation.Create(new Uri(file)));*/
+			
+			var command = new ScanFilesCommand(
+				files
+					.Where(a => !IsExcluded(a, folder.Excludes))
+					.Select(a => FileLocation.Create(new Uri(a)))
+					.ToArray());
 
 			try
 			{
@@ -168,25 +174,5 @@ public class FileScannerService : BackgroundService
 				yield return child;
 			}
 		}
-	}
-
-	private IEnumerable<IEnumerable<T>> GetPartitions<T>(IEnumerable<T> items, int partitionSize = 100)
-	{
-		var partitionIndex = 0;
-		var partition = items.ToList();
-		do
-		{
-			partition = partition.Skip(partitionSize * partitionIndex)
-				.ToList();
-			if (!partition.Any())
-			{
-				yield break;
-			}
-
-			yield return partition.Take(partitionSize);
-
-			partitionIndex++;
-		}
-		while (true);
 	}
 }

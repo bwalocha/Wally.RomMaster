@@ -58,6 +58,7 @@ ProjectSection(SolutionItems) = preProject
 	.config\dotnet-tools.json = .config\dotnet-tools.json
 	Directory.Build.props = Directory.Build.props
 	Directory.BuildTests.props = Directory.BuildTests.props
+	docker-compose.yml = docker-compose.yml
 EndProjectSection
 EndProject
 Global

@@ -1,0 +1,18 @@
+﻿version: '3.9'
+
+services:
+    file_api:
+        container_name: file_api
+        image: wally.rommaster.fileservice.webapi
+        restart: "no"
+        build:
+            context: .
+            dockerfile: Wally.RomMaster.FileService/Wally.RomMaster.FileService.WebApi/Dockerfile.local
+        environment:
+            TZ: Europe/Warsaw
+        volumes:
+            - arcade:/RomMaster:ro
+              
+volumes:
+    arcade:
+        driver_opts:

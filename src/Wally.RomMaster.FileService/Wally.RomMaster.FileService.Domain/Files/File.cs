@@ -109,7 +109,8 @@ public class File : AggregateRoot<File, FileId>
 
 	public bool HasChanged(FileInfo fileInfo)
 	{
-		return Attributes != fileInfo.Attributes || LastWriteTimeUtc != fileInfo.LastWriteTimeUtc;
+		return LastWriteTimeUtc != fileInfo.LastWriteTimeUtc;
+		// return Attributes != fileInfo.Attributes || LastWriteTimeUtc != fileInfo.LastWriteTimeUtc;
 	}
 
 	public bool IsArchivePackage()

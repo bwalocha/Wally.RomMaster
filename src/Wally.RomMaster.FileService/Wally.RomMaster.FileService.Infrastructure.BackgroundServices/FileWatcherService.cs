@@ -27,7 +27,6 @@ public class FileWatcherService : BackgroundService
 		FileSystemEventArgs e,
 		CancellationToken cancellationToken);
 
-	private readonly ConcurrentQueue<ICommand> _commandQueue = new();
 	private readonly ILogger<FileWatcherService> _logger;
 	private readonly IServiceProvider _serviceProvider;
 	private readonly ISettings _settings;
