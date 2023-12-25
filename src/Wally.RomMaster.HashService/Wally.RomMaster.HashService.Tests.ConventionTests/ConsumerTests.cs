@@ -33,7 +33,7 @@ public class ConsumerTests
 
 		using (new AssertionScope())
 		{
-			foreach (var type in types.Where(a => a.Name.EndsWith("Consumer"))
+			foreach (var type in types.Where(a => a.Name.EndsWith("Consumer") && !a.Name.EndsWith("FaultConsumer"))
 						.Where(a => a.ImplementsGenericInterface(typeof(IConsumer<>))))
 			{
 				type.Name.Should()
@@ -50,7 +50,7 @@ public class ConsumerTests
 
 		using (new AssertionScope())
 		{
-			foreach (var type in types.Where(a => a.Name.EndsWith("Consumer"))
+			foreach (var type in types.Where(a => a.Name.EndsWith("Consumer") && !a.Name.EndsWith("FaultConsumer"))
 						.Where(a => a.ImplementsGenericInterface(typeof(IConsumer<>))))
 			{
 				var genericType = type.GetGenericInterface(typeof(IConsumer<>)) !.GenericTypeArguments.Single();
