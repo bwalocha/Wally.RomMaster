@@ -7,12 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="MassTransit" Version="8.1.2" />
+        <PackageReference Include="MassTransit" Version="8.1.3" />
         <PackageReference Include="MediatR" Version="12.2.0" />
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.0" />
         <PackageReference Include="Wally.Identity.Messages" Version="2.1.1842" />
         <PackageReference Include="Wally.Lib.DDD.Abstractions" Version="1.3.6" />
-        <PackageReference Include="Wally.RomMaster.HashService.Application.Messages" Version="0.1.2131" />
+        <PackageReference Include="Wally.RomMaster.HashService.Application.Messages" Version="0.1.2249" />
     </ItemGroup>
 
     <ItemGroup>
