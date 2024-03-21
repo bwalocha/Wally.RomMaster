@@ -50,7 +50,7 @@ public class File : AggregateRoot<File, FileId>
 
 	// public string? Sha1 { get; private set; }
 	//
-	// public string? Md5 { get; private set; }
+	public string? Md5 { get; private set; }
 
 	public FileAttributes Attributes { get; private set; }
 
@@ -86,7 +86,7 @@ public class File : AggregateRoot<File, FileId>
 		return model;
 	}
 
-	public void Update(
+	public File Update(
 		IClockService clockService,
 		FileInfo fileInfo)
 	{
@@ -105,6 +105,8 @@ public class File : AggregateRoot<File, FileId>
 		}
 
 		// ModifiedAt = clockService.GetTimestamp();
+		
+		return this;
 	}
 
 	public bool HasChanged(FileInfo fileInfo)
@@ -129,8 +131,17 @@ public class File : AggregateRoot<File, FileId>
 				StringComparison.InvariantCultureIgnoreCase);
 	}
 
-	public void SetCrc32(string crc32)
+	public File SetCrc32(string value)
 	{
-		Crc32 = crc32;
+		Crc32 = value;
+		
+		return this;
+	}
+	
+	public File SetMd5(string value)
+	{
+		Md5 = value;
+
+		return this;
 	}
 }

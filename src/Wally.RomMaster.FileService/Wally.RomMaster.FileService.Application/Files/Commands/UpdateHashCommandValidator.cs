@@ -10,5 +10,7 @@ public class UpdateHashCommandValidator : AbstractValidator<UpdateHashCommand>
 			.NotEmpty();
 		RuleFor(a => a.Crc32)
 			.Length(8);
+		RuleFor(a => a.Md5)
+			.Length(32);
 	}
 }

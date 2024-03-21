@@ -19,7 +19,7 @@ public class HashComputedMessageConsumer : IConsumer<HashComputedMessage>
 	public Task Consume(ConsumeContext<HashComputedMessage> context)
 	{
 		var message = context.Message;
-		var command = new UpdateHashCommand(new FileId(message.FileId), message.Crc32);
+		var command = new UpdateHashCommand(new FileId(message.FileId), message.Crc32, message.Md5);
 
 		return _mediator.Send(command);
 	}
