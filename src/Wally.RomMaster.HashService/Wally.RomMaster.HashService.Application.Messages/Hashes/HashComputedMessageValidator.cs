@@ -11,5 +11,8 @@ public class HashComputedMessageValidator : AbstractValidator<HashComputedMessag
 		RuleFor(a => a.Crc32)
 			.NotEmpty()
 			.Length(8);
+		RuleFor(a => a.Md5)
+			.NotEmpty()
+			.Length(32);
 	}
 }

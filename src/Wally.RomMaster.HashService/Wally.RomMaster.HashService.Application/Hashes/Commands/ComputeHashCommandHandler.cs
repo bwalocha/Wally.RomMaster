@@ -26,17 +26,28 @@ public class ComputeHashCommandHandler : CommandHandler<ComputeHashCommand>
 
 	public override async Task HandleAsync(ComputeHashCommand command, CancellationToken cancellationToken)
 	{
-		_logger.LogDebug("Computing CRC32 for '{0}'...", command.FileLocation);
+		_logger.LogDebug("Computing Hashes for '{0}'...", command.FileLocation);
 		
 		await using var stream = File.Open(command.FileLocation, FileMode.Open, FileAccess.Read, FileShare.Read);
-		var size = stream.Length;
-		var hash = await _hashAlgorithm.ComputeHashAsync(stream, cancellationToken);
+		// var size = stream.Length;
+		
+		// MD5
+		using var md5 = MD5.Create();
+		var hash = await md5.ComputeHashAsync(stream, cancellationToken); 
+		var computedMd5 = BitConverter.ToString(hash)
+			.Replace("-", null, true, CultureInfo.InvariantCulture);
+		
+		_logger.LogInformation("MD5 for '{0}': {1}", command.FileLocation, computedMd5);
+		
+		// CRC32
+		stream.Seek(0, SeekOrigin.Begin);
+		hash = await _hashAlgorithm.ComputeHashAsync(stream, cancellationToken);
 		var computedCrc32 = BitConverter.ToString(hash)
 			.Replace("-", null, true, CultureInfo.InvariantCulture);
 
 		_logger.LogInformation("CRC32 for '{0}': {1}", command.FileLocation, computedCrc32);
 
-		var message = new HashComputedMessage(command.FileId, computedCrc32);
+		var message = new HashComputedMessage(command.FileId, computedCrc32, computedMd5);
 
 		await _bus.Publish(message, cancellationToken);
 	}
