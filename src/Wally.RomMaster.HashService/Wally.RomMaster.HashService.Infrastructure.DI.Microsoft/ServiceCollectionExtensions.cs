@@ -24,7 +24,7 @@ public static class ServiceCollectionExtensions
 		services.AddCqrs();
 		services.AddOpenApi(Assembly.GetCallingAssembly());
 		services.AddHealthChecks(settings);
-		services.AddAddPersistence(settings); //
+		services.AddAddPersistence(settings);
 		services.AddMapper();
 		services.AddMessaging(settings);
 		services.AddEventHub();
@@ -53,7 +53,7 @@ public static class ServiceCollectionExtensions
 
 		app.UseWebApi();
 
-		// app.UsePersistence();
+		app.UsePersistence();
 		app.UseEventHub<EventHub>();
 
 		return app;

@@ -1,6 +1,7 @@
 using System.Linq;
 using FluentAssertions;
 using FluentAssertions.Execution;
+using Wally.RomMaster.HashService.Tests.ConventionTests.Extensions;
 using Wally.RomMaster.HashService.Tests.ConventionTests.Helpers;
 using Wally.Lib.DDD.Abstractions.Commands;
 using Xunit;
@@ -20,14 +21,32 @@ public class CommandHandlerTests
 			{
 				type.Should()
 					.BeAssignableTo(
-						typeof(ICommandHandler<>),
+						type.ImplementsGenericInterface(typeof(ICommandHandler<>))
+							? typeof(ICommandHandler<>)
+							: typeof(ICommandHandler<,>),
 						"All command handlers should implement ICommandHandler interface");
+			}
+		}
+	}
 
-				// TODO: add tests for ICommandHandler<,>
-				/*type.Should()
-					.BeAssignableTo(
-						typeof(ICommandHandler<,>),
-						"All command handlers should implement ICommandHandler interface");*/
+	[Fact]
+	public void Application_AllClassesImplementedICommandHandler_ShouldEndsWithCommandHandler()
+	{
+		var applicationTypes = Configuration.Assemblies.Application.GetAllTypes();
+		var commandHandlerTypes = applicationTypes
+			.Where(a => a.IsClass)
+			.Where(a => !a.IsAbstract)
+			.Where(
+				a => a.ImplementsGenericInterface(typeof(ICommandHandler<>)) ||
+					a.ImplementsGenericInterface(typeof(ICommandHandler<,>)));
+
+		using (new AssertionScope(new AssertionStrategy()))
+		{
+			foreach (var type in commandHandlerTypes)
+			{
+				type.Name
+					.Should()
+					.EndWith("CommandHandler", "All command handlers name should ends with 'CommanHandler'");
 			}
 		}
 	}

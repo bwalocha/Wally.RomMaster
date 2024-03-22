@@ -32,18 +32,17 @@ public static class PersistenceExtensions
 					WithMySql(options, settings);
 					break;
 				case DatabaseProviderType.PostgreSQL:
-					WithPostgreSQL(options, settings);
+					WithNpgsql(options, settings);
 					break;
 				case DatabaseProviderType.SQLite:
-					WithSQLite(options, settings);
+					WithSqlite(options, settings);
 					break;
 				case DatabaseProviderType.SqlServer:
 					WithSqlServer(options, settings);
 					break;
 				default:
-					throw new ArgumentOutOfRangeException(
-						nameof(settings.Database.ProviderType),
-						"Unknown Database Provider Type");
+					throw new NotSupportedException(
+						$"Not supported Database Provider type: '{settings.Database.ProviderType}'");
 			}
 
 			options.ConfigureWarnings(
@@ -91,7 +90,7 @@ public static class PersistenceExtensions
 		EntityFramework.Exceptions.MySQL.Pomelo.ExceptionProcessorExtensions.UseExceptionProcessor(options);
 	}
 
-	private static void WithPostgreSQL(DbContextOptionsBuilder options, AppSettings settings)
+	private static void WithNpgsql(DbContextOptionsBuilder options, AppSettings settings)
 	{
 		options.UseNpgsql(
 			settings.ConnectionStrings.Database,
@@ -105,7 +104,7 @@ public static class PersistenceExtensions
 		EntityFramework.Exceptions.PostgreSQL.ExceptionProcessorExtensions.UseExceptionProcessor(options);
 	}
 
-	private static void WithSQLite(DbContextOptionsBuilder options, AppSettings settings)
+	private static void WithSqlite(DbContextOptionsBuilder options, AppSettings settings)
 	{
 		options.UseSqlite(
 			settings.ConnectionStrings.Database,

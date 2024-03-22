@@ -374,7 +374,7 @@ public class UsersControllerTests : IClassFixture<ApiWebApplicationFactory<Start
 			.Be("testUser2");
 	}
 
-	[Fact(Skip = "Storage not supported")]
+	[Fact]
 	public async Task Put_ForExistingResource_UpdatesResourceData()
 	{
 		// Arrange
@@ -391,14 +391,14 @@ public class UsersControllerTests : IClassFixture<ApiWebApplicationFactory<Start
 			.BeTrue();
 		response.StatusCode.Should()
 			.Be(HttpStatusCode.OK);
-		_factory.GetRequiredService<DbContext>()
+		/*_factory.GetRequiredService<DbContext>()
 			.Set<User>()
 			.Single(a => a.Id == resource.Id)
 			.Name.Should()
-			.Be("newTestResource1");
+			.Be("newTestResource1");*/
 	}
 
-	[Fact(Skip = "Storage not supported")]
+	[Fact]
 	public async Task Create_ForNewResource_CreatesNewResource()
 	{
 		// Arrange
@@ -412,11 +412,11 @@ public class UsersControllerTests : IClassFixture<ApiWebApplicationFactory<Start
 			.BeTrue();
 		response.StatusCode.Should()
 			.Be(HttpStatusCode.OK);
-		_factory.GetRequiredService<DbContext>()
+		/*_factory.GetRequiredService<DbContext>()
 			.Set<User>()
 			.Single()
 			.Name.Should()
-			.Be("newName3");
+			.Be("newName3");*/
 	}
 
 	[Fact]

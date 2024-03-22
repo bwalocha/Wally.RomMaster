@@ -4,7 +4,7 @@ using Wally.Lib.DDD.Abstractions.DomainEvents;
 
 namespace Wally.RomMaster.HashService.Domain.Abstractions;
 
-public class Entity<TEntity, TKey>
+public class Entity<TEntity, TKey> : IEntity
 	where TEntity : Entity<TEntity, TKey>
 	where TKey : notnull, IComparable<TKey>, IEquatable<TKey>, new()
 {
@@ -27,13 +27,13 @@ public class Entity<TEntity, TKey>
 		return _domainEvents.AsReadOnly();
 	}
 
-	protected void AddDomainEvent(DomainEvent domainEvent)
-	{
-		_domainEvents.Add(domainEvent);
-	}
-
 	public void RemoveDomainEvent(DomainEvent domainEvent)
 	{
 		_domainEvents.Remove(domainEvent);
+	}
+
+	protected void AddDomainEvent(DomainEvent domainEvent)
+	{
+		_domainEvents.Add(domainEvent);
 	}
 }

@@ -2,6 +2,7 @@
 using AutoMapper.Internal;
 using FluentAssertions;
 using FluentAssertions.Execution;
+using Wally.RomMaster.HashService.Tests.ConventionTests.Extensions;
 using Wally.RomMaster.HashService.Tests.ConventionTests.Helpers;
 using Xunit;
 

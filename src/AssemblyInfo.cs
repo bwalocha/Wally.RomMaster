@@ -1,5 +1,5 @@
 using System.Reflection;
 
 [assembly: AssemblyDescription("Wally.RomMaster")]
-[assembly: AssemblyCopyright("Wally.RomMaster@2023")]
+[assembly: AssemblyCopyright("Wally.RomMaster@2024")]
 [assembly: AssemblyTrademark("Wally.RomMaster")]

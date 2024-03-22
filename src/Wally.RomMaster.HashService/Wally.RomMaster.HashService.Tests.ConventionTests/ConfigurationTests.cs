@@ -20,6 +20,7 @@ public class ConfigurationTests
 
 		// Assert
 		fromConfig.Should()
-			.AllSatisfy(a => fromInternal.Contains(a));
+			.AllSatisfy(a => fromInternal.Should()
+				.Contain(a));
 	}
 }

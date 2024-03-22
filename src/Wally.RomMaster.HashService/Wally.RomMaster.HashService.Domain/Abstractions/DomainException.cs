@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Runtime.Serialization;
 
 namespace Wally.RomMaster.HashService.Domain.Abstractions;
 
@@ -17,11 +16,6 @@ public class DomainException : Exception
 
 	public DomainException(string? message, Exception? innerException)
 		: base(message, innerException)
-	{
-	}
-
-	protected DomainException(SerializationInfo info, StreamingContext context)
-		: base(info, context)
 	{
 	}
 }

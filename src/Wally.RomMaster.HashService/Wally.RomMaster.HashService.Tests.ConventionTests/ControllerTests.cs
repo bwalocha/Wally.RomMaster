@@ -5,6 +5,7 @@ using FluentAssertions;
 using FluentAssertions.Execution;
 using FluentAssertions.Types;
 using Microsoft.AspNetCore.Mvc;
+using Wally.RomMaster.HashService.Tests.ConventionTests.Extensions;
 using Wally.RomMaster.HashService.Tests.ConventionTests.Helpers;
 using Wally.Lib.DDD.Abstractions.Commands;
 using Wally.Lib.DDD.Abstractions.Queries;

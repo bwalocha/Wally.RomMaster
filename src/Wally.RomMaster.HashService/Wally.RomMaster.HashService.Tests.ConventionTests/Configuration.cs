@@ -18,6 +18,8 @@ namespace Wally.RomMaster.HashService.Tests.ConventionTests;
 
 public static class Configuration
 {
+	public const string Namespace = "Wally.RomMaster.HashService";
+
 	public static Types Types
 		=> new()
 		{

@@ -2,7 +2,7 @@
 using FluentAssertions;
 using FluentAssertions.Execution;
 using FluentValidation;
-using Wally.RomMaster.HashService.Tests.ConventionTests.Helpers;
+using Wally.RomMaster.HashService.Tests.ConventionTests.Extensions;
 using Xunit;
 
 namespace Wally.RomMaster.HashService.Tests.ConventionTests;

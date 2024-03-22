@@ -2,6 +2,7 @@
 using System.Linq;
 using FluentAssertions;
 using FluentAssertions.Execution;
+using Wally.RomMaster.HashService.Tests.ConventionTests.Extensions;
 using Wally.RomMaster.HashService.Tests.ConventionTests.Helpers;
 using Wally.Lib.DDD.Abstractions.DomainEvents;
 using Xunit;
@@ -23,7 +24,7 @@ public class DomainEventTests
 					.ThatImplement<DomainEvent>();
 
 				types.Should()
-					.BeUnderNamespace("Wally.RomMaster.HashService.Domain");
+					.BeUnderNamespace($"{Configuration.Namespace}.Domain");
 			}
 		}
 	}
