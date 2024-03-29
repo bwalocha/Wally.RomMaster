@@ -66,13 +66,13 @@ public class FileScannerService : BackgroundService
 	{
 		if (!folder.Enabled)
 		{
-			_logger.LogWarning($"Folder '{folder.Path}' is not active. Skipping.");
+			_logger.LogWarning("Folder '{FolderPath}' is not active - skipping", folder.Path);
 			return;
 		}
 
 		if (!Directory.Exists(folder.Path.LocalPath))
 		{
-			_logger.LogWarning($"Folder '{folder.Path}' does not exist. Skipping.");
+			_logger.LogWarning("Folder '{FolderPath}' does not exist - skipping", folder.Path);
 			return;
 		}
 
@@ -83,7 +83,7 @@ public class FileScannerService : BackgroundService
 		{
 			if (cancellationToken.IsCancellationRequested)
 			{
-				_logger.LogDebug("ScanAsync cancelled.");
+				_logger.LogDebug("ScanAsync cancelled");
 				return;
 			}
 
@@ -95,7 +95,7 @@ public class FileScannerService : BackgroundService
 			}
 			catch (Exception exception)
 			{
-				_logger.LogError("Error: '{0}'", exception);
+				_logger.LogError(exception, "Cannot handle the command");
 			}
 		}
 
@@ -104,7 +104,7 @@ public class FileScannerService : BackgroundService
 		{
 			if (cancellationToken.IsCancellationRequested)
 			{
-				_logger.LogDebug("ScanAsync cancelled.");
+				_logger.LogDebug("ScanAsync cancelled");
 				return;
 			}
 
@@ -130,14 +130,14 @@ public class FileScannerService : BackgroundService
 			}
 			catch (Exception exception)
 			{
-				_logger.LogError("Error: '{0}'", exception);
+				_logger.LogError(exception, "Cannot handle the command");
 			}
 		}
 	}
 
 	private bool IsExcluded(string file, List<ExcludeSettings> excludes)
 	{
-		return excludes.Any(a => IsExcluded(file, a));
+		return excludes.Exists(a => IsExcluded(file, a));
 	}
 
 	private static bool IsExcluded(string file, ExcludeSettings exclude)
@@ -167,7 +167,7 @@ public class FileScannerService : BackgroundService
 		{
 			if (cancellationToken.IsCancellationRequested)
 			{
-				_logger.LogDebug("ScanAsync cancelled.");
+				_logger.LogDebug("ScanAsync cancelled");
 				yield break;
 			}
 

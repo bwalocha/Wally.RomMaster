@@ -27,13 +27,13 @@ public class Entity<TEntity, TKey> : IEntity
 		return _domainEvents.AsReadOnly();
 	}
 
-	protected void AddDomainEvent(DomainEvent domainEvent)
-	{
-		_domainEvents.Add(domainEvent);
-	}
-
 	public void RemoveDomainEvent(DomainEvent domainEvent)
 	{
 		_domainEvents.Remove(domainEvent);
+	}
+
+	protected void AddDomainEvent(DomainEvent domainEvent)
+	{
+		_domainEvents.Add(domainEvent);
 	}
 }
