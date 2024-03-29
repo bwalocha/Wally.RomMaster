@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -10,7 +9,6 @@ using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Wally.Lib.DDD.Abstractions.Commands;
 using Wally.RomMaster.FileService.Application.Files.Commands;
 using Wally.RomMaster.FileService.Domain.Files;
 using Wally.RomMaster.FileService.Infrastructure.BackgroundServices.Abstractions;

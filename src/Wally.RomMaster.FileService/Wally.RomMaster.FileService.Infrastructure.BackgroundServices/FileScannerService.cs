@@ -78,7 +78,8 @@ public class FileScannerService : BackgroundService
 
 		using var scope = _serviceProvider.CreateScope();
 		var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
-		foreach (var paths in GetDeepestDirectoryInfos(folder, folder.Path.LocalPath, cancellationToken).Chunk(100))
+		foreach (var paths in GetDeepestDirectoryInfos(folder, folder.Path.LocalPath, cancellationToken)
+					.Chunk(100))
 		{
 			if (cancellationToken.IsCancellationRequested)
 			{
@@ -98,7 +99,8 @@ public class FileScannerService : BackgroundService
 			}
 		}
 
-		foreach (var files in Directory.EnumerateFiles(folder.Path.LocalPath, "*.*", folder.SearchOptions).Chunk(100))
+		foreach (var files in Directory.EnumerateFiles(folder.Path.LocalPath, "*.*", folder.SearchOptions)
+					.Chunk(100))
 		{
 			if (cancellationToken.IsCancellationRequested)
 			{
@@ -115,7 +117,7 @@ public class FileScannerService : BackgroundService
 			_logger.LogDebug($"File '{file}' found.");
 
 			var command = new ScanFileCommand(FileLocation.Create(new Uri(file)));*/
-			
+
 			var command = new ScanFilesCommand(
 				files
 					.Where(a => !IsExcluded(a, folder.Excludes))
@@ -155,7 +157,7 @@ public class FileScannerService : BackgroundService
 			.ToList();
 
 		yield return directoryInfo;
-		
+
 		if (!children.Any() || folder.SearchOptions == SearchOption.TopDirectoryOnly)
 		{
 			yield break;

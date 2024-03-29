@@ -105,7 +105,7 @@ public class File : AggregateRoot<File, FileId>
 		}
 
 		// ModifiedAt = clockService.GetTimestamp();
-		
+
 		return this;
 	}
 
@@ -134,10 +134,10 @@ public class File : AggregateRoot<File, FileId>
 	public File SetCrc32(string value)
 	{
 		Crc32 = value;
-		
+
 		return this;
 	}
-	
+
 	public File SetMd5(string value)
 	{
 		Md5 = value;

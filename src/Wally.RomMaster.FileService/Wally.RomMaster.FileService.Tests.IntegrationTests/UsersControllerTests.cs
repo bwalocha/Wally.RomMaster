@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
+using Wally.Lib.DDD.Abstractions.Responses;
 using Wally.RomMaster.FileService.Application.Contracts.Requests.Users;
 using Wally.RomMaster.FileService.Application.Contracts.Responses.Users;
 using Wally.RomMaster.FileService.Domain.Users;
 using Wally.RomMaster.FileService.Tests.IntegrationTests.Helpers;
 using Wally.RomMaster.FileService.WebApi;
-using Wally.Lib.DDD.Abstractions.Responses;
 using Xunit;
 
 namespace Wally.RomMaster.FileService.Tests.IntegrationTests;

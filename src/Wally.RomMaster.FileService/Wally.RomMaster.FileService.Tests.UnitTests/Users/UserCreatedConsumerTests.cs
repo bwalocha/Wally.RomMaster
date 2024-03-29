@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using MassTransit;
 using MediatR;
 using Moq;
+using Wally.Identity.Messages.Users;
 using Wally.RomMaster.FileService.Application.Users.Commands;
 using Wally.RomMaster.FileService.Infrastructure.Messaging.Consumers;
-using Wally.Identity.Messages.Users;
 using Xunit;
 
 namespace Wally.RomMaster.FileService.Tests.UnitTests.Users;

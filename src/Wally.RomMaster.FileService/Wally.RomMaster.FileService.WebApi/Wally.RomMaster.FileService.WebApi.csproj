@@ -31,9 +31,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Compile Update="Controllers\FilesController.cs">
-        <DependentUpon>PathsController.cs</DependentUpon>
-      </Compile>
+        <Compile Update="Controllers\FilesController.cs">
+            <DependentUpon>PathsController.cs</DependentUpon>
+        </Compile>
     </ItemGroup>
 
 </Project>

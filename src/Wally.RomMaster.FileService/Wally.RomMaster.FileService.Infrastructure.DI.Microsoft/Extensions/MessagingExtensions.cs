@@ -7,7 +7,6 @@ using MassTransit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Wally.RomMaster.FileService.Application.Messages.Files;
-using Wally.RomMaster.FileService.Application.Messages.Users;
 using Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.Models;
 using Wally.RomMaster.FileService.Infrastructure.Messaging;
 using Wally.RomMaster.FileService.Infrastructure.Messaging.Consumers;
@@ -47,7 +46,7 @@ public static class MessagingExtensions
 								// TODO: auto-register
 								rider.AddProducer<FileCreatedMessage>(typeof(FileCreatedMessage).FullName);
 								rider.AddProducer<FileModifiedMessage>(typeof(FileModifiedMessage).FullName);
-								
+
 								rider.UsingKafka(
 									(context, k) =>
 									{

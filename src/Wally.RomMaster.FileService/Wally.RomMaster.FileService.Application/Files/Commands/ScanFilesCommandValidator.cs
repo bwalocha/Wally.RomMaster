@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using FluentValidation;
+﻿using FluentValidation;
 
 namespace Wally.RomMaster.FileService.Application.Files.Commands;
 

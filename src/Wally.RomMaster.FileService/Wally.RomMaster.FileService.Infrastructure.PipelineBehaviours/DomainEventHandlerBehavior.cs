@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Wally.Lib.DDD.Abstractions.Commands;
 using Wally.Lib.DDD.Abstractions.DomainEvents;
-using Wally.Lib.DDD.Abstractions.DomainModels;
 using Wally.RomMaster.FileService.Domain.Abstractions;
 
 namespace Wally.RomMaster.FileService.Infrastructure.PipelineBehaviours;
@@ -51,7 +50,7 @@ public class DomainEventHandlerBehavior<TRequest, TResponse> : IPipelineBehavior
 			{
 				await service!.HandleAsync((dynamic)domainEvent, cancellationToken);
 			}
-			
+
 			domainEntities.Single(a => a.Entity
 					.GetDomainEvents()
 					.Contains(domainEvent))

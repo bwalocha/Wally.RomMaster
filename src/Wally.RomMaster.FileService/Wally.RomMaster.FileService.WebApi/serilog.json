@@ -2,7 +2,7 @@
   "Serilog": {
     "Using": [
       "Serilog.Sinks.Console"
-//      "Serilog.Sinks.ApplicationInsights"
+      //      "Serilog.Sinks.ApplicationInsights"
     ],
     "MinimumLevel": {
       "Default": "Debug",
@@ -29,10 +29,11 @@
       //          "telemetryConverter": "Serilog.Sinks.ApplicationInsights.TelemetryConverters.TraceTelemetryConverter, Serilog.Sinks.ApplicationInsights"
       //        }
       //      },
-      { 
-        "Name": "File", 
-        "Args": { 
-          "path": "log.txt", "rollingInterval": "Day"
+      {
+        "Name": "File",
+        "Args": {
+          "path": "log.txt",
+          "rollingInterval": "Day"
         }
       },
       {

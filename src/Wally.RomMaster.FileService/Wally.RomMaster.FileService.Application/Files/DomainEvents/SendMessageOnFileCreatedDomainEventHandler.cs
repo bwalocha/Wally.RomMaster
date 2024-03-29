@@ -14,7 +14,8 @@ public class SendMessageOnFileCreatedDomainEventHandler : IDomainEventHandler<Fi
 	private readonly IFileRepository _fileRepository;
 	private readonly ILogger<SendMessageOnFileCreatedDomainEventHandler> _logger;
 
-	public SendMessageOnFileCreatedDomainEventHandler(IBus bus, IFileRepository fileRepository, ILogger<SendMessageOnFileCreatedDomainEventHandler> logger)
+	public SendMessageOnFileCreatedDomainEventHandler(IBus bus, IFileRepository fileRepository,
+		ILogger<SendMessageOnFileCreatedDomainEventHandler> logger)
 	{
 		_bus = bus;
 		_fileRepository = fileRepository;
@@ -27,7 +28,7 @@ public class SendMessageOnFileCreatedDomainEventHandler : IDomainEventHandler<Fi
 		var message = new FileCreatedMessage(model.Id.Value, model.Location.Location.LocalPath);
 
 		_logger.LogInformation($"Publishing: {message.GetType().Name}");
-		
+
 		await _bus.Publish(message, cancellationToken);
 	}
 }
