@@ -4,7 +4,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Confluent.Kafka;
 using MassTransit;
-using MassTransit.KafkaIntegration.Serializers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Wally.RomMaster.FileService.Application.Messages.Files;

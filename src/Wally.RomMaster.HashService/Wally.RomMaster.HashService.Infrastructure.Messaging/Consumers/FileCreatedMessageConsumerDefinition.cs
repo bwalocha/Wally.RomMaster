@@ -12,7 +12,7 @@ public class FileCreatedMessageConsumerDefinition : ConsumerDefinition<FileCreat
 		ConcurrentMessageLimit = 4;
 	}
 
-	protected override void ConfigureConsumer(IReceiveEndpointConfigurator endpointConfigurator, 
+	protected override void ConfigureConsumer(IReceiveEndpointConfigurator endpointConfigurator,
 		IConsumerConfigurator<FileCreatedMessageConsumer> consumerConfigurator,
 		IRegistrationContext context)
 	{

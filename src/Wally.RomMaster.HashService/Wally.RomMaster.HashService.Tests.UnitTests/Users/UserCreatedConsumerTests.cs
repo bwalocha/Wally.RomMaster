@@ -4,9 +4,9 @@ using System.Threading.Tasks;
 using MassTransit;
 using MediatR;
 using Moq;
+using Wally.Identity.Messages.Users;
 using Wally.RomMaster.HashService.Application.Users.Commands;
 using Wally.RomMaster.HashService.Infrastructure.Messaging.Consumers;
-using Wally.Identity.Messages.Users;
 using Xunit;
 
 namespace Wally.RomMaster.HashService.Tests.UnitTests.Users;

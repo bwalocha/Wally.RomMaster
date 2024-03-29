@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
+using Wally.Lib.DDD.Abstractions.Responses;
 using Wally.RomMaster.HashService.Application.Contracts.Requests.Users;
 using Wally.RomMaster.HashService.Application.Contracts.Responses.Users;
 using Wally.RomMaster.HashService.Domain.Users;
 using Wally.RomMaster.HashService.Tests.IntegrationTests.Helpers;
 using Wally.RomMaster.HashService.WebApi;
-using Wally.Lib.DDD.Abstractions.Responses;
 using Xunit;
 
 namespace Wally.RomMaster.HashService.Tests.IntegrationTests;

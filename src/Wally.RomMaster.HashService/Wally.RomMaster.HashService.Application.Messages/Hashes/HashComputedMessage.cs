@@ -16,6 +16,6 @@ public class HashComputedMessage
 	public Guid FileId { get; }
 
 	public string Crc32 { get; }
-	
+
 	public string Md5 { get; }
 }

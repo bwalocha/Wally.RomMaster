@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using Wally.RomMaster.HashService.Domain.Users;
 using Wally.Lib.DDD.Abstractions.Commands;
+using Wally.RomMaster.HashService.Domain.Users;
 
 namespace Wally.RomMaster.HashService.Application.Users.Commands;
 
