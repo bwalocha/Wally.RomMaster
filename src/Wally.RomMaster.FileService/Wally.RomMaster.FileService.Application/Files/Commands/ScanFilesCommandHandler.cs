@@ -3,7 +3,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using MassTransit;
 using Wally.Lib.DDD.Abstractions.Commands;
+using Wally.RomMaster.FileService.Application.Messages.Files;
 using Wally.RomMaster.FileService.Application.Paths;
 using Wally.RomMaster.FileService.Domain.Abstractions;
 using Wally.RomMaster.FileService.Domain.Files;
@@ -15,6 +17,7 @@ namespace Wally.RomMaster.FileService.Application.Files.Commands;
 public class ScanFilesCommandHandler : CommandHandler<ScanFilesCommand>
 {
 	private readonly IClockService _clockService;
+	private readonly IBus _bus;
 
 	private readonly IFileRepository _fileRepository;
 
@@ -23,11 +26,13 @@ public class ScanFilesCommandHandler : CommandHandler<ScanFilesCommand>
 	public ScanFilesCommandHandler(
 		IFileRepository fileRepository,
 		IPathRepository pathRepository,
-		IClockService clockService)
+		IClockService clockService,
+		IBus bus)
 	{
 		_fileRepository = fileRepository;
 		_pathRepository = pathRepository;
 		_clockService = clockService;
+		_bus = bus;
 	}
 
 	public override async Task HandleAsync(ScanFilesCommand command, CancellationToken cancellationToken)
@@ -73,6 +78,12 @@ public class ScanFilesCommandHandler : CommandHandler<ScanFilesCommand>
 				file.Update(_clockService, fileInfo);
 
 				_fileRepository.Update(file);
+			}
+			else if (file.Crc32 is null || file.Md5 is null)
+			{
+				var message = new FileModifiedMessage(file.Id.Value, file.Location.Location.LocalPath);
+
+				await _bus.Publish(message, cancellationToken);
 			}
 		}
 	}

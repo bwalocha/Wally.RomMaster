@@ -18,7 +18,6 @@
       <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Application.Contracts/generated/Users/Requests/UpdateUserRequest.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Application.Contracts/generated/Users/Requests/UpdateUserRequest.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Application.Contracts/generated/Users/Responses/GetUserResponse.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Application.Contracts/generated/Users/Responses/GetUserResponse.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Application.Contracts/generated/Users/Responses/GetUsersResponse.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Application.Contracts/generated/Users/Responses/GetUsersResponse.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Domain/Abstractions/Entity.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.Domain/Abstractions/Entity.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.WebApi/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.FileService/Wally.RomMaster.FileService.WebApi/appsettings.Development.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.HashService/Wally.RomMaster.HashService.Application.Contracts/Reinforced.Typings.settings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.HashService/Wally.RomMaster.HashService.Application.Contracts/Reinforced.Typings.settings.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.HashService/Wally.RomMaster.HashService.Application.Contracts/generated/Responses/Abstractions/PageInfoResponse.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.HashService/Wally.RomMaster.HashService.Application.Contracts/generated/Responses/Abstractions/PageInfoResponse.ts" afterDir="false" />
@@ -30,10 +29,7 @@
       <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.HashService/Wally.RomMaster.HashService.Application.Contracts/generated/Users/Responses/GetUsersResponse.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.HashService/Wally.RomMaster.HashService.Application.Contracts/generated/Users/Responses/GetUsersResponse.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../Wally.RomMaster.HashService/Wally.RomMaster.HashService.WebApi/appsettings.Development.json" beforeDir="false" afterPath="$PROJECT_DIR$/../Wally.RomMaster.HashService/Wally.RomMaster.HashService.WebApi/appsettings.Development.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -140,7 +136,7 @@
       <workItem from="1696955677703" duration="454000" />
       <workItem from="1697880269668" duration="6000" />
       <workItem from="1697890996240" duration="710000" />
-      <workItem from="1711740152284" duration="1166000" />
+      <workItem from="1711740152284" duration="2320000" />
     </task>
     <servers />
   </component>
