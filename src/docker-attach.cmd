@@ -1,0 +1,1 @@
+docker exec -it file_api sh || pause

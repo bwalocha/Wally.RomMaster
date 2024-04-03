@@ -6,13 +6,24 @@ services:
         image: wally.rommaster.fileservice.webapi
         restart: "no"
         build:
-            context: .
-            dockerfile: Wally.RomMaster.FileService/Wally.RomMaster.FileService.WebApi/Dockerfile.local
+            context: Wally.RomMaster.FileService/Wally.RomMaster.FileService.WebApi
+            dockerfile: Dockerfile.local
         environment:
             TZ: Europe/Warsaw
+            PROJECT_NAME: Wally.RomMaster.FileService.WebApi
         volumes:
+            - ./Wally.RomMaster.FileService/Wally.RomMaster.FileService.WebApi/appsettings.Development.json:/app/appsettings.json
             - arcade:/RomMaster:ro
+            - books:/Books:ro
 
 volumes:
     arcade:
         driver_opts:
+            type: cifs
+            o: username=b.walocha@gmail.com,password=${CIFS_PASSWORD},vers=3.0
+            device: //192.168.1.2/wd8b/Arcade
+    books:
+        driver_opts:
+            type: cifs
+            o: username=b.walocha@gmail.com,password=${CIFS_PASSWORD},vers=3.0
+            device: //192.168.1.2/wd8b/LibGen
