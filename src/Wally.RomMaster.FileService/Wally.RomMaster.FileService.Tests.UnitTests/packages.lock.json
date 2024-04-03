@@ -59,9 +59,9 @@
       },
       "SonarAnalyzer.CSharp": {
         "type": "Direct",
-        "requested": "[9.23.0.88079, )",
-        "resolved": "9.23.0.88079",
-        "contentHash": "/dwzO34zmW3xDv1i3QfhoyaKZ2aCBPWoRBwRw5Vnextq7nD2sWB+/6yjxn/Fa+Z3xhdsYoVbzIIvN5RvJ81dRw=="
+        "requested": "[9.23.1.88495, )",
+        "resolved": "9.23.1.88495",
+        "contentHash": "aKrXq94OO1wiMtsBttRd7vRJKFWp/eVeMJrPFB6OIbjbpxEySbKrLmM8Kj1ZF5jqp5yaZGBLMpe6jxodJqPyMg=="
       },
       "StyleCop.Analyzers": {
         "type": "Direct",
@@ -101,26 +101,24 @@
       },
       "MassTransit": {
         "type": "Transitive",
-        "resolved": "8.1.3",
-        "contentHash": "QI2FWDL1ivdI2CjTxseOFKK03QMay0iGLcWscgo306iIpWsQUbzHfKQnoCVPsM1dRhjhKo4PM+76SR9fLdeQhw==",
+        "resolved": "8.2.0",
+        "contentHash": "Alx6HRIltMXIXB/ORfumP1gMbV7cZURgjvuQ6OaHcvIIyWgTJPqJZuzoR151n2mx1bJOVm0qIFXvMlFig2dUzw==",
         "dependencies": {
-          "MassTransit.Abstractions": "8.1.3",
+          "MassTransit.Abstractions": "8.2.0",
           "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.0",
           "Microsoft.Extensions.Diagnostics.HealthChecks": "8.0.0",
           "Microsoft.Extensions.Hosting.Abstractions": "8.0.0",
           "Microsoft.Extensions.Logging.Abstractions": "8.0.0",
           "Microsoft.Extensions.Options": "8.0.0",
           "System.Diagnostics.DiagnosticSource": "8.0.0",
-          "System.Reflection.Emit": "4.7.0",
-          "System.Reflection.Emit.Lightweight": "4.7.0",
           "System.Text.Json": "8.0.0",
           "System.Threading.Channels": "8.0.0"
         }
       },
       "MassTransit.Abstractions": {
         "type": "Transitive",
-        "resolved": "8.1.3",
-        "contentHash": "+yLPlgtoo2qn2Q9pYYRQ+I3y9MOeUiGLa3XDRaMMCbP+JzBmK+TZF8H1LRju9wp+kARJdWWrYS0HNkcH178v+g=="
+        "resolved": "8.2.0",
+        "contentHash": "BLMDGGvElV3Lu0KFNHZiui8BmdRCX7Y1WPSM+PW5ZKdBMPUQ3jRriZHglEh5yDLd2luJqG9nRY2+gTPwezFF7w=="
       },
       "MediatR": {
         "type": "Transitive",
@@ -323,16 +321,6 @@
         "resolved": "6.0.0",
         "contentHash": "lcyUiXTsETK2ALsZrX+nWuHSIQeazhqPphLfaRxzdGaG93+0kELqpgEHtwWOlQe7+jSFnKwaCAgL4kjeZCQJnw=="
       },
-      "System.Reflection.Emit": {
-        "type": "Transitive",
-        "resolved": "4.7.0",
-        "contentHash": "VR4kk8XLKebQ4MZuKuIni/7oh+QGFmZW3qORd1GvBq/8026OpW501SzT/oypwiQl4TvT8ErnReh/NzY9u+C6wQ=="
-      },
-      "System.Reflection.Emit.Lightweight": {
-        "type": "Transitive",
-        "resolved": "4.7.0",
-        "contentHash": "a4OLB4IITxAXJeV74MDx49Oq2+PsF6Sml54XAFv+2RyWwtDBcabzoxiiJRhdhx+gaohLh4hEGCLQyBozXoQPqA=="
-      },
       "System.Reflection.Metadata": {
         "type": "Transitive",
         "resolved": "1.6.0",
@@ -435,7 +423,7 @@
       "wally.rommaster.fileservice.application": {
         "type": "Project",
         "dependencies": {
-          "MassTransit.Abstractions": "[8.1.3, )",
+          "MassTransit.Abstractions": "[8.2.0, )",
           "Microsoft.AspNetCore.OData": "[8.2.5, )",
           "Microsoft.Extensions.Logging.Abstractions": "[8.0.1, )",
           "Wally.RomMaster.FileService.Application.Contracts": "[1.0.0, )",
@@ -474,7 +462,7 @@
       "wally.rommaster.fileservice.infrastructure.messaging": {
         "type": "Project",
         "dependencies": {
-          "MassTransit": "[8.1.3, )",
+          "MassTransit": "[8.2.0, )",
           "MediatR": "[12.2.0, )",
           "Microsoft.Extensions.Logging.Abstractions": "[8.0.1, )",
           "Wally.Identity.Messages": "[2.1.1842, )",

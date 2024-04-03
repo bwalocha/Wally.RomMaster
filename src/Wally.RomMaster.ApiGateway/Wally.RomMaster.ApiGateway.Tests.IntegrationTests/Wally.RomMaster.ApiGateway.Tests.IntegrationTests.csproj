@@ -6,15 +6,15 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
-    <Import Project="..\..\Directory.BuildTests.props"/>
+    <Import Project="..\..\Directory.BuildTests.props" />
 
     <ItemGroup>
-        <PackageReference Include="JsonNet.ContractResolvers" Version="2.0.0"/>
-        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.0"/>
+        <PackageReference Include="JsonNet.ContractResolvers" Version="2.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.3" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Wally.RomMaster.ApiGateway.WebApi\Wally.RomMaster.ApiGateway.WebApi.csproj"/>
+        <ProjectReference Include="..\Wally.RomMaster.ApiGateway.WebApi\Wally.RomMaster.ApiGateway.WebApi.csproj" />
     </ItemGroup>
 
     <ItemGroup>

@@ -12,7 +12,7 @@ services:
             TZ: Europe/Warsaw
         volumes:
             - arcade:/RomMaster:ro
-              
+
 volumes:
     arcade:
         driver_opts:

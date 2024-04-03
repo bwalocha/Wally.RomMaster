@@ -16,8 +16,8 @@ namespace Wally.RomMaster.FileService.Application.Files.Commands;
 
 public class ScanFilesCommandHandler : CommandHandler<ScanFilesCommand>
 {
-	private readonly IClockService _clockService;
 	private readonly IBus _bus;
+	private readonly IClockService _clockService;
 
 	private readonly IFileRepository _fileRepository;
 

@@ -13,6 +13,7 @@ using Wally.RomMaster.FileService.Infrastructure.Persistence.MySql;
 using Wally.RomMaster.FileService.Infrastructure.Persistence.PostgreSQL;
 using Wally.RomMaster.FileService.Infrastructure.Persistence.SQLite;
 using Wally.RomMaster.FileService.Infrastructure.Persistence.SqlServer;
+using ExceptionProcessorExtensions = EntityFramework.Exceptions.PostgreSQL.ExceptionProcessorExtensions;
 
 namespace Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.Extensions;
 
@@ -89,7 +90,7 @@ public static class PersistenceExtensions
 					typeof(IInfrastructureMySqlAssemblyMarker).Assembly.GetName()
 						.Name);
 			});
-		ExceptionProcessorExtensions.UseExceptionProcessor(options);
+		options.UseExceptionProcessor();
 	}
 
 	private static void WithPostgreSQL(DbContextOptionsBuilder options, AppSettings settings)
@@ -103,7 +104,7 @@ public static class PersistenceExtensions
 					typeof(IInfrastructurePostgreSqlAssemblyMarker).Assembly.GetName()
 						.Name);
 			});
-		EntityFramework.Exceptions.PostgreSQL.ExceptionProcessorExtensions.UseExceptionProcessor(options);
+		ExceptionProcessorExtensions.UseExceptionProcessor(options);
 	}
 
 	private static void WithSQLite(DbContextOptionsBuilder options, AppSettings settings)
