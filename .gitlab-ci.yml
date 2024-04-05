@@ -87,7 +87,8 @@ test:file_npm:
   needs:
     - test:file_sln
   variables:
-    PROJECT_NAME: ${FILE_SOLUTION_NAME}/${FILE_NPM_PROJECT_NAME}/generated
+    SOLUTION_NAME: ${FILE_SOLUTION_NAME}
+    PROJECT_NAME: ${FILE_NPM_PROJECT_NAME}/generated
   allow_failure: true
 
 test:hash_npm:
@@ -96,7 +97,8 @@ test:hash_npm:
   needs:
     - test:hash_sln
   variables:
-    PROJECT_NAME: ${HASH_SOLUTION_NAME}/${HASH_NPM_PROJECT_NAME}/generated
+    SOLUTION_NAME: ${HASH_SOLUTION_NAME}
+    PROJECT_NAME: ${HASH_NPM_PROJECT_NAME}/generated
   allow_failure: true
 
 test:web:
@@ -114,7 +116,8 @@ publish:gate_api:
   needs:
     - test:gate_sln
   variables:
-    PROJECT_NAME: ${GATE_SOLUTION_NAME}/${GATE_API_PROJECT_NAME}
+    SOLUTION_NAME: ${GATE_SOLUTION_NAME}
+    PROJECT_NAME: ${GATE_API_PROJECT_NAME}
 
 publish:file_api:
   extends:
@@ -122,7 +125,8 @@ publish:file_api:
   needs:
     - test:file_sln
   variables:
-    PROJECT_NAME: ${FILE_SOLUTION_NAME}/${FILE_API_PROJECT_NAME}
+    SOLUTION_NAME: ${FILE_SOLUTION_NAME}
+    PROJECT_NAME: ${FILE_API_PROJECT_NAME}
 
 publish:hash_api:
   extends:
@@ -130,7 +134,8 @@ publish:hash_api:
   needs:
     - test:hash_sln
   variables:
-    PROJECT_NAME: ${HASH_SOLUTION_NAME}/${HASH_API_PROJECT_NAME}
+    SOLUTION_NAME: ${HASH_SOLUTION_NAME}
+    PROJECT_NAME: ${HASH_API_PROJECT_NAME}
 
 publish:file_pkg:
   extends:
@@ -138,7 +143,8 @@ publish:file_pkg:
   needs:
     - test:file_sln
   variables:
-    PROJECT_NAME: ${FILE_SOLUTION_NAME}/${FILE_PKG_PROJECT_NAME}
+    SOLUTION_NAME: ${FILE_SOLUTION_NAME}
+    PROJECT_NAME: ${FILE_PKG_PROJECT_NAME}
 
 publish:hash_pkg:
   extends:
@@ -146,7 +152,8 @@ publish:hash_pkg:
   needs:
     - test:hash_sln
   variables:
-    PROJECT_NAME: ${HASH_SOLUTION_NAME}/${HASH_PKG_PROJECT_NAME}
+    SOLUTION_NAME: ${HASH_SOLUTION_NAME}
+    PROJECT_NAME: ${HASH_PKG_PROJECT_NAME}
 
 publish:docker:gate_api:
   extends:
@@ -154,7 +161,8 @@ publish:docker:gate_api:
   needs:
     - publish:gate_api
   variables:
-    PROJECT_NAME: ${GATE_SOLUTION_NAME}/${GATE_API_PROJECT_NAME}
+    SOLUTION_NAME: ${GATE_SOLUTION_NAME}
+    PROJECT_NAME: ${GATE_API_PROJECT_NAME}
 
 publish:docker:file_api:
   extends:
@@ -162,7 +170,8 @@ publish:docker:file_api:
   needs:
     - publish:file_api
   variables:
-    PROJECT_NAME: ${FILE_SOLUTION_NAME}/${FILE_API_PROJECT_NAME}
+    SOLUTION_NAME: ${FILE_SOLUTION_NAME}
+    PROJECT_NAME: ${FILE_API_PROJECT_NAME}
 
 publish:docker:hash_api:
   extends:
@@ -170,7 +179,8 @@ publish:docker:hash_api:
   needs:
     - publish:hash_api
   variables:
-    PROJECT_NAME: ${HASH_SOLUTION_NAME}/${HASH_API_PROJECT_NAME}
+    SOLUTION_NAME: ${HASH_SOLUTION_NAME}
+    PROJECT_NAME: ${HASH_API_PROJECT_NAME}
 
 publish:docker:storybook_web:
   extends:
@@ -195,7 +205,8 @@ deploy:file_pkg:
   needs:
     - publish:file_pkg
   variables:
-    PROJECT_NAME: ${FILE_SOLUTION_NAME}/${FILE_PKG_PROJECT_NAME}
+    SOLUTION_NAME: ${FILE_SOLUTION_NAME}
+    PROJECT_NAME: ${FILE_PKG_PROJECT_NAME}
   environment:
     name: ${ENV}_${FILE_PKG_PROJECT_NAME}
     url: https://www.nuget.org/packages/${FILE_PKG_PROJECT_NAME}
@@ -206,7 +217,8 @@ deploy:hash_pkg:
   needs:
     - publish:hash_pkg
   variables:
-    PROJECT_NAME: ${HASH_SOLUTION_NAME}/${HASH_PKG_PROJECT_NAME}
+    SOLUTION_NAME: ${HASH_SOLUTION_NAME}
+    PROJECT_NAME: ${HASH_PKG_PROJECT_NAME}
   environment:
     name: ${ENV}_${HASH_PKG_PROJECT_NAME}
     url: https://www.nuget.org/packages/${HASH_PKG_PROJECT_NAME}
@@ -218,7 +230,8 @@ deploy:node:file_npm:
     - test:file_sln
     # - test:file_npm
   variables:
-    PROJECT_NAME: ${FILE_SOLUTION_NAME}/${FILE_NPM_PROJECT_NAME}/generated
+    SOLUTION_NAME: ${FILE_SOLUTION_NAME}
+    PROJECT_NAME: ${FILE_NPM_PROJECT_NAME}/generated
   environment:
     name: ${ENV}_${FILE_NPM_PROJECT_NAME}
     url: https://www.npmjs.com/package/${FILE_NPM_PROJECT_NAME}/v/${VERSION}
@@ -230,7 +243,8 @@ deploy:node:hash_npm:
     - test:hash_sln
     # - test:hash_npm
   variables:
-    PROJECT_NAME: ${HASH_SOLUTION_NAME}/${HASH_NPM_PROJECT_NAME}/generated
+    SOLUTION_NAME: ${HASH_SOLUTION_NAME}
+    PROJECT_NAME: ${HASH_NPM_PROJECT_NAME}/generated
   environment:
     name: ${ENV}_${HASH_NPM_PROJECT_NAME}
     url: https://www.npmjs.com/package/${HASH_NPM_PROJECT_NAME}/v/${VERSION}
