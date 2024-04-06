@@ -13,17 +13,16 @@ services:
             PROJECT_NAME: Wally.RomMaster.FileService.WebApi
         volumes:
             - ./Wally.RomMaster.FileService/Wally.RomMaster.FileService.WebApi/appsettings.Development.json:/app/appsettings.json
-            - arcade:/RomMaster:ro
-            - books:/Books:ro
+            - RomMaster:RomMaster:ro
+            - Books:/Books:ro
 
 volumes:
-    arcade:
+    RomMaster:
         driver_opts:
             type: cifs
-            o: username=b.walocha@gmail.com,password=${CIFS_PASSWORD},vers=3.0
+            o: username=${CIFS_USER},password=${CIFS_PASSWORD},vers=3.0
             device: //192.168.1.2/wd8b/Arcade
-    books:
+    Books:
         driver_opts:
             type: cifs
-            o: username=b.walocha@gmail.com,password=${CIFS_PASSWORD},vers=3.0
-            device: //192.168.1.2/wd8b/LibGen
+            o: username=${CIFS_USER},password=${CIFS_PASSWORD},vers=3.0
