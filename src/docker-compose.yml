@@ -13,7 +13,7 @@ services:
             PROJECT_NAME: Wally.RomMaster.FileService.WebApi
         volumes:
             - ./Wally.RomMaster.FileService/Wally.RomMaster.FileService.WebApi/appsettings.Development.json:/app/appsettings.json
-            - RomMaster:RomMaster:ro
+            - RomMaster:/RomMaster:ro
             - Books:/Books:ro
 
 volumes:
