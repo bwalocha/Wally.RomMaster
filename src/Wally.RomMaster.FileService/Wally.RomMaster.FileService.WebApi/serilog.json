@@ -20,13 +20,14 @@
           "outputTemplate": "[{Timestamp:HH:mm:ss} <{EnvironmentUserName}@{MachineName} [{EnvironmentName}] {ProcessId}:{ThreadId}:{ThreadName}> {Level}] {SourceContext} {Properties:j}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}"
         }
       },
-      {
-        "Name": "File",
-        "Args": {
-          "path": "log.txt",
-          "rollingInterval": "Day"
-        }
-      },
+      //      {
+      //        "Name": "ApplicationInsights",
+      //        "Args": {
+      //          "connectionString": "---",
+      //          "restrictedToMinimumLevel": "Information",
+      //          "telemetryConverter": "Serilog.Sinks.ApplicationInsights.TelemetryConverters.TraceTelemetryConverter, Serilog.Sinks.ApplicationInsights"
+      //        }
+      //      },
       {
         "Name": "MSSqlServer",
         "Args": {

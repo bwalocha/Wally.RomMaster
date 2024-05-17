@@ -26,9 +26,9 @@
       },
       "SonarAnalyzer.CSharp": {
         "type": "Direct",
-        "requested": "[9.23.1.88495, )",
-        "resolved": "9.23.1.88495",
-        "contentHash": "aKrXq94OO1wiMtsBttRd7vRJKFWp/eVeMJrPFB6OIbjbpxEySbKrLmM8Kj1ZF5jqp5yaZGBLMpe6jxodJqPyMg=="
+        "requested": "[9.25.0.90414, )",
+        "resolved": "9.25.0.90414",
+        "contentHash": "T5zhLMv1uC98eDXZtLNOcS+fIlRJZ8VNlWLaXVlgmI7wPuYwTPDpfaKXB0UfTMFAvnMCAsG2kFpdRszUY3kh5g=="
       },
       "StyleCop.Analyzers": {
         "type": "Direct",
@@ -38,13 +38,13 @@
       },
       "FluentValidation": {
         "type": "Transitive",
-        "resolved": "11.9.0",
-        "contentHash": "VneVlTvwYDkfHV5av3QrQ0amALgrLX6LV94wlYyEsh0B/klJBW7C8y2eAtj5tOZ3jH6CAVpr4s1ZGgew/QWyig=="
+        "resolved": "11.9.1",
+        "contentHash": "C+PqISSMdlOZZJx0Hx25atW32tv4vbpsaiQB+PLjK+ZGLzOFuHl1fUJ3Lny77mIZ31ZtYtNG0JgUjxa3wwLsWg=="
       },
       "MassTransit.Abstractions": {
         "type": "Transitive",
-        "resolved": "8.2.0",
-        "contentHash": "BLMDGGvElV3Lu0KFNHZiui8BmdRCX7Y1WPSM+PW5ZKdBMPUQ3jRriZHglEh5yDLd2luJqG9nRY2+gTPwezFF7w=="
+        "resolved": "8.2.2",
+        "contentHash": "kxrXaOMj+koCpkUKyjctv1+vKrk7t8dBU62duD4CoFA1pVdwwaTtiTXEoDfgR+gikT2aKDmP6DNvWOhxia5xOA=="
       },
       "MediatR": {
         "type": "Transitive",
@@ -204,7 +204,7 @@
       "wally.rommaster.fileservice.application": {
         "type": "Project",
         "dependencies": {
-          "MassTransit.Abstractions": "[8.2.0, )",
+          "MassTransit.Abstractions": "[8.2.2, )",
           "Microsoft.AspNetCore.OData": "[8.2.5, )",
           "Microsoft.Extensions.Logging.Abstractions": "[8.0.1, )",
           "Wally.RomMaster.FileService.Application.Contracts": "[1.0.0, )",
@@ -215,7 +215,7 @@
       "wally.rommaster.fileservice.application.contracts": {
         "type": "Project",
         "dependencies": {
-          "FluentValidation": "[11.9.0, )",
+          "FluentValidation": "[11.9.1, )",
           "Reinforced.Typings": "[1.6.3, )",
           "Wally.Lib.DDD.Abstractions": "[1.3.6, )"
         }
@@ -223,7 +223,7 @@
       "wally.rommaster.fileservice.application.messages": {
         "type": "Project",
         "dependencies": {
-          "FluentValidation": "[11.9.0, )"
+          "FluentValidation": "[11.9.1, )"
         }
       },
       "wally.rommaster.fileservice.domain": {

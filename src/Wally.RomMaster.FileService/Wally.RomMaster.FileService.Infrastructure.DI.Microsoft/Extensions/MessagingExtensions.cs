@@ -54,7 +54,8 @@ public static class MessagingExtensions
 										k.Host(settings.ConnectionStrings.ServiceBus);
 
 										// TODO: auto-register
-										k.TopicEndpoint<HashComputedMessage>(typeof(HashComputedMessage).FullName,
+										k.TopicEndpoint<HashComputedMessage>(
+											typeof(HashComputedMessage).FullName,
 											typeof(IInfrastructureMessagingAssemblyMarker).Namespace,
 											e =>
 											{
@@ -75,8 +76,8 @@ public static class MessagingExtensions
 							});
 						break;
 					default:
-						throw new ArgumentOutOfRangeException(nameof(settings.MessageBroker),
-							$"Unknown Message Broker: '{settings.MessageBroker}'");
+						throw new NotSupportedException(
+							$"Not supported Message Broker type: '{settings.MessageBroker}'");
 				}
 			});
 
@@ -107,7 +108,8 @@ public static class MessagingExtensions
 		public Task Publish<T>(T message, CancellationToken cancellationToken = new())
 			where T : class
 		{
-			_logger.LogWarning($"Message Bus is not enabled. The message '{typeof(T)}' has not been sent.");
+			_logger.LogWarning("Message Bus is not enabled. The message '{TypeofTName}' has not been sent.",
+				typeof(T).Name);
 
 			return Task.CompletedTask;
 		}

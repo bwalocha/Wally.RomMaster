@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Wally.RomMaster.FileService.Domain.Abstractions;
-using Wally.RomMaster.FileService.Infrastructure.Persistence.Exceptions;
+using Wally.RomMaster.FileService.Infrastructure.Persistence.Abstractions;
 
 namespace Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.Filters;
 
@@ -47,7 +47,7 @@ public class HttpGlobalExceptionFilter : IExceptionFilter
 				HandleUnauthorizedAccessException(context);
 
 				break;
-			case ResourceNotFoundException _:
+			case INotFound _:
 				HandleResourceNotFoundException(context);
 
 				break;

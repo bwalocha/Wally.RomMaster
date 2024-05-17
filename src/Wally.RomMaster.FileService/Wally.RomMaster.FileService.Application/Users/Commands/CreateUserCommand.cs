@@ -1,7 +1,6 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using Wally.Lib.DDD.Abstractions.Commands;
+﻿using System.Diagnostics.CodeAnalysis;
 using Wally.RomMaster.FileService.Domain.Users;
+using Wally.Lib.DDD.Abstractions.Commands;
 
 namespace Wally.RomMaster.FileService.Application.Users.Commands;
 
@@ -15,7 +14,7 @@ public sealed class CreateUserCommand : ICommand
 	}
 
 	public CreateUserCommand(string name)
-		: this(new UserId(Guid.NewGuid()), name)
+		: this(new UserId(), name)
 	{
 	}
 

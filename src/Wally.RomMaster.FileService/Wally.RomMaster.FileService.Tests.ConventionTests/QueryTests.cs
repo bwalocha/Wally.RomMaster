@@ -2,8 +2,9 @@
 using System.Linq;
 using FluentAssertions;
 using FluentAssertions.Execution;
-using Wally.Lib.DDD.Abstractions.Queries;
+using Wally.RomMaster.FileService.Tests.ConventionTests.Extensions;
 using Wally.RomMaster.FileService.Tests.ConventionTests.Helpers;
+using Wally.Lib.DDD.Abstractions.Queries;
 using Xunit;
 
 namespace Wally.RomMaster.FileService.Tests.ConventionTests;
@@ -14,9 +15,10 @@ public class QueryTests
 	public void Application_Query_ShouldNotExposeSetter()
 	{
 		var assemblies = Configuration.Assemblies.GetAllAssemblies();
-		var types = assemblies.GetAllTypes();
+		var types = assemblies.GetAllTypes()
+			.Where(a => a.ImplementsGenericInterface(typeof(IQuery<>)));
 
-		types.Where(a => typeof(IQuery<>).IsAssignableFrom(a))
+		types
 			.Types()
 			.Properties()
 			.Should()
@@ -27,9 +29,11 @@ public class QueryTests
 	public void Application_Query_ShouldBeExcludedFromCodeCoverage()
 	{
 		var assemblies = Configuration.Assemblies.GetAllAssemblies();
-		var types = assemblies.GetAllTypes();
+		var types = assemblies.GetAllTypes()
+			.Where(a => a.ImplementsGenericInterface(typeof(IQuery<>)))
+			.Where(a => a.IsClass);
 
-		types.Where(a => a.ImplementsGenericInterface(typeof(IQuery<>)))
+		types
 			.Types()
 			.Should()
 			.BeDecoratedWith<ExcludeFromCodeCoverageAttribute>();
@@ -39,9 +43,11 @@ public class QueryTests
 	public void Application_Query_ShouldBeSealed()
 	{
 		var assemblies = Configuration.Assemblies.GetAllAssemblies();
-		var types = assemblies.GetAllTypes();
+		var types = assemblies.GetAllTypes()
+			.Where(a => a.ImplementsGenericInterface(typeof(IQuery<>)))
+			.Where(a => a.IsClass);
 
-		types.Where(a => a.ImplementsGenericInterface(typeof(IQuery<>)))
+		types
 			.Types()
 			.Should()
 			.BeSealed();
@@ -58,6 +64,7 @@ public class QueryTests
 			{
 				foreach (var type in assembly.GetTypes()
 							.Where(a => a.ImplementsGenericInterface(typeof(IQuery<>)))
+							.Where(a => a.IsClass)
 							.Types())
 				{
 					assemblies.SelectMany(a => a.GetTypes())

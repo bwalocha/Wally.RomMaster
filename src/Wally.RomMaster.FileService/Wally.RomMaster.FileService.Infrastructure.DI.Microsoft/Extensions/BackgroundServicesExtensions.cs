@@ -19,7 +19,7 @@ public static class BackgroundServicesExtensions
 
 		services.Scan(
 			a => a.FromAssemblyOf<IInfrastructureBackgroundServicesAssemblyMarker>()
-				.AddClasses(c => c.AssignableTo(typeof(BackgroundService)))
+				.AddClasses(c => c.AssignableTo(typeof(IHostedService)))
 				.As<IHostedService>()
 				.WithSingletonLifetime());
 

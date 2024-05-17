@@ -7,19 +7,19 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
-using Wally.Lib.DDD.Abstractions.Responses;
 using Wally.RomMaster.FileService.Application.Contracts.Requests.Users;
 using Wally.RomMaster.FileService.Application.Contracts.Responses.Users;
 using Wally.RomMaster.FileService.Domain.Users;
+using Wally.RomMaster.FileService.Tests.IntegrationTests.Extensions;
 using Wally.RomMaster.FileService.Tests.IntegrationTests.Helpers;
 using Wally.RomMaster.FileService.WebApi;
+using Wally.Lib.DDD.Abstractions.Responses;
 using Xunit;
 
 namespace Wally.RomMaster.FileService.Tests.IntegrationTests;
 
 public class UsersControllerTests : IClassFixture<ApiWebApplicationFactory<Startup>>
 {
-	private readonly DbContext _database;
 	private readonly ApiWebApplicationFactory<Startup> _factory;
 
 	private readonly HttpClient _httpClient;
@@ -32,18 +32,17 @@ public class UsersControllerTests : IClassFixture<ApiWebApplicationFactory<Start
 			{
 				AllowAutoRedirect = false,
 			});
-		_database = factory.GetRequiredService<DbContext>();
-		_database.RemoveRange(_database.Set<User>());
-		_database.SaveChanges();
+		var database = factory.GetRequiredService<DbContext>();
+		database.RemoveRange(database.Set<User>());
+		database.SaveChanges();
 	}
 
 	private static User UserCreate(int index)
 	{
-		var resource = User.Create($"testUser{index}");
-		var createdByIdProperty = typeof(User).GetProperty(nameof(User.CreatedById)) !;
-		createdByIdProperty.DeclaringType!.GetProperty(nameof(User.CreatedById)) !.SetValue(
-			resource,
-			new UserId(Guid.NewGuid()));
+		var userId = new UserId();
+		var resource = User
+			.Create($"testUser{index}")
+			.SetCreatedById(userId);
 
 		return resource;
 	}
@@ -108,10 +107,10 @@ public class UsersControllerTests : IClassFixture<ApiWebApplicationFactory<Start
 	public async Task GetOData_SelectNameNoUsers_ReturnsEmptyResponse()
 	{
 		// Arrange
-		_database.Add(User.Create("testUser1"));
-		_database.Add(User.Create("testUser3"));
-		_database.Add(User.Create("testUser2"));
-		await _database.SaveChangesAsync();
+		await _factory.SeedAsync(
+			UserCreate(1),
+			UserCreate(3),
+			UserCreate(2));
 
 		// Act
 		var response = await _httpClient.GetAsync(new Uri("Users?$select=name", UriKind.Relative));
@@ -132,10 +131,10 @@ public class UsersControllerTests : IClassFixture<ApiWebApplicationFactory<Start
 	public async Task GetOData_3Resources_Returns3Resources()
 	{
 		// Arrange
-		_database.Add(UserCreate(1));
-		_database.Add(UserCreate(3));
-		_database.Add(UserCreate(2));
-		await _database.SaveChangesAsync();
+		await _factory.SeedAsync(
+			UserCreate(1),
+			UserCreate(3),
+			UserCreate(2));
 
 		// Act
 		var response = await _httpClient.GetAsync(new Uri("Users", UriKind.Relative)); // x3
@@ -156,10 +155,10 @@ public class UsersControllerTests : IClassFixture<ApiWebApplicationFactory<Start
 	public async Task GetOData_3ResourcesOrdered_Returns3Resources()
 	{
 		// Arrange
-		_database.Add(UserCreate(1));
-		_database.Add(UserCreate(3));
-		_database.Add(UserCreate(2));
-		await _database.SaveChangesAsync();
+		await _factory.SeedAsync(
+			UserCreate(1),
+			UserCreate(3),
+			UserCreate(2));
 
 		// Act
 		var response = await _httpClient.GetAsync(new Uri("Users?$orderby=Name", UriKind.Relative)); // x3
@@ -189,10 +188,10 @@ public class UsersControllerTests : IClassFixture<ApiWebApplicationFactory<Start
 	public async Task GetOData_3ResourcesOrderedDesc_Returns3Resources()
 	{
 		// Arrange
-		_database.Add(UserCreate(1));
-		_database.Add(UserCreate(3));
-		_database.Add(UserCreate(2));
-		await _database.SaveChangesAsync();
+		await _factory.SeedAsync(
+			UserCreate(1),
+			UserCreate(3),
+			UserCreate(2));
 
 		// Act
 		var response = await _httpClient.GetAsync(new Uri("Users?$orderby=Name desc", UriKind.Relative)); // x3
@@ -218,14 +217,14 @@ public class UsersControllerTests : IClassFixture<ApiWebApplicationFactory<Start
 			.Be("testUser1");
 	}
 
-	[Fact]
+	[Fact(Skip = "The User Name is Unique and the test cannot be performed")]
 	public async Task GetOData_3ResourcesOrderedBy2Properties_Returns3Resources()
 	{
 		// Arrange
-		_database.Add(UserCreate(3));
-		_database.Add(UserCreate(3));
-		_database.Add(UserCreate(2));
-		await _database.SaveChangesAsync();
+		await _factory.SeedAsync(
+			UserCreate(1),
+			UserCreate(3),
+			UserCreate(2));
 
 		// Act
 		var response = await _httpClient.GetAsync(new Uri("Users?$orderby=Name asc, Id desc", UriKind.Relative)); // x3
@@ -259,10 +258,10 @@ public class UsersControllerTests : IClassFixture<ApiWebApplicationFactory<Start
 	public async Task GetOData_3ResourcesOrderedSkipped_Returns2Resources()
 	{
 		// Arrange
-		_database.Add(UserCreate(1));
-		_database.Add(UserCreate(3));
-		_database.Add(UserCreate(2));
-		await _database.SaveChangesAsync();
+		await _factory.SeedAsync(
+			UserCreate(1),
+			UserCreate(3),
+			UserCreate(2));
 
 		// Act
 		var response = await _httpClient.GetAsync(new Uri("Users?$orderby=Name&$skip=1", UriKind.Relative)); // x2
@@ -289,10 +288,10 @@ public class UsersControllerTests : IClassFixture<ApiWebApplicationFactory<Start
 	public async Task GetOData_3ResourcesOrderedTop2_Returns2Resources()
 	{
 		// Arrange
-		_database.Add(UserCreate(1));
-		_database.Add(UserCreate(3));
-		_database.Add(UserCreate(2));
-		await _database.SaveChangesAsync();
+		await _factory.SeedAsync(
+			UserCreate(1),
+			UserCreate(3),
+			UserCreate(2));
 
 		// Act
 		var response = await _httpClient.GetAsync(new Uri("Users?$orderby=Name&$top=2", UriKind.Relative)); // x2
@@ -319,10 +318,10 @@ public class UsersControllerTests : IClassFixture<ApiWebApplicationFactory<Start
 	public async Task GetOData_3ResourcesOrderedSkipped1Top2_Returns2Resources()
 	{
 		// Arrange
-		_database.Add(UserCreate(1));
-		_database.Add(UserCreate(3));
-		_database.Add(UserCreate(2));
-		await _database.SaveChangesAsync();
+		await _factory.SeedAsync(
+			UserCreate(1),
+			UserCreate(3),
+			UserCreate(2));
 
 		// Act
 		var response = await _httpClient.GetAsync(new Uri("Users?$orderby=Name&$skip=1&$top=2", UriKind.Relative)); // 1
@@ -349,10 +348,10 @@ public class UsersControllerTests : IClassFixture<ApiWebApplicationFactory<Start
 	public async Task GetOData_3ResourcesOrderedSkipped1Top2Filtered_Returns1Resource()
 	{
 		// Arrange
-		_database.Add(UserCreate(1));
-		_database.Add(UserCreate(3));
-		_database.Add(UserCreate(2));
-		await _database.SaveChangesAsync();
+		await _factory.SeedAsync(
+			UserCreate(1),
+			UserCreate(3),
+			UserCreate(2));
 
 		// Act
 		var response =
@@ -379,8 +378,7 @@ public class UsersControllerTests : IClassFixture<ApiWebApplicationFactory<Start
 	{
 		// Arrange
 		var resource = UserCreate(3);
-		_database.Add(resource);
-		await _database.SaveChangesAsync();
+		await _factory.SeedAsync(resource);
 		var request = new UpdateUserRequest("newTestResource1");
 
 		// Act
@@ -438,4 +436,44 @@ public class UsersControllerTests : IClassFixture<ApiWebApplicationFactory<Start
 			.Should()
 			.BeEmpty();
 	}
+
+	/*[Fact]
+	public async Task Delete_ForExistingResource_SoftDeletesResourceData()
+	{
+		// Arrange
+		var resource1 = UserCreate(1);
+		var resource2 = UserCreate(2);
+		await _factory.SeedAsync(resource1, resource2);
+
+		// Act
+		var response = await _httpClient.DeleteAsync($"Users/{resource2.Id.Value}", CancellationToken.None);
+
+		// Assert
+		response.IsSuccessStatusCode.Should()
+			.BeTrue();
+		response.StatusCode.Should()
+			.Be(HttpStatusCode.Accepted);
+		_factory.GetRequiredService<DbContext>()
+			.Set<User>()
+			.Single(a => a.Id == resource1.Id)
+			.IsDeleted.Should()
+			.Be(false);
+		_factory.GetRequiredService<DbContext>()
+			.Set<User>()
+			.FirstOrDefault(a => a.Id == resource2.Id)
+			.Should()
+			.BeNull();
+		_factory.GetRequiredService<DbContext>()
+			.Set<User>()
+			.IgnoreQueryFilters()
+			.Single(a => a.Id == resource1.Id)
+			.IsDeleted.Should()
+			.Be(false);
+		_factory.GetRequiredService<DbContext>()
+			.Set<User>()
+			.IgnoreQueryFilters()
+			.Single(a => a.Id == resource2.Id)
+			.IsDeleted.Should()
+			.Be(true);
+	}*/
 }

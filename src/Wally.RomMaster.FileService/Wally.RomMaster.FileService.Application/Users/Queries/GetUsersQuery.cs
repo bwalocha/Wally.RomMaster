@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.OData.Query;
-using Wally.Lib.DDD.Abstractions.Queries;
 using Wally.RomMaster.FileService.Application.Contracts.Requests.Users;
 using Wally.RomMaster.FileService.Application.Contracts.Responses.Users;
+using Wally.Lib.DDD.Abstractions.Queries;
 
 namespace Wally.RomMaster.FileService.Application.Users.Queries;
 

@@ -4,9 +4,10 @@ using Wally.RomMaster.FileService.Domain.Abstractions;
 
 namespace Wally.RomMaster.FileService.Infrastructure.Persistence;
 
-public sealed class StronglyTypedIdConverter<TStronglyTypedId, TValue> : ValueConverter<TStronglyTypedId, TValue>
+public sealed class StronglyTypedIdConverter<TStronglyTypedId, TValue>
+	: ValueConverter<TStronglyTypedId, TValue>
 	where TStronglyTypedId : StronglyTypedId<TStronglyTypedId, TValue>
-	where TValue : notnull, IComparable
+	where TValue : struct, IComparable<TValue>, IEquatable<TValue>
 {
 	/// <summary>
 	///     Initializes a new instance of the <see cref="StronglyTypedIdConverter{TStronglyTypedId, TValue}" /> class.

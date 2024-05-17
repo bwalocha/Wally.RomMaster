@@ -1,6 +1,6 @@
 using System.Threading;
 using System.Threading.Tasks;
-using Wally.RomMaster.FileService.Domain.Abstractions;
+using Wally.RomMaster.FileService.Application.Abstractions;
 using Wally.RomMaster.FileService.Domain.Files;
 
 namespace Wally.RomMaster.FileService.Application.Paths;

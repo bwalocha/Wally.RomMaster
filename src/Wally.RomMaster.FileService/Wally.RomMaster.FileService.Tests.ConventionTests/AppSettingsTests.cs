@@ -2,6 +2,7 @@
 using AutoMapper.Internal;
 using FluentAssertions;
 using FluentAssertions.Execution;
+using Wally.RomMaster.FileService.Tests.ConventionTests.Extensions;
 using Wally.RomMaster.FileService.Tests.ConventionTests.Helpers;
 using Xunit;
 

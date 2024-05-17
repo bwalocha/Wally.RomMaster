@@ -15,8 +15,8 @@ namespace Wally.RomMaster.FileService.WebApi;
 [ExcludeFromCodeCoverage]
 public static class Program
 {
-	private const string _azureADManagedIdentityClientIdConfigName = "AzureADManagedIdentityClientId";
-	private const string _keyVaultNameConfigName = "KeyVaultName";
+	// private const string _azureADManagedIdentityClientIdConfigName = "AzureADManagedIdentityClientId";
+	// private const string _keyVaultNameConfigName = "KeyVaultName";
 	private const bool _reloadOnChange = false;
 
 	public static IConfiguration Configuration { get; set; }
@@ -60,7 +60,7 @@ public static class Program
 		return configurationBuilder.SetBasePath(Directory.GetCurrentDirectory())
 			.AddJsonFile("appsettings.json", false, _reloadOnChange)
 			.AddJsonFile($"appsettings.{env}.json", true, _reloadOnChange)
-			.AddJsonFile("serilog.json", false, _reloadOnChange)
+			.AddJsonFile("serilog.json", true, _reloadOnChange)
 			.AddJsonFile($"serilog.{env}.json", true, _reloadOnChange)
 			.AddEnvironmentVariables();
 	}

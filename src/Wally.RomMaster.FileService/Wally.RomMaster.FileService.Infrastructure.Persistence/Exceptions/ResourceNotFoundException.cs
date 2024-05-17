@@ -1,28 +1,17 @@
 ﻿using System;
-using System.Runtime.Serialization;
 using Wally.RomMaster.FileService.Infrastructure.Persistence.Abstractions;
 
 namespace Wally.RomMaster.FileService.Infrastructure.Persistence.Exceptions;
 
-[Serializable]
-public class ResourceNotFoundException : Exception, INotFound
+public class ResourceNotFoundException<TResource> : Exception, INotFound
 {
 	public ResourceNotFoundException()
+		: base($"The '{typeof(TResource).Name}' could not be found")
 	{
 	}
 
-	public ResourceNotFoundException(string? message)
-		: base(message)
-	{
-	}
-
-	public ResourceNotFoundException(string message, Exception? innerException)
-		: base(message, innerException)
-	{
-	}
-
-	protected ResourceNotFoundException(SerializationInfo info, StreamingContext context)
-		: base(info, context)
+	public ResourceNotFoundException(object id)
+		: base($"The '{typeof(TResource).Name}' with Id='{id}' could not be found")
 	{
 	}
 }

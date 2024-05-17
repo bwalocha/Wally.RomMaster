@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using Wally.RomMaster.FileService.Application.Abstractions;
 using Wally.RomMaster.FileService.Domain.Abstractions;
 using Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.Models;
 using Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.Providers;
@@ -13,13 +14,12 @@ using Wally.RomMaster.FileService.Infrastructure.Persistence.MySql;
 using Wally.RomMaster.FileService.Infrastructure.Persistence.PostgreSQL;
 using Wally.RomMaster.FileService.Infrastructure.Persistence.SQLite;
 using Wally.RomMaster.FileService.Infrastructure.Persistence.SqlServer;
-using ExceptionProcessorExtensions = EntityFramework.Exceptions.PostgreSQL.ExceptionProcessorExtensions;
 
 namespace Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.Extensions;
 
 public static class PersistenceExtensions
 {
-	public static IServiceCollection AddAddPersistence(this IServiceCollection services, AppSettings settings)
+	public static IServiceCollection AddPersistence(this IServiceCollection services, AppSettings settings)
 	{
 		Action<DbContextOptionsBuilder> dbContextOptions = options =>
 		{
@@ -34,18 +34,17 @@ public static class PersistenceExtensions
 					WithMySql(options, settings);
 					break;
 				case DatabaseProviderType.PostgreSQL:
-					WithPostgreSQL(options, settings);
+					WithNpgsql(options, settings);
 					break;
 				case DatabaseProviderType.SQLite:
-					WithSQLite(options, settings);
+					WithSqlite(options, settings);
 					break;
 				case DatabaseProviderType.SqlServer:
 					WithSqlServer(options, settings);
 					break;
 				default:
-					throw new ArgumentOutOfRangeException(
-						nameof(settings.Database.ProviderType),
-						"Unknown Database Provider Type");
+					throw new NotSupportedException(
+						$"Not supported Database Provider type: '{settings.Database.ProviderType}'");
 			}
 
 			options.ConfigureWarnings(
@@ -56,8 +55,6 @@ public static class PersistenceExtensions
 					builder.Ignore(SqlServerEventId.SavepointsDisabledBecauseOfMARS);
 					builder.Log(CoreEventId.SensitiveDataLoggingEnabledWarning);
 				});
-
-			options.EnableSensitiveDataLogging(); // TODO: get from configuration
 		};
 		services.AddDbContext<DbContext, ApplicationDbContext>(dbContextOptions);
 
@@ -93,7 +90,7 @@ public static class PersistenceExtensions
 		options.UseExceptionProcessor();
 	}
 
-	private static void WithPostgreSQL(DbContextOptionsBuilder options, AppSettings settings)
+	private static void WithNpgsql(DbContextOptionsBuilder options, AppSettings settings)
 	{
 		options.UseNpgsql(
 			settings.ConnectionStrings.Database,
@@ -104,10 +101,10 @@ public static class PersistenceExtensions
 					typeof(IInfrastructurePostgreSqlAssemblyMarker).Assembly.GetName()
 						.Name);
 			});
-		ExceptionProcessorExtensions.UseExceptionProcessor(options);
+		EntityFramework.Exceptions.PostgreSQL.ExceptionProcessorExtensions.UseExceptionProcessor(options);
 	}
 
-	private static void WithSQLite(DbContextOptionsBuilder options, AppSettings settings)
+	private static void WithSqlite(DbContextOptionsBuilder options, AppSettings settings)
 	{
 		options.UseSqlite(
 			settings.ConnectionStrings.Database,

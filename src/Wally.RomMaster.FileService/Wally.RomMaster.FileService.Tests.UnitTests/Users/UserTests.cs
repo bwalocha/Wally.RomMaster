@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using FluentAssertions;
 using Wally.RomMaster.FileService.Domain.Users;
@@ -30,7 +29,7 @@ public class UserTests
 	public void Update_ForSpecifiedUser_UpdatesName()
 	{
 		// Arrange
-		var id = new UserId(Guid.NewGuid());
+		var id = new UserId();
 		var user = User.Create(id, "testUserName");
 
 		// Act
@@ -47,7 +46,7 @@ public class UserTests
 	public void Create_ForNewDomainModel_ProducesDomainEvent()
 	{
 		// Arrange
-		var id = new UserId(Guid.NewGuid());
+		var id = new UserId();
 
 		// Act
 		var model = User.Create(id, "testUserName");
