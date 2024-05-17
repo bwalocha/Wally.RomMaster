@@ -4,9 +4,10 @@ using Wally.RomMaster.HashService.Domain.Abstractions;
 
 namespace Wally.RomMaster.HashService.Infrastructure.Persistence;
 
-public sealed class StronglyTypedIdConverter<TStronglyTypedId, TValue> : ValueConverter<TStronglyTypedId, TValue>
+public sealed class StronglyTypedIdConverter<TStronglyTypedId, TValue>
+	: ValueConverter<TStronglyTypedId, TValue>
 	where TStronglyTypedId : StronglyTypedId<TStronglyTypedId, TValue>
-	where TValue : notnull, IComparable
+	where TValue : struct, IComparable<TValue>, IEquatable<TValue>
 {
 	/// <summary>
 	///     Initializes a new instance of the <see cref="StronglyTypedIdConverter{TStronglyTypedId, TValue}" /> class.
@@ -15,13 +16,13 @@ public sealed class StronglyTypedIdConverter<TStronglyTypedId, TValue> : ValueCo
 		: base(valueObject => Serialize(valueObject), value => Deserialize(value))
 	{
 	}
-
+	
 	private static TValue Serialize(TStronglyTypedId valueObject)
 	{
 		var value = valueObject.Value;
 		return value;
 	}
-
+	
 	private static TStronglyTypedId Deserialize(TValue value)
 	{
 		var instance = Activator.CreateInstance(typeof(TStronglyTypedId), value) !;

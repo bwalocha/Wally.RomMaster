@@ -3,20 +3,15 @@ using Wally.RomMaster.HashService.Infrastructure.Persistence.Abstractions;
 
 namespace Wally.RomMaster.HashService.Infrastructure.Persistence.Exceptions;
 
-[Serializable]
-public class ResourceNotFoundException : Exception, INotFound
+public class ResourceNotFoundException<TResource> : Exception, INotFound
 {
 	public ResourceNotFoundException()
+		: base($"The '{typeof(TResource).Name}' could not be found")
 	{
 	}
-
-	public ResourceNotFoundException(string? message)
-		: base(message)
-	{
-	}
-
-	public ResourceNotFoundException(string message, Exception? innerException)
-		: base(message, innerException)
+	
+	public ResourceNotFoundException(object id)
+		: base($"The '{typeof(TResource).Name}' with Id='{id}' could not be found")
 	{
 	}
 }

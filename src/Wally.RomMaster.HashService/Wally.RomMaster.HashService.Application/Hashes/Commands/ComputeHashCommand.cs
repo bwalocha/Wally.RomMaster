@@ -12,8 +12,8 @@ public sealed class ComputeHashCommand : ICommand
 		FileId = fileId;
 		FileLocation = fileLocation;
 	}
-
+	
 	public Guid FileId { get; }
-
+	
 	public string FileLocation { get; }
 }

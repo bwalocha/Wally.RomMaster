@@ -4,6 +4,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Serilog.Context;
+using Wally.RomMaster.HashService.Domain;
 
 namespace Wally.RomMaster.HashService.Infrastructure.PipelineBehaviours;
 
@@ -11,22 +13,24 @@ public class LogBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TRes
 	where TRequest : IRequest<TResponse>
 {
 	private readonly ILogger<LogBehavior<TRequest, TResponse>> _logger;
-
+	
 	public LogBehavior(ILogger<LogBehavior<TRequest, TResponse>> logger)
 	{
 		_logger = logger;
 	}
-
+	
 	public async Task<TResponse> Handle(
 		TRequest request,
 		RequestHandlerDelegate<TResponse> next,
 		CancellationToken cancellationToken)
 	{
-		var correlationId = Guid.NewGuid();
-
-		// https://stackoverflow.com/questions/56600156/simple-serialize-odataqueryoptions
+		var correlationId = GetCorrelationId();
+		
+		using var logContext = LogContext.PushProperty("CorrelationId", correlationId);
+		
 		_logger.LogInformation(
-			$"[{correlationId}] Executing request handler for request type: '{typeof(TRequest).Name}' and response type: '{typeof(TResponse).Name}'.");
+			"[{CorrelationId}] Executing request handler for request type: '{TypeofTRequestName}' and response type: '{TypeofTResponseName}'",
+			correlationId, typeof(TRequest).Name, typeof(TResponse).Name);
 		var stopWatch = Stopwatch.StartNew();
 		try
 		{
@@ -35,15 +39,26 @@ public class LogBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TRes
 		finally
 		{
 			stopWatch.Stop();
-
+			
 			if (stopWatch.ElapsedMilliseconds > 500)
 			{
-				_logger.LogWarning($"[{correlationId}] Executed in {stopWatch.ElapsedMilliseconds} ms.");
+				_logger.LogWarning("[{CorrelationId}] Executed in {StopWatchElapsedMilliseconds} ms", correlationId,
+					stopWatch.ElapsedMilliseconds);
 			}
 			else
 			{
-				_logger.LogInformation($"[{correlationId}] Executed in {stopWatch.ElapsedMilliseconds} ms.");
+				_logger.LogInformation("[{CorrelationId}] Executed in {StopWatchElapsedMilliseconds} ms", correlationId,
+					stopWatch.ElapsedMilliseconds);
 			}
 		}
+	}
+	
+	private CorrelationId GetCorrelationId()
+	{
+		// const string CorrelationIdHeaderName = "X-Correlation-Id";
+		// TODO: use HttpContext or CorrelationId from MassTransit Message
+		// ...
+		
+		return new CorrelationId(Guid.NewGuid());
 	}
 }

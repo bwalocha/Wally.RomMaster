@@ -1,56 +1,56 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Wally.RomMaster.HashService.Application.Abstractions;
 using Wally.RomMaster.HashService.Domain.Abstractions;
+using Wally.RomMaster.HashService.Infrastructure.Persistence.Exceptions;
 
 namespace Wally.RomMaster.HashService.Infrastructure.Persistence.Abstractions;
 
-public class Repository<TAggregateRoot, TKey> : ReadOnlyRepository<TAggregateRoot, TKey>,
-	IRepository<TAggregateRoot, TKey>
-	where TAggregateRoot : AggregateRoot<TAggregateRoot, TKey>
-	where TKey : notnull, IComparable<TKey>, IEquatable<TKey>, IStronglyTypedId<TKey, Guid>, new()
+public class Repository<TAggregateRoot, TStronglyTypedId> : ReadOnlyRepository<TAggregateRoot, TStronglyTypedId>,
+	IRepository<TAggregateRoot, TStronglyTypedId>
+	where TAggregateRoot : AggregateRoot<TAggregateRoot, TStronglyTypedId>
+	where TStronglyTypedId : notnull, new()
 {
 	protected Repository(DbContext context, IMapper mapper)
 		: base(context, mapper)
 	{
 	}
-
-	public Task<TAggregateRoot> GetAsync(TKey id, CancellationToken cancellationToken)
+	
+	public async Task<TAggregateRoot> GetAsync(TStronglyTypedId id, CancellationToken cancellationToken)
 	{
-		var task = GetReadWriteEntitySet()
-			.SingleAsync(a => a.Id.Equals(id), cancellationToken);
-
-		return MapExceptionAsync(task, id, cancellationToken);
+		return await GetReadWriteEntitySet()
+				.SingleOrDefaultAsync(a => a.Id.Equals(id), cancellationToken)
+		?? throw new ResourceNotFoundException<TAggregateRoot>(id);
 	}
-
+	
 	public TAggregateRoot Add(TAggregateRoot aggregateRoot)
 	{
 		return DbContext.Add(aggregateRoot)
 			.Entity;
 	}
-
+	
 	public TAggregateRoot Remove(TAggregateRoot aggregateRoot)
 	{
 		return DbContext.Remove(aggregateRoot)
 			.Entity;
 	}
-
+	
 	public TAggregateRoot Update(TAggregateRoot aggregateRoot)
 	{
 		DbContext.Attach(aggregateRoot)
 			.State = EntityState.Modified;
-
+		
 		return aggregateRoot;
 	}
-
+	
 	protected IQueryable<TAggregateRoot> GetReadWriteEntitySet()
 	{
 		return WithIncludes(DbContext.Set<TAggregateRoot>());
 	}
-
+	
 	protected virtual IQueryable<TAggregateRoot> WithIncludes(DbSet<TAggregateRoot> set)
 	{
 		return set;

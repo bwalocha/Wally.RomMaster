@@ -11,7 +11,7 @@ public class FileModifiedMessageConsumerDefinition : ConsumerDefinition<FileModi
 		// this applies to the consumer only, not the endpoint
 		ConcurrentMessageLimit = 4;
 	}
-
+	
 	protected override void ConfigureConsumer(
 		IReceiveEndpointConfigurator endpointConfigurator,
 		IConsumerConfigurator<FileModifiedMessageConsumer> consumerConfigurator,

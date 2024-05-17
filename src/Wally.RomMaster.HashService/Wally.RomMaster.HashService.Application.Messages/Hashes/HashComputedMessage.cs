@@ -9,13 +9,13 @@ public class HashComputedMessage
 		FileId = fileId;
 		Crc32 = crc32;
 		Md5 = md5;
-
+		
 		new HashComputedMessageValidator().Validate(this);
 	}
-
+	
 	public Guid FileId { get; }
-
+	
 	public string Crc32 { get; }
-
+	
 	public string Md5 { get; }
 }

@@ -26,7 +26,7 @@ public static class SwaggerExtensions
 						Version = "v1",
 						Title = "Wally.RomMaster API",
 						Description = "An ASP.NET Core Web API for managing 'Wally.RomMaster' items",
-
+						
 						// TermsOfService = new Uri("https://example.com/terms"),
 						Contact = new OpenApiContact
 						{
@@ -37,19 +37,19 @@ public static class SwaggerExtensions
 							Name = "MIT", Url = new Uri("https://opensource.org/licenses/MIT"),
 						},
 					});
-
+				
 				var xmlFilename = $"{assembly.GetName().Name}.xml";
 				options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
-
+				
 				options.OperationFilter<ResponseTypesOperationFilter>();
 				options.OperationFilter<ODataQueryOptionsOperationFilter>();
-
+				
 				options.DocumentFilter<SchemasFilter>();
 			});
-
+		
 		return services;
 	}
-
+	
 	public static IApplicationBuilder UseSwagger(this IApplicationBuilder app)
 	{
 		app.UseSwagger(setupAction: null)
@@ -57,20 +57,20 @@ public static class SwaggerExtensions
 				options =>
 				{
 					var settings = app.ApplicationServices.GetRequiredService<IOptions<AppSettings>>();
-
+					
 					// options.SwaggerEndpoint("v1/swagger.json", "Wally.RomMaster WebApi v1");
 					options.OAuthClientId(settings.Value.SwaggerAuthentication.ClientId);
 					options.OAuthClientSecret(settings.Value.SwaggerAuthentication.ClientSecret);
-
+					
 					// TODO:
 					// options.OAuthScopes(string.Join(", ", settings.Value.SwaggerAuthentication.Scopes.Values));
 					options.OAuthUsePkce();
-
+					
 					options.OAuthAppName("Wally.RomMaster");
 					options.EnablePersistAuthorization();
 					options.DefaultModelsExpandDepth(0);
 				});
-
+		
 		return app;
 	}
 }

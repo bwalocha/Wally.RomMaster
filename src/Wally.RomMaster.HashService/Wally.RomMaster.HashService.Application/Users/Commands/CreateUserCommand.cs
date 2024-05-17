@@ -1,5 +1,4 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using Wally.Lib.DDD.Abstractions.Commands;
 using Wally.RomMaster.HashService.Domain.Users;
 
@@ -13,13 +12,13 @@ public sealed class CreateUserCommand : ICommand
 		UserId = userId;
 		Name = name;
 	}
-
+	
 	public CreateUserCommand(string name)
-		: this(new UserId(Guid.NewGuid()), name)
+		: this(new UserId(), name)
 	{
 	}
-
+	
 	public UserId UserId { get; }
-
+	
 	public string Name { get; }
 }

@@ -15,13 +15,13 @@ public class UserCreatedMessageConsumerTests
 {
 	private readonly UserCreatedMessageConsumer _consumer;
 	private readonly Mock<IMediator> _mediatorMock;
-
+	
 	public UserCreatedMessageConsumerTests()
 	{
 		_mediatorMock = new Mock<IMediator>();
 		_consumer = new UserCreatedMessageConsumer(_mediatorMock.Object);
 	}
-
+	
 	[Fact]
 	public async Task ConsumeAsync_ForValidMessage_ShouldPublishCommand()
 	{
@@ -30,10 +30,10 @@ public class UserCreatedMessageConsumerTests
 		var context = new Mock<ConsumeContext<UserCreatedMessage>>();
 		context.SetupGet(a => a.Message)
 			.Returns(message);
-
+		
 		// Act
 		await _consumer.Consume(context.Object);
-
+		
 		// Assert
 		_mediatorMock.Verify(
 			a => a.Send(
