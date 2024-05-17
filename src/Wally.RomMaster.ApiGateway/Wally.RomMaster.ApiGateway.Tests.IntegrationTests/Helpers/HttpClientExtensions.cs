@@ -13,13 +13,13 @@ namespace Wally.RomMaster.ApiGateway.Tests.IntegrationTests.Helpers;
 public static class HttpClientExtensions
 {
 	private const string _jsonMediaType = "application/json";
-
+	
 	private static readonly JsonSerializerSettings _jsonSettings =
 		new()
 		{
 			ContractResolver = new PrivateSetterContractResolver(),
 		};
-
+	
 	public static Task<HttpResponseMessage> PutAsync<TPayload>(
 		this HttpClient client,
 		string url,
@@ -27,10 +27,10 @@ public static class HttpClientExtensions
 		CancellationToken cancellationToken)
 	{
 		var content = CreateContent(payload);
-
+		
 		return client.PutAsync(url, content, cancellationToken);
 	}
-
+	
 	public static Task<HttpResponseMessage> PostAsync<TPayload>(
 		this HttpClient client,
 		string url,
@@ -38,22 +38,22 @@ public static class HttpClientExtensions
 		CancellationToken cancellationToken)
 	{
 		var content = CreateContent(payload);
-
+		
 		return client.PostAsync(url, content, cancellationToken);
 	}
-
+	
 	public static async Task<TResponse> ReadAsync<TResponse>(this HttpResponseMessage response,
 		CancellationToken cancellationToken)
 	{
 		var stream = await response.Content.ReadAsStreamAsync(cancellationToken);
-
+		
 		using TextReader textReader = new StreamReader(stream);
 		using JsonReader jsonReader = new JsonTextReader(textReader);
-
+		
 		return JsonSerializer.Create(_jsonSettings)
 			.Deserialize<TResponse>(jsonReader) !;
 	}
-
+	
 	private static StringContent CreateContent<TPayload>(TPayload payload)
 	{
 		return new StringContent(JsonConvert.SerializeObject(payload), Encoding.UTF8, _jsonMediaType);
