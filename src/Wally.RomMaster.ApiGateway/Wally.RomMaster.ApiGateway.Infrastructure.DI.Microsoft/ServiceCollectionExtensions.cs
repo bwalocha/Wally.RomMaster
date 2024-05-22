@@ -17,17 +17,17 @@ public static class ServiceCollectionExtensions
 	{
 		var settings = new AppSettings();
 		configuration.Bind(settings);
-		
+
 		services.AddFeatureManagement();
 		services.AddOptions(settings);
 		services.AddReverseProxy(configuration);
 		services.AddHealthChecks(settings);
 		services.AddApiCors(settings.Cors);
 		services.AddOpenApi(Assembly.GetCallingAssembly(), settings);
-		
+
 		return services;
 	}
-	
+
 	public static IApplicationBuilder UseInfrastructure(
 		this IApplicationBuilder app,
 		IWebHostEnvironment env,
@@ -39,23 +39,23 @@ public static class ServiceCollectionExtensions
 		{
 			app.UseDeveloperExceptionPage();
 		}
-		
+
 		if (!featureManager.IsEnabled(FeatureFlags.SwaggerDisabled))
 		{
 			app.UseOpenApi(options.Value.SwaggerAuthentication,
 				options.Value.ReverseProxy);
 		}
-		
+
 		// app.UseHttpsRedirection(); // TODO: App is hosted by Docker, HTTPS is not required inside container
-		
+
 		app.UseRouting();
 		app.UseApiCors();
-		
+
 		// app.UseAuthentication(); // TODO: configure Auth2
-		
+
 		app.UseHealthChecks();
 		app.UseReverseProxy();
-		
+
 		return app;
 	}
 }
