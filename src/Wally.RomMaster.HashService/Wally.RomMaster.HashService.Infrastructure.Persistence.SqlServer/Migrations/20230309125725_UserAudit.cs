@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Wally.RomMaster.HashService.Persistence.SqlServer.Migrations
+namespace Wally.RomMaster.HashService.Infrastructure.Persistence.SqlServer.Migrations
 {
 	/// <inheritdoc />
 	public partial class UserAudit : Migration

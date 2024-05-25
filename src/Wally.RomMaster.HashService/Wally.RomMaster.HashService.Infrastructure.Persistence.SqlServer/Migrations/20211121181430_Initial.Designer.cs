@@ -7,11 +7,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 using Wally.RomMaster.HashService.Infrastructure.Persistence;
-using Wally.RomMaster.HashService.Persistence;
 
 #nullable disable
 
-namespace Wally.RomMaster.HashService.Persistence.SqlServer.Migrations
+namespace Wally.RomMaster.HashService.Infrastructure.Persistence.SqlServer.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20211121181430_Initial")]

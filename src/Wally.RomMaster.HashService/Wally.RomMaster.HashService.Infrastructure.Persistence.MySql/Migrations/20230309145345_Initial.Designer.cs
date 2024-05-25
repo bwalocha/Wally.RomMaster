@@ -6,11 +6,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 using Wally.RomMaster.HashService.Infrastructure.Persistence;
-using Wally.RomMaster.HashService.Persistence;
 
 #nullable disable
 
-namespace Wally.RomMaster.HashService.Persistence.MySql.Migrations
+namespace Wally.RomMaster.HashService.Infrastructure.Persistence.MySql.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20230309145345_Initial")]

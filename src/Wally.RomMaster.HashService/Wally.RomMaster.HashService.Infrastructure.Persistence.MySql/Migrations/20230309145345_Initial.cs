@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Wally.RomMaster.HashService.Persistence.MySql.Migrations
+namespace Wally.RomMaster.HashService.Infrastructure.Persistence.MySql.Migrations
 {
 	/// <inheritdoc />
 	public partial class Initial : Migration
