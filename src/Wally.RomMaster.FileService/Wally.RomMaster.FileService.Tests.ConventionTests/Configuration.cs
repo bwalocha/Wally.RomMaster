@@ -19,7 +19,7 @@ namespace Wally.RomMaster.FileService.Tests.ConventionTests;
 public static class Configuration
 {
 	public const string Namespace = "Wally.RomMaster.FileService";
-
+	
 	public static Types Types
 		=> new()
 		{
@@ -28,7 +28,7 @@ public static class Configuration
 				typeof(AppSettings),
 			},
 		};
-
+	
 	public static Assemblies Assemblies
 		=> new()
 		{

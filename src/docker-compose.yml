@@ -1,29 +1,68 @@
 ﻿version: '3.9'
 
 services:
+    api:
+        # http://localhost:5000
+        # https://localhost:5001
+        image: wally.rommaster.apigateway.webapi
+        container_name: api
+        restart: "no"
+        ports:
+            - "5000:5000"
+            - "5001:5001"
+        build:
+            context: ./Wally.RomMaster.ApiGateway/Wally.RomMaster.ApiGateway.WebApi
+            dockerfile: Dockerfile.development
+        environment:
+            TZ: ${TZ}
+            PROJECT_NAME: Wally.RomMaster.ApiGateway.WebApi
+            DOTNET_DASHBOARD_OTLP_ENDPOINT_URL: http://aspire:18889
+            OTEL_EXPORTER_OTLP_ENDPOINT: http://aspire:18889
+        volumes:
+            - ./Wally.RomMaster.ApiGateway/Wally.RomMaster.ApiGateway.WebApi/bin/Debug/net8.0:/app
+
     file_api:
         container_name: file_api
         image: wally.rommaster.fileservice.webapi
         restart: "no"
         build:
             context: Wally.RomMaster.FileService/Wally.RomMaster.FileService.WebApi
-            dockerfile: Dockerfile.local
+            dockerfile: Dockerfile.development
         environment:
-            TZ: Europe/Warsaw
+            TZ: ${TZ}
             PROJECT_NAME: Wally.RomMaster.FileService.WebApi
+            DOTNET_DASHBOARD_OTLP_ENDPOINT_URL: http://aspire:18889
+            OTEL_EXPORTER_OTLP_ENDPOINT: http://aspire:18889
         volumes:
-            - ./Wally.RomMaster.FileService/Wally.RomMaster.FileService.WebApi/appsettings.Development.json:/app/appsettings.json
             - RomMaster:/RomMaster:ro
             - Books:/Books:ro
+
+    aspire:
+        # http://localhost:18888
+        # http://localhost:18889
+        image: mcr.microsoft.com/dotnet/nightly/aspire-dashboard:latest
+        container_name: aspire
+        restart: "no"
+        ports:
+            - "18888:18888"
+            - "18889:18889"
+        environment:
+            TZ: ${TZ}
+            # DASHBOARD__OTLP__AUTHMODE: ApiKey
+            # DASHBOARD__OTLP__PRIMARYAPIKEY: ${DASHBOARD__OTLP__PRIMARYAPIKEY}
 
 volumes:
     RomMaster:
         driver_opts:
             type: cifs
             o: username=${CIFS_USER},password=${CIFS_PASSWORD},vers=3.0
-            device: //192.168.1.2/wd8b/Arcade
+            device: ${VOLUME_Arcade}
     Books:
         driver_opts:
             type: cifs
             o: username=${CIFS_USER},password=${CIFS_PASSWORD},vers=3.0
-            device: //192.168.1.2/wd8b/LibGen
+            device: ${VOLUME_Books}
+
+networks:
+    default:
+        name: "Wally.RomMaster"

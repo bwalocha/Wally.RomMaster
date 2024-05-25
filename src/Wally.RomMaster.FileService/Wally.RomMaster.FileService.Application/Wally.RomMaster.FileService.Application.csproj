@@ -7,9 +7,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="MassTransit.Abstractions" Version="8.2.2" />
-        <PackageReference Include="Microsoft.AspNetCore.OData" Version="8.2.5" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
+        <PackageReference Include="MassTransit.Abstractions" />
+        <PackageReference Include="Microsoft.AspNetCore.OData" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
     </ItemGroup>
 
     <ItemGroup>

@@ -9,8 +9,9 @@ internal class UserMapping : IEntityTypeConfiguration<User>
 	public void Configure(EntityTypeBuilder<User> builder)
 	{
 		builder.HasIndex(a => a.Name)
-			.IsUnique();
-
+			.IsUnique()
+			.HasFilter($"{nameof(User.IsDeleted)} != 1");
+		
 		builder.Property(a => a.Name)
 			.HasMaxLength(256);
 	}

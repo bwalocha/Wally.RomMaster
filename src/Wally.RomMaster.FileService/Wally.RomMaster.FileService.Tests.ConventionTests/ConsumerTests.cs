@@ -14,7 +14,7 @@ public class ConsumerTests
 	{
 		var assemblies = Configuration.Assemblies.GetAllAssemblies();
 		var types = assemblies.GetAllTypes();
-
+		
 		using (new AssertionScope())
 		{
 			foreach (var type in types.Where(a => a.Name.EndsWith("Consumer")))
@@ -24,16 +24,16 @@ public class ConsumerTests
 			}
 		}
 	}
-
+	
 	[Fact]
 	public void Infrastructure_AllClassesInheritsConsumer_ShouldHaveConsumerSuffix()
 	{
 		var assemblies = Configuration.Assemblies.GetAllAssemblies();
 		var types = assemblies.GetAllTypes();
-
+		
 		using (new AssertionScope())
 		{
-			foreach (var type in types.Where(a => a.Name.EndsWith("Consumer"))
+			foreach (var type in types.Where(a => !a.Name.EndsWith("FaultConsumer"))
 						.Where(a => a.ImplementsGenericInterface(typeof(IConsumer<>))))
 			{
 				type.Name.Should()
@@ -41,20 +41,20 @@ public class ConsumerTests
 			}
 		}
 	}
-
+	
 	[Fact]
 	public void Infrastructure_AllClassesInheritsConsumer_ShouldHaveMessagePrefix()
 	{
 		var assemblies = Configuration.Assemblies.GetAllAssemblies();
 		var types = assemblies.GetAllTypes();
-
+		
 		using (new AssertionScope())
 		{
-			foreach (var type in types.Where(a => a.Name.EndsWith("Consumer"))
+			foreach (var type in types.Where(a => !a.Name.EndsWith("FaultConsumer"))
 						.Where(a => a.ImplementsGenericInterface(typeof(IConsumer<>))))
 			{
 				var genericType = type.GetGenericInterface(typeof(IConsumer<>)) !.GenericTypeArguments.Single();
-
+				
 				type.Name.Should()
 					.Be(
 						$"{genericType.Name}Consumer",
