@@ -1393,7 +1393,8 @@
           "Microsoft.Extensions.Logging.Abstractions": "[8.0.1, )",
           "SonarAnalyzer.CSharp": "[9.25.1.91650, )",
           "StyleCop.Analyzers": "[1.1.118, )",
-          "Wally.RomMaster.FileService.Application": "[1.0.0, )"
+          "Wally.RomMaster.FileService.Application": "[1.0.0, )",
+          "Wally.RomMaster.FileService.Domain": "[1.0.0, )"
         }
       },
       "wally.rommaster.fileservice.infrastructure.messaging": {
@@ -1407,7 +1408,7 @@
           "Wally.Identity.Messages": "[2.1.1842, )",
           "Wally.Lib.DDD.Abstractions": "[1.3.6, )",
           "Wally.RomMaster.FileService.Application": "[1.0.0, )",
-          "Wally.RomMaster.HashService.Application.Messages": "[0.1.2402, )"
+          "Wally.RomMaster.HashService.Application.Messages": "[0.1.2559, )"
         }
       },
       "wally.rommaster.fileservice.infrastructure.persistence": {
@@ -1642,11 +1643,11 @@
       },
       "Wally.RomMaster.HashService.Application.Messages": {
         "type": "CentralTransitive",
-        "requested": "[0.1.2402, )",
-        "resolved": "0.1.2402",
-        "contentHash": "W6SqP0CN/3yLy7h+bK3S8bRW6Pl3qJCAKVIb121uu1SxdcOAI0dSzTzRphRuiV/4Pf50jvvO4nKs993V8Fqb9g==",
+        "requested": "[0.1.2559, )",
+        "resolved": "0.1.2559",
+        "contentHash": "7lt30M6luYxW7BBUrx11QthMbiOsXSpr78VbVV1EOx8m7YweTmw1heFg9skJ7POe4Jr+sKDvYckFsK/c570zAw==",
         "dependencies": {
-          "FluentValidation": "11.9.0"
+          "FluentValidation": "11.9.1"
         }
       }
     }

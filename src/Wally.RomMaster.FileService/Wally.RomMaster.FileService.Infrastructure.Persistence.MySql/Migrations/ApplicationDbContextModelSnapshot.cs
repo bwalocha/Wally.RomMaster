@@ -5,11 +5,10 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 using Wally.RomMaster.FileService.Infrastructure.Persistence;
-using Wally.RomMaster.FileService.Persistence;
 
 #nullable disable
 
-namespace Wally.RomMaster.FileService.Persistence.MySql.Migrations
+namespace Wally.RomMaster.FileService.Infrastructure.Persistence.MySql.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot

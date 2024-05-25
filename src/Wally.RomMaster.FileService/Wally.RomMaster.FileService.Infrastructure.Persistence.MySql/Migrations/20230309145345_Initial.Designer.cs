@@ -6,11 +6,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 using Wally.RomMaster.FileService.Infrastructure.Persistence;
-using Wally.RomMaster.FileService.Persistence;
 
 #nullable disable
 
-namespace Wally.RomMaster.FileService.Persistence.MySql.Migrations
+namespace Wally.RomMaster.FileService.Infrastructure.Persistence.MySql.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20230309145345_Initial")]

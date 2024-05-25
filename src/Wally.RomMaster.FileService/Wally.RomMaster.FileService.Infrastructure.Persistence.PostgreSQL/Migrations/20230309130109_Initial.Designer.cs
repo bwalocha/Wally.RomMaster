@@ -7,11 +7,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 using Wally.RomMaster.FileService.Infrastructure.Persistence;
-using Wally.RomMaster.FileService.Persistence;
 
 #nullable disable
 
-namespace Wally.RomMaster.FileService.Persistence.PostgreSQL.Migrations
+namespace Wally.RomMaster.FileService.Infrastructure.Persistence.PostgreSQL.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20230309130109_Initial")]
