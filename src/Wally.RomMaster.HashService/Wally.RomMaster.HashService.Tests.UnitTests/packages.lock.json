@@ -478,7 +478,7 @@
       },
       "Wally.RomMaster.FileService.Application.Messages": {
         "type": "CentralTransitive",
-        "requested": "[0.1.2249, )",
+        "requested": "[0.1.2559, )",
         "resolved": "0.1.2559",
         "contentHash": "dvBmWvHI5CtfWAZZKuL7zTYXCujQP3dqW1MDnDTwOiDw/Yf5bBTBuSsDezNYETly1EvCekpCxPeeCfy5W1rhag==",
         "dependencies": {
