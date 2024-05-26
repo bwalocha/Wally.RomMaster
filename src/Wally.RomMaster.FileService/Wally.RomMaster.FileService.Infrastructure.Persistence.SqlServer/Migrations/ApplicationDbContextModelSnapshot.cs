@@ -17,7 +17,8 @@ namespace Wally.RomMaster.FileService.Infrastructure.Persistence.SqlServer.Migra
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.3")
+                .HasDefaultSchema("FileService")
+                .HasAnnotation("ProductVersion", "8.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -73,7 +74,7 @@ namespace Wally.RomMaster.FileService.Infrastructure.Persistence.SqlServer.Migra
 
                     b.HasIndex("PathId");
 
-                    b.ToTable("\"File\"", (string)null);
+                    b.ToTable("\"File\"", "FileService");
                 });
 
             modelBuilder.Entity("Wally.RomMaster.FileService.Domain.Files.Path", b =>
@@ -108,7 +109,7 @@ namespace Wally.RomMaster.FileService.Infrastructure.Persistence.SqlServer.Migra
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("Path");
+                    b.ToTable("Path", "FileService");
                 });
 
             modelBuilder.Entity("Wally.RomMaster.FileService.Domain.Users.User", b =>
@@ -121,6 +122,15 @@ namespace Wally.RomMaster.FileService.Infrastructure.Persistence.SqlServer.Migra
 
                     b.Property<Guid>("CreatedById")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid?>("DeletedById")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
 
                     b.Property<DateTimeOffset?>("ModifiedAt")
                         .HasColumnType("datetimeoffset");
@@ -136,9 +146,10 @@ namespace Wally.RomMaster.FileService.Infrastructure.Persistence.SqlServer.Migra
                     b.HasKey("Id");
 
                     b.HasIndex("Name")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("IsDeleted != 1");
 
-                    b.ToTable("User");
+                    b.ToTable("User", "FileService");
                 });
 
             modelBuilder.Entity("Wally.RomMaster.FileService.Domain.Files.File", b =>
@@ -165,7 +176,7 @@ namespace Wally.RomMaster.FileService.Infrastructure.Persistence.SqlServer.Migra
                             b1.HasIndex("Location")
                                 .IsUnique();
 
-                            b1.ToTable("\"File\"");
+                            b1.ToTable("\"File\"", "FileService");
 
                             b1.WithOwner()
                                 .HasForeignKey("FileId");

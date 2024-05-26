@@ -83,6 +83,7 @@ public static class PersistenceExtensions
 			MySqlServerVersion.LatestSupportedServerVersion,
 			builder =>
 			{
+				builder.MigrationsHistoryTable(global::Microsoft.EntityFrameworkCore.Migrations.HistoryRepository.DefaultTableName, ApplicationDbContext.SchemaName);
 				builder.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);
 				builder.MigrationsAssembly(
 					typeof(IInfrastructureMySqlAssemblyMarker).Assembly.GetName()
@@ -97,6 +98,7 @@ public static class PersistenceExtensions
 			settings.ConnectionStrings.Database,
 			builder =>
 			{
+				builder.MigrationsHistoryTable(global::Microsoft.EntityFrameworkCore.Migrations.HistoryRepository.DefaultTableName, ApplicationDbContext.SchemaName);
 				builder.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);
 				builder.MigrationsAssembly(
 					typeof(IInfrastructurePostgreSqlAssemblyMarker).Assembly.GetName()
@@ -111,6 +113,7 @@ public static class PersistenceExtensions
 			settings.ConnectionStrings.Database,
 			builder =>
 			{
+				builder.MigrationsHistoryTable(global::Microsoft.EntityFrameworkCore.Migrations.HistoryRepository.DefaultTableName, ApplicationDbContext.SchemaName);
 				builder.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);
 				builder.MigrationsAssembly(
 					typeof(IInfrastructureSQLiteAssemblyMarker).Assembly.GetName()
@@ -125,6 +128,7 @@ public static class PersistenceExtensions
 			settings.ConnectionStrings.Database,
 			builder =>
 			{
+				builder.MigrationsHistoryTable(global::Microsoft.EntityFrameworkCore.Migrations.HistoryRepository.DefaultTableName, ApplicationDbContext.SchemaName);
 				builder.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);
 				builder.MigrationsAssembly(
 					typeof(IInfrastructureSqlServerAssemblyMarker).Assembly.GetName()

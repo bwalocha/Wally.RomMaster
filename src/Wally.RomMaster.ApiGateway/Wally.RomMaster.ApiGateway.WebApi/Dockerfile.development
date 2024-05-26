@@ -3,15 +3,12 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0.3-alpine3.18-amd64
 LABEL maintainer="wally"
 ARG PROJECT_NAME
 
-EXPOSE 5000
-EXPOSE 5001
+EXPOSE 80
 
 # https://www.abhith.net/blog/docker-sql-error-on-aspnet-core-alpine/
 ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT false
 ENV ASPNETCORE_FORWARDEDHEADERS_ENABLED true
 ENV PROJECT_NAME ${PROJECT_NAME}
-
-ENV ASPNETCORE_URLS=http://+:5000
 
 RUN apk add --no-cache tzdata && \
     apk add --no-cache icu-libs && \
@@ -21,4 +18,4 @@ RUN apk add --no-cache tzdata && \
 
 WORKDIR /app
 
-ENTRYPOINT ["dotnet", "Wally.RomMaster.ApiGateway.WebApi.dll"]
+ENTRYPOINT dotnet `basename ${PROJECT_NAME}`.dll
