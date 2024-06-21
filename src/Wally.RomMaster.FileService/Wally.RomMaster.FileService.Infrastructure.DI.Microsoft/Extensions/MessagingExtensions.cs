@@ -37,7 +37,11 @@ public static class MessagingExtensions
 							});
 						break;
 					case MessageBrokerType.Kafka:
-						a.UsingInMemory((context, config) => config.ConfigureEndpoints(context));
+						a.UsingInMemory((context, config) =>
+						{
+							// config.tran.TransportConcurrencyLimit = 100;
+							config.ConfigureEndpoints(context);
+						});
 						a.AddRider(
 							rider =>
 							{
@@ -61,6 +65,11 @@ public static class MessagingExtensions
 											{
 												e.AutoOffsetReset = AutoOffsetReset.Earliest;
 												e.ConfigureConsumer<HashComputedMessageConsumer>(context);
+												e.CreateIfMissing(configure =>
+												{
+													configure.NumPartitions = 1;
+													configure.ReplicationFactor = 1;
+												});
 											});
 									});
 

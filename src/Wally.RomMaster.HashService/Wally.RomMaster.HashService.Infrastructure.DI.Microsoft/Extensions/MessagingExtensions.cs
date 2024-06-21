@@ -59,6 +59,11 @@ public static class MessagingExtensions
 											{
 												e.AutoOffsetReset = AutoOffsetReset.Earliest;
 												e.ConfigureConsumer<FileCreatedMessageConsumer>(context);
+												e.CreateIfMissing(configure =>
+												{
+													configure.NumPartitions = 1;
+													configure.ReplicationFactor = 1;
+												});
 											});
 										k.TopicEndpoint<FileModifiedMessage>(typeof(FileModifiedMessage).FullName,
 											typeof(IInfrastructureMessagingAssemblyMarker).Namespace,
@@ -66,6 +71,11 @@ public static class MessagingExtensions
 											{
 												e.AutoOffsetReset = AutoOffsetReset.Earliest;
 												e.ConfigureConsumer<FileModifiedMessageConsumer>(context);
+												e.CreateIfMissing(configure =>
+												{
+													configure.NumPartitions = 1;
+													configure.ReplicationFactor = 1;
+												});
 											});
 									});
 								

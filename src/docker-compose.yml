@@ -49,6 +49,29 @@ services:
             - ./Wally.RomMaster.FileService/Wally.RomMaster.FileService.WebApi/bin/Debug/net8.0:/app:ro
             - RomMaster:/RomMaster:ro
             - Books:/Books:ro
+    
+    hash_api:
+        # http://localhost:5000/HashService-api/healthchecks
+        container_name: hash_api
+        image: wally.rommaster.hashservice.webapi
+        restart: "no"
+        networks:
+            - default
+        build:
+            context: ./Wally.RomMaster.HashService/Wally.RomMaster.HashService.WebApi
+            dockerfile: Dockerfile.development
+        entrypoint: dotnet Wally.RomMaster.HashService.WebApi.dll
+        environment:
+            TZ: ${TZ}
+            PROJECT_NAME: Wally.RomMaster.HashService.WebApi
+            ASPNETCORE_URLS: http://+:80
+            ASPNETCORE_ENVIRONMENT: Development
+            DOTNET_DASHBOARD_OTLP_ENDPOINT_URL: http://aspire:18889
+            OTEL_EXPORTER_OTLP_ENDPOINT: http://aspire:18889
+        volumes:
+            - ./Wally.RomMaster.HashService/Wally.RomMaster.HashService.WebApi/bin/Debug/net8.0:/app:ro
+            - RomMaster:/RomMaster:ro
+            - Books:/Books:ro
 
     aspire:
         # http://localhost:18888
