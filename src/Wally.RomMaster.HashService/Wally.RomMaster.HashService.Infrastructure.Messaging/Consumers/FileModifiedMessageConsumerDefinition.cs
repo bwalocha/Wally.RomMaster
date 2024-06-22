@@ -17,6 +17,7 @@ public class FileModifiedMessageConsumerDefinition : ConsumerDefinition<FileModi
 		IConsumerConfigurator<FileModifiedMessageConsumer> consumerConfigurator,
 		IRegistrationContext context)
 	{
+		endpointConfigurator.CreatePartitioner(1);
 		endpointConfigurator.UseMessageRetry(r => r.Interval(5, TimeSpan.FromSeconds(60)));
 		endpointConfigurator.UseInMemoryOutbox(context);
 	}
