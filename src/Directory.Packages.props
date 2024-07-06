@@ -123,5 +123,6 @@
   <ItemGroup>
     <PackageVersion Include="Crc32.NET" Version="1.2.0" />
     <PackageVersion Include="Wally.RomMaster.FileService.Application.Messages" Version="0.1.2601" />
+    <PackageVersion Include="Wally.RomMaster.HashService.Application.Messages" Version="0.1.2601" />
   </ItemGroup>
 </Project>
