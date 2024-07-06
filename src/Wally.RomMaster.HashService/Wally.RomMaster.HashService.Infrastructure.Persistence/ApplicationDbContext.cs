@@ -5,18 +5,18 @@ namespace Wally.RomMaster.HashService.Infrastructure.Persistence;
 
 public sealed class ApplicationDbContext : DbContext
 {
-	private const string DefaultSchema = "HashService";
-	
+	public const string SchemaName = "HashService";
+
 	public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
 		: base(options)
 	{
 		ChangeTracker.LazyLoadingEnabled = false;
 	}
-	
+
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{
 		modelBuilder
-			.HasDefaultSchema(DefaultSchema)
+			.HasDefaultSchema(SchemaName)
 			.ApplyMappings<IInfrastructurePersistenceAssemblyMarker>()
 			.ApplyStronglyTypedId()
 			.ApplySoftDelete();

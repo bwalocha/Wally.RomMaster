@@ -14,9 +14,9 @@ public class AppSettingsValidator : AbstractValidator<AppSettings>
 		/*RuleFor(a => a.SwaggerAuthentication)
 			.NotEmpty()
 			.SetValidator(new AuthenticationSettingsValidator());*/
-		/*RuleFor(a => a.Database)
+		RuleFor(a => a.Database)
 			.NotEmpty()
-			.SetValidator(new DbContextSettingsValidator());*/
+			.SetValidator(new DbContextSettingsValidator());
 		RuleFor(a => a.ConnectionStrings)
 			.NotEmpty()
 			.SetValidator(new ConnectionStringsValidator());

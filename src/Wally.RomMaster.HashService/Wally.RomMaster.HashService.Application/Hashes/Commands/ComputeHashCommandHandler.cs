@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Threading;
 using System.Threading.Tasks;
@@ -28,8 +29,7 @@ public class ComputeHashCommandHandler : CommandHandler<ComputeHashCommand>
 	{
 		_logger.LogDebug("Computing Hashes for '{0}'...", command.FileLocation);
 		
-		await using var stream = File.Open(command.FileLocation, FileMode.Open, FileAccess.Read, FileShare.Read);
-		// var size = stream.Length;
+		/*await using var stream = File.Open(command.FileLocation, FileMode.Open, FileAccess.Read, FileShare.Read);
 		
 		// MD5
 		using var md5 = MD5.Create();
@@ -37,95 +37,66 @@ public class ComputeHashCommandHandler : CommandHandler<ComputeHashCommand>
 		var computedMd5 = BitConverter.ToString(hash)
 			.Replace("-", null, true, CultureInfo.InvariantCulture);
 		
-		var computedMd5Check = await ComputeHashAsync(MD5.Create(), command.FileLocation, cancellationToken);
-
 		_logger.LogInformation("MD5 for '{0}': {1}", command.FileLocation, computedMd5);
-		_logger.LogInformation("MD5 for '{0}': {1} Check", command.FileLocation, computedMd5Check);
 
-		if (computedMd5 != computedMd5Check)
-		{
-			throw new Exception("MD5 error");
-		}
-		
 		// CRC32
 		stream.Seek(0, SeekOrigin.Begin);
 		hash = await _hashAlgorithm.ComputeHashAsync(stream, cancellationToken);
 		var computedCrc32 = BitConverter.ToString(hash)
 			.Replace("-", null, true, CultureInfo.InvariantCulture);
 		
-		var computedCrc32Check = await ComputeHashAsync(_hashAlgorithm, command.FileLocation, cancellationToken);
+		_logger.LogInformation("CRC32 for '{0}': {1}", command.FileLocation, computedCrc32);*/
 		
-		_logger.LogInformation("CRC32 for '{0}': {1}", command.FileLocation, computedCrc32);
-		_logger.LogInformation("CRC32 for '{0}': {1} Check", command.FileLocation, computedCrc32Check);
+		//
+
+		var hashes = await ComputeHashesAsync(command.FileLocation, new[] { MD5.Create(), _hashAlgorithm, }, cancellationToken);
 		
-		if (computedCrc32 != computedCrc32Check)
+		/*if (computedMd5 != hashes[0])
 		{
-			throw new Exception("CRC32 error");
+			throw new InvalidDataException($"MD5 error: {computedMd5} <> {hashes[0]}");
 		}
+
+		if (computedCrc32 != hashes[1])
+		{
+			throw new InvalidDataException($"CRC32 error {computedCrc32} <> {hashes[1]}");
+		}*/
+
+		//
 		
-		var message = new HashComputedMessage(command.FileId, computedCrc32, computedMd5);
+		var message = new HashComputedMessage(command.FileId, hashes[1], hashes[0]);
 		
 		await _bus.Publish(message, cancellationToken);
 	}
 
-	private async Task<string> ComputeHashAsync(HashAlgorithm hashAlgorithm, string filePath, CancellationToken cancellationToken)
+	private async Task<string[]> ComputeHashesAsync(string filePath, HashAlgorithm[] hashAlgorithms, CancellationToken cancellationToken)
 	{
 		var buffer = new byte[8192];
 		int bytesRead;
 		long totalBytesRead = 0;
-
-		await using var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize: buffer.Length, useAsync: true);
-		var fileLength = stream.Length;
-
-		var lastProgressIndicator = 0L;
-		while ((bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length, cancellationToken)) > 0)
-		{
-			hashAlgorithm.TransformBlock(buffer, 0, bytesRead, null, 0);
-			totalBytesRead += bytesRead;
-			var progress = totalBytesRead / fileLength * 100;
-			if (Math.Abs(progress - lastProgressIndicator) > 1 || (int)progress == 100)
-			{
-				lastProgressIndicator = progress;
-				_logger.LogInformation("MD5 for '{FilePath}': {Progress:0.00}%", filePath, progress);
-			}
-		}
-
-		// Finalize the hash computation
-		hashAlgorithm.TransformFinalBlock([], 0, 0);
-
-		// Convert the byte array to a hexadecimal string
-		return BitConverter.ToString(hashAlgorithm.Hash!).Replace("-", "").ToLowerInvariant();
-	}
-	
-	/*private async Task<string> ComputeCrc32Async(string filePath, CancellationToken cancellationToken)
-	{
-		var buffer = new byte[8192];
-		int bytesRead;
-		long totalBytesRead = 0;
-
-		using var md5 = MD5.Create();
-		await using var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize: buffer.Length, useAsync: true);
-		var fileLength = stream.Length;
-
-		var lastProgressIndicator = 0L;
-		while ((bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length, cancellationToken)) > 0)
-		{
-			md5.TransformBlock(buffer, 0, bytesRead, null, 0);
-			totalBytesRead += bytesRead;
-			var progress = totalBytesRead / fileLength * 100;
-			if (Math.Abs(progress - lastProgressIndicator) > 1 || (int)progress == 100)
-			{
-				lastProgressIndicator = progress;
-				_logger.LogInformation("MD5 for '{FilePath}': {Progress:0.00}%", filePath, progress);
-			}
-		}
-
-		// Finalize the hash computation
-		md5.TransformFinalBlock([], 0, 0);
-
-		// Convert the byte array to a hexadecimal string
-		string checksum = BitConverter.ToString(md5.Hash!).Replace("-", "").ToLowerInvariant();
+		Array.ForEach(hashAlgorithms, a => a.Initialize());
 		
-		return checksum;
-	}*/
+		await using var stream = new FileStream(filePath, FileMode.Open, FileAccess.Read, FileShare.Read, bufferSize: buffer.Length, useAsync: true);
+		var fileLength = stream.Length;
+
+		var lastProgressIndicator = 0d;
+		while ((bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length, cancellationToken)) > 0)
+		{
+			Array.ForEach(hashAlgorithms, a => a.TransformBlock(buffer, 0, bytesRead, null, 0));
+			totalBytesRead += bytesRead;
+			var progress = (double)totalBytesRead / fileLength * 100;
+			if (Math.Abs(progress - lastProgressIndicator) > 1 || (int)progress == 100)
+			{
+				lastProgressIndicator = progress;
+				_logger.LogInformation("HASH for '{FilePath}': {Progress:0.00}% ({TotalBytesRead}/{FileLength})", filePath, progress, totalBytesRead, fileLength);
+			}
+		}
+
+		// Finalize the hash computation
+		Array.ForEach(hashAlgorithms, a => a.TransformFinalBlock([], 0, 0));
+
+		// Convert the byte array to a hexadecimal string
+		return hashAlgorithms
+			.Select(a => BitConverter.ToString(a.Hash!).Replace("-", "").ToUpperInvariant())
+			.ToArray();
+	}
 }

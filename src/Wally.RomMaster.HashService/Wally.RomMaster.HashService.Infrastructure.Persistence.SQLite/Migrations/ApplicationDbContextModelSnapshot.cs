@@ -15,20 +15,31 @@ namespace Wally.RomMaster.HashService.Infrastructure.Persistence.SQLite.Migratio
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
-            modelBuilder.HasAnnotation("ProductVersion", "7.0.5");
+            modelBuilder
+                .HasDefaultSchema("HashService")
+                .HasAnnotation("ProductVersion", "8.0.5");
 
             modelBuilder.Entity("Wally.RomMaster.HashService.Domain.Users.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("CreatedAt")
+                    b.Property<DateTimeOffset>("CreatedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("CreatedById")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime?>("ModifiedAt")
+                    b.Property<DateTimeOffset?>("DeletedAt")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid?>("DeletedById")
+                        .HasColumnType("TEXT");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTimeOffset?>("ModifiedAt")
                         .HasColumnType("TEXT");
 
                     b.Property<Guid?>("ModifiedById")
@@ -42,9 +53,10 @@ namespace Wally.RomMaster.HashService.Infrastructure.Persistence.SQLite.Migratio
                     b.HasKey("Id");
 
                     b.HasIndex("Name")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("IsDeleted != 1");
 
-                    b.ToTable("User");
+                    b.ToTable("User", "HashService");
                 });
 #pragma warning restore 612, 618
         }

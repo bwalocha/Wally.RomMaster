@@ -6,8 +6,8 @@ public class ConnectionStringsValidator : AbstractValidator<ConnectionStrings>
 {
 	public ConnectionStringsValidator()
 	{
-		/*RuleFor(a => a.Database)
-			.NotEmpty();*/
+		RuleFor(a => a.Database)
+			.NotEmpty();
 		RuleFor(a => a.ServiceBus)
 			.NotEmpty();
 	}

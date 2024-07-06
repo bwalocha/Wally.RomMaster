@@ -17,6 +17,8 @@ public class FileModifiedMessageConsumer : IConsumer<FileModifiedMessage>
 	
 	public Task Consume(ConsumeContext<FileModifiedMessage> context)
 	{
+		return Task.CompletedTask;
+		
 		var message = context.Message;
 		var command = new ComputeHashCommand(message.Id, message.Location);
 		

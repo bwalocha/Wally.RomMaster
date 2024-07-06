@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-
-using Wally.Lib.DDD.Abstractions.Commands;
 using Wally.RomMaster.HashService.Domain.Users;
+using Wally.Lib.DDD.Abstractions.Commands;
 
 namespace Wally.RomMaster.HashService.Application.Users.Commands;
 
@@ -13,8 +12,8 @@ public sealed class UpdateUserCommand : ICommand
 		UserId = userId;
 		Name = name;
 	}
-	
+
 	public UserId UserId { get; }
-	
+
 	public string Name { get; }
 }

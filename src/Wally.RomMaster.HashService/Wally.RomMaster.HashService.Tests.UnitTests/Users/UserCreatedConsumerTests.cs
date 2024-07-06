@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-
 using MassTransit;
 using MediatR;
 using Moq;
-using Wally.Identity.Messages.Users;
 using Wally.RomMaster.HashService.Application.Users.Commands;
 using Wally.RomMaster.HashService.Infrastructure.Messaging.Consumers;
+using Wally.Identity.Messages.Users;
 using Xunit;
 
 namespace Wally.RomMaster.HashService.Tests.UnitTests.Users;
@@ -16,13 +15,13 @@ public class UserCreatedConsumerTests
 {
 	private readonly UserCreatedMessageConsumer _consumer;
 	private readonly Mock<ISender> _mediatorMock;
-	
+
 	public UserCreatedConsumerTests()
 	{
 		_mediatorMock = new Mock<ISender>();
 		_consumer = new UserCreatedMessageConsumer(_mediatorMock.Object);
 	}
-	
+
 	[Fact]
 	public async Task ConsumeAsync_ForValidMessage_ShouldPublishCommand()
 	{
@@ -31,10 +30,10 @@ public class UserCreatedConsumerTests
 		var context = new Mock<ConsumeContext<UserCreatedMessage>>();
 		context.SetupGet(a => a.Message)
 			.Returns(message);
-		
+
 		// Act
 		await _consumer.Consume(context.Object);
-		
+
 		// Assert
 		_mediatorMock.Verify(
 			a => a.Send(

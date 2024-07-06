@@ -1,43 +1,60 @@
-﻿namespace Wally.RomMaster.HashService.Domain.Abstractions;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
-public abstract class ValueObject<TValueObject, TValue> : ValueObject<TValue>
-	where TValueObject : ValueObject<TValueObject, TValue>
+namespace Wally.RomMaster.HashService.Domain.Abstractions;
+
+public abstract class ValueObject<TValueObject> : IEquatable<TValueObject>
+	where TValueObject : ValueObject<TValueObject>
 {
-	protected ValueObject()
+	public bool Equals(TValueObject? other)
+	{
+		if (other is null)
+		{
+			return false;
+		}
+
+		if (ReferenceEquals(this, other))
+		{
+			return true;
+		}
+
+		return GetType() == other.GetType() &&
+			GetEqualityComponents()
+				.SequenceEqual(other.GetEqualityComponents());
+	}
+
+	protected virtual void Validate()
 	{
 	}
-	
-	protected ValueObject(TValue value)
-		: base(value)
+
+	public override bool Equals(object? obj)
 	{
+		return Equals(obj as TValueObject);
 	}
-	
-	public static implicit operator TValue(ValueObject<TValueObject, TValue> value)
+
+	public override int GetHashCode()
 	{
-		return value.Value;
+		return GetEqualityComponents()
+			.Select(a => a?.GetHashCode() ?? 0)
+			.Aggregate((a, b) => a ^ b);
 	}
+
+	protected abstract IEnumerable<object?> GetEqualityComponents();
 }
 
-public abstract class ValueObject<TValue>
+public abstract class ValueObject<TValueObject, TValue> : ValueObject<TValueObject>
+	where TValueObject : ValueObject<TValueObject>
 {
-	protected ValueObject()
-	{
-		Value = default!;
-	}
-	
 	protected ValueObject(TValue value)
 	{
 		Value = value;
-		
-		ExecuteValidation();
 	}
-	
-	public TValue Value { get; private set; }
-	
-	protected abstract void Validate();
-	
-	private void ExecuteValidation()
+
+	public TValue Value { get; }
+
+	public static implicit operator TValue(ValueObject<TValueObject, TValue> value)
 	{
-		Validate();
+		return value.Value;
 	}
 }
