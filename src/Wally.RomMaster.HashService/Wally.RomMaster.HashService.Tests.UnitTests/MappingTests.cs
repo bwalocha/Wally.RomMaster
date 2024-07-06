@@ -39,7 +39,10 @@ public class MappingTests
 		var idProperty = source.GetProperty(nameof(User.Id)) !;
 		idProperty.DeclaringType!.GetProperty(nameof(User.Id)) !.SetValue(instance, new UserId(Guid.NewGuid()));
 		
-		_mapper.Map(instance, source, destination);
+		var act = () => _mapper.Map(instance, source, destination);
+
+		act.Should()
+			.NotThrow();
 	}
 	
 	[Theory]

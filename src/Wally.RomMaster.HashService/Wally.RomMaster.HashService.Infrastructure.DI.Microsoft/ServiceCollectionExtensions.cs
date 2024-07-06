@@ -29,7 +29,7 @@ public static class ServiceCollectionExtensions
 		services.AddMessaging(settings);
 		services.AddEventHub();
 		
-		services.AddSingleton<HashAlgorithm, Crc32Algorithm>();
+		services.AddTransient<HashAlgorithm, Crc32Algorithm>();
 		return services;
 	}
 	

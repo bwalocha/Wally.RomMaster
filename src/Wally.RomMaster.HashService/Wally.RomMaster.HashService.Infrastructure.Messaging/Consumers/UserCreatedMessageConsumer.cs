@@ -1,9 +1,10 @@
 using System.Threading.Tasks;
+
 using MassTransit;
 using MediatR;
+using Wally.Identity.Messages.Users;
 using Wally.RomMaster.HashService.Application.Users.Commands;
 using Wally.RomMaster.HashService.Domain.Users;
-using Wally.Identity.Messages.Users;
 
 namespace Wally.RomMaster.HashService.Infrastructure.Messaging.Consumers;
 

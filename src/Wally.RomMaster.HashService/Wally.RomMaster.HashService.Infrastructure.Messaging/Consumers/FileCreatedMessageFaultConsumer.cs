@@ -16,7 +16,7 @@ public class FileCreatedMessageFaultConsumer : IConsumer<Fault<FileCreatedMessag
 	
 	public Task Consume(ConsumeContext<Fault<FileCreatedMessage>> context)
 	{
-		_logger.LogCritical($"Massage '{context.Message}' processing error: {context.MessageId}");
+		_logger.LogCritical("Massage '{ContextMessage}' processing error: {ContextMessageId}", context.Message, context.MessageId);
 		
 		return Task.CompletedTask;
 	}
