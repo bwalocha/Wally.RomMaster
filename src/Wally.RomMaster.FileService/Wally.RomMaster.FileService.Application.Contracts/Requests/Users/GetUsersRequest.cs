@@ -7,6 +7,6 @@ namespace Wally.RomMaster.FileService.Application.Contracts.Requests.Users;
 public class GetUsersRequest : IRequest
 {
 	public Guid? Id { get; private set; }
-	
+
 	public string? Name { get; private set; }
 }

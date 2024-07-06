@@ -12,36 +12,36 @@ namespace Wally.RomMaster.HashService.Tests.IntegrationTests;
 
 public partial class UsersControllerTests
 {
-	[Fact(Skip = "No persistence")]
+	[Fact]
 	public async Task Post_ForNewResource_CreatesNewResource()
 	{
 		// Arrange
 		var request = new CreateUserRequest("newName3");
-		
+
 		// Act
 		var response = await _httpClient.PostAsync("Users", request, CancellationToken.None);
-		
+
 		// Assert
 		response.IsSuccessStatusCode.Should()
 			.BeTrue();
 		response.StatusCode.Should()
 			.Be(HttpStatusCode.OK);
 		(await _factory.GetRequiredService<DbContext>()
-			.Set<User>()
-			.SingleAsync())
+				.Set<User>()
+				.SingleAsync())
 			.Name.Should()
 			.Be("newName3");
 	}
-	
+
 	[Fact]
 	public async Task Post_ForInvalidRequest_ReturnsBadRequest()
 	{
 		// Arrange
 		var request = new CreateUserRequest(string.Empty);
-		
+
 		// Act
 		var response = await _httpClient.PostAsync("Users", request, CancellationToken.None);
-		
+
 		// Assert
 		response.IsSuccessStatusCode.Should()
 			.BeFalse();

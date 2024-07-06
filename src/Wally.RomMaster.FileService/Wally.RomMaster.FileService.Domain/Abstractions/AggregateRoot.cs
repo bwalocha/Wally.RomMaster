@@ -17,16 +17,16 @@ public class AggregateRoot<TAggregateRoot, TStronglyTypedId>
 	{
 	}
 
-	public DateTimeOffset CreatedAt { get; private set; }
+	public DateTimeOffset CreatedAt { get; private set; } = default;
 
 	public UserId CreatedById { get; private set; } = null!;
 
-	public DateTimeOffset? ModifiedAt { get; private set; }
-
-	public UserId? ModifiedById { get; private set; }
+	public DateTimeOffset? ModifiedAt { get; private set; } = null;
 
 	protected void SetModifiedAt(DateTime modifiedAt)
 	{
 		ModifiedAt = modifiedAt;
 	}
+	
+	public UserId? ModifiedById { get; private set; } = null;
 }

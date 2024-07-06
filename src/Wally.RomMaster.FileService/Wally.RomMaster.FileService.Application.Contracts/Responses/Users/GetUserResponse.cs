@@ -6,6 +6,6 @@ namespace Wally.RomMaster.FileService.Application.Contracts.Responses.Users;
 public class GetUserResponse : IResponse
 {
 	public Guid Id { get; private set; }
-	
+
 	public string? Name { get; private set; }
 }
