@@ -1436,6 +1436,14 @@
           "SharpZipLib": "1.4.2"
         }
       },
+      "Wally.RomMaster.HashService.Application.Messages": {
+        "type": "Transitive",
+        "resolved": "0.1.2127",
+        "contentHash": "c/GIBexOIEZSXFJw5oAHTrmNHwKA+a9HQw8N+dv+upYhrRdrHHDbYlOP+oNyUn6Ye+wzC8PvNtiGIa5LX14OBA==",
+        "dependencies": {
+          "FluentValidation": "11.7.1"
+        }
+      },
       "xunit.abstractions": {
         "type": "Transitive",
         "resolved": "2.0.3",
@@ -1602,7 +1610,7 @@
           "Wally.Identity.Messages": "[2.1.1842, )",
           "Wally.Lib.DDD.Abstractions": "[1.3.6, )",
           "Wally.RomMaster.FileService.Application": "[1.0.0, )",
-          "Wally.RomMaster.HashService.Application.Messages": "[0.1.2601, )"
+          "Wally.RomMaster.HashService.Application.Messages": "(, )"
         }
       },
       "wally.rommaster.fileservice.infrastructure.persistence": {
@@ -2115,7 +2123,7 @@
       },
       "Serilog.Enrichers.Environment": {
         "type": "CentralTransitive",
-        "requested": "[2.3.0, )",
+        "requested": "[3.0.1, )",
         "resolved": "3.0.1",
         "contentHash": "9BqCE4C9FF+/rJb/CsQwe7oVf44xqkOvMwX//CUxvUR25lFL4tSS6iuxE5eW07quby1BAyAEP+vM6TWsnT3iqw==",
         "dependencies": {
@@ -2124,7 +2132,7 @@
       },
       "Serilog.Enrichers.Process": {
         "type": "CentralTransitive",
-        "requested": "[2.0.2, )",
+        "requested": "[3.0.0, )",
         "resolved": "3.0.0",
         "contentHash": "/wPYz2PDCJGSHNI+Z0PAacZvrgZgrGduWqLXeC2wvW6pgGM/Bi45JrKy887MRcRPHIZVU0LAlkmJ7TkByC0boQ==",
         "dependencies": {
@@ -2133,7 +2141,7 @@
       },
       "Serilog.Enrichers.Thread": {
         "type": "CentralTransitive",
-        "requested": "[3.1.0, )",
+        "requested": "[4.0.0, )",
         "resolved": "4.0.0",
         "contentHash": "C7BK25a1rhUyr+Tp+1BYcVlBJq7M2VCHlIgnwoIUVJcicM9jYcvQK18+OeHiXw7uLPSjqWxJIp1EfaZ/RGmEwA==",
         "dependencies": {
@@ -2152,7 +2160,7 @@
       },
       "Serilog.Sinks.File": {
         "type": "CentralTransitive",
-        "requested": "[5.0.0, )",
+        "requested": "[6.0.0, )",
         "resolved": "6.0.0",
         "contentHash": "lxjg89Y8gJMmFxVkbZ+qDgjl+T4yC5F7WSLTvA+5q0R04tfKVLRL/EHpYoJ/MEQd2EeCKDuylBIVnAYMotmh2A==",
         "dependencies": {
@@ -2195,17 +2203,6 @@
           "MediatR": "12.0.1",
           "Microsoft.AspNetCore.OData": "8.2.0",
           "Newtonsoft.Json": "13.0.3"
-        }
-      },
-      "Wally.RomMaster.HashService.Application.Messages": {
-        "type": "CentralTransitive",
-        "requested": "[0.1.2559, )",
-        "resolved": "0.1.2601",
-        "contentHash": "VFWzytp9maop5axm7GEcAcIRIcN5XsbVeRGnuztibbQMZtAErlndUGjAMl2SWEM4vRIvfWBIUffIQUNIk/7/Nw==",
-        "dependencies": {
-          "FluentValidation": "11.9.1",
-          "SonarAnalyzer.CSharp": "9.25.1.91650",
-          "StyleCop.Analyzers": "1.1.118"
         }
       }
     }

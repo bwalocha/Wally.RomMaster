@@ -7,19 +7,19 @@ namespace Wally.RomMaster.ApiGateway.Infrastructure.DI.Microsoft.Extensions;
 public static class ReverseProxyExtensions
 {
 	private const string ReverseProxy = nameof(ReverseProxy);
-	
+
 	public static IServiceCollection AddReverseProxy(this IServiceCollection services, IConfiguration configuration)
 	{
 		services.AddReverseProxy()
 			.LoadFromConfig(configuration.GetSection(ReverseProxy));
-		
+
 		return services;
 	}
-	
+
 	public static IApplicationBuilder UseReverseProxy(this IApplicationBuilder app)
 	{
 		app.UseEndpoints(endpoints => { endpoints.MapReverseProxy(); });
-		
+
 		return app;
 	}
 }

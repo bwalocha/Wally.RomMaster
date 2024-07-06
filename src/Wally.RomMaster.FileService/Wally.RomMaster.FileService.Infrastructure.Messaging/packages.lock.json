@@ -69,13 +69,11 @@
       },
       "Wally.RomMaster.HashService.Application.Messages": {
         "type": "Direct",
-        "requested": "[0.1.2601, )",
-        "resolved": "0.1.2601",
-        "contentHash": "VFWzytp9maop5axm7GEcAcIRIcN5XsbVeRGnuztibbQMZtAErlndUGjAMl2SWEM4vRIvfWBIUffIQUNIk/7/Nw==",
+        "requested": "(, )",
+        "resolved": "0.1.2127",
+        "contentHash": "c/GIBexOIEZSXFJw5oAHTrmNHwKA+a9HQw8N+dv+upYhrRdrHHDbYlOP+oNyUn6Ye+wzC8PvNtiGIa5LX14OBA==",
         "dependencies": {
-          "FluentValidation": "11.9.1",
-          "SonarAnalyzer.CSharp": "9.25.1.91650",
-          "StyleCop.Analyzers": "1.1.118"
+          "FluentValidation": "11.7.1"
         }
       },
       "MediatR.Contracts": {

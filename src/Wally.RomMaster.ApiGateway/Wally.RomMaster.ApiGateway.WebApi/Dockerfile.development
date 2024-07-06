@@ -1,14 +1,14 @@
 # https://hub.docker.com/_/microsoft-dotnet-aspnet
 FROM mcr.microsoft.com/dotnet/aspnet:8.0.3-alpine3.18-amd64
 LABEL maintainer="wally"
-ARG PROJECT_NAME
+#ARG PROJECT_NAME
 
 EXPOSE 80
 
 # https://www.abhith.net/blog/docker-sql-error-on-aspnet-core-alpine/
 ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT false
 ENV ASPNETCORE_FORWARDEDHEADERS_ENABLED true
-ENV PROJECT_NAME ${PROJECT_NAME}
+#ENV PROJECT_NAME ${PROJECT_NAME}
 
 RUN apk add --no-cache tzdata && \
     apk add --no-cache icu-libs && \
@@ -18,4 +18,4 @@ RUN apk add --no-cache tzdata && \
 
 WORKDIR /app
 
-ENTRYPOINT dotnet `basename ${PROJECT_NAME}`.dll
+#ENTRYPOINT dotnet `basename ${PROJECT_NAME}`.dll

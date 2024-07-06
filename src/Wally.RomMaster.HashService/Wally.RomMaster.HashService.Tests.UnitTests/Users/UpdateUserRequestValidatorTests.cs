@@ -48,10 +48,10 @@ public class UpdateUserRequestValidatorTests
 		"... ... ... ... ... ... ... ... ... ... ... ... .." +
 		". ... ... ... ... ... ... ... ... ... ... ... ... " +
 		"... ...")]
-	public void Validate_ForInvalidData_IsNotValid(string name)
+	public void Validate_ForInvalidData_IsNotValid(string? name)
 	{
 		// Arrange
-		var instance = new UpdateUserRequest(name);
+		var instance = new UpdateUserRequest(name!);
 		
 		// Act
 		var result = _validator.Validate(instance);
