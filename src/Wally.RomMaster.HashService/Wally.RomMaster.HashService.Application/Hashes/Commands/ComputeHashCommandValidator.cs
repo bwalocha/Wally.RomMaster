@@ -10,6 +10,7 @@ public class ComputeHashCommandValidator : AbstractValidator<ComputeHashCommand>
 			.NotEmpty();
 		RuleFor(a => a.FileLocation)
 			.NotEmpty()
-			.MaximumLength(3000);
+			// .MaximumLength(3000)
+			;
 	}
 }

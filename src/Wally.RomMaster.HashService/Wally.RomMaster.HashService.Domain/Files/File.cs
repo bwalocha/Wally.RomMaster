@@ -28,7 +28,8 @@ public class File : AggregateRoot<File, FileId>
 		LastWriteTimeUtc = fileInfo.LastWriteTimeUtc;
 	}
 
-	private File(FileLocation fileLocation, long length, File archivePackage)
+	private File(FileId id, FileLocation fileLocation, long length, File archivePackage)
+		: base(id)
 	{
 		// ModifiedAt = timestamp;
 		Location = fileLocation;
