@@ -1,5 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
-using Wally.Lib.DDD.Abstractions.DomainEvents;
+using Wally.RomMaster.HashService.Domain.Abstractions;
 
 namespace Wally.RomMaster.HashService.Domain.Users;
 

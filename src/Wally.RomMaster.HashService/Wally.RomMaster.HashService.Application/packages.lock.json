@@ -133,8 +133,7 @@
         "type": "Project",
         "dependencies": {
           "SonarAnalyzer.CSharp": "[9.28.0.94264, )",
-          "StyleCop.Analyzers": "[1.1.118, )",
-          "Wally.Lib.DDD.Abstractions": "[1.3.6, )"
+          "StyleCop.Analyzers": "[1.1.118, )"
         }
       },
       "FluentValidation": {

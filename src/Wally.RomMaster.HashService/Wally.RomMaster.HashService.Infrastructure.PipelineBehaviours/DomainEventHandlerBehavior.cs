@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Wally.RomMaster.HashService.Domain.Abstractions;
 using Wally.Lib.DDD.Abstractions.Commands;
-using Wally.Lib.DDD.Abstractions.DomainEvents;
 
 namespace Wally.RomMaster.HashService.Infrastructure.PipelineBehaviours;
 

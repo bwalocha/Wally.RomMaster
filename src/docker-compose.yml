@@ -10,8 +10,6 @@ services:
         image: wally.rommaster.apigateway.webapi
         container_name: api
         restart: "no"
-#        networks:
-#            - default
         ports:
             - "5000:80"
         build:
@@ -20,7 +18,6 @@ services:
         environment:
             TZ: ${TZ}
             #
-#            PROJECT_NAME: Wally.RomMaster.ApiGateway.WebApi
             HealthChecksUI__HealthChecks__0__Uri: http://api/healthChecks
             HealthChecksUI__HealthChecks__1__Uri: http://api/FileService-api/healthChecks
             HealthChecksUI__HealthChecks__2__Uri: http://api/HashService-api/healthChecks
@@ -37,15 +34,12 @@ services:
         container_name: file_api
         image: wally.rommaster.fileservice.webapi
         restart: "no"
-#        networks:
-#            - default
         build:
             context: ./Wally.RomMaster.FileService/Wally.RomMaster.FileService.WebApi
             dockerfile: Dockerfile.development
         entrypoint: dotnet Wally.RomMaster.FileService.WebApi.dll
         environment:
             TZ: ${TZ}
-            PROJECT_NAME: Wally.RomMaster.FileService.WebApi
             ASPNETCORE_URLS: http://+:80
             ASPNETCORE_ENVIRONMENT: Development
             DOTNET_DASHBOARD_OTLP_ENDPOINT_URL: http://aspire:18889
@@ -60,15 +54,12 @@ services:
         container_name: hash_api
         image: wally.rommaster.hashservice.webapi
         restart: "no"
-#        networks:
-#            - default
         build:
             context: ./Wally.RomMaster.HashService/Wally.RomMaster.HashService.WebApi
             dockerfile: Dockerfile.development
         entrypoint: dotnet Wally.RomMaster.HashService.WebApi.dll
         environment:
             TZ: ${TZ}
-            PROJECT_NAME: Wally.RomMaster.HashService.WebApi
             ASPNETCORE_URLS: http://+:80
             ASPNETCORE_ENVIRONMENT: Development
             DOTNET_DASHBOARD_OTLP_ENDPOINT_URL: http://aspire:18889
@@ -84,8 +75,6 @@ services:
         image: mcr.microsoft.com/dotnet/nightly/aspire-dashboard:latest
         container_name: aspire
         restart: "no"
-#        networks:
-#            - default
         ports:
             - "18888:18888"
             - "18889:18889"
