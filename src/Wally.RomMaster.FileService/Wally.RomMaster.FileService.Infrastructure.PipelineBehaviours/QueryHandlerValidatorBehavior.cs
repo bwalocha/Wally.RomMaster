@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using FluentValidation;
 using MediatR;
-using Wally.Lib.DDD.Abstractions.Responses;
+using Wally.RomMaster.FileService.Application.Contracts.Abstractions;
 
 namespace Wally.RomMaster.FileService.Infrastructure.PipelineBehaviours;
 

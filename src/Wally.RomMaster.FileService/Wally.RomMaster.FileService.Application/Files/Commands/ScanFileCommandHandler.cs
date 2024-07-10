@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Wally.Lib.DDD.Abstractions.Commands;
+using Wally.RomMaster.FileService.Application.Abstractions;
 using Wally.RomMaster.FileService.Application.Paths;
 using Wally.RomMaster.FileService.Domain.Abstractions;
 using Wally.RomMaster.FileService.Domain.Files;
@@ -33,7 +33,7 @@ public class ScanFileCommandHandler : CommandHandler<ScanFileCommand>
 	public override async Task HandleAsync(ScanFileCommand command, CancellationToken cancellationToken)
 	{
 		var file = await _fileRepository.GetOrDefaultAsync(command.Location, cancellationToken);
-		var fileInfo = new FileInfo(command.Location.Location.LocalPath);
+		var fileInfo = new FileInfo(command.Location.Value.LocalPath);
 
 		if (!fileInfo.Exists)
 		{
@@ -57,7 +57,7 @@ public class ScanFileCommandHandler : CommandHandler<ScanFileCommand>
 
 		if (file == null)
 		{
-			var path = await GetOrCreatePathAsync(command.Location.Location.LocalPath, cancellationToken);
+			var path = await GetOrCreatePathAsync(command.Location.Value.LocalPath, cancellationToken);
 
 			file = File.Create(
 				_clockService,
@@ -82,7 +82,7 @@ public class ScanFileCommandHandler : CommandHandler<ScanFileCommand>
 			return null;
 		}
 
-		var path = await _pathRepository.GetOrDefaultAsync(FileLocation.Create(new Uri(name)), cancellationToken);
+		var path = await _pathRepository.GetOrDefaultAsync(new FileLocation(new Uri(name)), cancellationToken);
 		if (path == null)
 		{
 			var parent = await GetOrCreatePathAsync(name, cancellationToken);

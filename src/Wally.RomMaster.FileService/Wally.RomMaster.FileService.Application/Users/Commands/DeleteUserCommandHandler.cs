@@ -1,6 +1,6 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Wally.Lib.DDD.Abstractions.Commands;
+using Wally.RomMaster.FileService.Application.Abstractions;
 
 namespace Wally.RomMaster.FileService.Application.Users.Commands;
 

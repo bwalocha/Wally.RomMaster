@@ -6,7 +6,7 @@ using AutoMapper;
 using AutoMapper.Extensions.ExpressionMapping;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.OData.UriParser;
-using Wally.Lib.DDD.Abstractions.Requests;
+using Wally.RomMaster.FileService.Application.Contracts.Abstractions;
 
 namespace Wally.RomMaster.FileService.Infrastructure.Persistence.Extensions;
 

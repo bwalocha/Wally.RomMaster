@@ -15,12 +15,12 @@ internal class FileMapping : IEntityTypeConfiguration<File>
 			a => a.Location,
 			b =>
 			{
-				b.Property(c => c.Location)
+				b.Property(c => c.Value)
 					.IsRequired()
 					.HasConversion(a => a.LocalPath, b => new Uri(b))
 					.HasColumnName(nameof(File.Location))
 					.HasMaxLength(3000);
-				b.HasIndex(c => c.Location)
+				b.HasIndex(c => c.Value)
 					.IsUnique();
 			});
 

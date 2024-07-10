@@ -1,5 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
-using Wally.Lib.DDD.Abstractions.DomainEvents;
+using Wally.RomMaster.FileService.Domain.Abstractions;
 
 namespace Wally.RomMaster.FileService.Domain.Files;
 

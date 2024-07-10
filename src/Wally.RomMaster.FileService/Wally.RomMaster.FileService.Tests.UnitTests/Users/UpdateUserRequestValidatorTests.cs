@@ -1,6 +1,6 @@
 using FluentAssertions;
 using FluentValidation;
-using Wally.RomMaster.FileService.Application.Contracts.Requests.Users;
+using Wally.RomMaster.FileService.Application.Contracts.Users.Requests;
 using Xunit;
 
 namespace Wally.RomMaster.FileService.Tests.UnitTests.Users;

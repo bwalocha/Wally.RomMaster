@@ -3,9 +3,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
-using Wally.Lib.DDD.Abstractions.Responses;
-using Wally.RomMaster.FileService.Application.Contracts.Requests.Files;
-using Wally.RomMaster.FileService.Application.Contracts.Responses.Files;
+using Wally.RomMaster.FileService.Application.Contracts;
+using Wally.RomMaster.FileService.Application.Contracts.Files.Requests;
+using Wally.RomMaster.FileService.Application.Contracts.Files.Responses;
 using Wally.RomMaster.FileService.Application.Files.Queries;
 using Wally.RomMaster.FileService.Domain.Files;
 

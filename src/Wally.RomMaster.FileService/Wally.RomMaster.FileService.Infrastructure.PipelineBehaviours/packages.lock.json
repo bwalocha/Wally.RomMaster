@@ -57,11 +57,10 @@
         "resolved": "1.1.118",
         "contentHash": "Onx6ovGSqXSK07n/0eM3ZusiNdB6cIlJdabQhWGgJp3Vooy9AaLS/tigeybOJAobqbtggTamoWndz72JscZBvw=="
       },
-      "Wally.Lib.DDD.Abstractions": {
-        "type": "Direct",
-        "requested": "(, )",
-        "resolved": "0.0.1",
-        "contentHash": "sNa1UWyt2kUUQ9+98ZmTWqRAiz6FLBafbrd6l7mwca0nYTXHNjqVF8MVTY0gIA+Jpq5ZvtJPbxQ2ZbSO8f2PIw=="
+      "Microsoft.Bcl.AsyncInterfaces": {
+        "type": "Transitive",
+        "resolved": "8.0.0",
+        "contentHash": "3WA9q9yVqJp222P3x1wYIGDAkpjAku0TMUaaQV22g6L67AI0LdOIrVS7Ht2vJfLHGSPVuqN94vIr15qn+HEkHw=="
       },
       "Microsoft.EntityFrameworkCore.Abstractions": {
         "type": "Transitive",
@@ -125,13 +124,104 @@
         "resolved": "8.0.0",
         "contentHash": "bXJEZrW9ny8vjMF1JV253WeLhpEVzFo1lyaZu1vQ4ZxWUlVvknZ/+ftFgVheLubb4eZPSwwxBeqS1JkCOjxd8g=="
       },
+      "Microsoft.OData.Core": {
+        "type": "Transitive",
+        "resolved": "7.20.0",
+        "contentHash": "CY+Bx64a2ytxD1/gw/qU3iDfbMqoDLhjm+G1Lte3At2YYgJt3vSLFvNJzHZuREq7Lnsmxb/KHlTRsWY7iMwZ7A==",
+        "dependencies": {
+          "Microsoft.Bcl.AsyncInterfaces": "8.0.0",
+          "Microsoft.OData.Edm": "[7.20.0]",
+          "Microsoft.Spatial": "[7.20.0]"
+        }
+      },
+      "Microsoft.OData.Edm": {
+        "type": "Transitive",
+        "resolved": "7.20.0",
+        "contentHash": "F4jt0Ojqjc2bTmOcGT7LqIlwxnAuVjMbdqN1taFOwZ21uQY4k2IjFFwakcG8B5YpaiS6uGD6mJXlO3DtMmMsHw==",
+        "dependencies": {
+          "System.Runtime.CompilerServices.Unsafe": "4.6.0",
+          "System.Text.Encodings.Web": "4.7.2",
+          "System.Text.Json": "4.6.0"
+        }
+      },
+      "Microsoft.OData.ModelBuilder": {
+        "type": "Transitive",
+        "resolved": "1.0.9",
+        "contentHash": "Qt2AVqW4cFiICWiGdY08c7q2pHdFJTc0jth7oO9T6xb+0SZSHFloScqTMdMNv8M9Wfc16wyWqxYQyVyWiODWDg==",
+        "dependencies": {
+          "Microsoft.OData.Edm": "[7.9.0, 8.0.0)",
+          "Microsoft.Spatial": "[7.9.0, 8.0.0)",
+          "System.ComponentModel.Annotations": "4.6.0"
+        }
+      },
+      "Microsoft.Spatial": {
+        "type": "Transitive",
+        "resolved": "7.20.0",
+        "contentHash": "nJLDCOv3qemN0XI5kmUN9h38Qw+ZQBoYtWwSGhPkDEiiZSDcAwLMgqbGNKmK3myhVWASCqXtOqrj5jUnGZrH/Q=="
+      },
+      "System.ComponentModel.Annotations": {
+        "type": "Transitive",
+        "resolved": "4.6.0",
+        "contentHash": "pOd+UhZ3X8xfwKDlgAzowUJNjp8VYVmOHZm++vCd0kq1HZ0zK3mNo2yRXjYgv7Ik/Xi43fmJfND2PLEsQSALCg=="
+      },
+      "System.Runtime.CompilerServices.Unsafe": {
+        "type": "Transitive",
+        "resolved": "4.6.0",
+        "contentHash": "HxozeSlipUK7dAroTYwIcGwKDeOVpQnJlpVaOkBz7CM4TsE5b/tKlQBZecTjh6FzcSbxndYaxxpsBMz+wMJeyw=="
+      },
+      "System.Text.Encodings.Web": {
+        "type": "Transitive",
+        "resolved": "4.7.2",
+        "contentHash": "iTUgB/WtrZ1sWZs84F2hwyQhiRH6QNjQv2DkwrH+WP6RoFga2Q1m3f9/Q7FG8cck8AdHitQkmkXSY8qylcDmuA=="
+      },
+      "System.Text.Json": {
+        "type": "Transitive",
+        "resolved": "4.6.0",
+        "contentHash": "4F8Xe+JIkVoDJ8hDAZ7HqLkjctN/6WItJIzQaifBwClC7wmoLSda/Sv2i6i1kycqDb3hWF4JCVbpAweyOKHEUA=="
+      },
+      "wally.rommaster.fileservice.application": {
+        "type": "Project",
+        "dependencies": {
+          "MassTransit.Abstractions": "[8.2.3, )",
+          "MediatR": "[12.3.0, )",
+          "Microsoft.AspNetCore.OData": "[8.2.5, )",
+          "Microsoft.Extensions.Logging.Abstractions": "[8.0.1, )",
+          "SonarAnalyzer.CSharp": "[9.28.0.94264, )",
+          "StyleCop.Analyzers": "[1.1.118, )",
+          "Wally.RomMaster.FileService.Application.Contracts": "[1.0.0, )",
+          "Wally.RomMaster.FileService.Application.Messages": "[1.0.0, )",
+          "Wally.RomMaster.FileService.Domain": "[1.0.0, )"
+        }
+      },
+      "wally.rommaster.fileservice.application.contracts": {
+        "type": "Project",
+        "dependencies": {
+          "FluentValidation": "[11.9.2, )",
+          "Reinforced.Typings": "[1.6.3, )",
+          "SonarAnalyzer.CSharp": "[9.28.0.94264, )",
+          "StyleCop.Analyzers": "[1.1.118, )"
+        }
+      },
+      "wally.rommaster.fileservice.application.messages": {
+        "type": "Project",
+        "dependencies": {
+          "FluentValidation": "[11.9.2, )",
+          "SonarAnalyzer.CSharp": "[9.28.0.94264, )",
+          "StyleCop.Analyzers": "[1.1.118, )"
+        }
+      },
       "wally.rommaster.fileservice.domain": {
         "type": "Project",
         "dependencies": {
           "SonarAnalyzer.CSharp": "[9.28.0.94264, )",
-          "StyleCop.Analyzers": "[1.1.118, )",
-          "Wally.Lib.DDD.Abstractions": "(, )"
+          "StyleCop.Analyzers": "[1.1.118, )"
         }
+      },
+      "MassTransit.Abstractions": {
+        "type": "CentralTransitive",
+        "requested": "[8.2.3, )",
+        "resolved": "8.2.3",
+        "contentHash": "dKD1gZ2c75tzaShRGuPuKm3/gviiUzn3ZG0E9alu4vJqQJQRNwSIAZ088NocYy8l4fRs3+La+C2sa9OolkEamw=="
       },
       "MediatR.Contracts": {
         "type": "CentralTransitive",
@@ -139,11 +229,29 @@
         "resolved": "2.0.1",
         "contentHash": "FYv95bNT4UwcNA+G/J1oX5OpRiSUxteXaUt2BJbRSdRNiIUNbggJF69wy6mnk2wYToaanpdXZdCwVylt96MpwQ=="
       },
+      "Microsoft.AspNetCore.OData": {
+        "type": "CentralTransitive",
+        "requested": "[8.2.5, )",
+        "resolved": "8.2.5",
+        "contentHash": "zAgHw+d/wZjuN2AjmYw8+O6y8Bi7s2L5E/unRz1PTsaJ1z8UWrdh/vAReIwlxnSXYBUCAaQMKQPERqKGe+8uGw==",
+        "dependencies": {
+          "Microsoft.OData.Core": "[7.20.0, 8.0.0)",
+          "Microsoft.OData.Edm": "[7.20.0, 8.0.0)",
+          "Microsoft.OData.ModelBuilder": "[1.0.9, 2.0.0)",
+          "Microsoft.Spatial": "[7.20.0, 8.0.0)"
+        }
+      },
       "Microsoft.Extensions.DependencyInjection.Abstractions": {
         "type": "CentralTransitive",
         "requested": "[8.0.1, )",
         "resolved": "8.0.1",
         "contentHash": "fGLiCRLMYd00JYpClraLjJTNKLmMJPnqxMaiRzEBIIvevlzxz33mXy39Lkd48hu1G+N21S7QpaO5ZzKsI6FRuA=="
+      },
+      "Reinforced.Typings": {
+        "type": "CentralTransitive",
+        "requested": "[1.6.3, )",
+        "resolved": "1.6.3",
+        "contentHash": "lLdMeO5ybDagOGtRvuhyAGiPCJrJwU6PDGG3JIImQp+gYEQdpuUj8PjE5agv/Ujktx2XwCoEPnQDqtPm+/fZLQ=="
       }
     }
   }

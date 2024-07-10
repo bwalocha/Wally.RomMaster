@@ -1,8 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using MassTransit;
-using Wally.Lib.DDD.Abstractions.DomainEvents;
-using Wally.RomMaster.FileService.Application.Contracts.Responses.Files;
+using Wally.RomMaster.FileService.Application.Abstractions;
+using Wally.RomMaster.FileService.Application.Contracts.Files.Responses;
 using Wally.RomMaster.FileService.Application.Messages.Files;
 using Wally.RomMaster.FileService.Domain.Files;
 

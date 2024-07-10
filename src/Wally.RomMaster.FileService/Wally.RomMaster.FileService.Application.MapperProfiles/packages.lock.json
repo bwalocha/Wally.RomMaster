@@ -45,27 +45,20 @@
         "resolved": "6.0.0",
         "contentHash": "/iUeP3tq1S0XdNNoMz5C9twLSrM/TH+qElHkXWaPvuNOt+99G75NrV0OS2EqHx5wMN7popYjpc8oTjC1y16DLg=="
       },
-      "Wally.Lib.DDD.Abstractions": {
-        "type": "Transitive",
-        "resolved": "0.0.1",
-        "contentHash": "sNa1UWyt2kUUQ9+98ZmTWqRAiz6FLBafbrd6l7mwca0nYTXHNjqVF8MVTY0gIA+Jpq5ZvtJPbxQ2ZbSO8f2PIw=="
-      },
       "wally.rommaster.fileservice.application.contracts": {
         "type": "Project",
         "dependencies": {
           "FluentValidation": "[11.9.2, )",
           "Reinforced.Typings": "[1.6.3, )",
           "SonarAnalyzer.CSharp": "[9.28.0.94264, )",
-          "StyleCop.Analyzers": "[1.1.118, )",
-          "Wally.Lib.DDD.Abstractions": "(, )"
+          "StyleCop.Analyzers": "[1.1.118, )"
         }
       },
       "wally.rommaster.fileservice.domain": {
         "type": "Project",
         "dependencies": {
           "SonarAnalyzer.CSharp": "[9.28.0.94264, )",
-          "StyleCop.Analyzers": "[1.1.118, )",
-          "Wally.Lib.DDD.Abstractions": "(, )"
+          "StyleCop.Analyzers": "[1.1.118, )"
         }
       },
       "FluentValidation": {

@@ -1463,11 +1463,6 @@
         "resolved": "2.1.1824",
         "contentHash": "mN2ZAoe+JQ+TTBYP6I/UKKlON83klBU1R64ieQBplXKE/cvUqR39vPYm3QeZL+P+x/R8BMMNfwXRgD6rVp59Yw=="
       },
-      "Wally.Lib.DDD.Abstractions": {
-        "type": "Transitive",
-        "resolved": "0.0.1",
-        "contentHash": "sNa1UWyt2kUUQ9+98ZmTWqRAiz6FLBafbrd6l7mwca0nYTXHNjqVF8MVTY0gIA+Jpq5ZvtJPbxQ2ZbSO8f2PIw=="
-      },
       "xunit.abstractions": {
         "type": "Transitive",
         "resolved": "2.0.3",
@@ -1522,6 +1517,7 @@
         "type": "Project",
         "dependencies": {
           "MassTransit.Abstractions": "[8.2.3, )",
+          "MediatR": "[12.3.0, )",
           "Microsoft.AspNetCore.OData": "[8.2.5, )",
           "Microsoft.Extensions.Logging.Abstractions": "[8.0.1, )",
           "SonarAnalyzer.CSharp": "[9.28.0.94264, )",
@@ -1537,8 +1533,7 @@
           "FluentValidation": "[11.9.2, )",
           "Reinforced.Typings": "[1.6.3, )",
           "SonarAnalyzer.CSharp": "[9.28.0.94264, )",
-          "StyleCop.Analyzers": "[1.1.118, )",
-          "Wally.Lib.DDD.Abstractions": "(, )"
+          "StyleCop.Analyzers": "[1.1.118, )"
         }
       },
       "wally.rommaster.fileservice.application.mapperprofiles": {
@@ -1563,8 +1558,7 @@
         "type": "Project",
         "dependencies": {
           "SonarAnalyzer.CSharp": "[9.28.0.94264, )",
-          "StyleCop.Analyzers": "[1.1.118, )",
-          "Wally.Lib.DDD.Abstractions": "(, )"
+          "StyleCop.Analyzers": "[1.1.118, )"
         }
       },
       "wally.rommaster.fileservice.infrastructure.backgroundservices": {
@@ -1632,7 +1626,6 @@
           "SonarAnalyzer.CSharp": "[9.28.0.94264, )",
           "StyleCop.Analyzers": "[1.1.118, )",
           "Wally.Identity.Messages": "(, )",
-          "Wally.Lib.DDD.Abstractions": "(, )",
           "Wally.RomMaster.FileService.Application": "[1.0.0, )",
           "Wally.RomMaster.HashService.Application.Messages": "[0.1.2601, )"
         }
@@ -1696,7 +1689,7 @@
           "Serilog": "[4.0.0, )",
           "SonarAnalyzer.CSharp": "[9.28.0.94264, )",
           "StyleCop.Analyzers": "[1.1.118, )",
-          "Wally.Lib.DDD.Abstractions": "(, )",
+          "Wally.RomMaster.FileService.Application": "[1.0.0, )",
           "Wally.RomMaster.FileService.Domain": "[1.0.0, )"
         }
       },

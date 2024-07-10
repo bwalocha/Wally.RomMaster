@@ -32,6 +32,6 @@ public class FileRepository : Repository<File, FileId>, IFileRepository
 	{
 		// Location is Unique so we can get First result
 		return GetReadWriteEntitySet()
-			.FirstOrDefaultAsync(a => a.Location.Location == location.Location, cancellationToken);
+			.FirstOrDefaultAsync(a => a.Location.Value == location.Value, cancellationToken);
 	}
 }

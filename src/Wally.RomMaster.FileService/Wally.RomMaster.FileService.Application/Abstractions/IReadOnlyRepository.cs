@@ -1,9 +1,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.OData.Query;
+using Wally.RomMaster.FileService.Application.Contracts;
+using Wally.RomMaster.FileService.Application.Contracts.Abstractions;
 using Wally.RomMaster.FileService.Domain.Abstractions;
-using Wally.Lib.DDD.Abstractions.Requests;
-using Wally.Lib.DDD.Abstractions.Responses;
 
 namespace Wally.RomMaster.FileService.Application.Abstractions;
 

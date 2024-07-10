@@ -230,7 +230,7 @@ public class FileWatcherService : BackgroundService
 	{
 		using var scope = _serviceProvider.CreateScope();
 		var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
-		var command = new ScanFileCommand(FileLocation.Create(new Uri(e.FullPath)));
+		var command = new ScanFileCommand(new FileLocation(new Uri(e.FullPath)));
 		try
 		{
 			await mediator.Send(command, cancellationToken);
@@ -270,7 +270,7 @@ public class FileWatcherService : BackgroundService
 
 			_logger.LogDebug($"Path '{path}' found.");
 
-			var command = new ScanPathCommand(FileLocation.Create(new Uri(path)));
+			var command = new ScanPathCommand(new FileLocation(new Uri(path)));
 			using var scope = _serviceProvider.CreateScope();
 			var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
 			try

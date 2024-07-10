@@ -31,7 +31,6 @@ public class FileLocation : ValueObject<FileLocation, Uri>
 		return false;
 	}
 	
-	// override 
 	protected override IEnumerable<object?> GetEqualityComponents()
 	{
 		yield return Value;

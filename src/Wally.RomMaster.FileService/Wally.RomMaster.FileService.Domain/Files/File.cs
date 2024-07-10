@@ -21,7 +21,7 @@ public class File : AggregateRoot<File, FileId>
 		// ModifiedAt = timestamp;
 		PathId = path.Id;
 		Path = path;
-		Location = FileLocation.Create(new Uri(fileInfo.FullName));
+		Location = new FileLocation(new Uri(fileInfo.FullName));
 		Length = fileInfo.Length;
 		Attributes = fileInfo.Attributes;
 		CreationTimeUtc = fileInfo.CreationTimeUtc;
@@ -34,7 +34,7 @@ public class File : AggregateRoot<File, FileId>
 		// ModifiedAt = timestamp;
 		PathId = path.Id;
 		Path = path;
-		Location = FileLocation.Create(fullName);
+		Location = new FileLocation(fullName);
 		Length = length;
 		Attributes = archivePackage.Attributes;
 		CreationTimeUtc = archivePackage.CreationTimeUtc;
@@ -79,7 +79,7 @@ public class File : AggregateRoot<File, FileId>
 
 	public static File Create(IClockService clockService, Path path, File archivePackage, ZipArchiveEntry entry)
 	{
-		var fullName = new Uri($"{archivePackage.Location.Location.LocalPath}#{entry.FullName}");
+		var fullName = new Uri($"{archivePackage.Location.Value.LocalPath}#{entry.FullName}");
 		var model = new File(clockService.GetTimestamp(), path, fullName, entry.Length, archivePackage /*, crc32*/);
 		// model.AddDomainEvent(new FileCreatedDomainEvent(model.Id));
 
@@ -117,7 +117,7 @@ public class File : AggregateRoot<File, FileId>
 
 	public bool IsArchivePackage()
 	{
-		return IsArchivePackage(Location.Location.LocalPath);
+		return IsArchivePackage(Location.Value.LocalPath);
 	}
 
 	internal static bool IsArchivePackage(string fileName)

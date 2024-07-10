@@ -87,7 +87,7 @@ public class FileScannerService : BackgroundService
 				return;
 			}
 
-			var command = new ScanPathsCommand(paths.Select(a => FileLocation.Create(new Uri(a)))
+			var command = new ScanPathsCommand(paths.Select(a => new FileLocation(new Uri(a)))
 				.ToArray());
 			try
 			{
@@ -121,7 +121,7 @@ public class FileScannerService : BackgroundService
 			var command = new ScanFilesCommand(
 				files
 					.Where(a => !IsExcluded(a, folder.Excludes))
-					.Select(a => FileLocation.Create(new Uri(a)))
+					.Select(a => new FileLocation(new Uri(a)))
 					.ToArray());
 
 			try

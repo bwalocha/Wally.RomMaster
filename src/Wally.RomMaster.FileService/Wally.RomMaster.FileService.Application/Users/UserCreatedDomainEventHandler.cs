@@ -1,9 +1,9 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
 using MassTransit;
+using Wally.RomMaster.FileService.Application.Abstractions;
 using Wally.RomMaster.FileService.Application.Messages.Users;
 using Wally.RomMaster.FileService.Domain.Users;
-using Wally.Lib.DDD.Abstractions.DomainEvents;
 
 namespace Wally.RomMaster.FileService.Application.Users;
 

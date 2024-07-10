@@ -1,8 +1,8 @@
 ﻿using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using Wally.RomMaster.FileService.Application;
+using Wally.RomMaster.FileService.Application.Abstractions;
 using Wally.RomMaster.FileService.Infrastructure.PipelineBehaviours;
-using Wally.Lib.DDD.Abstractions.DomainEvents;
 
 namespace Wally.RomMaster.FileService.Infrastructure.DI.Microsoft.Extensions;
 

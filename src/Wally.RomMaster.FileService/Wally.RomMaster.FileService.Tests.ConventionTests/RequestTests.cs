@@ -4,9 +4,9 @@ using FluentAssertions.Common;
 using FluentAssertions.Execution;
 using FluentAssertions.Types;
 using Wally.RomMaster.FileService.Application.Contracts;
+using Wally.RomMaster.FileService.Application.Contracts.Abstractions;
 using Wally.RomMaster.FileService.Tests.ConventionTests.Extensions;
 using Wally.RomMaster.FileService.Tests.ConventionTests.Helpers;
-using Wally.Lib.DDD.Abstractions.Requests;
 using Xunit;
 
 namespace Wally.RomMaster.FileService.Tests.ConventionTests;
@@ -50,7 +50,7 @@ public class RequestTests
 	public void Application_ClassesWhichImplementsIRequest_ShouldBeInTheSameProject()
 	{
 		var assemblies = Configuration.Assemblies.GetAllAssemblies();
-		var applicationNamespace = $"{typeof(IApplicationContractsAssemblyMarker).Namespace}.Requests";
+		var applicationNamespace = typeof(IApplicationContractsAssemblyMarker).Namespace;
 
 		using (new AssertionScope(new AssertionStrategy()))
 		{

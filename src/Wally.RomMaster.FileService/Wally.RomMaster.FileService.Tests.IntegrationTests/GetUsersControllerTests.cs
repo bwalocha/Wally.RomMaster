@@ -4,9 +4,9 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Wally.RomMaster.FileService.Application.Contracts.Responses.Users;
+using Wally.RomMaster.FileService.Application.Contracts;
+using Wally.RomMaster.FileService.Application.Contracts.Users.Responses;
 using Wally.RomMaster.FileService.Tests.IntegrationTests.Extensions;
-using Wally.Lib.DDD.Abstractions.Responses;
 using Xunit;
 
 namespace Wally.RomMaster.FileService.Tests.IntegrationTests;

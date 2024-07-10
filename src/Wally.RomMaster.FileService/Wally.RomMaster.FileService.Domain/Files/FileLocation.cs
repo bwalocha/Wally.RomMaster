@@ -1,24 +1,16 @@
 ﻿using System;
-using System.Diagnostics;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
-using Wally.Lib.DDD.Abstractions.DomainModels;
+using Wally.RomMaster.FileService.Domain.Abstractions;
 
 namespace Wally.RomMaster.FileService.Domain.Files;
 
-[DebuggerDisplay("{Location}")]
-public class FileLocation : ValueObject
+public class FileLocation : ValueObject<FileLocation, Uri>
 {
-	private FileLocation(Uri location)
+	public FileLocation(Uri value)
+		: base(value)
 	{
-		Location = location;
-	}
-
-	public Uri Location { get; }
-
-	public static FileLocation Create(Uri location)
-	{
-		return new FileLocation(location);
 	}
 
 	// https://stackoverflow.com/questions/17408499/async-wait-for-file-to-be-created
@@ -26,7 +18,7 @@ public class FileLocation : ValueObject
 	{
 		try
 		{
-			using (System.IO.File.Open(Location.LocalPath, FileMode.Open))
+			using (System.IO.File.Open(Value.LocalPath, FileMode.Open))
 			{
 			}
 		}
@@ -37,5 +29,10 @@ public class FileLocation : ValueObject
 		}
 
 		return false;
+	}
+	
+	protected override IEnumerable<object?> GetEqualityComponents()
+	{
+		yield return Value;
 	}
 }

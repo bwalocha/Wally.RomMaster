@@ -4,7 +4,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using MassTransit;
-using Wally.Lib.DDD.Abstractions.Commands;
+using Wally.RomMaster.FileService.Application.Abstractions;
 using Wally.RomMaster.FileService.Application.Messages.Files;
 using Wally.RomMaster.FileService.Application.Paths;
 using Wally.RomMaster.FileService.Domain.Abstractions;
@@ -40,7 +40,7 @@ public class ScanFilesCommandHandler : CommandHandler<ScanFilesCommand>
 		foreach (var location in command.Locations)
 		{
 			var file = await _fileRepository.GetOrDefaultAsync(location, cancellationToken);
-			var fileInfo = new FileInfo(location.Location.LocalPath);
+			var fileInfo = new FileInfo(location.Value.LocalPath);
 
 			if (!fileInfo.Exists)
 			{
@@ -64,7 +64,7 @@ public class ScanFilesCommandHandler : CommandHandler<ScanFilesCommand>
 
 			if (file == null)
 			{
-				var path = await GetOrCreatePathAsync(location.Location.LocalPath, cancellationToken);
+				var path = await GetOrCreatePathAsync(location.Value.LocalPath, cancellationToken);
 
 				file = File.Create(
 					_clockService,
@@ -81,7 +81,7 @@ public class ScanFilesCommandHandler : CommandHandler<ScanFilesCommand>
 			}
 			else if (file.Crc32 is null || file.Md5 is null)
 			{
-				var message = new FileModifiedMessage(file.Id.Value, file.Location.Location.LocalPath);
+				var message = new FileModifiedMessage(file.Id.Value, file.Location.Value.LocalPath);
 
 				await _bus.Publish(message, cancellationToken);
 			}
@@ -96,7 +96,7 @@ public class ScanFilesCommandHandler : CommandHandler<ScanFilesCommand>
 			return null;
 		}
 
-		var path = await _pathRepository.GetOrDefaultAsync(FileLocation.Create(new Uri(name)), cancellationToken);
+		var path = await _pathRepository.GetOrDefaultAsync(new FileLocation(new Uri(name)), cancellationToken);
 		if (path == null)
 		{
 			var parent = await GetOrCreatePathAsync(name, cancellationToken);

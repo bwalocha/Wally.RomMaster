@@ -1,8 +1,8 @@
 ﻿using System;
 using AutoMapper;
 using FluentAssertions;
-using Wally.RomMaster.FileService.Application.Contracts.Requests.Users;
-using Wally.RomMaster.FileService.Application.Contracts.Responses.Users;
+using Wally.RomMaster.FileService.Application.Contracts.Users.Requests;
+using Wally.RomMaster.FileService.Application.Contracts.Users.Responses;
 using Wally.RomMaster.FileService.Application.MapperProfiles;
 using Wally.RomMaster.FileService.Domain.Users;
 using Xunit;

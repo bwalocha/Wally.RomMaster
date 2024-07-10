@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using MassTransit;
 using Microsoft.Extensions.Logging;
-using Wally.Lib.DDD.Abstractions.DomainEvents;
+using Wally.RomMaster.FileService.Application.Abstractions;
 using Wally.RomMaster.FileService.Application.Messages.Files;
 using Wally.RomMaster.FileService.Domain.Files;
 
@@ -25,7 +25,7 @@ public class SendMessageOnFileCreatedDomainEventHandler : IDomainEventHandler<Fi
 	public async Task HandleAsync(FileCreatedDomainEvent domainEvent, CancellationToken cancellationToken)
 	{
 		var model = await _fileRepository.GetAsync(domainEvent.FileId, cancellationToken);
-		var message = new FileCreatedMessage(model.Id.Value, model.Location.Location.LocalPath);
+		var message = new FileCreatedMessage(model.Id.Value, model.Location.Value.LocalPath);
 
 		_logger.LogInformation($"Publishing: {message.GetType().Name}");
 

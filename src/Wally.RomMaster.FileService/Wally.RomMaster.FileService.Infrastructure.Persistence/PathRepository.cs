@@ -18,6 +18,6 @@ public class PathRepository : Repository<Path, PathId>, IPathRepository
 	public Task<Path?> GetOrDefaultAsync(FileLocation location, CancellationToken cancellationToken)
 	{
 		return GetReadWriteEntitySet()
-			.SingleOrDefaultAsync(a => a.Name == location.Location.LocalPath, cancellationToken);
+			.SingleOrDefaultAsync(a => a.Name == location.Value.LocalPath, cancellationToken);
 	}
 }

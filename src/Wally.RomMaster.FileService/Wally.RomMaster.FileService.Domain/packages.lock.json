@@ -13,12 +13,6 @@
         "requested": "[1.1.118, )",
         "resolved": "1.1.118",
         "contentHash": "Onx6ovGSqXSK07n/0eM3ZusiNdB6cIlJdabQhWGgJp3Vooy9AaLS/tigeybOJAobqbtggTamoWndz72JscZBvw=="
-      },
-      "Wally.Lib.DDD.Abstractions": {
-        "type": "Direct",
-        "requested": "(, )",
-        "resolved": "0.0.1",
-        "contentHash": "sNa1UWyt2kUUQ9+98ZmTWqRAiz6FLBafbrd6l7mwca0nYTXHNjqVF8MVTY0gIA+Jpq5ZvtJPbxQ2ZbSO8f2PIw=="
       }
     }
   }

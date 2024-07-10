@@ -4,7 +4,7 @@ using System.IO.Compression;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
-using Wally.Lib.DDD.Abstractions.DomainEvents;
+using Wally.RomMaster.FileService.Application.Abstractions;
 using Wally.RomMaster.FileService.Domain.Abstractions;
 using Wally.RomMaster.FileService.Domain.Files;
 using File = Wally.RomMaster.FileService.Domain.Files.File;
@@ -34,7 +34,7 @@ public class ProcessArchiveOnFileCreatedDomainEventHandler : IDomainEventHandler
 		if (model.IsArchivePackage())
 		{
 			await using (var zipToOpen = new FileStream(
-							model.Location.Location.LocalPath,
+							model.Location.Value.LocalPath,
 							FileMode.Open,
 							FileAccess.Read))
 			{
