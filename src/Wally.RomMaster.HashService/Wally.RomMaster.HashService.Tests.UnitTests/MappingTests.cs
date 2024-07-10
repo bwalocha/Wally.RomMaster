@@ -2,8 +2,8 @@
 using System.Runtime.Serialization;
 using AutoMapper;
 using FluentAssertions;
-using Wally.RomMaster.HashService.Application.Contracts.Requests.Users;
-using Wally.RomMaster.HashService.Application.Contracts.Responses.Users;
+using Wally.RomMaster.HashService.Application.Contracts.Users.Requests;
+using Wally.RomMaster.HashService.Application.Contracts.Users.Responses;
 using Wally.RomMaster.HashService.Application.MapperProfiles;
 using Wally.RomMaster.HashService.Domain.Users;
 using Xunit;

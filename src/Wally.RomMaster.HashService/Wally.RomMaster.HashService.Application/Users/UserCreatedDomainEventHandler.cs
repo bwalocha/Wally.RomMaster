@@ -1,10 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-
 using MassTransit;
 using Wally.RomMaster.HashService.Application.Abstractions;
 using Wally.RomMaster.HashService.Application.Messages.Users;
-using Wally.RomMaster.HashService.Domain.Abstractions;
 using Wally.RomMaster.HashService.Domain.Users;
 
 namespace Wally.RomMaster.HashService.Application.Users;

@@ -1,7 +1,7 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
+using Wally.RomMaster.HashService.Application.Abstractions;
 using Wally.RomMaster.HashService.Domain.Users;
-using Wally.Lib.DDD.Abstractions.Commands;
 
 namespace Wally.RomMaster.HashService.Application.Users.Commands;
 

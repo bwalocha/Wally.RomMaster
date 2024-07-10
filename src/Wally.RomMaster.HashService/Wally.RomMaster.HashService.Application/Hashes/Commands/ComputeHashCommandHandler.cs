@@ -6,7 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MassTransit;
 using Microsoft.Extensions.Logging;
-using Wally.Lib.DDD.Abstractions.Commands;
+using Wally.RomMaster.HashService.Application.Abstractions;
 using Wally.RomMaster.HashService.Application.Files;
 using Wally.RomMaster.HashService.Application.Messages.Hashes;
 

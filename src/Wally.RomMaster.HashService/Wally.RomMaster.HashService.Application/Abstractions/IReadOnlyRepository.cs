@@ -1,9 +1,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.OData.Query;
+using Wally.RomMaster.HashService.Application.Contracts;
+using Wally.RomMaster.HashService.Application.Contracts.Abstractions;
 using Wally.RomMaster.HashService.Domain.Abstractions;
-using Wally.Lib.DDD.Abstractions.Requests;
-using Wally.Lib.DDD.Abstractions.Responses;
 
 namespace Wally.RomMaster.HashService.Application.Abstractions;
 

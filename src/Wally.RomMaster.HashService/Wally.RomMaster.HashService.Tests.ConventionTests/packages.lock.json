@@ -1188,16 +1188,6 @@
           "System.Drawing.Common": "4.7.0"
         }
       },
-      "Wally.Identity.Messages": {
-        "type": "Transitive",
-        "resolved": "2.1.1824",
-        "contentHash": "mN2ZAoe+JQ+TTBYP6I/UKKlON83klBU1R64ieQBplXKE/cvUqR39vPYm3QeZL+P+x/R8BMMNfwXRgD6rVp59Yw=="
-      },
-      "Wally.Lib.DDD.Abstractions": {
-        "type": "Transitive",
-        "resolved": "0.0.1",
-        "contentHash": "sNa1UWyt2kUUQ9+98ZmTWqRAiz6FLBafbrd6l7mwca0nYTXHNjqVF8MVTY0gIA+Jpq5ZvtJPbxQ2ZbSO8f2PIw=="
-      },
       "xunit.abstractions": {
         "type": "Transitive",
         "resolved": "2.0.3",
@@ -1252,6 +1242,7 @@
         "type": "Project",
         "dependencies": {
           "MassTransit.Abstractions": "[8.2.3, )",
+          "MediatR": "[12.3.0, )",
           "Microsoft.AspNetCore.OData": "[8.2.5, )",
           "Microsoft.Extensions.Logging.Abstractions": "[8.0.1, )",
           "SonarAnalyzer.CSharp": "[9.28.0.94264, )",
@@ -1267,8 +1258,7 @@
           "FluentValidation": "[11.9.2, )",
           "Reinforced.Typings": "[1.6.3, )",
           "SonarAnalyzer.CSharp": "[9.28.0.94264, )",
-          "StyleCop.Analyzers": "[1.1.118, )",
-          "Wally.Lib.DDD.Abstractions": "(, )"
+          "StyleCop.Analyzers": "[1.1.118, )"
         }
       },
       "wally.rommaster.hashservice.application.mapperprofiles": {
@@ -1358,8 +1348,7 @@
           "Microsoft.Extensions.Logging.Abstractions": "[8.0.1, )",
           "SonarAnalyzer.CSharp": "[9.28.0.94264, )",
           "StyleCop.Analyzers": "[1.1.118, )",
-          "Wally.Identity.Messages": "(, )",
-          "Wally.Lib.DDD.Abstractions": "(, )",
+          "Wally.Identity.Messages": "[2.1.1842, )",
           "Wally.RomMaster.FileService.Application.Messages": "[0.1.2601, )",
           "Wally.RomMaster.HashService.Application": "[1.0.0, )"
         }
@@ -1423,7 +1412,7 @@
           "Serilog": "[4.0.0, )",
           "SonarAnalyzer.CSharp": "[9.28.0.94264, )",
           "StyleCop.Analyzers": "[1.1.118, )",
-          "Wally.Lib.DDD.Abstractions": "(, )",
+          "Wally.RomMaster.HashService.Application": "[1.0.0, )",
           "Wally.RomMaster.HashService.Domain": "[1.0.0, )"
         }
       },
@@ -1919,6 +1908,15 @@
         "requested": "[6.6.2, )",
         "resolved": "6.6.2",
         "contentHash": "mBBb+/8Hm2Q3Wygag+hu2jj69tZW5psuv0vMRXY07Wy+Rrj40vRP8ZTbKBhs91r45/HXT4aY4z0iSBYx1h6JvA=="
+      },
+      "Wally.Identity.Messages": {
+        "type": "CentralTransitive",
+        "requested": "[2.1.1842, )",
+        "resolved": "2.1.1842",
+        "contentHash": "fJPUxPvGTE46eEbnidc61/u3drFaV9+avPB9KhiSbWwns9tTRyZJ6weUAFP2QoOn09z+e7s53QNuFoxcoqONpg==",
+        "dependencies": {
+          "FluentValidation": "11.5.1"
+        }
       },
       "Wally.RomMaster.FileService.Application.Messages": {
         "type": "CentralTransitive",

@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
-using Wally.RomMaster.HashService.Application.Contracts.Requests.Users;
+using Wally.RomMaster.HashService.Application.Contracts.Users.Requests;
 using Wally.RomMaster.HashService.Domain.Users;
 using Wally.RomMaster.HashService.Tests.IntegrationTests.Extensions;
 using Xunit;

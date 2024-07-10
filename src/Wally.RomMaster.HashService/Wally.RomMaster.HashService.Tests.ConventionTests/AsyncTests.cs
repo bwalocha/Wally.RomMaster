@@ -8,6 +8,7 @@ using FluentAssertions.Execution;
 using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.SignalR;
+using Wally.RomMaster.HashService.Application.Abstractions;
 using Wally.RomMaster.HashService.Tests.ConventionTests.Extensions;
 using Wally.RomMaster.HashService.Tests.ConventionTests.Helpers;
 using Xunit;
@@ -104,6 +105,21 @@ public class AsyncTests
 
 					if (type.ImplementsGenericInterface(typeof(IConsumer<>)) &&
 						method.Name == nameof(IConsumer<object>.Consume))
+					{
+						continue;
+					}
+
+					if (type == typeof(CommandHandler<>))
+					{
+						continue;
+					}
+
+					if (type == typeof(CommandHandler<,>))
+					{
+						continue;
+					}
+
+					if (type == typeof(QueryHandler<,>))
 					{
 						continue;
 					}

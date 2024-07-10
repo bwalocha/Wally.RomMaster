@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.OData.Query;
-using Wally.RomMaster.HashService.Application.Contracts.Requests.Users;
-using Wally.RomMaster.HashService.Application.Contracts.Responses.Users;
-using Wally.Lib.DDD.Abstractions.Queries;
+using Wally.RomMaster.HashService.Application.Abstractions;
+using Wally.RomMaster.HashService.Application.Contracts.Users.Requests;
+using Wally.RomMaster.HashService.Application.Contracts.Users.Responses;
 
 namespace Wally.RomMaster.HashService.Application.Users.Queries;
 

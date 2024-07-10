@@ -12,10 +12,10 @@
         <PackageReference Include="Microsoft.EntityFrameworkCore" />
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
         <PackageReference Include="Serilog" />
-        <PackageReference Include="Wally.Lib.DDD.Abstractions" />
     </ItemGroup>
 
     <ItemGroup>
+        <ProjectReference Include="..\Wally.RomMaster.HashService.Application\Wally.RomMaster.HashService.Application.csproj" />
         <ProjectReference Include="..\Wally.RomMaster.HashService.Domain\Wally.RomMaster.HashService.Domain.csproj" />
     </ItemGroup>
 

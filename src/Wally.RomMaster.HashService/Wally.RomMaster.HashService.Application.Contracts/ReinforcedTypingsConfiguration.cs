@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Reinforced.Typings.Ast.TypeNames;
 using Reinforced.Typings.Fluent;
-using Wally.Lib.DDD.Abstractions.Requests;
+using Wally.RomMaster.HashService.Application.Contracts.Abstractions;
 
 namespace Wally.RomMaster.HashService.Application.Contracts;
 
@@ -54,10 +54,17 @@ public static class ReinforcedTypingsConfiguration
 				exportBuilder.OverrideName(name);
 				if (exportBuilder.Type.Namespace != null)
 				{
-					var segments = exportBuilder.Type.Namespace.Split('.')
-						.Reverse()
-						.ToArray();
-					exportBuilder.ExportTo($"{segments[0]}/{segments[1]}/{name}.ts");
+					if (exportBuilder.Type.Namespace == typeof(ReinforcedTypingsConfiguration).Namespace)
+					{
+						exportBuilder.ExportTo($"{name}.ts");
+					}
+					else
+					{
+						var segments = exportBuilder.Type.Namespace.Split('.')
+							.Reverse()
+							.ToArray();
+						exportBuilder.ExportTo($"{segments[0]}/{segments[1]}/{name}.ts");
+					}
 				}
 			});
 	}

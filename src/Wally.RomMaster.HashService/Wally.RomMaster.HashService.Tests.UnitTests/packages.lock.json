@@ -257,16 +257,6 @@
         "resolved": "4.6.0",
         "contentHash": "4F8Xe+JIkVoDJ8hDAZ7HqLkjctN/6WItJIzQaifBwClC7wmoLSda/Sv2i6i1kycqDb3hWF4JCVbpAweyOKHEUA=="
       },
-      "Wally.Identity.Messages": {
-        "type": "Transitive",
-        "resolved": "2.1.1824",
-        "contentHash": "mN2ZAoe+JQ+TTBYP6I/UKKlON83klBU1R64ieQBplXKE/cvUqR39vPYm3QeZL+P+x/R8BMMNfwXRgD6rVp59Yw=="
-      },
-      "Wally.Lib.DDD.Abstractions": {
-        "type": "Transitive",
-        "resolved": "0.0.1",
-        "contentHash": "sNa1UWyt2kUUQ9+98ZmTWqRAiz6FLBafbrd6l7mwca0nYTXHNjqVF8MVTY0gIA+Jpq5ZvtJPbxQ2ZbSO8f2PIw=="
-      },
       "xunit.abstractions": {
         "type": "Transitive",
         "resolved": "2.0.3",
@@ -311,6 +301,7 @@
         "type": "Project",
         "dependencies": {
           "MassTransit.Abstractions": "[8.2.3, )",
+          "MediatR": "[12.3.0, )",
           "Microsoft.AspNetCore.OData": "[8.2.5, )",
           "Microsoft.Extensions.Logging.Abstractions": "[8.0.1, )",
           "SonarAnalyzer.CSharp": "[9.28.0.94264, )",
@@ -326,8 +317,7 @@
           "FluentValidation": "[11.9.2, )",
           "Reinforced.Typings": "[1.6.3, )",
           "SonarAnalyzer.CSharp": "[9.28.0.94264, )",
-          "StyleCop.Analyzers": "[1.1.118, )",
-          "Wally.Lib.DDD.Abstractions": "(, )"
+          "StyleCop.Analyzers": "[1.1.118, )"
         }
       },
       "wally.rommaster.hashservice.application.mapperprofiles": {
@@ -363,8 +353,7 @@
           "Microsoft.Extensions.Logging.Abstractions": "[8.0.1, )",
           "SonarAnalyzer.CSharp": "[9.28.0.94264, )",
           "StyleCop.Analyzers": "[1.1.118, )",
-          "Wally.Identity.Messages": "(, )",
-          "Wally.Lib.DDD.Abstractions": "(, )",
+          "Wally.Identity.Messages": "[2.1.1842, )",
           "Wally.RomMaster.FileService.Application.Messages": "[0.1.2601, )",
           "Wally.RomMaster.HashService.Application": "[1.0.0, )"
         }
@@ -465,6 +454,15 @@
         "requested": "[1.6.3, )",
         "resolved": "1.6.3",
         "contentHash": "lLdMeO5ybDagOGtRvuhyAGiPCJrJwU6PDGG3JIImQp+gYEQdpuUj8PjE5agv/Ujktx2XwCoEPnQDqtPm+/fZLQ=="
+      },
+      "Wally.Identity.Messages": {
+        "type": "CentralTransitive",
+        "requested": "[2.1.1842, )",
+        "resolved": "2.1.1842",
+        "contentHash": "fJPUxPvGTE46eEbnidc61/u3drFaV9+avPB9KhiSbWwns9tTRyZJ6weUAFP2QoOn09z+e7s53QNuFoxcoqONpg==",
+        "dependencies": {
+          "FluentValidation": "11.5.1"
+        }
       },
       "Wally.RomMaster.FileService.Application.Messages": {
         "type": "CentralTransitive",

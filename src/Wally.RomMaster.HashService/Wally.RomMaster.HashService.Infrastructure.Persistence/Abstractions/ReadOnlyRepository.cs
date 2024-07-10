@@ -6,11 +6,11 @@ using AutoMapper;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.EntityFrameworkCore;
 using Wally.RomMaster.HashService.Application.Abstractions;
+using Wally.RomMaster.HashService.Application.Contracts;
+using Wally.RomMaster.HashService.Application.Contracts.Abstractions;
 using Wally.RomMaster.HashService.Domain.Abstractions;
 using Wally.RomMaster.HashService.Infrastructure.Persistence.Exceptions;
 using Wally.RomMaster.HashService.Infrastructure.Persistence.Extensions;
-using Wally.Lib.DDD.Abstractions.Requests;
-using Wally.Lib.DDD.Abstractions.Responses;
 
 namespace Wally.RomMaster.HashService.Infrastructure.Persistence.Abstractions;
 

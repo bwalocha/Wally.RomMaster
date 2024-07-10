@@ -18,7 +18,7 @@ public static class ServiceCollectionExtensions
 	{
 		var settings = new AppSettings();
 		configuration.Bind(settings);
-		
+
 		services.AddOptions(settings);
 		services.AddWebApi();
 		services.AddCqrs();
@@ -28,11 +28,11 @@ public static class ServiceCollectionExtensions
 		services.AddMapper();
 		services.AddMessaging(settings);
 		services.AddEventHub();
-		
+
 		services.AddTransient<HashAlgorithm, Crc32Algorithm>();
 		return services;
 	}
-	
+
 	public static IApplicationBuilder UseInfrastructure(this IApplicationBuilder app, IWebHostEnvironment env)
 	{
 		// Configure the HTTP request pipeline.
@@ -41,21 +41,21 @@ public static class ServiceCollectionExtensions
 			app.UseDeveloperExceptionPage();
 			app.UseSwagger();
 		}
-		
+
 		// If the App is hosted by Docker, HTTPS is not required inside container
 		// app.UseHttpsRedirection();
-		
+
 		app.UseRouting();
-		
+
 		// app.UseAuthentication(); // TODO: Consider only for ApiGateway
 		app.UseAuthorization();
 		app.UseHealthChecks();
-		
+
 		app.UseWebApi();
-		
+
 		app.UsePersistence();
 		app.UseEventHub<EventHub>();
-		
+
 		return app;
 	}
 }

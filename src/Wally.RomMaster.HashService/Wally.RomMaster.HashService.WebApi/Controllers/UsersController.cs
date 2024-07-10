@@ -4,12 +4,12 @@ using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
-using Wally.RomMaster.HashService.Application.Contracts.Requests.Users;
-using Wally.RomMaster.HashService.Application.Contracts.Responses.Users;
+using Wally.RomMaster.HashService.Application.Contracts;
+using Wally.RomMaster.HashService.Application.Contracts.Users.Requests;
+using Wally.RomMaster.HashService.Application.Contracts.Users.Responses;
 using Wally.RomMaster.HashService.Application.Users.Commands;
 using Wally.RomMaster.HashService.Application.Users.Queries;
 using Wally.RomMaster.HashService.Domain.Users;
-using Wally.Lib.DDD.Abstractions.Responses;
 
 namespace Wally.RomMaster.HashService.WebApi.Controllers;
 

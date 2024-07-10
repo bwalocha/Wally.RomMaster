@@ -4,9 +4,9 @@ using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using FluentAssertions;
-using Wally.RomMaster.HashService.Application.Contracts.Responses.Users;
+using Wally.RomMaster.HashService.Application.Contracts;
+using Wally.RomMaster.HashService.Application.Contracts.Users.Responses;
 using Wally.RomMaster.HashService.Tests.IntegrationTests.Extensions;
-using Wally.Lib.DDD.Abstractions.Responses;
 using Xunit;
 
 namespace Wally.RomMaster.HashService.Tests.IntegrationTests;
