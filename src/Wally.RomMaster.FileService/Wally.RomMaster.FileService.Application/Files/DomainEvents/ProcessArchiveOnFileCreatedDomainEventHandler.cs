@@ -33,31 +33,29 @@ public class ProcessArchiveOnFileCreatedDomainEventHandler : IDomainEventHandler
 
 		if (model.IsArchivePackage())
 		{
-			await using (var zipToOpen = new FileStream(
-							model.Location.Value.LocalPath,
-							FileMode.Open,
-							FileAccess.Read))
+			await using var zipToOpen = new FileStream(
+				model.Location.Value.LocalPath,
+				FileMode.Open,
+				FileAccess.Read);
+			try
 			{
-				try
+				using var archive = new ZipArchive(zipToOpen, ZipArchiveMode.Read);
+				foreach (var entry in archive.Entries)
 				{
-					using var archive = new ZipArchive(zipToOpen, ZipArchiveMode.Read);
-					foreach (var entry in archive.Entries)
+					var file = File.Create(_clockService, model.Path, model, entry);
+					if (await _fileRepository.GetOrDefaultAsync(file.Location, cancellationToken) != null)
 					{
-						var file = File.Create(_clockService, model.Path, model, entry);
-						if (await _fileRepository.GetOrDefaultAsync(file.Location, cancellationToken) != null)
-						{
-							// TODO: update
-							continue;
-						}
-
-						_fileRepository.Add(file);
+						// TODO: update
+						continue;
 					}
+
+					_fileRepository.Add(file);
 				}
-				catch (Exception e)
-				{
-					// model.Error
-					_logger.LogError("Error: '{0}'", e);
-				}
+			}
+			catch (Exception e)
+			{
+				// model.Error
+				_logger.LogError("Error: '{0}'", e);
 			}
 		}
 	}

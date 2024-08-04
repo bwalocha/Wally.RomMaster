@@ -34,4 +34,11 @@ public class FileRepository : Repository<File, FileId>, IFileRepository
 		return GetReadWriteEntitySet()
 			.FirstOrDefaultAsync(a => a.Location.Value == location.Value, cancellationToken);
 	}
+	
+	public Task<File?> GetOrDefaultAsync(FileId id, CancellationToken cancellationToken)
+	{
+		// Id is Unique so we can get First result
+		return GetReadWriteEntitySet()
+			.FirstOrDefaultAsync(a => a.Id.Equals(id), cancellationToken);
+	}
 }

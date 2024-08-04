@@ -15,8 +15,13 @@ public class UpdateHashCommandHandler : CommandHandler<UpdateHashCommand>
 
 	public override async Task HandleAsync(UpdateHashCommand command, CancellationToken cancellationToken)
 	{
-		var model = await _fileRepository.GetAsync(command.FileId, cancellationToken);
+		var model = await _fileRepository.GetOrDefaultAsync(command.FileId, cancellationToken);
 
+		if (model is null)
+		{
+			return;
+		}
+		
 		model.SetCrc32(command.Crc32)
 			.SetMd5(command.Md5);
 

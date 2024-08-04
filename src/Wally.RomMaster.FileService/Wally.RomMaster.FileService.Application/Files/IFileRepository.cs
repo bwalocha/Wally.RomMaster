@@ -11,4 +11,6 @@ public interface IFileRepository : IRepository<File, FileId>
 	void RemoveOutdatedFiles(DateTime timestamp);
 
 	Task<File?> GetOrDefaultAsync(FileLocation location, CancellationToken cancellationToken);
+	
+	Task<File?> GetOrDefaultAsync(FileId id, CancellationToken cancellationToken);
 }
