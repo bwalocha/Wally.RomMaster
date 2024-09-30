@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="MassTransit.Abstractions" />
+        <PackageReference Include="MediatR" />
+        <PackageReference Include="Microsoft.AspNetCore.OData" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Wally.RomMaster.NotificationService.Application.Contracts\Wally.RomMaster.NotificationService.Application.Contracts.csproj" />
+        <ProjectReference Include="..\Wally.RomMaster.NotificationService.Domain\Wally.RomMaster.NotificationService.Domain.csproj" />
+        <ProjectReference Include="..\Wally.RomMaster.NotificationService.Application.Messages\Wally.RomMaster.NotificationService.Application.Messages.csproj" />
+    </ItemGroup>
+
+</Project>

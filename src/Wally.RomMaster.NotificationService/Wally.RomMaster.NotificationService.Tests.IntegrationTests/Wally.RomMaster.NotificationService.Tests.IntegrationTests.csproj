@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <Import Project="..\..\Directory.BuildTests.props" />
+
+    <ItemGroup>
+        <PackageReference Include="JsonNet.ContractResolvers" />
+        <PackageReference Include="MassTransit.Abstractions" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
+        <PackageReference Include="Testcontainers.MariaDb" />
+        <PackageReference Include="Testcontainers.MsSql" />
+        <PackageReference Include="Testcontainers.MySql" />
+        <PackageReference Include="Testcontainers.PostgreSql" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Wally.RomMaster.NotificationService.Infrastructure.Persistence\Wally.RomMaster.NotificationService.Infrastructure.Persistence.csproj" />
+        <ProjectReference Include="..\Wally.RomMaster.NotificationService.WebApi\Wally.RomMaster.NotificationService.WebApi.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Update="appsettings.IntegrationTests.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Update="GetUsersControllerTests.cs">
+            <DependentUpon>UsersControllerTests.cs</DependentUpon>
+        </Compile>
+        <Compile Update="PutUsersControllerTests.cs">
+            <DependentUpon>UsersControllerTests.cs</DependentUpon>
+        </Compile>
+        <Compile Update="PostUsersControllerTests.cs">
+            <DependentUpon>UsersControllerTests.cs</DependentUpon>
+        </Compile>
+        <Compile Update="DeleteUsersControllerTests.cs">
+            <DependentUpon>UsersControllerTests.cs</DependentUpon>
+        </Compile>
+    </ItemGroup>
+
+</Project>

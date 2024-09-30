@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AutoMapper" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Wally.RomMaster.NotificationService.Application.Contracts\Wally.RomMaster.NotificationService.Application.Contracts.csproj" />
+        <ProjectReference Include="..\Wally.RomMaster.NotificationService.Domain\Wally.RomMaster.NotificationService.Domain.csproj" />
+    </ItemGroup>
+
+</Project>

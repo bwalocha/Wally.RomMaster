@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" />
+        <PackageReference Include="Serilog.AspNetCore" />
+        <PackageReference Include="Serilog.Sinks.ApplicationInsights" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Wally.RomMaster.NotificationService.Application\Wally.RomMaster.NotificationService.Application.csproj" />
+        <ProjectReference Include="..\Wally.RomMaster.NotificationService.Application.Contracts\Wally.RomMaster.NotificationService.Application.Contracts.csproj" />
+        <ProjectReference Include="..\Wally.RomMaster.NotificationService.Infrastructure.DI.Microsoft\Wally.RomMaster.NotificationService.Infrastructure.DI.Microsoft.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="wwwroot" />
+    </ItemGroup>
+
+</Project>
