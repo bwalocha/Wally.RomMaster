@@ -11,6 +11,8 @@
         <PackageReference Include="MediatR" />
         <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
         <PackageReference Include="Wally.Identity.Messages" />
+        <PackageReference Include="Wally.RomMaster.FileService.Application.Messages" />
+        <PackageReference Include="Wally.RomMaster.HashService.Application.Messages" />
     </ItemGroup>
 
     <ItemGroup>

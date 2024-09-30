@@ -1608,6 +1608,8 @@
           "SonarAnalyzer.CSharp": "[9.32.0.97167, )",
           "StyleCop.Analyzers": "[1.1.118, )",
           "Wally.Identity.Messages": "[2.1.1842, )",
+          "Wally.RomMaster.FileService.Application.Messages": "[0.1.2601, )",
+          "Wally.RomMaster.HashService.Application.Messages": "[0.1.2601, )",
           "Wally.RomMaster.NotificationService.Application": "[1.0.0, )"
         }
       },
@@ -2163,6 +2165,28 @@
         "contentHash": "fJPUxPvGTE46eEbnidc61/u3drFaV9+avPB9KhiSbWwns9tTRyZJ6weUAFP2QoOn09z+e7s53QNuFoxcoqONpg==",
         "dependencies": {
           "FluentValidation": "11.5.1"
+        }
+      },
+      "Wally.RomMaster.FileService.Application.Messages": {
+        "type": "CentralTransitive",
+        "requested": "[0.1.2601, )",
+        "resolved": "0.1.2601",
+        "contentHash": "V6m5oW8FpNBNbkDIM+kcUBjG13Lr9svyVOKY5OWDWta2lSVi+lb4epq7UvGI1Nu/pWdkhXkv5RHr1J79pa4yIw==",
+        "dependencies": {
+          "FluentValidation": "11.9.1",
+          "SonarAnalyzer.CSharp": "9.25.1.91650",
+          "StyleCop.Analyzers": "1.1.118"
+        }
+      },
+      "Wally.RomMaster.HashService.Application.Messages": {
+        "type": "CentralTransitive",
+        "requested": "[0.1.2601, )",
+        "resolved": "0.1.2601",
+        "contentHash": "VFWzytp9maop5axm7GEcAcIRIcN5XsbVeRGnuztibbQMZtAErlndUGjAMl2SWEM4vRIvfWBIUffIQUNIk/7/Nw==",
+        "dependencies": {
+          "FluentValidation": "11.9.1",
+          "SonarAnalyzer.CSharp": "9.25.1.91650",
+          "StyleCop.Analyzers": "1.1.118"
         }
       }
     }

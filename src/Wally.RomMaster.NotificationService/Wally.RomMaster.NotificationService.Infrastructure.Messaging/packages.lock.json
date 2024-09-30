@@ -56,6 +56,28 @@
           "FluentValidation": "11.5.1"
         }
       },
+      "Wally.RomMaster.FileService.Application.Messages": {
+        "type": "Direct",
+        "requested": "[0.1.2601, )",
+        "resolved": "0.1.2601",
+        "contentHash": "V6m5oW8FpNBNbkDIM+kcUBjG13Lr9svyVOKY5OWDWta2lSVi+lb4epq7UvGI1Nu/pWdkhXkv5RHr1J79pa4yIw==",
+        "dependencies": {
+          "FluentValidation": "11.9.1",
+          "SonarAnalyzer.CSharp": "9.25.1.91650",
+          "StyleCop.Analyzers": "1.1.118"
+        }
+      },
+      "Wally.RomMaster.HashService.Application.Messages": {
+        "type": "Direct",
+        "requested": "[0.1.2601, )",
+        "resolved": "0.1.2601",
+        "contentHash": "VFWzytp9maop5axm7GEcAcIRIcN5XsbVeRGnuztibbQMZtAErlndUGjAMl2SWEM4vRIvfWBIUffIQUNIk/7/Nw==",
+        "dependencies": {
+          "FluentValidation": "11.9.1",
+          "SonarAnalyzer.CSharp": "9.25.1.91650",
+          "StyleCop.Analyzers": "1.1.118"
+        }
+      },
       "Microsoft.Bcl.AsyncInterfaces": {
         "type": "Transitive",
         "resolved": "8.0.0",
