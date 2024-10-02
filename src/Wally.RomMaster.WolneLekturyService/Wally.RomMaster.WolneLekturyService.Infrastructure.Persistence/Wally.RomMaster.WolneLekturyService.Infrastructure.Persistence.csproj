@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AutoMapper" />
+        <PackageReference Include="AutoMapper.Extensions.ExpressionMapping" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Wally.RomMaster.WolneLekturyService.Application\Wally.RomMaster.WolneLekturyService.Application.csproj" />
+        <ProjectReference Include="..\Wally.RomMaster.WolneLekturyService.Domain\Wally.RomMaster.WolneLekturyService.Domain.csproj" />
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <Import Project="..\..\Directory.BuildTests.props" />
+
+    <ItemGroup>
+        <PackageReference Include="AutoMapper" />
+        <PackageReference Include="MassTransit.Abstractions" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Wally.RomMaster.WolneLekturyService.Domain\Wally.RomMaster.WolneLekturyService.Domain.csproj" />
+        <ProjectReference Include="..\Wally.RomMaster.WolneLekturyService.WebApi\Wally.RomMaster.WolneLekturyService.WebApi.csproj" />
+    </ItemGroup>
+
+</Project>

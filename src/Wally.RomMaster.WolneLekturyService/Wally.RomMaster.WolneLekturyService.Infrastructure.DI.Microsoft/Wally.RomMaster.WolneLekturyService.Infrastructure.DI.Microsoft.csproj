@@ -1,0 +1,53 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AspNetCore.HealthChecks.AzureServiceBus" />
+        <PackageReference Include="AspNetCore.HealthChecks.Kafka" />
+        <PackageReference Include="AspNetCore.HealthChecks.MySql" />
+        <PackageReference Include="AspNetCore.HealthChecks.NpgSql" />
+        <PackageReference Include="AspNetCore.HealthChecks.Sqlite" />
+        <PackageReference Include="AutoMapper.Extensions.ExpressionMapping" />
+        <PackageReference Include="EntityFrameworkCore.Exceptions.MySQL" />
+        <PackageReference Include="EntityFrameworkCore.Exceptions.MySQL.Pomelo" />
+        <PackageReference Include="EntityFrameworkCore.Exceptions.PostgreSQL" />
+        <PackageReference Include="EntityFrameworkCore.Exceptions.Sqlite" />
+        <PackageReference Include="EntityFrameworkCore.Exceptions.SqlServer" />
+        <PackageReference Include="MassTransit" />
+        <PackageReference Include="MassTransit.Azure.ServiceBus.Core" />
+        <PackageReference Include="MassTransit.Kafka" />
+        <PackageReference Include="MassTransit.RabbitMQ" />
+        <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" />
+        <PackageReference Include="Scrutor" />
+        <PackageReference Include="Swashbuckle.AspNetCore" />
+        <PackageReference Include="MediatR" />
+        <PackageReference Include="AspNetCore.HealthChecks.Rabbitmq" />
+        <PackageReference Include="AspNetCore.HealthChecks.SqlServer" />
+        <PackageReference Include="AspNetCore.HealthChecks.UI" />
+        <PackageReference Include="AspNetCore.HealthChecks.UI.Client" />
+        <PackageReference Include="AspNetCore.HealthChecks.UI.InMemory.Storage" />
+        <PackageReference Include="FluentValidation.AspNetCore" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" />
+        <PackageReference Include="Microsoft.AspNetCore.OData" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Wally.RomMaster.WolneLekturyService.Domain\Wally.RomMaster.WolneLekturyService.Domain.csproj" />
+        <ProjectReference Include="..\Wally.RomMaster.WolneLekturyService.Application.MapperProfiles\Wally.RomMaster.WolneLekturyService.Application.MapperProfiles.csproj" />
+        <ProjectReference Include="..\Wally.RomMaster.WolneLekturyService.Infrastructure.BackgroundServices\Wally.RomMaster.WolneLekturyService.Infrastructure.BackgroundServices.csproj" />
+        <ProjectReference Include="..\Wally.RomMaster.WolneLekturyService.Infrastructure.Messaging\Wally.RomMaster.WolneLekturyService.Infrastructure.Messaging.csproj" />
+        <ProjectReference Include="..\Wally.RomMaster.WolneLekturyService.Infrastructure.Persistence.MySql\Wally.RomMaster.WolneLekturyService.Infrastructure.Persistence.MySql.csproj" />
+        <ProjectReference Include="..\Wally.RomMaster.WolneLekturyService.Infrastructure.Persistence.PostgreSQL\Wally.RomMaster.WolneLekturyService.Infrastructure.Persistence.PostgreSQL.csproj" />
+        <ProjectReference Include="..\Wally.RomMaster.WolneLekturyService.Infrastructure.Persistence.SQLite\Wally.RomMaster.WolneLekturyService.Infrastructure.Persistence.SQLite.csproj" />
+        <ProjectReference Include="..\Wally.RomMaster.WolneLekturyService.Infrastructure.Persistence.SqlServer\Wally.RomMaster.WolneLekturyService.Infrastructure.Persistence.SqlServer.csproj" />
+        <ProjectReference Include="..\Wally.RomMaster.WolneLekturyService.Infrastructure.PipelineBehaviours\Wally.RomMaster.WolneLekturyService.Infrastructure.PipelineBehaviours.csproj" />
+    </ItemGroup>
+
+</Project>

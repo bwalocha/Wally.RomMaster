@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <Import Project="..\..\Directory.BuildTests.props" />
+
+    <ItemGroup>
+        <PackageReference Include="AutoMapper" />
+        <PackageReference Include="Moq" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Wally.RomMaster.WolneLekturyService.Domain\Wally.RomMaster.WolneLekturyService.Domain.csproj" />
+        <ProjectReference Include="..\Wally.RomMaster.WolneLekturyService.Application.MapperProfiles\Wally.RomMaster.WolneLekturyService.Application.MapperProfiles.csproj" />
+        <ProjectReference Include="..\Wally.RomMaster.WolneLekturyService.Infrastructure.Messaging\Wally.RomMaster.WolneLekturyService.Infrastructure.Messaging.csproj" />
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="MassTransit.Abstractions" />
+        <PackageReference Include="MediatR" />
+        <PackageReference Include="Microsoft.AspNetCore.OData" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Wally.RomMaster.WolneLekturyService.Application.Contracts\Wally.RomMaster.WolneLekturyService.Application.Contracts.csproj" />
+        <ProjectReference Include="..\Wally.RomMaster.WolneLekturyService.Domain\Wally.RomMaster.WolneLekturyService.Domain.csproj" />
+        <ProjectReference Include="..\Wally.RomMaster.WolneLekturyService.Application.Messages\Wally.RomMaster.WolneLekturyService.Application.Messages.csproj" />
+    </ItemGroup>
+
+</Project>

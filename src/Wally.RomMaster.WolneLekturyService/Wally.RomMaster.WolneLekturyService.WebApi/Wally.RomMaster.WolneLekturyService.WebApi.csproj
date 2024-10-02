@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>disable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" />
+        <PackageReference Include="Serilog.AspNetCore" />
+        <PackageReference Include="Serilog.Sinks.ApplicationInsights" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Wally.RomMaster.WolneLekturyService.Application\Wally.RomMaster.WolneLekturyService.Application.csproj" />
+        <ProjectReference Include="..\Wally.RomMaster.WolneLekturyService.Application.Contracts\Wally.RomMaster.WolneLekturyService.Application.Contracts.csproj" />
+        <ProjectReference Include="..\Wally.RomMaster.WolneLekturyService.Infrastructure.DI.Microsoft\Wally.RomMaster.WolneLekturyService.Infrastructure.DI.Microsoft.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="wwwroot" />
+    </ItemGroup>
+
+</Project>
