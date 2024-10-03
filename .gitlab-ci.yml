@@ -14,6 +14,11 @@ variables:
   HASH_PKG_PROJECT_NAME: "Wally.RomMaster.HashService.Application.Messages"
   HASH_NPM_PROJECT_NAME: "Wally.RomMaster.HashService.Application.Contracts"
   #
+  NOTIFICATION_SOLUTION_NAME: "Wally.RomMaster.NotificationService"
+  NOTIFICATION_API_PROJECT_NAME: "Wally.RomMaster.NotificationService.WebApi"
+  NOTIFICATION_PKG_PROJECT_NAME: "Wally.RomMaster.NotificationService.Application.Messages"
+  NOTIFICATION_NPM_PROJECT_NAME: "Wally.RomMaster.NotificationService.Application.Contracts"
+  #   
   STORYBOOK_WEB_NAME: "wally.rommaster.storybook.webapp"
   WEB_PROJECT_NAME: "wally.rommaster.webapp"
   #
@@ -43,6 +48,12 @@ build:hash_sln:
     - .build:dotnet
   variables:
     SOLUTION_NAME: ${HASH_SOLUTION_NAME}
+
+build:notification_sln:
+  extends:
+    - .build:dotnet
+  variables:
+    SOLUTION_NAME: ${NOTIFICATION_SOLUTION_NAME}
 
 build:storybook_web:
   extends:
@@ -81,6 +92,14 @@ test:hash_sln:
   variables:
     SOLUTION_NAME: ${HASH_SOLUTION_NAME}
 
+test:notification_sln:
+  extends:
+    - .test:dotnet
+  needs:
+    - build:notification_sln
+  variables:
+    SOLUTION_NAME: ${NOTIFICATION_SOLUTION_NAME}
+
 test:file_npm:
   extends:
     - .test:node
@@ -99,6 +118,16 @@ test:hash_npm:
   variables:
     SOLUTION_NAME: ${HASH_SOLUTION_NAME}
     PROJECT_NAME: ${HASH_NPM_PROJECT_NAME}/generated
+  allow_failure: true
+
+test:notification_npm:
+  extends:
+    - .test:node
+  needs:
+    - test:notification_sln
+  variables:
+    SOLUTION_NAME: ${NOTIFICATION_SOLUTION_NAME}
+    PROJECT_NAME: ${NOTIFICATION_NPM_PROJECT_NAME}/generated
   allow_failure: true
 
 test:web:
@@ -137,6 +166,15 @@ publish:hash_api:
     SOLUTION_NAME: ${HASH_SOLUTION_NAME}
     PROJECT_NAME: ${HASH_API_PROJECT_NAME}
 
+publish:notification_api:
+  extends:
+    - .publish:dotnet
+  needs:
+    - test:notification_sln
+  variables:
+    SOLUTION_NAME: ${NOTIFICATION_SOLUTION_NAME}
+    PROJECT_NAME: ${NOTIFICATION_API_PROJECT_NAME}
+
 publish:file_pkg:
   extends:
     - .publish:nuget
@@ -154,6 +192,15 @@ publish:hash_pkg:
   variables:
     SOLUTION_NAME: ${HASH_SOLUTION_NAME}
     PROJECT_NAME: ${HASH_PKG_PROJECT_NAME}
+
+publish:notification_pkg:
+  extends:
+    - .publish:nuget
+  needs:
+    - test:notification_sln
+  variables:
+    SOLUTION_NAME: ${NOTIFICATION_SOLUTION_NAME}
+    PROJECT_NAME: ${NOTIFICATION_PKG_PROJECT_NAME}
 
 publish:docker:gate_api:
   extends:
@@ -181,6 +228,15 @@ publish:docker:hash_api:
   variables:
     SOLUTION_NAME: ${HASH_SOLUTION_NAME}
     PROJECT_NAME: ${HASH_API_PROJECT_NAME}
+
+publish:docker:notification_api:
+  extends:
+    - .publish:docker
+  needs:
+    - publish:notification_api
+  variables:
+    SOLUTION_NAME: ${NOTIFICATION_SOLUTION_NAME}
+    PROJECT_NAME: ${NOTIFICATION_API_PROJECT_NAME}
 
 publish:docker:storybook_web:
   extends:
@@ -223,6 +279,18 @@ deploy:hash_pkg:
     name: ${ENV}_${HASH_PKG_PROJECT_NAME}
     url: https://www.nuget.org/packages/${HASH_PKG_PROJECT_NAME}
 
+deploy:notification_pkg:
+  extends:
+    - .deploy:nuget
+  needs:
+    - publish:notification_pkg
+  variables:
+    SOLUTION_NAME: ${NOTIFICATION_SOLUTION_NAME}
+    PROJECT_NAME: ${NOTIFICATION_PKG_PROJECT_NAME}
+  environment:
+    name: ${ENV}_${NOTIFICATION_PKG_PROJECT_NAME}
+    url: https://www.nuget.org/packages/${NOTIFICATION_PKG_PROJECT_NAME}
+
 deploy:node:file_npm:
   extends:
     - .deploy:node
@@ -248,6 +316,19 @@ deploy:node:hash_npm:
   environment:
     name: ${ENV}_${HASH_NPM_PROJECT_NAME}
     url: https://www.npmjs.com/package/${HASH_NPM_PROJECT_NAME}/v/${VERSION}
+    
+deploy:node:notification_npm:
+  extends:
+    - .deploy:node
+  needs:
+    - test:notification_sln
+    # - test:hash_npm
+  variables:
+    SOLUTION_NAME: ${NOTIFICATION_SOLUTION_NAME}
+    PROJECT_NAME: ${NOTIFICATION_NPM_PROJECT_NAME}/generated
+  environment:
+    name: ${ENV}_${NOTIFICATION_NPM_PROJECT_NAME}
+    url: https://www.npmjs.com/package/${NOTIFICATION_NPM_PROJECT_NAME}/v/${VERSION}
 
 deploy:container-station:
   extends:
@@ -256,6 +337,7 @@ deploy:container-station:
     - publish:docker:gate_api
     - publish:docker:file_api
     - publish:docker:hash_api
+    - publish:docker:notification_api
     - publish:docker:storybook_web
     - publish:docker:web
   variables:
