@@ -12,7 +12,7 @@ namespace Wally.RomMaster.NotificationService.Tests.IntegrationTests;
 
 public partial class UsersControllerTests
 {
-	[Fact]
+	[Fact(Skip = "No Database")]
 	public async Task Post_ForNewResource_CreatesNewResource()
 	{
 		// Arrange
@@ -33,7 +33,7 @@ public partial class UsersControllerTests
 			.Be("newName3");
 	}
 
-	[Fact]
+	[Fact(Skip = "No Database")]
 	public async Task Post_ForInvalidRequest_ReturnsBadRequest()
 	{
 		// Arrange

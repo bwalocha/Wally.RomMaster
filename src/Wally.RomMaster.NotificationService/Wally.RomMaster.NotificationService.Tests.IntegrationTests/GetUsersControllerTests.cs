@@ -13,7 +13,7 @@ namespace Wally.RomMaster.NotificationService.Tests.IntegrationTests;
 
 public partial class UsersControllerTests
 {
-	[Fact]
+	[Fact(Skip = "No Database")]
 	public async Task Get_NoExistingResource_Returns404()
 	{
 		// Arrange
@@ -29,7 +29,7 @@ public partial class UsersControllerTests
 			.Be(HttpStatusCode.NotFound);
 	}
 
-	[Fact]
+	[Fact(Skip = "No Database")]
 	public async Task Get_NoQueryStringNoResources_ReturnsEmptyResponse()
 	{
 		// Arrange
@@ -49,7 +49,7 @@ public partial class UsersControllerTests
 			.Be(0);
 	}
 
-	[Fact]
+	[Fact(Skip = "No Database")]
 	public async Task Get_Top1NoResources_ReturnsEmptyResponse()
 	{
 		// Arrange
@@ -93,7 +93,7 @@ public partial class UsersControllerTests
 			.BeEmpty();
 	}
 
-	[Fact]
+	[Fact(Skip = "No Database")]
 	public async Task Get_3Resources_Returns3Resources()
 	{
 		// Arrange
@@ -117,7 +117,7 @@ public partial class UsersControllerTests
 			.Be(3);
 	}
 
-	[Fact]
+	[Fact(Skip = "No Database")]
 	public async Task Get_3ResourcesOrdered_Returns3Resources()
 	{
 		// Arrange
@@ -150,7 +150,7 @@ public partial class UsersControllerTests
 			.Be("testUser3");
 	}
 
-	[Fact]
+	[Fact(Skip = "No Database")]
 	public async Task Get_3ResourcesOrderedDesc_Returns3Resources()
 	{
 		// Arrange
@@ -220,7 +220,7 @@ public partial class UsersControllerTests
 			.Be(1);
 	}
 
-	[Fact]
+	[Fact(Skip = "No Database")]
 	public async Task Get_3ResourcesOrderedSkipped_Returns2Resources()
 	{
 		// Arrange
@@ -250,7 +250,7 @@ public partial class UsersControllerTests
 			.Be("testUser3");
 	}
 
-	[Fact]
+	[Fact(Skip = "No Database")]
 	public async Task Get_3ResourcesOrderedTop2_Returns2Resources()
 	{
 		// Arrange
@@ -280,7 +280,7 @@ public partial class UsersControllerTests
 			.Be("testUser2");
 	}
 
-	[Fact]
+	[Fact(Skip = "No Database")]
 	public async Task Get_3ResourcesOrderedSkipped1Top2_Returns2Resources()
 	{
 		// Arrange
@@ -310,7 +310,7 @@ public partial class UsersControllerTests
 			.Be("testUser3");
 	}
 
-	[Fact]
+	[Fact(Skip = "No Database")]
 	public async Task Get_3ResourcesOrderedSkipped1Top2Filtered_Returns1Resource()
 	{
 		// Arrange

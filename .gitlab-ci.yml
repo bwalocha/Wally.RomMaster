@@ -322,7 +322,7 @@ deploy:node:notification_npm:
     - .deploy:node
   needs:
     - test:notification_sln
-    # - test:hash_npm
+    # - test:notification_npm
   variables:
     SOLUTION_NAME: ${NOTIFICATION_SOLUTION_NAME}
     PROJECT_NAME: ${NOTIFICATION_NPM_PROJECT_NAME}/generated

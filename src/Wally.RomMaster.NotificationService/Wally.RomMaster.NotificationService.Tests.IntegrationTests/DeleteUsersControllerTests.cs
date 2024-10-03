@@ -10,7 +10,7 @@ namespace Wally.RomMaster.NotificationService.Tests.IntegrationTests;
 
 public partial class UsersControllerTests
 {
-	[Fact]
+	[Fact(Skip = "No Database")]
 	public async Task Delete_ForExistingResource_SoftDeletesResourceData()
 	{
 		// Arrange
