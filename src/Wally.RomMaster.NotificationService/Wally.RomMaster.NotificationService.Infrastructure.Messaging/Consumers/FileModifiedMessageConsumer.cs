@@ -1,8 +1,8 @@
-using System;
 using System.Threading.Tasks;
 using MassTransit;
 using MediatR;
 using Wally.RomMaster.FileService.Application.Messages.Files;
+using Wally.RomMaster.NotificationService.Application.Notifications.Commands;
 
 namespace Wally.RomMaster.NotificationService.Infrastructure.Messaging.Consumers;
 
@@ -15,8 +15,10 @@ public class FileModifiedMessageConsumer : IConsumer<FileModifiedMessage>
 		_mediator = mediator;
 	}
 	
-	public Task Consume(ConsumeContext<FileModifiedMessage> context)
+	public async Task Consume(ConsumeContext<FileModifiedMessage> context)
 	{
-		throw new NotSupportedException();
+		var command = new BroadcastNotificationCommand("File modified", context.Message.Location);
+
+		await _mediator.Send(command);
 	}
 }

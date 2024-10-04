@@ -1,8 +1,8 @@
-using System;
 using System.Threading.Tasks;
 using MassTransit;
 using MediatR;
 using Wally.RomMaster.HashService.Application.Messages.Hashes;
+using Wally.RomMaster.NotificationService.Application.Notifications.Commands;
 
 namespace Wally.RomMaster.NotificationService.Infrastructure.Messaging.Consumers;
 
@@ -15,8 +15,11 @@ public class HashComputedMessageConsumer : IConsumer<HashComputedMessage>
 		_mediator = mediator;
 	}
 
-	public Task Consume(ConsumeContext<HashComputedMessage> context)
+	public async Task Consume(ConsumeContext<HashComputedMessage> context)
 	{
-		throw new NotSupportedException();
+		var command = new BroadcastNotificationCommand("Hash computed",
+			$"File ID: {context.Message.FileId}, CRC32: {context.Message.Crc32}, MD5: {context.Message.Md5}");
+
+		await _mediator.Send(command);
 	}
 }

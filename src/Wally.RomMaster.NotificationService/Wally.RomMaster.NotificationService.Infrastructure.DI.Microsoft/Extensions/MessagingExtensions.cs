@@ -43,7 +43,7 @@ public static class MessagingExtensions
 								rider.AddConsumersFromNamespaceContaining<IInfrastructureMessagingAssemblyMarker>();
 
 								// TODO: auto-register
-								rider.AddProducer<UserCreatedMessage>(typeof(UserCreatedMessage).FullName);
+								// rider.AddProducer<UserCreatedMessage>(typeof(UserCreatedMessage).FullName);
 
 								// rider.AddProducer<UserUpdatedMessage>(typeof(FileModifiedMessage).FullName);
 
@@ -54,13 +54,21 @@ public static class MessagingExtensions
 										k.Host(settings.ConnectionStrings.ServiceBus);
 
 										// TODO: auto-register
-										k.TopicEndpoint<Identity.Messages.Users.UserCreatedMessage>(
-											typeof(Identity.Messages.Users.UserCreatedMessage).FullName,
+										k.TopicEndpoint<Wally.RomMaster.FileService.Application.Messages.Files.FileCreatedMessage>(
+											typeof(Wally.RomMaster.FileService.Application.Messages.Files.FileCreatedMessage).FullName,
 											typeof(IInfrastructureMessagingAssemblyMarker).Namespace,
 											e =>
 											{
 												e.AutoOffsetReset = AutoOffsetReset.Earliest;
-												e.ConfigureConsumer<UserCreatedMessageConsumer>(context);
+												e.ConfigureConsumer<FileCreatedMessageConsumer>(context);
+											});
+										k.TopicEndpoint<Wally.RomMaster.HashService.Application.Messages.Hashes.HashComputedMessage>(
+											typeof(Wally.RomMaster.HashService.Application.Messages.Hashes.HashComputedMessage).FullName,
+											typeof(IInfrastructureMessagingAssemblyMarker).Namespace,
+											e =>
+											{
+												e.AutoOffsetReset = AutoOffsetReset.Earliest;
+												e.ConfigureConsumer<HashComputedMessageConsumer>(context);
 											});
 									});
 

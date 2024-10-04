@@ -6,8 +6,11 @@ namespace Wally.RomMaster.NotificationService.Infrastructure.DI.Microsoft.Extens
 
 public static class HubsExtensions
 {
-	public static IServiceCollection AddEventHub(this IServiceCollection services)
+	public static IServiceCollection AddEventHub<THubService, THubImplementation>(this IServiceCollection services)
+		where THubService : Hub
+		where THubImplementation : THubService
 	{
+		services.AddScoped<THubService, THubImplementation>();
 		services.AddSignalR(options => { options.EnableDetailedErrors = true; });
 
 		return services;

@@ -1,4 +1,5 @@
-﻿using System;
+﻿/*
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using MassTransit;
@@ -41,3 +42,4 @@ public class UserCreatedConsumerTests
 				CancellationToken.None), Times.Once());
 	}
 }
+*/

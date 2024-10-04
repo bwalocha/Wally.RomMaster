@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.SignalR;
+using Wally.RomMaster.NotificationService.Application.Abstractions;
 
 namespace Wally.RomMaster.NotificationService.Infrastructure.DI.Microsoft.Hubs;
 

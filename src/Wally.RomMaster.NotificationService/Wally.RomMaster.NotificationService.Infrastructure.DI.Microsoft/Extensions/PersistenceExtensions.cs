@@ -28,7 +28,7 @@ public static class PersistenceExtensions
 			switch (settings.Database.ProviderType)
 			{
 				case DatabaseProviderType.None:
-					break;
+					return;
 				case DatabaseProviderType.InMemory:
 					WithInMemory(options);
 					break;
@@ -66,8 +66,8 @@ public static class PersistenceExtensions
 				.AsImplementedInterfaces()
 				.WithScopedLifetime());
 
-		services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
-		services.AddScoped<IUserProvider, HttpUserProvider>();
+		services.AddSingleton<IDateTimeProvider, DateTimeProvider>(); // TODO: move
+		services.AddScoped<IUserProvider, HttpUserProvider>(); // TODO: move
 
 		return services;
 	}

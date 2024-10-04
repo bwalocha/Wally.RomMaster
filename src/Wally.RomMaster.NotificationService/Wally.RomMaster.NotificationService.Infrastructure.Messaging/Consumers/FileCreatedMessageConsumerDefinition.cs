@@ -9,7 +9,7 @@ public class FileCreatedMessageConsumerDefinition : ConsumerDefinition<FileCreat
 	{
 		// limit the number of messages consumed concurrently
 		// this applies to the consumer only, not the endpoint
-		ConcurrentMessageLimit = 4;
+		ConcurrentMessageLimit = 1;
 	}
 	
 	protected override void ConfigureConsumer(IReceiveEndpointConfigurator endpointConfigurator,

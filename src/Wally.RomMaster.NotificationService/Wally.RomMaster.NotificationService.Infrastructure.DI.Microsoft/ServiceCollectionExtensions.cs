@@ -1,9 +1,11 @@
 ﻿using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Wally.RomMaster.NotificationService.Application.Abstractions;
 using Wally.RomMaster.NotificationService.Infrastructure.DI.Microsoft.Extensions;
 using Wally.RomMaster.NotificationService.Infrastructure.DI.Microsoft.Hubs;
 using Wally.RomMaster.NotificationService.Infrastructure.DI.Microsoft.Models;
@@ -25,7 +27,7 @@ public static class ServiceCollectionExtensions
 		services.AddPersistence(settings);
 		services.AddMapper();
 		services.AddMessaging(settings);
-		services.AddEventHub();
+		services.AddEventHub<Hub<IEventHub>, EventHub>();
 
 		return services;
 	}
