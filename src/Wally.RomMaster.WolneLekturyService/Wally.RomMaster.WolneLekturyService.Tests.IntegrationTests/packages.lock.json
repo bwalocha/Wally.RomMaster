@@ -1674,6 +1674,14 @@
           "Wally.RomMaster.WolneLekturyService.Domain": "[1.0.0, )"
         }
       },
+      "wally.rommaster.wolnelekturyservice.infrastructure.wolnelekturyapiclient": {
+        "type": "Project",
+        "dependencies": {
+          "JsonNet.ContractResolvers": "[2.0.0, )",
+          "SonarAnalyzer.CSharp": "[9.32.0.97167, )",
+          "StyleCop.Analyzers": "[1.1.118, )"
+        }
+      },
       "wally.rommaster.wolnelekturyservice.webapi": {
         "type": "Project",
         "dependencies": {

@@ -17,10 +17,23 @@ public class Book : AggregateRoot<Book, BookId>, ISoftDeletable
 	{
 	}
 
-	private Book(BookId id, string title, string slug, string fullSortKey, Uri url, Uri href, KindId kindId,
+	private Book(
+		BookId id,
+		string title,
+		string slug,
+		string fullSortKey,
+		Uri url,
+		Uri href,
+		KindId kindId,
 		EpochId epochId,
-		GenreId genreId, AuthorId authorId, Uri cover, Uri coverThumb, string coverColor, Uri simpleThumb,
-		bool hasAudio, bool liked)
+		GenreId genreId,
+		AuthorId authorId,
+		Uri cover,
+		Uri coverThumb,
+		string coverColor,
+		Uri simpleThumb,
+		bool hasAudio,
+		bool liked)
 		: base(id)
 	{
 		Title = title;
@@ -88,13 +101,15 @@ public class Book : AggregateRoot<Book, BookId>, ISoftDeletable
 		GenreId genreId, AuthorId authorId, Uri cover, Uri coverThumb, string coverColor, Uri simpleThumb,
 		bool hasAudio, bool liked)
 	{
-		var model = new Book(title, slug, fullSortKey, url, href, kindId, epochId, genreId, authorId, cover, coverThumb, coverColor, simpleThumb, hasAudio, liked);
+		var model = new Book(title, slug, fullSortKey, url, href, kindId, epochId, genreId, authorId, cover, coverThumb,
+			coverColor, simpleThumb, hasAudio, liked);
 		// model.AddDomainEvent(new BookCreatedDomainEvent(model.Id));
 
 		return model;
 	}
 
-	public static Book Create(BookId id, string title, string slug, string fullSortKey, Uri url, Uri href, KindId kindId,
+	public static Book Create(BookId id, string title, string slug, string fullSortKey, Uri url, Uri href,
+		KindId kindId,
 		EpochId epochId,
 		GenreId genreId, AuthorId authorId, Uri cover, Uri coverThumb, string coverColor, Uri simpleThumb,
 		bool hasAudio, bool liked)
