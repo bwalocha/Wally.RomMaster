@@ -37,7 +37,7 @@ public static class Configuration
 				typeof(IApplicationAssemblyMarker).Assembly,
 				typeof(IApplicationContractsAssemblyMarker).Assembly,
 				typeof(IApplicationMapperProfilesAssemblyMarker).Assembly,
-				typeof(IApplicationMessagesAssemblyMarker).Assembly,
+				// typeof(IApplicationMessagesAssemblyMarker).Assembly,
 			},
 			Domain = new[]
 			{
