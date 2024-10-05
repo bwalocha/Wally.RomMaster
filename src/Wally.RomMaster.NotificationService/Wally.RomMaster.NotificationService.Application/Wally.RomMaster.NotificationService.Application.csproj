@@ -10,6 +10,7 @@
         <PackageReference Include="MassTransit.Abstractions" />
         <PackageReference Include="MediatR" />
         <PackageReference Include="Microsoft.AspNetCore.OData" />
+        <PackageReference Include="Microsoft.AspNetCore.SignalR.StackExchangeRedis" />
     </ItemGroup>
 
     <ItemGroup>

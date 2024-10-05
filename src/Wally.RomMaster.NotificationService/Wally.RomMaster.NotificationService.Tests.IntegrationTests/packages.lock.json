@@ -323,6 +323,21 @@
         "resolved": "2.5.0",
         "contentHash": "0YQBronD1pdiYDMsz3DoVNLO8KVJpQ+svAzHqzE4CHHU9wAr+Uc5/s77gYpcodPQjpw7E2HvUJxrvhUd0l/E0Q=="
       },
+      "MessagePack": {
+        "type": "Transitive",
+        "resolved": "2.5.108",
+        "contentHash": "kcVRbdWP3xNWLZmmpm4DFO+kuXf6mUR2mHZ27WoZIEFIv9hazuUd80injXhNrZnlq/FklAdCsLOil5M76I4Ndg==",
+        "dependencies": {
+          "MessagePack.Annotations": "2.5.108",
+          "Microsoft.NET.StringTools": "17.4.0",
+          "System.Runtime.CompilerServices.Unsafe": "6.0.0"
+        }
+      },
+      "MessagePack.Annotations": {
+        "type": "Transitive",
+        "resolved": "2.5.108",
+        "contentHash": "28aNCvfJClgwaKr26gf2S6LT+C1PNyPxiG+ihYpy8uCJsRLJEDoCt2I0Uk5hqOPQ8P8hI0ESy520oMkZkPmsOQ=="
+      },
       "Microsoft.ApplicationInsights": {
         "type": "Transitive",
         "resolved": "2.20.0",
@@ -775,8 +790,8 @@
       },
       "Microsoft.Extensions.Options": {
         "type": "Transitive",
-        "resolved": "8.0.0",
-        "contentHash": "JOVOfqpnqlVLUzINQ2fox8evY2SKLYJ3BV8QDe/Jyp21u1T7r45x/R/5QdteURMR5r01GxeJSBBUOCOyaNXA3g==",
+        "resolved": "8.0.2",
+        "contentHash": "dWGKvhFybsaZpGmzkGCbNNwBD1rVlWzrZKANLW/CcbFJpCEceMCGzT7zZwHOGBCbwM0SzBuceMj5HN1LKV1QqA==",
         "dependencies": {
           "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.0",
           "Microsoft.Extensions.Primitives": "8.0.0"
@@ -862,6 +877,15 @@
         "contentHash": "oICJMqr3aNEDZOwnH5SK49bR6Z4aX0zEAnOLuhloumOSuqnNq+GWBdQyrgILnlcT5xj09xKCP/7Y7gJYB+ls/g==",
         "dependencies": {
           "Microsoft.IdentityModel.Logging": "7.1.2"
+        }
+      },
+      "Microsoft.NET.StringTools": {
+        "type": "Transitive",
+        "resolved": "17.4.0",
+        "contentHash": "06T6Hqfs3JDIaBvJaBRFFMIdU7oE0OMab5Xl8LKQjWPxBQr3BgVFKMQPTC+GsSEuYREWmK6g5eOd7Xqd9p1YCA==",
+        "dependencies": {
+          "System.Memory": "4.5.5",
+          "System.Runtime.CompilerServices.Unsafe": "6.0.0"
         }
       },
       "Microsoft.NETCore.Platforms": {
@@ -1002,6 +1026,14 @@
           "Microsoft.Extensions.Logging.Abstractions": "8.0.0"
         }
       },
+      "Pipelines.Sockets.Unofficial": {
+        "type": "Transitive",
+        "resolved": "2.2.8",
+        "contentHash": "zG2FApP5zxSx6OcdJQLbZDk2AVlN2BNQD6MorwIfV6gVj0RRxWPEp2LXAxqDGZqeNV1Zp0BNPcNaey/GXmTdvQ==",
+        "dependencies": {
+          "System.IO.Pipelines": "5.0.1"
+        }
+      },
       "RabbitMQ.Client": {
         "type": "Transitive",
         "resolved": "6.8.1",
@@ -1113,6 +1145,15 @@
         "type": "Transitive",
         "resolved": "1.3.0",
         "contentHash": "5pBIXRjcSO/amY8WztpmNOhaaCNHY/B6CcYDI7FSTgqSyo/ZUojlLiKcsl+YGbxQuLX439qIkMfP0PHqxqJi/Q=="
+      },
+      "StackExchange.Redis": {
+        "type": "Transitive",
+        "resolved": "2.7.27",
+        "contentHash": "Uqc2OQHglqj9/FfGQ6RkKFkZfHySfZlfmbCl+hc+u2I/IqunfelQ7QJi7ZhvAJxUtu80pildVX6NPLdDaUffOw==",
+        "dependencies": {
+          "Microsoft.Extensions.Logging.Abstractions": "6.0.0",
+          "Pipelines.Sockets.Unofficial": "2.2.8"
+        }
       },
       "Swashbuckle.AspNetCore.Swagger": {
         "type": "Transitive",
@@ -1505,6 +1546,7 @@
           "MassTransit.Abstractions": "[8.2.5, )",
           "MediatR": "[12.4.1, )",
           "Microsoft.AspNetCore.OData": "[9.0.0, )",
+          "Microsoft.AspNetCore.SignalR.StackExchangeRedis": "[8.0.8, )",
           "SonarAnalyzer.CSharp": "[9.32.0.97167, )",
           "StyleCop.Analyzers": "[1.1.118, )",
           "Wally.RomMaster.NotificationService.Application.Contracts": "[1.0.0, )",
@@ -1967,6 +2009,17 @@
           "Microsoft.OData.Edm": "[8.0.1, 9.0.0)",
           "Microsoft.OData.ModelBuilder": "[2.0.0, 3.0.0)",
           "Microsoft.Spatial": "[8.0.1, 9.0.0)"
+        }
+      },
+      "Microsoft.AspNetCore.SignalR.StackExchangeRedis": {
+        "type": "CentralTransitive",
+        "requested": "[8.0.8, )",
+        "resolved": "8.0.8",
+        "contentHash": "QZdJJBq+nXpdFapxwyJ+rOThpLYZI2q0jBuzcgkRLh2C+lX51JCU/C0xXtMm+8hKt9E26pJRr53RKguekkLfIQ==",
+        "dependencies": {
+          "MessagePack": "2.5.108",
+          "Microsoft.Extensions.Options": "8.0.2",
+          "StackExchange.Redis": "2.7.27"
         }
       },
       "Microsoft.EntityFrameworkCore": {
