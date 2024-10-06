@@ -11,7 +11,6 @@ namespace Wally.RomMaster.WolneLekturyService.Infrastructure.WolneLekturyApiClie
 public sealed record Book(
 	string Title,
 	string Slug,
-	[property: JsonProperty("full_sort_key")]
 	[property: JsonPropertyName("full_sort_key")]
 	string FullSortKey,
 	Uri Url,
@@ -21,16 +20,12 @@ public sealed record Book(
 	string Genre,
 	string Author,
 	Uri Cover,
-	[property: JsonProperty("cover_thumb")]
 	[property: JsonPropertyName("cover_thumb")]
 	Uri CoverThumb,
-	[property: JsonProperty("cover_color")]
 	[property: JsonPropertyName("cover_color")]
 	string CoverColor,
-	[property: JsonProperty("simple_thumb")]
 	[property: JsonPropertyName("simple_thumb")]
 	Uri SimpleThumb,
-	[property: JsonProperty("has_audio")]
 	[property: JsonPropertyName("has_audio")]
 	bool HasAudio,
 	bool? Liked)

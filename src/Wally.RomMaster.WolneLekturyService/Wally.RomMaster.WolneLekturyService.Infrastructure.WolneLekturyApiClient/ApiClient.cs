@@ -30,9 +30,9 @@ public class ApiClient : IApiClient
 		return _httpClient.GetFromJsonAsync<Book[]>(new Uri("books", UriKind.Relative), cancellationToken);
 	}
 
-	public Task<Book> GetBookAsync(string slug, CancellationToken cancellationToken = default)
+	public Task<BookDetail?> GetBookAsync(string slug, CancellationToken cancellationToken = default)
 	{
-		throw new NotImplementedException();
+		return _httpClient.GetFromJsonAsync<BookDetail>(new Uri($"books/{slug}", UriKind.Relative), cancellationToken);
 	}
 
 	public Task<Book[]?> GetAudiobooksAsync(CancellationToken cancellationToken = default)

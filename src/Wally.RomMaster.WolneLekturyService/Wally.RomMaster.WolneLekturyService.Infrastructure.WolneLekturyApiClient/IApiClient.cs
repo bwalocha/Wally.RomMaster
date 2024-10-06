@@ -15,7 +15,7 @@ public interface IApiClient
 {
 	Task<Book[]?> GetBooksAsync(CancellationToken cancellationToken = default);
 	
-	Task<Book> GetBookAsync(string slug, CancellationToken cancellationToken = default);
+	Task<BookDetail?> GetBookAsync(string slug, CancellationToken cancellationToken = default);
 	
 	Task<Book[]?> GetAudiobooksAsync(CancellationToken cancellationToken = default);
 	

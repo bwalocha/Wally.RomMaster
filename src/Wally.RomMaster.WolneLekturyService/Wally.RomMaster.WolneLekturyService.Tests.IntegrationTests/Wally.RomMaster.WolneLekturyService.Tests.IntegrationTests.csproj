@@ -20,7 +20,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\Wally.RomMaster.WolneLekturyService.Infrastructure.WolneLekturyApiClient\Wally.RomMaster.WolneLekturyService.Infrastructure.WolneLekturyApiClient.csproj" />
+        <ProjectReference Include="..\Wally.RomMaster.WolneLekturyService.Infrastructure.WolneLekturyApiClient\Wally.RomMaster.WolneLekturyService.Infrastructure.WolneLekturyApiClient.csproj" />
         <ProjectReference Include="..\Wally.RomMaster.WolneLekturyService.Infrastructure.Persistence\Wally.RomMaster.WolneLekturyService.Infrastructure.Persistence.csproj" />
         <ProjectReference Include="..\Wally.RomMaster.WolneLekturyService.WebApi\Wally.RomMaster.WolneLekturyService.WebApi.csproj" />
     </ItemGroup>

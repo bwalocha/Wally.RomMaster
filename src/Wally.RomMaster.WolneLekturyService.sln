@@ -39,6 +39,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.WolneLektur
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.WolneLekturyService.Infrastructure.BackgroundServices", "Wally.RomMaster.WolneLekturyService\Wally.RomMaster.WolneLekturyService.Infrastructure.BackgroundServices\Wally.RomMaster.WolneLekturyService.Infrastructure.BackgroundServices.csproj", "{86CDBA0D-4135-4001-A978-28E46C96404A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.WolneLekturyService.Infrastructure.WolneLekturyApiClient", "Wally.RomMaster.WolneLekturyService\Wally.RomMaster.WolneLekturyService.Infrastructure.WolneLekturyApiClient\Wally.RomMaster.WolneLekturyService.Infrastructure.WolneLekturyApiClient.csproj", "{A3633016-A447-4B40-8408-97DEF38A9615}"
+EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{7CA1E01A-F818-48B9-A573-20A904B9F7C2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{7DDF052D-3D5E-4C6B-9CDE-F4793B315C05}"
@@ -60,8 +62,6 @@ ProjectSection(SolutionItems) = preProject
 				NuGet.config = NuGet.config
 				README.md = README.md
 EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wally.RomMaster.WolneLekturyService.Infrastructure.WolneLekturyApiClient", "Wally.RomMaster.WolneLekturyService.Infrastructure.WolneLekturyApiClient\Wally.RomMaster.WolneLekturyService.Infrastructure.WolneLekturyApiClient.csproj", "{A3633016-A447-4B40-8408-97DEF38A9615}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
