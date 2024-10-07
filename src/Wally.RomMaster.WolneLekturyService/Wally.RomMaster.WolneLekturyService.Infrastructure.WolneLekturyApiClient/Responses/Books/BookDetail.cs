@@ -34,8 +34,8 @@ public sealed record BookDetail(
 	Uri Fb2,
 	Uri Xml,
 	IReadOnlyCollection<Media> Media,
-	// [property: JsonPropertyName("audio_length")]
-	// TimeSpan AudioLength,
+	[property: JsonPropertyName("audio_length")]
+	string AudioLength,
 	[property: JsonPropertyName("cover_color")]
 	string CoverColor,
 	[property: JsonPropertyName("simple_cover")]

@@ -6,7 +6,6 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Wally.RomMaster.WolneLekturyService.Infrastructure.WolneLekturyApiClient;
-using Wally.RomMaster.WolneLekturyService.Infrastructure.WolneLekturyApiClient.Responses.Books;
 using Xunit;
 
 namespace Wally.RomMaster.WolneLekturyService.Tests.IntegrationTests.Infrastructure.WolneLekturyApiClient;
@@ -42,8 +41,130 @@ public class ApiClientBooksTests
 												<!-- {ABRIDGED} -->
 											  </ns0:metadata>
 											</ns0:package>
-
 											""";
+
+	/*private const string NfoTemplate = """
+										General Information
+										===================
+										 Title:                  {TITLE}:{SUBTITLE}
+										 Author:                 {AUTHORS}
+										 Narrator:               {NARRATORS}
+										 Read By:                {NARRATORS}
+										 Series Name:            {SERIES_NAME}
+										 Position in Series:     {POSITION}
+										 Genre:                  {GENRES}
+										 Tags:                   {TAGS}
+										 Release Date:           {PUBLISH_YEAR}
+										 Abridged:               {ABRIDGED}
+										 Publisher:              {PUBLISHER}
+										 Asin:					 {ASIN}
+										 Isbn:					 {ISBN}
+										 Language:				 {LANGUAGE}
+										 <!-- {EXPLICIT} -->
+										 <!-- {ABRIDGED} -->
+										 
+										 Duration:               7 hours, 57 minutes, 17 seconds
+										 Chapters:               45
+										 
+										 Release Date:           23-Sep-2021
+										 Duration:               16 hours, 37 minutes, 14 seconds
+										 Chapters:               20
+										 Audible.com Release:    March 3rd, 2020
+										 Original Publication:   1990
+										 Format:                 MPEG-4 (M4B)
+										 Duration:               24 hours, 51 minutes, 14 seconds
+										 Chapters:               29
+										 Unabridged:             Yes
+										
+										Media Information
+										=================
+										 Source Format:          Audible AAX
+										 Source Sample Rate:     44100 Hz
+										 Source Channels:        2
+										 Source Bitrate:         126 kbits
+										
+										 Lossless Encode:        Yes
+										 Encoded Codec:          AAC / M4B
+										 Encoded Sample Rate:    44100 Hz
+										 Encoded Channels:       2
+										 Encoded Bitrate:        126 kbits
+										 Encode Size:            906 MiB
+										
+										 Chapter Adjust:         inAudible 1.97 -KAZIN
+										 Chapter Rename:         inAudible 1.97 -KAZIN
+										 Ripper:                 inAudible 1.97''True Decrypt''-KAZIN
+										 ID Tagging:             iTunes 12.7.3.46 -KAZIN
+										
+										Original Media Information
+										==========================
+										 Media:                  Downloaded
+										 Source:                 Library
+										 Condition:              New
+										
+										File Information
+										================
+										 Number of MP3s:         41
+										 Total Duration:         10:07:54
+										 Total MP3 Size:         209.36 MB
+										 Encoded At:             VBR 48 kbit/s 44100 Hz Mono
+										 ID3 Tags:               Set, v1.1, v2.3
+										
+										Media Information
+										=================
+										 Source Format:          Audible AAX
+										 Source Sample Rate:     22050 Hz
+										 Source Channels:        2
+										 Source Bitrate:         63 kbits
+										
+										 Lossless Encode:        No
+										 Encoded Codec:          Fraunhofer FDK AAC
+										 Encoded Sample Rate:    22050 Hz
+										 Encoded Channels:       1
+										 Encoded Bitrate:        64 kbits
+										
+										 Ripper:                 inAudible 1.95
+
+										Book Description
+										================
+										{DESCRIPTION}  
+										""";*/
+	
+	private const string NfoTemplate = """
+										General Information
+										===================
+										 ID:					 {ID}
+										 Title:                  {TITLE}:{SUBTITLE}
+										 Author:                 {AUTHORS}
+										 Director:				 {MEDIA_DIRECTORS}
+										 Read By:                {NARRATORS}
+										 Series Name:            {SERIES_NAME}
+										 Position in Series:     {POSITION}
+										 Genre:                  {GENRES}
+										 Tags:                   {TAGS}
+										 Release Date:           {PUBLISH_YEAR}
+										 Publisher:              {PUBLISHER}
+										 Language:				 {LANGUAGE}
+										 Asin:					 {ASIN}
+										 ISBN:					 {ISBN}
+										 ISBN Pdf:			     {ISBN}
+										 ISBN ePub:				 {ISBN_EPUB}
+										 ISBN Mobi:				 {ISBN_MOBI}
+										 Audiobook:				 {AUDIOBOOK}
+										 Explicit:				 {EXPLICIT}
+										 Abridged:				 {ABRIDGED}
+										 
+										Media Information
+										=================
+										 Source:				  {SOURCE}
+										 Media Types:			  {MEDIA_TYPES}
+										 Number of Files:         {MEDIA_COUNT}
+										 Audio Length:			  {AUDIO_LENGTH}
+										 Cover Url:			      {COVER_URL}
+										
+										Book Description
+										================
+										{DESCRIPTION}  
+										""";
 
 	private readonly ApiClient _apiClient;
 
@@ -159,12 +280,11 @@ public class ApiClientBooksTests
 			details.Should()
 				.NotBeNull();
 
-			if (File.Exists(Path.Combine(BooksFolder, resource.Slug, "metadata.opf")))
+			var file = Path.Combine(BooksFolder, resource.Slug, "metadata.opf");
+			if (File.Exists(file))
 			{
 				continue;
 			}
-
-			await Task.Delay(TimeSpan.FromSeconds(1));
 
 			string StripHtml(string html)
 			{
@@ -190,7 +310,82 @@ public class ApiClientBooksTests
 				.Replace("{TAGS}", string.Join("\r\n", details.Epochs.Select(a => $"<dc:tag>{a.Name}</dc:tag>")
 					.Concat(details.Kinds.Select(a => $"<dc:tag>{a.Name}</dc:tag>"))));
 
-			await using var outputFile = new StreamWriter(Path.Combine(BooksFolder, resource.Slug, "metadata.opf"));
+			await using var outputFile = new StreamWriter(file);
+			await outputFile.WriteLineAsync(content);
+		}
+	}
+	
+	[Fact(Skip = "Disabled")]
+	public async Task GetBooks_ForExistingFiles_CreatesNfoFile()
+	{
+		// https://github.com/advplyr/audiobookshelf/blob/master/server/utils/parsers/parseNfoMetadata.js
+
+		// Arrange
+
+		// Act
+		var response = await _apiClient.GetBooksAsync();
+
+		// Assert
+		response.Should()
+			.NotBeNull();
+		response!.Length.Should()
+			.Be(7018);
+		foreach (var resource in response!)
+		{
+			resource.Should()
+				.NotBeNull();
+
+			var details = await _apiClient.GetBookAsync(resource.Slug);
+
+			details.Should()
+				.NotBeNull();
+
+			var file = Path.Combine(BooksFolder, resource.Slug, "metadata.nfo");
+			if (File.Exists(file))
+			{
+				continue;
+			}
+
+			string StripHtml(string html)
+			{
+				var reg = new Regex("<[^>]+>", RegexOptions.IgnoreCase);
+				return reg.Replace(html, "");
+			}
+
+			var content = NfoTemplate
+				.Replace("{ID}", resource.Slug)
+				.Replace("{TITLE}", details!.Title)
+				.Replace("{SUBTITLE}", string.Join(", ", details.Translators.Select(a => a.Name)))
+				.Replace("{SOURCE}", resource.Url.AbsoluteUri)
+				.Replace("{AUDIOBOOK}", resource.HasAudio ? "Yes" : "No")
+				.Replace("{ISBN}", details.IsbnPdf)
+				.Replace("{ISBN_EPUB}", details.IsbnEpub)
+				.Replace("{ISBN_MOBI}", details.IsbnMobi)
+				.Replace("{ASIN}", string.Empty)
+				.Replace("{PUBLISHER}", "Fundacja Wolne Lektury")
+				.Replace("{SERIES_NAME}", "Fundacja Wolne Lektury")
+				.Replace("{POSITION}", "1")
+				.Replace("{PUBLISH_YEAR}", string.Empty)
+				.Replace("{LANGUAGE}", details.Language)
+				.Replace("{NARRATORS}", string.Join(", ", details.Media.Where(a => !string.IsNullOrEmpty(a.Artist)).Select(a => a.Artist)
+					.Distinct()))
+				.Replace("{AUTHORS}", string.Join(", ", details.Authors.Select(a => a.Name)))
+				.Replace("{DESCRIPTION}",
+					$"{details.FragmentData.Title}\r\n{StripHtml(details.FragmentData.Html)}")
+				.Replace("{GENRES}", string.Join(", ", details.Genres.Select(a => a.Name)))
+				.Replace("{TAGS}", string.Join(", ", details.Epochs.Select(a => a.Name)
+					.Concat(details.Kinds.Select(a => a.Name))))
+				.Replace("{ABRIDGED}", "No")
+				.Replace("{EXPLICIT}", "No")
+				.Replace("{COVER_URL}", details.Cover.AbsoluteUri)
+				.Replace("{AUDIO_LENGTH}", details.AudioLength)
+				.Replace("{MEDIA_COUNT}", details.Media.Count.ToString())
+				.Replace("{MEDIA_TYPES}", string.Join(", ", details.Media.GroupBy(a => a.Type).Select(a => $"{a.Key} ({a.Count()})")
+					.Distinct()))
+				.Replace("{MEDIA_DIRECTORS}", string.Join(", ", details.Media.Where(a => !string.IsNullOrEmpty(a.Director)).Select(a => a.Director)
+					.Distinct()));
+
+			await using var outputFile = new StreamWriter(file);
 			await outputFile.WriteLineAsync(content);
 		}
 	}
