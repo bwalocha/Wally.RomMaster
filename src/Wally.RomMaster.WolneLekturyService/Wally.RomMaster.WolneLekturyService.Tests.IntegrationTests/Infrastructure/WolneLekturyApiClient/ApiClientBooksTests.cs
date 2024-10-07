@@ -14,7 +14,6 @@ public class ApiClientBooksTests
 {
 	private const string WatchFolder = "d:/WatchFolder";
 	private const string BooksFolder = @"\\192.168.1.2\Audio\-\audiobook\WolneLektury";
-
 	private const string MetadataTemplate = """
 											<?xml version="1.0" encoding="utf-8"?>
 											<ns0:package xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns0="http://www.idpf.org/2007/opf" unique-identifier="BookId" version="2.0">
@@ -42,100 +41,13 @@ public class ApiClientBooksTests
 											  </ns0:metadata>
 											</ns0:package>
 											""";
-
-	/*private const string NfoTemplate = """
-										General Information
-										===================
-										 Title:                  {TITLE}:{SUBTITLE}
-										 Author:                 {AUTHORS}
-										 Narrator:               {NARRATORS}
-										 Read By:                {NARRATORS}
-										 Series Name:            {SERIES_NAME}
-										 Position in Series:     {POSITION}
-										 Genre:                  {GENRES}
-										 Tags:                   {TAGS}
-										 Release Date:           {PUBLISH_YEAR}
-										 Abridged:               {ABRIDGED}
-										 Publisher:              {PUBLISHER}
-										 Asin:					 {ASIN}
-										 Isbn:					 {ISBN}
-										 Language:				 {LANGUAGE}
-										 <!-- {EXPLICIT} -->
-										 <!-- {ABRIDGED} -->
-										 
-										 Duration:               7 hours, 57 minutes, 17 seconds
-										 Chapters:               45
-										 
-										 Release Date:           23-Sep-2021
-										 Duration:               16 hours, 37 minutes, 14 seconds
-										 Chapters:               20
-										 Audible.com Release:    March 3rd, 2020
-										 Original Publication:   1990
-										 Format:                 MPEG-4 (M4B)
-										 Duration:               24 hours, 51 minutes, 14 seconds
-										 Chapters:               29
-										 Unabridged:             Yes
-										
-										Media Information
-										=================
-										 Source Format:          Audible AAX
-										 Source Sample Rate:     44100 Hz
-										 Source Channels:        2
-										 Source Bitrate:         126 kbits
-										
-										 Lossless Encode:        Yes
-										 Encoded Codec:          AAC / M4B
-										 Encoded Sample Rate:    44100 Hz
-										 Encoded Channels:       2
-										 Encoded Bitrate:        126 kbits
-										 Encode Size:            906 MiB
-										
-										 Chapter Adjust:         inAudible 1.97 -KAZIN
-										 Chapter Rename:         inAudible 1.97 -KAZIN
-										 Ripper:                 inAudible 1.97''True Decrypt''-KAZIN
-										 ID Tagging:             iTunes 12.7.3.46 -KAZIN
-										
-										Original Media Information
-										==========================
-										 Media:                  Downloaded
-										 Source:                 Library
-										 Condition:              New
-										
-										File Information
-										================
-										 Number of MP3s:         41
-										 Total Duration:         10:07:54
-										 Total MP3 Size:         209.36 MB
-										 Encoded At:             VBR 48 kbit/s 44100 Hz Mono
-										 ID3 Tags:               Set, v1.1, v2.3
-										
-										Media Information
-										=================
-										 Source Format:          Audible AAX
-										 Source Sample Rate:     22050 Hz
-										 Source Channels:        2
-										 Source Bitrate:         63 kbits
-										
-										 Lossless Encode:        No
-										 Encoded Codec:          Fraunhofer FDK AAC
-										 Encoded Sample Rate:    22050 Hz
-										 Encoded Channels:       1
-										 Encoded Bitrate:        64 kbits
-										
-										 Ripper:                 inAudible 1.95
-
-										Book Description
-										================
-										{DESCRIPTION}  
-										""";*/
-	
 	private const string NfoTemplate = """
 										General Information
 										===================
-										 ID:					 {ID}
+										 ID:                     {ID}
 										 Title:                  {TITLE}:{SUBTITLE}
 										 Author:                 {AUTHORS}
-										 Director:				 {MEDIA_DIRECTORS}
+										 Director:               {MEDIA_DIRECTORS}
 										 Read By:                {NARRATORS}
 										 Series Name:            {SERIES_NAME}
 										 Position in Series:     {POSITION}
@@ -143,23 +55,23 @@ public class ApiClientBooksTests
 										 Tags:                   {TAGS}
 										 Release Date:           {PUBLISH_YEAR}
 										 Publisher:              {PUBLISHER}
-										 Language:				 {LANGUAGE}
-										 Asin:					 {ASIN}
-										 ISBN:					 {ISBN}
-										 ISBN Pdf:			     {ISBN}
-										 ISBN ePub:				 {ISBN_EPUB}
-										 ISBN Mobi:				 {ISBN_MOBI}
-										 Audiobook:				 {AUDIOBOOK}
-										 Explicit:				 {EXPLICIT}
-										 Abridged:				 {ABRIDGED}
+										 Language:               {LANGUAGE}
+										 Asin:                   {ASIN}
+										 ISBN:                   {ISBN}
+										 ISBN Pdf:               {ISBN}
+										 ISBN ePub:              {ISBN_EPUB}
+										 ISBN Mobi:              {ISBN_MOBI}
+										 Audiobook:              {AUDIOBOOK}
+										 Explicit:               {EXPLICIT}
+										 Abridged:               {ABRIDGED}
 										 
 										Media Information
 										=================
-										 Source:				  {SOURCE}
-										 Media Types:			  {MEDIA_TYPES}
+										 Source:                  {SOURCE}
+										 Media Types:             {MEDIA_TYPES}
 										 Number of Files:         {MEDIA_COUNT}
-										 Audio Length:			  {AUDIO_LENGTH}
-										 Cover Url:			      {COVER_URL}
+										 Audio Length:            {AUDIO_LENGTH}
+										 Cover Url:               {COVER_URL}
 										
 										Book Description
 										================
