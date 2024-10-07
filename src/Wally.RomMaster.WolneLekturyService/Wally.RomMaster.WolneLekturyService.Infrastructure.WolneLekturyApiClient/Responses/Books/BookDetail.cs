@@ -22,7 +22,7 @@ public sealed record BookDetail(
 	IReadOnlyCollection<Author> Authors,
 	IReadOnlyCollection<Translator> Translators,
 	[property: JsonPropertyName("fragment_data")]
-	FragmentData FragmentData,
+	FragmentData? FragmentData,
 	// children
 	// parent?
 	bool Preview,

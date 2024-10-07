@@ -13,7 +13,7 @@ namespace Wally.RomMaster.WolneLekturyService.Tests.IntegrationTests.Infrastruct
 public class ApiClientBooksTests
 {
 	private const string WatchFolder = "d:/WatchFolder";
-	private const string BooksFolder = @"\\192.168.1.2\Audio\-\audiobook\WolneLektury";
+	private const string BooksFolder = "d:/WolneLektury";
 	private const string MetadataTemplate = """
 											<?xml version="1.0" encoding="utf-8"?>
 											<ns0:package xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:ns0="http://www.idpf.org/2007/opf" unique-identifier="BookId" version="2.0">
@@ -157,7 +157,10 @@ public class ApiClientBooksTests
 
 			foreach (var media in details.Media)
 			{
-				await write(resource.Slug, media.Url);
+				if (media.Type != "ogg")
+				{
+					await write(resource.Slug, media.Url);
+				}
 			}
 
 			await write(resource.Slug, details.SimpleCover);
@@ -242,8 +245,10 @@ public class ApiClientBooksTests
 			.NotBeNull();
 		response!.Length.Should()
 			.Be(7018);
+		var index = 0;
 		foreach (var resource in response!)
 		{
+			index++;
 			resource.Should()
 				.NotBeNull();
 
@@ -258,10 +263,20 @@ public class ApiClientBooksTests
 				continue;
 			}
 
-			string StripHtml(string html)
+			if (!Directory.Exists(Path.GetDirectoryName(file)))
 			{
+				Directory.CreateDirectory(Path.GetDirectoryName(file)!);
+			}
+
+			string StripHtml(string? html)
+			{
+				if (html == null)
+				{
+					return string.Empty;
+				}
+				
 				var reg = new Regex("<[^>]+>", RegexOptions.IgnoreCase);
-				return reg.Replace(html, "");
+				return reg.Replace(html, string.Empty);
 			}
 
 			var content = NfoTemplate
@@ -276,14 +291,14 @@ public class ApiClientBooksTests
 				.Replace("{ASIN}", string.Empty)
 				.Replace("{PUBLISHER}", "Fundacja Wolne Lektury")
 				.Replace("{SERIES_NAME}", "Fundacja Wolne Lektury")
-				.Replace("{POSITION}", "1")
+				.Replace("{POSITION}", index.ToString())
 				.Replace("{PUBLISH_YEAR}", string.Empty)
 				.Replace("{LANGUAGE}", details.Language)
 				.Replace("{NARRATORS}", string.Join(", ", details.Media.Where(a => !string.IsNullOrEmpty(a.Artist)).Select(a => a.Artist)
 					.Distinct()))
 				.Replace("{AUTHORS}", string.Join(", ", details.Authors.Select(a => a.Name)))
 				.Replace("{DESCRIPTION}",
-					$"{details.FragmentData.Title}\r\n{StripHtml(details.FragmentData.Html)}")
+					$"{details.FragmentData?.Title}\r\n{StripHtml(details.FragmentData?.Html)}")
 				.Replace("{GENRES}", string.Join(", ", details.Genres.Select(a => a.Name)))
 				.Replace("{TAGS}", string.Join(", ", details.Epochs.Select(a => a.Name)
 					.Concat(details.Kinds.Select(a => a.Name))))
