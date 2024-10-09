@@ -298,7 +298,7 @@ public class ApiClientBooksTests
 					.Distinct()))
 				.Replace("{AUTHORS}", string.Join(", ", details.Authors.Select(a => a.Name)))
 				.Replace("{DESCRIPTION}",
-					$"{details.FragmentData?.Title}\r\n{StripHtml(details.FragmentData?.Html)}")
+					$"{details.FragmentData?.Title.ToUpper()}\r\n\r\n{StripHtml(details.FragmentData?.Html)}")
 				.Replace("{GENRES}", string.Join(", ", details.Genres.Select(a => a.Name)))
 				.Replace("{TAGS}", string.Join(", ", details.Epochs.Select(a => a.Name)
 					.Concat(details.Kinds.Select(a => a.Name))))
